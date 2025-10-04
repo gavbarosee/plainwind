@@ -1,11 +1,29 @@
 // Tailwind class to plain English mappings
 export const tailwindMappings: Record<string, string> = {
+  // Display
+  block: "display as block",
+  "inline-block": "display as inline block",
+  inline: "display inline",
+  hidden: "hidden",
+
   // Flexbox Layout
   flex: "flexbox container",
   "flex-row": "horizontal layout",
   "flex-col": "stacks vertically",
   "flex-wrap": "wraps items to next line",
+  "flex-nowrap": "prevents wrapping",
   "flex-1": "takes remaining space",
+  "flex-auto": "flexible size",
+  "flex-initial": "initial flex",
+  "flex-none": "inflexible",
+
+  // Grid
+  grid: "grid container",
+  "grid-cols-1": "one column",
+  "grid-cols-2": "two columns",
+  "grid-cols-3": "three columns",
+  "grid-cols-4": "four columns",
+  "grid-cols-12": "twelve columns",
 
   // Justify Content
   "justify-start": "aligns items to start",
@@ -21,56 +39,238 @@ export const tailwindMappings: Record<string, string> = {
   "items-stretch": "stretches items to fill",
 
   // Gap
+  "gap-0": "no gap",
   "gap-1": "gap 0.25rem",
   "gap-2": "gap 0.5rem",
   "gap-3": "gap 0.75rem",
   "gap-4": "gap 1rem",
+  "gap-5": "gap 1.25rem",
   "gap-6": "gap 1.5rem",
   "gap-8": "gap 2rem",
+  "gap-10": "gap 2.5rem",
+  "gap-12": "gap 3rem",
 
-  // Padding
+  // Padding - All sides
   "p-0": "no padding",
   "p-1": "padding 0.25rem",
   "p-2": "padding 0.5rem",
+  "p-3": "padding 0.75rem",
   "p-4": "padding 1rem",
+  "p-5": "padding 1.25rem",
   "p-6": "padding 1.5rem",
   "p-8": "padding 2rem",
+  "p-10": "padding 2.5rem",
+  "p-12": "padding 3rem",
 
-  // Margin
+  // Padding - Horizontal/Vertical
+  "px-2": "horizontal padding 0.5rem",
+  "px-4": "horizontal padding 1rem",
+  "px-6": "horizontal padding 1.5rem",
+  "px-8": "horizontal padding 2rem",
+  "py-2": "vertical padding 0.5rem",
+  "py-4": "vertical padding 1rem",
+  "py-6": "vertical padding 1.5rem",
+  "py-8": "vertical padding 2rem",
+
+  // Padding - Individual sides
+  "pt-4": "top padding 1rem",
+  "pr-4": "right padding 1rem",
+  "pb-4": "bottom padding 1rem",
+  "pl-4": "left padding 1rem",
+
+  // Margin - All sides
   "m-0": "no margin",
   "m-auto": "centered with auto margin",
+  "m-1": "margin 0.25rem",
+  "m-2": "margin 0.5rem",
   "m-4": "margin 1rem",
+  "m-6": "margin 1.5rem",
+  "m-8": "margin 2rem",
+
+  // Margin - Horizontal/Vertical
+  "mx-auto": "horizontally centered",
+  "mx-2": "horizontal margin 0.5rem",
+  "mx-4": "horizontal margin 1rem",
+  "my-2": "vertical margin 0.5rem",
+  "my-4": "vertical margin 1rem",
 
   // Width
   "w-full": "full width",
   "w-screen": "full screen width",
+  "w-auto": "auto width",
+  "w-1/2": "half width",
+  "w-1/3": "one third width",
+  "w-2/3": "two thirds width",
+  "w-1/4": "quarter width",
   "w-10": "width 2.5rem",
+  "w-20": "width 5rem",
+  "w-32": "width 8rem",
+  "w-64": "width 16rem",
 
   // Height
   "h-full": "full height",
   "h-screen": "full screen height",
+  "h-auto": "auto height",
   "h-10": "height 2.5rem",
+  "h-20": "height 5rem",
+  "h-32": "height 8rem",
+  "h-64": "height 16rem",
   "min-h-screen": "minimum screen height",
+  "min-h-full": "minimum full height",
 
-  // Background Colors
+  // Background Colors - Grays
   "bg-white": "white background",
   "bg-black": "black background",
+  "bg-transparent": "transparent background",
   "bg-gray-50": "very light gray background",
   "bg-gray-100": "light gray background",
+  "bg-gray-200": "lighter gray background",
+  "bg-gray-300": "light gray background",
+  "bg-gray-400": "medium light gray background",
   "bg-gray-500": "medium gray background",
+  "bg-gray-600": "medium dark gray background",
+  "bg-gray-700": "dark gray background",
+  "bg-gray-800": "darker gray background",
+  "bg-gray-900": "very dark gray background",
 
-  // Text
+  // Background Colors - Blues
+  "bg-blue-50": "very light blue background",
+  "bg-blue-100": "light blue background",
+  "bg-blue-500": "blue background",
+  "bg-blue-600": "medium blue background",
+  "bg-blue-700": "dark blue background",
+
+  // Background Colors - Other
+  "bg-red-500": "red background",
+  "bg-green-500": "green background",
+  "bg-yellow-500": "yellow background",
+  "bg-purple-500": "purple background",
+  "bg-pink-500": "pink background",
+
+  // Text Colors - Grays
   "text-white": "white text",
   "text-black": "black text",
+  "text-gray-50": "very light gray text",
+  "text-gray-100": "light gray text",
+  "text-gray-400": "medium light gray text",
+  "text-gray-500": "medium gray text",
+  "text-gray-600": "medium dark gray text",
+  "text-gray-700": "dark gray text",
+  "text-gray-800": "darker gray text",
+  "text-gray-900": "very dark gray text",
+
+  // Text Colors - Other
+  "text-blue-500": "blue text",
+  "text-blue-600": "medium blue text",
+  "text-red-500": "red text",
+  "text-green-500": "green text",
+
+  // Text Size
+  "text-xs": "extra small text",
   "text-sm": "small text",
   "text-base": "base text size",
   "text-lg": "large text",
   "text-xl": "extra large text",
   "text-2xl": "2x large text",
+  "text-3xl": "3x large text",
+  "text-4xl": "4x large text",
+  "text-5xl": "5x large text",
+
+  // Text Alignment
+  "text-left": "left aligned text",
+  "text-center": "center aligned text",
+  "text-right": "right aligned text",
+  "text-justify": "justified text",
 
   // Font Weight
+  "font-thin": "thin weight",
+  "font-light": "light weight",
   "font-normal": "normal weight",
   "font-medium": "medium weight",
   "font-semibold": "semi-bold weight",
   "font-bold": "bold weight",
+  "font-extrabold": "extra bold weight",
+
+  // Border
+  border: "border",
+  "border-2": "2px border",
+  "border-4": "4px border",
+  "border-t": "top border",
+  "border-r": "right border",
+  "border-b": "bottom border",
+  "border-l": "left border",
+  "border-gray-200": "light gray border",
+  "border-gray-300": "gray border",
+
+  // Border Radius
+  rounded: "rounded corners",
+  "rounded-sm": "small rounded corners",
+  "rounded-md": "medium rounded corners",
+  "rounded-lg": "large rounded corners",
+  "rounded-xl": "extra large rounded corners",
+  "rounded-full": "fully circular",
+  "rounded-none": "no rounded corners",
+
+  // Shadow
+  "shadow-sm": "small shadow",
+  shadow: "shadow",
+  "shadow-md": "medium shadow",
+  "shadow-lg": "large shadow",
+  "shadow-xl": "extra large shadow",
+  "shadow-2xl": "2x large shadow",
+  "shadow-none": "no shadow",
+
+  // Position
+  static: "static position",
+  fixed: "fixed position",
+  absolute: "absolute position",
+  relative: "relative position",
+  sticky: "sticky position",
+
+  // Position Values
+  "top-0": "top 0",
+  "right-0": "right 0",
+  "bottom-0": "bottom 0",
+  "left-0": "left 0",
+  "inset-0": "all sides 0",
+
+  // Z-Index
+  "z-0": "z-index 0",
+  "z-10": "z-index 10",
+  "z-20": "z-index 20",
+  "z-30": "z-index 30",
+  "z-40": "z-index 40",
+  "z-50": "z-index 50",
+
+  // Overflow
+  "overflow-hidden": "hidden overflow",
+  "overflow-auto": "auto overflow",
+  "overflow-scroll": "scrollable overflow",
+  "overflow-x-auto": "horizontal scroll",
+  "overflow-y-auto": "vertical scroll",
+
+  // Transitions
+  transition: "transitions all properties",
+  "transition-colors": "transitions colors",
+  "transition-opacity": "transitions opacity",
+  "transition-transform": "transitions transform",
+  "duration-150": "150ms duration",
+  "duration-200": "200ms duration",
+  "duration-300": "300ms duration",
+  "ease-in": "ease-in timing",
+  "ease-out": "ease-out timing",
+
+  // Cursor
+  "cursor-pointer": "pointer cursor",
+  "cursor-not-allowed": "not allowed cursor",
+  "cursor-default": "default cursor",
+
+  // Opacity
+  "opacity-0": "invisible",
+  "opacity-50": "50% opacity",
+  "opacity-75": "75% opacity",
+  "opacity-100": "fully opaque",
+
+  // Container
+  container: "container",
 };
