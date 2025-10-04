@@ -22,11 +22,21 @@
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./"
+    "watch": "tsc -watch -p ./",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@types/node": "^18.0.0",
     "@types/vscode": "^1.80.0",
+    "husky": "^9.1.7",
     "typescript": "^5.0.0"
-  }
+  },
+  "dependencies": {
+    "undici-types": "^5.26.5"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
