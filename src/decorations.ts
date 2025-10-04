@@ -2,7 +2,8 @@ import * as vscode from "vscode";
 import { translateClasses } from "./translator";
 
 // Constants
-const CLASS_NAME_PATTERN = /className=["'`]([^"'`]+)["'`]/g;
+// Matches: className="..." or class="..." with single/double quotes
+const CLASS_NAME_PATTERN = /(class(?:Name)?=["'])([^"']+)(["'])/g;
 const DECORATION_MARGIN = "0 0 0 2em";
 const TRANSLATION_PREFIX = " // ";
 
@@ -32,12 +33,18 @@ export function updateInlineDecorations(editor: vscode.TextEditor) {
   const text = editor.document.getText();
   const decorations: vscode.DecorationOptions[] = [];
 
-  // Matches: className="..." or className='...' or className={`...`}
   const classNameRegex = new RegExp(CLASS_NAME_PATTERN);
   let classNameMatch;
 
   while ((classNameMatch = classNameRegex.exec(text)) !== null) {
-    const classString = classNameMatch[1];
+    // Group 2 contains the actual class string
+    const classString = classNameMatch[2];
+
+    // Skip empty class strings
+    if (!classString || !classString.trim()) {
+      continue;
+    }
+
     const translation = translateClasses(classString);
 
     const decoration = createClassNameDecoration(

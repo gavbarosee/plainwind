@@ -13,7 +13,10 @@
     "onLanguage:javascript",
     "onLanguage:javascriptreact",
     "onLanguage:typescript",
-    "onLanguage:typescriptreact"
+    "onLanguage:typescriptreact",
+    "onLanguage:html",
+    "onLanguage:vue",
+    "onLanguage:svelte"
   ],
   "main": "./out/extension.js",
   "contributes": {
