@@ -32,7 +32,12 @@
         "plainwind.displayMode": {
           "type": "string",
           "default": "both",
-          "enum": ["codelens", "inline", "both", "off"],
+          "enum": [
+            "codelens",
+            "inline",
+            "both",
+            "off"
+          ],
           "enumDescriptions": [
             "Show translations above the className line",
             "Show translations at the end of the className line",

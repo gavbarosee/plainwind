@@ -9,27 +9,40 @@ import { TailwindCodeLensProvider } from "./codelens";
 export function activate(context: vscode.ExtensionContext) {
   console.log("Plainwind extension is now active");
 
-  // Register CodeLens provider
-  const codeLensProvider = new TailwindCodeLensProvider();
-  context.subscriptions.push(
-    vscode.languages.registerCodeLensProvider(
-      [
-        { language: "javascriptreact" },
-        { language: "typescriptreact" },
-        { language: "javascript" },
-        { language: "typescript" },
-        { language: "html" },
-        { language: "vue" },
-        { language: "svelte" },
-      ],
-      codeLensProvider
-    )
-  );
+  const config = vscode.workspace.getConfiguration("plainwind");
+  const displayMode = config.get<string>("displayMode", "both");
+  const enabled = config.get<boolean>("enabled", true);
 
-  // Initialize inline decorations
-  initializeDecorations();
-  updateActiveEditor();
-  registerEventListeners(context);
+  if (!enabled || displayMode === "off") {
+    console.log("Plainwind is disabled");
+    return;
+  }
+
+  // Register CodeLens provider if enabled
+  if (displayMode === "codelens" || displayMode === "both") {
+    const codeLensProvider = new TailwindCodeLensProvider();
+    context.subscriptions.push(
+      vscode.languages.registerCodeLensProvider(
+        [
+          { language: "javascriptreact" },
+          { language: "typescriptreact" },
+          { language: "javascript" },
+          { language: "typescript" },
+          { language: "html" },
+          { language: "vue" },
+          { language: "svelte" },
+        ],
+        codeLensProvider
+      )
+    );
+  }
+
+  // Initialize inline decorations if enabled
+  if (displayMode === "inline" || displayMode === "both") {
+    initializeDecorations();
+    updateActiveEditor();
+    registerEventListeners(context);
+  }
 }
 
 export function deactivate() {
