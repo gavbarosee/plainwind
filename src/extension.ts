@@ -4,10 +4,29 @@ import {
   updateInlineDecorations,
   disposeDecorations,
 } from "./decorations";
+import { TailwindCodeLensProvider } from "./codelens";
 
 export function activate(context: vscode.ExtensionContext) {
   console.log("Plainwind extension is now active");
 
+  // Register CodeLens provider
+  const codeLensProvider = new TailwindCodeLensProvider();
+  context.subscriptions.push(
+    vscode.languages.registerCodeLensProvider(
+      [
+        { language: "javascriptreact" },
+        { language: "typescriptreact" },
+        { language: "javascript" },
+        { language: "typescript" },
+        { language: "html" },
+        { language: "vue" },
+        { language: "svelte" },
+      ],
+      codeLensProvider
+    )
+  );
+
+  // Initialize inline decorations
   initializeDecorations();
   updateActiveEditor();
   registerEventListeners(context);

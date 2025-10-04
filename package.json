@@ -20,7 +20,29 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": []
+    "commands": [],
+    "configuration": {
+      "title": "Plainwind",
+      "properties": {
+        "plainwind.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable or disable Plainwind translations"
+        },
+        "plainwind.displayMode": {
+          "type": "string",
+          "default": "both",
+          "enum": ["codelens", "inline", "both", "off"],
+          "enumDescriptions": [
+            "Show translations above the className line",
+            "Show translations at the end of the className line",
+            "Show both CodeLens and inline translations",
+            "Disable all translations"
+          ],
+          "description": "Choose how to display Tailwind translations"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
