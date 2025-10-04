@@ -117,3 +117,116 @@ export function matchSpacingPattern(className: string): string | null {
 
   return null;
 }
+
+/**
+ * Try to match color patterns (bg-*, text-*, border-*, etc.)
+ */
+export function matchColorPattern(className: string): string | null {
+  // Color names
+  const colorNames: Record<string, string> = {
+    slate: "slate",
+    gray: "gray",
+    zinc: "zinc",
+    neutral: "neutral",
+    stone: "stone",
+    red: "red",
+    orange: "orange",
+    amber: "amber",
+    yellow: "yellow",
+    lime: "lime",
+    green: "green",
+    emerald: "emerald",
+    teal: "teal",
+    cyan: "cyan",
+    sky: "sky",
+    blue: "blue",
+    indigo: "indigo",
+    violet: "violet",
+    purple: "purple",
+    fuchsia: "fuchsia",
+    pink: "pink",
+    rose: "rose",
+  };
+
+  // Shade descriptions
+  const shadeDescriptions: Record<string, string> = {
+    "50": "very light",
+    "100": "light",
+    "200": "lighter",
+    "300": "light",
+    "400": "medium light",
+    "500": "medium",
+    "600": "medium dark",
+    "700": "dark",
+    "800": "darker",
+    "900": "very dark",
+    "950": "extremely dark",
+  };
+
+  // Background colors: bg-blue-500, bg-slate-800
+  const bgMatch = className.match(/^bg-(\w+)-(\d+)$/);
+  if (bgMatch) {
+    const color = colorNames[bgMatch[1]];
+    const shade = shadeDescriptions[bgMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} background`;
+    }
+    if (color) {
+      return `${color} ${bgMatch[2]} background`;
+    }
+  }
+
+  // Text colors: text-blue-500, text-slate-900
+  const textMatch = className.match(/^text-(\w+)-(\d+)$/);
+  if (textMatch) {
+    const color = colorNames[textMatch[1]];
+    const shade = shadeDescriptions[textMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} text`;
+    }
+    if (color) {
+      return `${color} ${textMatch[2]} text`;
+    }
+  }
+
+  // Border colors: border-slate-200, border-blue-500
+  const borderColorMatch = className.match(/^border-(\w+)-(\d+)$/);
+  if (borderColorMatch) {
+    const color = colorNames[borderColorMatch[1]];
+    const shade = shadeDescriptions[borderColorMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} border`;
+    }
+    if (color) {
+      return `${color} ${borderColorMatch[2]} border`;
+    }
+  }
+
+  // Ring colors: ring-blue-500
+  const ringMatch = className.match(/^ring-(\w+)-(\d+)$/);
+  if (ringMatch) {
+    const color = colorNames[ringMatch[1]];
+    const shade = shadeDescriptions[ringMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} ring`;
+    }
+    if (color) {
+      return `${color} ${ringMatch[2]} ring`;
+    }
+  }
+
+  // Divide colors: divide-slate-200
+  const divideMatch = className.match(/^divide-(\w+)-(\d+)$/);
+  if (divideMatch) {
+    const color = colorNames[divideMatch[1]];
+    const shade = shadeDescriptions[divideMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} divider`;
+    }
+    if (color) {
+      return `${color} ${divideMatch[2]} divider`;
+    }
+  }
+
+  return null;
+}

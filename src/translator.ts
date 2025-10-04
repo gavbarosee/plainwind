@@ -1,5 +1,5 @@
 import { tailwindMappings } from "./mappings";
-import { matchSpacingPattern } from "./patterns";
+import { matchSpacingPattern, matchColorPattern } from "./patterns";
 
 function parseNonEmptyClasses(classString: string): string[] {
   return classString.split(" ").filter((c) => c.trim());
@@ -21,6 +21,12 @@ export function translateClasses(classString: string): string {
     const spacingMatch = matchSpacingPattern(cls);
     if (spacingMatch) {
       return spacingMatch;
+    }
+
+    // Try pattern matching for colors
+    const colorMatch = matchColorPattern(cls);
+    if (colorMatch) {
+      return colorMatch;
     }
 
     // If not found, return original class
