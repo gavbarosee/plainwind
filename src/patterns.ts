@@ -230,3 +230,45 @@ export function matchColorPattern(className: string): string | null {
 
   return null;
 }
+
+/**
+ * Try to match arbitrary value patterns like min-h-[300px], w-[200px], bg-[#ff0000]
+ */
+export function matchArbitraryValue(className: string): string | null {
+  // Match arbitrary values: property-[value]
+  const arbitraryMatch = className.match(/^([\w-]+)-\[(.+?)\]$/);
+  if (!arbitraryMatch) {
+    return null;
+  }
+
+  const property = arbitraryMatch[1];
+  const value = arbitraryMatch[2];
+
+  // Map common property prefixes to plain English
+  const propertyMap: Record<string, string> = {
+    // Sizing
+    w: "width",
+    h: "height",
+    "min-w": "min width",
+    "min-h": "min height",
+    "max-w": "max width",
+    "max-h": "max height",
+    // Spacing
+    p: "padding",
+    m: "margin",
+    gap: "gap",
+    // Colors
+    bg: "background",
+    text: "text color",
+    border: "border color",
+    // Other
+    top: "top",
+    right: "right",
+    bottom: "bottom",
+    left: "left",
+    z: "z-index",
+  };
+
+  const propertyName = propertyMap[property] || property;
+  return `${propertyName} ${value}`;
+}

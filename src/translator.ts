@@ -1,5 +1,9 @@
 import { tailwindMappings } from "./mappings";
-import { matchSpacingPattern, matchColorPattern } from "./patterns";
+import {
+  matchSpacingPattern,
+  matchColorPattern,
+  matchArbitraryValue,
+} from "./patterns";
 
 function parseNonEmptyClasses(classString: string): string[] {
   return classString.split(" ").filter((c) => c.trim());
@@ -65,8 +69,14 @@ function translateSingleClass(cls: string): string {
       if (colorMatch) {
         translation = colorMatch;
       } else {
-        // If not found, use original class
-        translation = baseClass;
+        // Try pattern matching for arbitrary values
+        const arbitraryMatch = matchArbitraryValue(baseClass);
+        if (arbitraryMatch) {
+          translation = arbitraryMatch;
+        } else {
+          // If not found, use original class
+          translation = baseClass;
+        }
       }
     }
   }
