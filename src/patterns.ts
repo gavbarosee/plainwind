@@ -272,3 +272,108 @@ export function matchArbitraryValue(className: string): string | null {
   const propertyName = propertyMap[property] || property;
   return `${propertyName} ${value}`;
 }
+
+/**
+ * Try to match gradient patterns
+ */
+export function matchGradientPattern(className: string): string | null {
+  // Gradient directions: bg-gradient-to-r, bg-gradient-to-br, etc.
+  const gradientDirMatch = className.match(/^bg-gradient-to-([a-z]+)$/);
+  if (gradientDirMatch) {
+    const dirMap: Record<string, string> = {
+      t: "top",
+      tr: "top right",
+      r: "right",
+      br: "bottom right",
+      b: "bottom",
+      bl: "bottom left",
+      l: "left",
+      tl: "top left",
+    };
+    const direction = dirMap[gradientDirMatch[1]] || gradientDirMatch[1];
+    return `gradient to ${direction}`;
+  }
+
+  // Color names for gradients
+  const colorNames: Record<string, string> = {
+    slate: "slate",
+    gray: "gray",
+    zinc: "zinc",
+    neutral: "neutral",
+    stone: "stone",
+    red: "red",
+    orange: "orange",
+    amber: "amber",
+    yellow: "yellow",
+    lime: "lime",
+    green: "green",
+    emerald: "emerald",
+    teal: "teal",
+    cyan: "cyan",
+    sky: "sky",
+    blue: "blue",
+    indigo: "indigo",
+    violet: "violet",
+    purple: "purple",
+    fuchsia: "fuchsia",
+    pink: "pink",
+    rose: "rose",
+    white: "white",
+    black: "black",
+  };
+
+  const shadeDescriptions: Record<string, string> = {
+    "50": "very light",
+    "100": "light",
+    "200": "lighter",
+    "300": "light",
+    "400": "medium light",
+    "500": "medium",
+    "600": "medium dark",
+    "700": "dark",
+    "800": "darker",
+    "900": "very dark",
+    "950": "extremely dark",
+  };
+
+  // Gradient from: from-blue-500, from-slate-50
+  const fromMatch = className.match(/^from-(\w+)-(\d+)$/);
+  if (fromMatch) {
+    const color = colorNames[fromMatch[1]];
+    const shade = shadeDescriptions[fromMatch[2]];
+    if (color && shade) {
+      return `gradient from ${shade} ${color}`;
+    }
+    if (color) {
+      return `gradient from ${color}`;
+    }
+  }
+
+  // Gradient via: via-blue-500, via-slate-100
+  const viaMatch = className.match(/^via-(\w+)-(\d+)$/);
+  if (viaMatch) {
+    const color = colorNames[viaMatch[1]];
+    const shade = shadeDescriptions[viaMatch[2]];
+    if (color && shade) {
+      return `gradient via ${shade} ${color}`;
+    }
+    if (color) {
+      return `gradient via ${color}`;
+    }
+  }
+
+  // Gradient to: to-blue-500, to-indigo-950
+  const toMatch = className.match(/^to-(\w+)-(\d+)$/);
+  if (toMatch) {
+    const color = colorNames[toMatch[1]];
+    const shade = shadeDescriptions[toMatch[2]];
+    if (color && shade) {
+      return `gradient to ${shade} ${color}`;
+    }
+    if (color) {
+      return `gradient to ${color}`;
+    }
+  }
+
+  return null;
+}

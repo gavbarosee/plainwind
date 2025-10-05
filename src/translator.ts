@@ -3,6 +3,7 @@ import {
   matchSpacingPattern,
   matchColorPattern,
   matchArbitraryValue,
+  matchGradientPattern,
 } from "./patterns";
 
 function parseNonEmptyClasses(classString: string): string[] {
@@ -74,8 +75,14 @@ function translateSingleClass(cls: string): string {
         if (arbitraryMatch) {
           translation = arbitraryMatch;
         } else {
-          // If not found, use original class
-          translation = baseClass;
+          // Try pattern matching for gradients
+          const gradientMatch = matchGradientPattern(baseClass);
+          if (gradientMatch) {
+            translation = gradientMatch;
+          } else {
+            // If not found, use original class
+            translation = baseClass;
+          }
         }
       }
     }
