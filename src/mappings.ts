@@ -107,6 +107,24 @@ export const tailwindMappings: Record<string, string> = {
   "w-32": "width 8rem",
   "w-64": "width 16rem",
 
+  // Max Width
+  "max-w-xs": "max width extra small",
+  "max-w-sm": "max width small",
+  "max-w-md": "max width medium",
+  "max-w-lg": "max width large",
+  "max-w-xl": "max width extra large",
+  "max-w-2xl": "max width 2xl",
+  "max-w-3xl": "max width 3xl",
+  "max-w-4xl": "max width 4xl",
+  "max-w-5xl": "max width 5xl",
+  "max-w-6xl": "max width 6xl",
+  "max-w-7xl": "max width 7xl",
+  "max-w-full": "max width full",
+  "max-w-screen-sm": "max width small screen",
+  "max-w-screen-md": "max width medium screen",
+  "max-w-screen-lg": "max width large screen",
+  "max-w-screen-xl": "max width extra large screen",
+
   // Height
   "h-full": "full height",
   "h-screen": "full screen height",
