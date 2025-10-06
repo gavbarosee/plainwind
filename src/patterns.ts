@@ -2,6 +2,49 @@
  * Pattern-based translation for dynamic Tailwind classes
  */
 
+// Color names used across Tailwind
+const colorNames: Record<string, string> = {
+  slate: "slate",
+  gray: "gray",
+  zinc: "zinc",
+  neutral: "neutral",
+  stone: "stone",
+  red: "red",
+  orange: "orange",
+  amber: "amber",
+  yellow: "yellow",
+  lime: "lime",
+  green: "green",
+  emerald: "emerald",
+  teal: "teal",
+  cyan: "cyan",
+  sky: "sky",
+  blue: "blue",
+  indigo: "indigo",
+  violet: "violet",
+  purple: "purple",
+  fuchsia: "fuchsia",
+  pink: "pink",
+  rose: "rose",
+  white: "white",
+  black: "black",
+};
+
+// Shade descriptions for color variants
+const shadeDescriptions: Record<string, string> = {
+  "50": "very light",
+  "100": "light",
+  "200": "lighter",
+  "300": "light",
+  "400": "medium light",
+  "500": "medium",
+  "600": "medium dark",
+  "700": "dark",
+  "800": "darker",
+  "900": "very dark",
+  "950": "extremely dark",
+};
+
 // Spacing scale (Tailwind default)
 const spacingScale: Record<string, string> = {
   "0": "0",
@@ -122,47 +165,6 @@ export function matchSpacingPattern(className: string): string | null {
  * Try to match color patterns (bg-*, text-*, border-*, etc.)
  */
 export function matchColorPattern(className: string): string | null {
-  // Color names
-  const colorNames: Record<string, string> = {
-    slate: "slate",
-    gray: "gray",
-    zinc: "zinc",
-    neutral: "neutral",
-    stone: "stone",
-    red: "red",
-    orange: "orange",
-    amber: "amber",
-    yellow: "yellow",
-    lime: "lime",
-    green: "green",
-    emerald: "emerald",
-    teal: "teal",
-    cyan: "cyan",
-    sky: "sky",
-    blue: "blue",
-    indigo: "indigo",
-    violet: "violet",
-    purple: "purple",
-    fuchsia: "fuchsia",
-    pink: "pink",
-    rose: "rose",
-  };
-
-  // Shade descriptions
-  const shadeDescriptions: Record<string, string> = {
-    "50": "very light",
-    "100": "light",
-    "200": "lighter",
-    "300": "light",
-    "400": "medium light",
-    "500": "medium",
-    "600": "medium dark",
-    "700": "dark",
-    "800": "darker",
-    "900": "very dark",
-    "950": "extremely dark",
-  };
-
   // Background colors: bg-blue-500, bg-slate-800
   const bgMatch = className.match(/^bg-(\w+)-(\d+)$/);
   if (bgMatch) {
@@ -293,48 +295,6 @@ export function matchGradientPattern(className: string): string | null {
     const direction = dirMap[gradientDirMatch[1]] || gradientDirMatch[1];
     return `gradient to ${direction}`;
   }
-
-  // Color names for gradients
-  const colorNames: Record<string, string> = {
-    slate: "slate",
-    gray: "gray",
-    zinc: "zinc",
-    neutral: "neutral",
-    stone: "stone",
-    red: "red",
-    orange: "orange",
-    amber: "amber",
-    yellow: "yellow",
-    lime: "lime",
-    green: "green",
-    emerald: "emerald",
-    teal: "teal",
-    cyan: "cyan",
-    sky: "sky",
-    blue: "blue",
-    indigo: "indigo",
-    violet: "violet",
-    purple: "purple",
-    fuchsia: "fuchsia",
-    pink: "pink",
-    rose: "rose",
-    white: "white",
-    black: "black",
-  };
-
-  const shadeDescriptions: Record<string, string> = {
-    "50": "very light",
-    "100": "light",
-    "200": "lighter",
-    "300": "light",
-    "400": "medium light",
-    "500": "medium",
-    "600": "medium dark",
-    "700": "dark",
-    "800": "darker",
-    "900": "very dark",
-    "950": "extremely dark",
-  };
 
   // Gradient from: from-blue-500, from-slate-50
   const fromMatch = className.match(/^from-(\w+)-(\d+)$/);
