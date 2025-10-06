@@ -45,6 +45,16 @@
             "Disable all translations"
           ],
           "description": "Choose how to display Tailwind translations"
+        },
+        "plainwind.groupByCategory": {
+          "type": "boolean",
+          "default": true,
+          "description": "Group translations by category (Layout, Spacing, Colors, etc.)"
+        },
+        "plainwind.showCategoryEmojis": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show emojis next to category names when grouping is enabled"
         }
       }
     }

@@ -1,3 +1,4 @@
+import * as vscode from "vscode";
 import { tailwindMappings } from "./mappings";
 import {
   matchSpacingPattern,
@@ -5,6 +6,7 @@ import {
   matchArbitraryValue,
   matchGradientPattern,
 } from "./patterns";
+import { groupTranslationsByCategory } from "./categorizer";
 
 function parseNonEmptyClasses(classString: string): string[] {
   return classString.split(" ").filter((c) => c.trim());
@@ -105,5 +107,15 @@ function translateSingleClass(cls: string): string {
 export function translateClasses(classString: string): string {
   const classes = parseNonEmptyClasses(classString);
   const translations = classes.map((cls) => translateSingleClass(cls));
+
+  // Check if grouping is enabled
+  const config = vscode.workspace.getConfiguration("plainwind");
+  const groupByCategory = config.get<boolean>("groupByCategory", false);
+  const showEmojis = config.get<boolean>("showCategoryEmojis", false);
+
+  if (groupByCategory) {
+    return groupTranslationsByCategory(classes, translations, showEmojis);
+  }
+
   return translations.join(", ");
 }
