@@ -91,30 +91,6 @@ export function categorizeClass(className: string): ClassCategory {
 }
 
 /**
- * Get the dominant category from a list of class names
- */
-export function getDominantCategory(classNames: string[]): ClassCategory {
-  const categoryCounts = new Map<ClassCategory, number>();
-
-  classNames.forEach((className) => {
-    const category = categorizeClass(className);
-    categoryCounts.set(category, (categoryCounts.get(category) || 0) + 1);
-  });
-
-  let dominantCategory: ClassCategory = "Other";
-  let maxCount = 0;
-
-  categoryCounts.forEach((count, category) => {
-    if (count > maxCount) {
-      maxCount = count;
-      dominantCategory = category;
-    }
-  });
-
-  return dominantCategory;
-}
-
-/**
  * Group translations by category
  */
 export function groupTranslationsByCategory(

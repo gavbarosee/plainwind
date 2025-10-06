@@ -110,7 +110,7 @@ export function translateClasses(classString: string): string {
 
   // Check if grouping is enabled
   const config = vscode.workspace.getConfiguration("plainwind");
-  const groupByCategory = config.get<boolean>("groupByCategory", false);
+  const groupByCategory = config.get<boolean>("groupByCategory", true);
   const showEmojis = config.get<boolean>("showCategoryEmojis", false);
 
   if (groupByCategory) {

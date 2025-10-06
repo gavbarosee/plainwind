@@ -10,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
   console.log("Plainwind extension is now active");
 
   const config = vscode.workspace.getConfiguration("plainwind");
-  const displayMode = config.get<string>("displayMode", "both");
+  const displayMode = config.get<string>("displayMode", "codelens");
   const enabled = config.get<boolean>("enabled", true);
 
   if (!enabled || displayMode === "off") {
