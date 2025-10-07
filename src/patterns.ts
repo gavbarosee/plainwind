@@ -162,6 +162,39 @@ export function matchSpacingPattern(className: string): string | null {
 }
 
 /**
+ * Try to match sizing patterns (w-*, h-*, min-*, max-*)
+ */
+export function matchSizingPattern(className: string): string | null {
+  // Width patterns: w-12, w-64, w-96
+  const widthMatch = className.match(/^w-(\d+(?:\.\d+)?)$/);
+  if (widthMatch) {
+    const value = widthMatch[1];
+    const size = spacingScale[value] || `${value}`;
+    return `width ${size}`;
+  }
+
+  // Height patterns: h-12, h-64, h-96
+  const heightMatch = className.match(/^h-(\d+(?:\.\d+)?)$/);
+  if (heightMatch) {
+    const value = heightMatch[1];
+    const size = spacingScale[value] || `${value}`;
+    return `height ${size}`;
+  }
+
+  // Min-width: min-w-0, min-w-full
+  if (className === "min-w-0") return "min width 0";
+  if (className === "min-w-full") return "min width full";
+
+  // Min-height: min-h-0, min-h-full, min-h-screen
+  if (className === "min-h-0") return "min height 0";
+  if (className === "min-h-full") return "min height full";
+
+  // Max-width and max-height are already in static mappings
+
+  return null;
+}
+
+/**
  * Try to match color patterns (bg-*, text-*, border-*, etc.)
  */
 export function matchColorPattern(className: string): string | null {
