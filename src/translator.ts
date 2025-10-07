@@ -34,18 +34,44 @@ const variantDescriptions: Record<string, string> = {
 /**
  * Extract variants and base class from a Tailwind class
  * e.g., "md:hover:bg-blue-500" -> { variants: ["md", "hover"], baseClass: "bg-blue-500" }
+ * Handles arbitrary values with brackets: "dark:[--var:value]" -> { variants: ["dark"], baseClass: "[--var:value]" }
  */
 function extractVariants(className: string): {
   variants: string[];
   baseClass: string;
 } {
-  const parts = className.split(":");
-  if (parts.length === 1) {
+  // If no colons, no variants
+  if (!className.includes(":")) {
     return { variants: [], baseClass: className };
   }
 
-  const baseClass = parts[parts.length - 1];
-  const variants = parts.slice(0, -1);
+  // Split carefully, respecting brackets
+  const variants: string[] = [];
+  let currentVariant = "";
+  let bracketDepth = 0;
+
+  for (let i = 0; i < className.length; i++) {
+    const char = className[i];
+
+    if (char === "[") {
+      bracketDepth++;
+      currentVariant += char;
+    } else if (char === "]") {
+      bracketDepth--;
+      currentVariant += char;
+    } else if (char === ":" && bracketDepth === 0) {
+      // This is a variant separator, not part of arbitrary value
+      if (currentVariant) {
+        variants.push(currentVariant);
+        currentVariant = "";
+      }
+    } else {
+      currentVariant += char;
+    }
+  }
+
+  // Whatever is left is the base class
+  const baseClass = currentVariant;
   return { variants, baseClass };
 }
 
@@ -55,11 +81,6 @@ function extractVariants(className: string): {
 function translateSingleClass(cls: string): string {
   const { variants, baseClass } = extractVariants(cls);
 
-  // Check for arbitrary CSS custom properties
-  if (baseClass.match(/^\[--[\w-]+:/)) {
-    return "custom CSS variable";
-  }
-
   // Extract opacity modifier if present (e.g., bg-white/10)
   let opacity = "";
   let classWithoutOpacity = baseClass;
@@ -67,6 +88,22 @@ function translateSingleClass(cls: string): string {
   if (opacityMatch) {
     classWithoutOpacity = opacityMatch[1];
     opacity = opacityMatch[2];
+  }
+
+  // Check for arbitrary CSS custom properties (after extracting opacity)
+  if (classWithoutOpacity.match(/^\[--[\w-]+:/)) {
+    let translation = "custom CSS variable";
+    if (opacity) {
+      translation = `${translation} with ${opacity}% opacity`;
+    }
+    // Add variant descriptions
+    if (variants.length > 0) {
+      const variantParts = variants
+        .map((v) => variantDescriptions[v] || v)
+        .join(", ");
+      return `${translation} ${variantParts}`;
+    }
+    return translation;
   }
 
   // Translate the base class (without opacity)
