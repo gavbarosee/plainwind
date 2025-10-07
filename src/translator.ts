@@ -22,6 +22,7 @@ const variantDescriptions: Record<string, string> = {
   active: "when active",
   disabled: "when disabled",
   dark: "in dark mode",
+  "not-dark": "in light mode",
   sm: "on small screens",
   md: "on medium screens",
   lg: "on large screens",
