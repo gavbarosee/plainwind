@@ -263,6 +263,32 @@ export function matchColorPattern(className: string): string | null {
     }
   }
 
+  // SVG fill colors: fill-blue-500, fill-slate-400
+  const fillMatch = className.match(/^fill-(\w+)-(\d+)$/);
+  if (fillMatch) {
+    const color = colorNames[fillMatch[1]];
+    const shade = shadeDescriptions[fillMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} fill`;
+    }
+    if (color) {
+      return `${color} ${fillMatch[2]} fill`;
+    }
+  }
+
+  // SVG stroke colors: stroke-blue-500, stroke-slate-400
+  const strokeMatch = className.match(/^stroke-(\w+)-(\d+)$/);
+  if (strokeMatch) {
+    const color = colorNames[strokeMatch[1]];
+    const shade = shadeDescriptions[strokeMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} stroke`;
+    }
+    if (color) {
+      return `${color} ${strokeMatch[2]} stroke`;
+    }
+  }
+
   return null;
 }
 

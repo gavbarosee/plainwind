@@ -50,9 +50,11 @@ export function categorizeClass(className: string): ClassCategory {
     return "Typography";
   }
 
-  // Colors (text colors, backgrounds, borders, etc.)
+  // Colors (text colors, backgrounds, borders, SVG fills/strokes, etc.)
   if (
-    /^(bg-|text-|border-|ring-|divide-|from-|via-|to-|gradient)/.test(baseClass)
+    /^(bg-|text-|border-|ring-|divide-|fill-|stroke-|from-|via-|to-|gradient)/.test(
+      baseClass
+    )
   ) {
     return "Colors";
   }
