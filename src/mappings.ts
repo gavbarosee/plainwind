@@ -20,6 +20,10 @@ export const tailwindMappings: Record<string, string> = {
   "flex-grow-0": "cannot grow",
   "flex-shrink": "can shrink",
   "flex-shrink-0": "cannot shrink",
+  grow: "can grow",
+  "grow-0": "cannot grow",
+  shrink: "can shrink",
+  "shrink-0": "cannot shrink",
 
   // Grid
   grid: "grid container",
