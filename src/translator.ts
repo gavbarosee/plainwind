@@ -55,30 +55,44 @@ function extractVariants(className: string): {
 function translateSingleClass(cls: string): string {
   const { variants, baseClass } = extractVariants(cls);
 
-  // Translate the base class
+  // Check for arbitrary CSS custom properties
+  if (baseClass.match(/^\[--[\w-]+:/)) {
+    return "custom CSS variable";
+  }
+
+  // Extract opacity modifier if present (e.g., bg-white/10)
+  let opacity = "";
+  let classWithoutOpacity = baseClass;
+  const opacityMatch = baseClass.match(/^(.+)\/(\d+)$/);
+  if (opacityMatch) {
+    classWithoutOpacity = opacityMatch[1];
+    opacity = opacityMatch[2];
+  }
+
+  // Translate the base class (without opacity)
   let translation = "";
 
   // Look up in static mappings first
-  if (tailwindMappings[baseClass]) {
-    translation = tailwindMappings[baseClass];
+  if (tailwindMappings[classWithoutOpacity]) {
+    translation = tailwindMappings[classWithoutOpacity];
   } else {
     // Try pattern matching for spacing
-    const spacingMatch = matchSpacingPattern(baseClass);
+    const spacingMatch = matchSpacingPattern(classWithoutOpacity);
     if (spacingMatch) {
       translation = spacingMatch;
     } else {
       // Try pattern matching for colors
-      const colorMatch = matchColorPattern(baseClass);
+      const colorMatch = matchColorPattern(classWithoutOpacity);
       if (colorMatch) {
         translation = colorMatch;
       } else {
         // Try pattern matching for arbitrary values
-        const arbitraryMatch = matchArbitraryValue(baseClass);
+        const arbitraryMatch = matchArbitraryValue(classWithoutOpacity);
         if (arbitraryMatch) {
           translation = arbitraryMatch;
         } else {
           // Try pattern matching for gradients
-          const gradientMatch = matchGradientPattern(baseClass);
+          const gradientMatch = matchGradientPattern(classWithoutOpacity);
           if (gradientMatch) {
             translation = gradientMatch;
           } else {
@@ -88,6 +102,11 @@ function translateSingleClass(cls: string): string {
         }
       }
     }
+  }
+
+  // Add opacity if present
+  if (opacity) {
+    translation = `${translation} with ${opacity}% opacity`;
   }
 
   // Add variant descriptions
