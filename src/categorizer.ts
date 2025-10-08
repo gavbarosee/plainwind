@@ -23,7 +23,7 @@ export function categorizeClass(className: string): ClassCategory {
   if (
     /^(flex|grid|inline|block|hidden|table|flow)/.test(baseClass) ||
     /^(justify-|items-|content-|self-|place-)/.test(baseClass) ||
-    /^(flex-|grid-cols-|grid-rows-|gap-)/.test(baseClass)
+    /^(flex-|grid-cols-|grid-rows-|gap-|col-|row-)/.test(baseClass)
   ) {
     return "Layout";
   }
@@ -71,9 +71,9 @@ export function categorizeClass(className: string): ClassCategory {
     return "Effects";
   }
 
-  // Positioning
+  // Positioning (including negative positioning)
   if (
-    /^(static|fixed|absolute|relative|sticky|top-|right-|bottom-|left-|inset-|z-)/.test(
+    /^(static|fixed|absolute|relative|sticky|top-|right-|bottom-|left-|inset-|z-|-top-|-right-|-bottom-|-left-|-inset-)/.test(
       baseClass
     )
   ) {

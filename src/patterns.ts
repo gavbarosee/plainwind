@@ -217,6 +217,82 @@ export function matchTypographyPattern(className: string): string | null {
 }
 
 /**
+ * Try to match grid layout patterns (col-span-*, row-start-*, etc.)
+ */
+export function matchGridPattern(className: string): string | null {
+  // Column span: col-span-5, col-span-8
+  const colSpanMatch = className.match(/^col-span-(\d+)$/);
+  if (colSpanMatch) {
+    const value = colSpanMatch[1];
+    return `spans ${value} columns`;
+  }
+
+  // Row span: row-span-4, row-span-6
+  const rowSpanMatch = className.match(/^row-span-(\d+)$/);
+  if (rowSpanMatch) {
+    const value = rowSpanMatch[1];
+    return `spans ${value} rows`;
+  }
+
+  // Column start: col-start-4, col-start-7
+  const colStartMatch = className.match(/^col-start-(\d+)$/);
+  if (colStartMatch) {
+    const value = colStartMatch[1];
+    return `starts at column ${value}`;
+  }
+
+  // Column end: col-end-5, col-end-13
+  const colEndMatch = className.match(/^col-end-(\d+)$/);
+  if (colEndMatch) {
+    const value = colEndMatch[1];
+    return `ends at column ${value}`;
+  }
+
+  // Row start: row-start-4, row-start-7
+  const rowStartMatch = className.match(/^row-start-(\d+)$/);
+  if (rowStartMatch) {
+    const value = rowStartMatch[1];
+    return `starts at row ${value}`;
+  }
+
+  // Row end: row-end-5, row-end-8
+  const rowEndMatch = className.match(/^row-end-(\d+)$/);
+  if (rowEndMatch) {
+    const value = rowEndMatch[1];
+    return `ends at row ${value}`;
+  }
+
+  return null;
+}
+
+/**
+ * Try to match positioning patterns (top-*, -bottom-*, inset-*, etc.)
+ */
+export function matchPositioningPattern(className: string): string | null {
+  // Negative positioning: -top-4, -bottom-px, -left-8
+  const negativeMatch = className.match(
+    /^-(top|right|bottom|left|inset)-(.+)$/
+  );
+  if (negativeMatch) {
+    const direction = negativeMatch[1];
+    const value = negativeMatch[2];
+    const size = value === "px" ? "1px" : spacingScale[value] || `${value}`;
+    return `-${size} from ${direction}`;
+  }
+
+  // Positive positioning: top-4, bottom-0, left-8
+  const positiveMatch = className.match(/^(top|right|bottom|left|inset)-(.+)$/);
+  if (positiveMatch) {
+    const direction = positiveMatch[1];
+    const value = positiveMatch[2];
+    const size = value === "px" ? "1px" : spacingScale[value] || `${value}`;
+    return `${size} from ${direction}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match color patterns (bg-*, text-*, border-*, etc.)
  */
 export function matchColorPattern(className: string): string | null {
