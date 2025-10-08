@@ -195,6 +195,28 @@ export function matchSizingPattern(className: string): string | null {
 }
 
 /**
+ * Try to match typography patterns (underline-offset-*, decoration-*)
+ */
+export function matchTypographyPattern(className: string): string | null {
+  // Underline offset: underline-offset-3, underline-offset-12
+  const underlineOffsetMatch = className.match(/^underline-offset-(\d+)$/);
+  if (underlineOffsetMatch) {
+    const value = underlineOffsetMatch[1];
+    const size = spacingScale[value] || `${value}px`;
+    return `underline offset ${size}`;
+  }
+
+  // Decoration thickness: decoration-3, decoration-5
+  const decorationThicknessMatch = className.match(/^decoration-(\d+)$/);
+  if (decorationThicknessMatch) {
+    const value = decorationThicknessMatch[1];
+    return `${value}px decoration`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match color patterns (bg-*, text-*, border-*, etc.)
  */
 export function matchColorPattern(className: string): string | null {
@@ -286,6 +308,19 @@ export function matchColorPattern(className: string): string | null {
     }
     if (color) {
       return `${color} ${strokeMatch[2]} stroke`;
+    }
+  }
+
+  // Text decoration colors: decoration-blue-500, decoration-sky-400
+  const decorationMatch = className.match(/^decoration-(\w+)-(\d+)$/);
+  if (decorationMatch) {
+    const color = colorNames[decorationMatch[1]];
+    const shade = shadeDescriptions[decorationMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} decoration`;
+    }
+    if (color) {
+      return `${color} ${decorationMatch[2]} decoration`;
     }
   }
 

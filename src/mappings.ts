@@ -217,6 +217,26 @@ export const tailwindMappings: Record<string, string> = {
   "font-bold": "bold weight",
   "font-extrabold": "extra bold weight",
 
+  // Text Decoration
+  underline: "underline",
+  "no-underline": "no underline",
+  "line-through": "strikethrough",
+  "decoration-solid": "solid decoration",
+  "decoration-double": "double decoration",
+  "decoration-dotted": "dotted decoration",
+  "decoration-dashed": "dashed decoration",
+  "decoration-wavy": "wavy decoration",
+  "decoration-0": "no decoration thickness",
+  "decoration-1": "thin decoration",
+  "decoration-2": "medium decoration",
+  "decoration-4": "thick decoration",
+  "decoration-8": "very thick decoration",
+  "underline-offset-0": "no underline offset",
+  "underline-offset-1": "small underline offset",
+  "underline-offset-2": "medium underline offset",
+  "underline-offset-4": "large underline offset",
+  "underline-offset-8": "extra large underline offset",
+
   // Border
   border: "border",
   "border-2": "2px border",

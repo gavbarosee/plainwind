@@ -43,16 +43,19 @@ export function categorizeClass(className: string): ClassCategory {
       baseClass
     ) ||
     /^text-(left|center|right|justify)/.test(baseClass) ||
-    /^(font-|leading-|tracking-|uppercase|lowercase|capitalize|truncate|italic|underline)/.test(
+    /^(font-|leading-|tracking-|uppercase|lowercase|capitalize|truncate|italic)/.test(
       baseClass
-    )
+    ) ||
+    /^(underline|no-underline|line-through)$/.test(baseClass) ||
+    /^underline-offset-/.test(baseClass) ||
+    /^decoration-(solid|double|dotted|dashed|wavy|\d+)$/.test(baseClass)
   ) {
     return "Typography";
   }
 
   // Colors (text colors, backgrounds, borders, SVG fills/strokes, etc.)
   if (
-    /^(bg-|text-|border-|ring-|divide-|fill-|stroke-|from-|via-|to-|gradient)/.test(
+    /^(bg-|text-|border-|ring-|divide-|fill-|stroke-|decoration-|from-|via-|to-|gradient)/.test(
       baseClass
     )
   ) {

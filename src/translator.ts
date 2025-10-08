@@ -6,6 +6,7 @@ import {
   matchArbitraryValue,
   matchGradientPattern,
   matchSizingPattern,
+  matchTypographyPattern,
 } from "./patterns";
 import { groupTranslationsByCategory } from "./categorizer";
 
@@ -125,23 +126,29 @@ function translateSingleClass(cls: string): string {
       if (sizingMatch) {
         translation = sizingMatch;
       } else {
-        // Try pattern matching for colors
-        const colorMatch = matchColorPattern(classWithoutOpacity);
-        if (colorMatch) {
-          translation = colorMatch;
+        // Try pattern matching for typography
+        const typographyMatch = matchTypographyPattern(classWithoutOpacity);
+        if (typographyMatch) {
+          translation = typographyMatch;
         } else {
-          // Try pattern matching for arbitrary values
-          const arbitraryMatch = matchArbitraryValue(classWithoutOpacity);
-          if (arbitraryMatch) {
-            translation = arbitraryMatch;
+          // Try pattern matching for colors
+          const colorMatch = matchColorPattern(classWithoutOpacity);
+          if (colorMatch) {
+            translation = colorMatch;
           } else {
-            // Try pattern matching for gradients
-            const gradientMatch = matchGradientPattern(classWithoutOpacity);
-            if (gradientMatch) {
-              translation = gradientMatch;
+            // Try pattern matching for arbitrary values
+            const arbitraryMatch = matchArbitraryValue(classWithoutOpacity);
+            if (arbitraryMatch) {
+              translation = arbitraryMatch;
             } else {
-              // If not found, use original class
-              translation = baseClass;
+              // Try pattern matching for gradients
+              const gradientMatch = matchGradientPattern(classWithoutOpacity);
+              if (gradientMatch) {
+                translation = gradientMatch;
+              } else {
+                // If not found, use original class
+                translation = baseClass;
+              }
             }
           }
         }
