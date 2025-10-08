@@ -231,6 +231,11 @@ export const tailwindMappings: Record<string, string> = {
   "text-right": "right aligned text",
   "text-justify": "justified text",
 
+  // Text Overflow
+  truncate: "cuts off text with ellipsis (...)",
+  "text-ellipsis": "shows ellipsis for overflow",
+  "text-clip": "clips overflow text",
+
   // Font Weight
   "font-thin": "thin weight",
   "font-light": "light weight",

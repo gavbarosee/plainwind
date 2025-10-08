@@ -43,7 +43,7 @@ export function categorizeClass(className: string): ClassCategory {
     /^text-(xs|sm|base|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|8xl|9xl)/.test(
       baseClass
     ) ||
-    /^text-(left|center|right|justify)/.test(baseClass) ||
+    /^text-(left|center|right|justify|ellipsis|clip)/.test(baseClass) ||
     /^(font-|leading-|tracking-|uppercase|lowercase|capitalize|truncate|italic)/.test(
       baseClass
     ) ||
