@@ -382,11 +382,11 @@ export const tailwindMappings: Record<string, string> = {
   sticky: "sticky position",
 
   // Position Values
-  "top-0": "top 0",
-  "right-0": "right 0",
-  "bottom-0": "bottom 0",
-  "left-0": "left 0",
-  "inset-0": "all sides 0",
+  "top-0": "positioned at top edge",
+  "right-0": "positioned at right edge",
+  "bottom-0": "positioned at bottom edge",
+  "left-0": "positioned at left edge",
+  "inset-0": "positioned at all edges",
 
   // Z-Index
   "z-0": "z-index 0 (bottom layer)",
