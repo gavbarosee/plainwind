@@ -55,16 +55,16 @@ export function categorizeClass(className: string): ClassCategory {
 
   // Colors (text colors, backgrounds, borders, SVG fills/strokes, etc.)
   if (
-    /^(bg-|text-|border-|ring-|divide-|fill-|stroke-|decoration-|from-|via-|to-|gradient)/.test(
+    /^(bg-|text-|border-|ring-|divide-|fill-|stroke-|decoration-|outline-|from-|via-|to-|gradient)/.test(
       baseClass
     )
   ) {
     return "Colors";
   }
 
-  // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters)
+  // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters, outlines)
   if (
-    /^(shadow|rounded|border|opacity-|transition|duration-|ease-|animate-|cursor-|backdrop-)/.test(
+    /^(shadow|rounded|border|opacity-|transition|duration-|ease-|animate-|cursor-|backdrop-|outline)/.test(
       baseClass
     )
   ) {

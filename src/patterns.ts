@@ -400,6 +400,19 @@ export function matchColorPattern(className: string): string | null {
     }
   }
 
+  // Outline colors: outline-blue-500, outline-slate-400
+  const outlineMatch = className.match(/^outline-(\w+)-(\d+)$/);
+  if (outlineMatch) {
+    const color = colorNames[outlineMatch[1]];
+    const shade = shadeDescriptions[outlineMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} outline`;
+    }
+    if (color) {
+      return `${color} ${outlineMatch[2]} outline`;
+    }
+  }
+
   return null;
 }
 

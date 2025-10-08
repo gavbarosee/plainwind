@@ -271,6 +271,25 @@ export const tailwindMappings: Record<string, string> = {
   "border-gray-200": "light gray border",
   "border-gray-300": "gray border",
 
+  // Outline
+  outline: "outline",
+  "outline-0": "no outline",
+  "outline-1": "1px outline",
+  "outline-2": "2px outline",
+  "outline-4": "4px outline",
+  "outline-8": "8px outline",
+  "outline-dashed": "dashed outline",
+  "outline-dotted": "dotted outline",
+  "outline-double": "double outline",
+  "outline-offset-0": "no outline offset",
+  "outline-offset-1": "1px outline offset",
+  "outline-offset-2": "2px outline offset",
+  "outline-offset-4": "4px outline offset",
+  "outline-offset-8": "8px outline offset",
+  "outline-white": "white outline",
+  "outline-black": "black outline",
+  "outline-transparent": "transparent outline",
+
   // Border Radius
   rounded: "rounded corners",
   "rounded-sm": "small rounded corners",
