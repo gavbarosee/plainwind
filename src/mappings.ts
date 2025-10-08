@@ -389,12 +389,12 @@ export const tailwindMappings: Record<string, string> = {
   "inset-0": "all sides 0",
 
   // Z-Index
-  "z-0": "behind other elements",
-  "z-10": "layer 10",
-  "z-20": "layer 20",
-  "z-30": "layer 30",
-  "z-40": "layer 40",
-  "z-50": "above most elements",
+  "z-0": "z-index 0 (bottom layer)",
+  "z-10": "z-index 10 (above default)",
+  "z-20": "z-index 20 (higher)",
+  "z-30": "z-index 30 (high)",
+  "z-40": "z-index 40 (very high)",
+  "z-50": "z-index 50 (top layer)",
 
   // Overflow
   "overflow-hidden": "hides overflow content",
