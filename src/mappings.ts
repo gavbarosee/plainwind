@@ -300,6 +300,8 @@ export const tailwindMappings: Record<string, string> = {
   "rounded-md": "medium rounded corners",
   "rounded-lg": "large rounded corners",
   "rounded-xl": "extra large rounded corners",
+  "rounded-2xl": "2x large rounded corners",
+  "rounded-3xl": "3x large rounded corners",
   "rounded-full": "fully circular",
   "rounded-none": "no rounded corners",
 
