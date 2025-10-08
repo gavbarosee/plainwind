@@ -19,16 +19,17 @@ export function categorizeClass(className: string): ClassCategory {
   // Remove variants to get base class
   const baseClass = className.split(":").pop() || className;
 
-  // Layout
+  // Layout (check auto margins first - they're for centering/alignment)
   if (
     /^(flex|grid|inline|block|hidden|table|flow)/.test(baseClass) ||
     /^(justify-|items-|content-|self-|place-)/.test(baseClass) ||
-    /^(flex-|grid-cols-|grid-rows-|gap-|col-|row-)/.test(baseClass)
+    /^(flex-|grid-cols-|grid-rows-|gap-|col-|row-)/.test(baseClass) ||
+    /^(m-auto|mx-auto|my-auto|ml-auto|mr-auto|mt-auto|mb-auto)$/.test(baseClass)
   ) {
     return "Layout";
   }
 
-  // Spacing (padding, margin, space)
+  // Spacing (padding, margin, space) - check AFTER auto margins
   if (
     /^(p-|px-|py-|pt-|pr-|pb-|pl-|m-|mx-|my-|mt-|mr-|mb-|ml-|space-)/.test(
       baseClass
