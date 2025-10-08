@@ -261,9 +261,9 @@ export const tailwindMappings: Record<string, string> = {
   "underline-offset-8": "extra large underline offset",
 
   // Border
-  border: "border",
-  "border-2": "2px border",
-  "border-4": "4px border",
+  border: "has border",
+  "border-2": "has 2px border",
+  "border-4": "has 4px border",
   "border-t": "top border",
   "border-r": "right border",
   "border-b": "bottom border",
