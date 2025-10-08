@@ -4,7 +4,7 @@ export const tailwindMappings: Record<string, string> = {
   block: "display as block",
   "inline-block": "display as inline block",
   inline: "display inline",
-  hidden: "hidden",
+  hidden: "not visible",
 
   // Flexbox Layout
   flex: "flexbox container",
@@ -241,7 +241,7 @@ export const tailwindMappings: Record<string, string> = {
   "font-extrabold": "extra bold weight",
 
   // Text Decoration
-  underline: "underline",
+  underline: "underlined text",
   "no-underline": "no underline",
   "line-through": "strikethrough",
   "decoration-solid": "solid decoration",
@@ -272,7 +272,7 @@ export const tailwindMappings: Record<string, string> = {
   "border-gray-300": "gray border",
 
   // Outline
-  outline: "outline",
+  outline: "has outline",
   "outline-0": "no outline",
   "outline-1": "1px outline",
   "outline-2": "2px outline",
@@ -307,7 +307,7 @@ export const tailwindMappings: Record<string, string> = {
 
   // Shadow
   "shadow-sm": "small shadow",
-  shadow: "shadow",
+  shadow: "has shadow",
   "shadow-md": "medium shadow",
   "shadow-lg": "large shadow",
   "shadow-xl": "extra large shadow",
@@ -315,14 +315,14 @@ export const tailwindMappings: Record<string, string> = {
   "shadow-none": "no shadow",
 
   // Backdrop Filters
-  "backdrop-blur-none": "no backdrop blur",
-  "backdrop-blur-sm": "small backdrop blur",
-  "backdrop-blur": "backdrop blur",
-  "backdrop-blur-md": "medium backdrop blur",
-  "backdrop-blur-lg": "large backdrop blur",
-  "backdrop-blur-xl": "extra large backdrop blur",
-  "backdrop-blur-2xl": "2x large backdrop blur",
-  "backdrop-blur-3xl": "3x large backdrop blur",
+  "backdrop-blur-none": "no background blur",
+  "backdrop-blur-sm": "small background blur",
+  "backdrop-blur": "blurred background",
+  "backdrop-blur-md": "medium background blur",
+  "backdrop-blur-lg": "large background blur",
+  "backdrop-blur-xl": "extra large background blur",
+  "backdrop-blur-2xl": "2x large background blur",
+  "backdrop-blur-3xl": "3x large background blur",
   "backdrop-brightness-0": "no backdrop brightness",
   "backdrop-brightness-50": "50% backdrop brightness",
   "backdrop-brightness-75": "75% backdrop brightness",
@@ -389,19 +389,19 @@ export const tailwindMappings: Record<string, string> = {
   "inset-0": "all sides 0",
 
   // Z-Index
-  "z-0": "z-index 0",
-  "z-10": "z-index 10",
-  "z-20": "z-index 20",
-  "z-30": "z-index 30",
-  "z-40": "z-index 40",
-  "z-50": "z-index 50",
+  "z-0": "behind other elements",
+  "z-10": "layer 10",
+  "z-20": "layer 20",
+  "z-30": "layer 30",
+  "z-40": "layer 40",
+  "z-50": "above most elements",
 
   // Overflow
-  "overflow-hidden": "hidden overflow",
-  "overflow-auto": "auto overflow",
-  "overflow-scroll": "scrollable overflow",
-  "overflow-x-auto": "horizontal scroll",
-  "overflow-y-auto": "vertical scroll",
+  "overflow-hidden": "hides overflow content",
+  "overflow-auto": "scrolls when needed",
+  "overflow-scroll": "always scrollable",
+  "overflow-x-auto": "scrolls horizontally when needed",
+  "overflow-y-auto": "scrolls vertically when needed",
 
   // Transitions
   transition: "animates all changes",
@@ -416,9 +416,9 @@ export const tailwindMappings: Record<string, string> = {
   "ease-out": "ease-out timing",
 
   // Cursor
-  "cursor-pointer": "pointer cursor",
-  "cursor-not-allowed": "not allowed cursor",
-  "cursor-default": "default cursor",
+  "cursor-pointer": "clickable (hand cursor)",
+  "cursor-not-allowed": "disabled (not allowed)",
+  "cursor-default": "normal cursor",
 
   // Opacity
   "opacity-0": "invisible",
@@ -427,5 +427,5 @@ export const tailwindMappings: Record<string, string> = {
   "opacity-100": "fully opaque",
 
   // Container
-  container: "container",
+  container: "centered container",
 };
