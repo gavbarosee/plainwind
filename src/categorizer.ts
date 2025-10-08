@@ -65,7 +65,7 @@ export function categorizeClass(className: string): ClassCategory {
 
   // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters, outlines)
   if (
-    /^(shadow|rounded|border|opacity-|transition|duration-|ease-|animate-|cursor-|backdrop-|outline)/.test(
+    /^(shadow|rounded|border|opacity-|transition|duration-|ease-|animate-|cursor-|backdrop-|outline|-outline)/.test(
       baseClass
     )
   ) {
