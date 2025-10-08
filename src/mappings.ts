@@ -375,11 +375,11 @@ export const tailwindMappings: Record<string, string> = {
   "backdrop-hue-rotate-180": "180° backdrop hue rotation",
 
   // Position
-  static: "static position",
-  fixed: "fixed position",
-  absolute: "absolute position",
-  relative: "relative position",
-  sticky: "sticky position",
+  static: "normal positioning (static position)",
+  fixed: "stays in place when scrolling (fixed position)",
+  absolute: "positioned relative to parent (absolute position)",
+  relative: "positioned relative to normal position (relative position)",
+  sticky: "sticks to top when scrolling (sticky position)",
 
   // Position Values
   "top-0": "positioned at top edge",
