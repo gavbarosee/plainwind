@@ -404,10 +404,11 @@ export const tailwindMappings: Record<string, string> = {
   "overflow-y-auto": "vertical scroll",
 
   // Transitions
-  transition: "transitions all properties",
-  "transition-colors": "transitions colors",
-  "transition-opacity": "transitions opacity",
-  "transition-transform": "transitions transform",
+  transition: "animates all changes",
+  "transition-colors": "animates color changes",
+  "transition-opacity": "animates fade in/out",
+  "transition-transform": "animates movement/scaling",
+  "transition-shadow": "animates shadow changes",
   "duration-150": "150ms duration",
   "duration-200": "200ms duration",
   "duration-300": "300ms duration",
