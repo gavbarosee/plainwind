@@ -62,9 +62,9 @@ export function categorizeClass(className: string): ClassCategory {
     return "Colors";
   }
 
-  // Effects (shadows, borders, rounded, opacity, transitions)
+  // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters)
   if (
-    /^(shadow|rounded|border|opacity-|transition|duration-|ease-|animate-|cursor-)/.test(
+    /^(shadow|rounded|border|opacity-|transition|duration-|ease-|animate-|cursor-|backdrop-)/.test(
       baseClass
     )
   ) {
