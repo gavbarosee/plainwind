@@ -182,6 +182,11 @@ export const tailwindMappings: Record<string, string> = {
   "min-h-screen": "minimum screen height",
   "min-h-full": "minimum full height",
 
+  // Aspect Ratio
+  "aspect-auto": "automatic aspect ratio",
+  "aspect-square": "square aspect ratio (1:1)",
+  "aspect-video": "video aspect ratio (16:9)",
+
   // Background Colors - Grays
   "bg-white": "white background",
   "bg-black": "black background",
