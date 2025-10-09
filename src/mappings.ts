@@ -41,6 +41,10 @@ export const tailwindMappings: Record<string, string> = {
   "clear-both": "clears both side floats",
   "clear-none": "no clear",
 
+  // Box Sizing
+  "box-border": "includes border and padding in size",
+  "box-content": "excludes border and padding from size",
+
   // Object Fit
   "object-contain": "scales to fit while maintaining aspect ratio",
   "object-cover": "covers container while maintaining aspect ratio",
