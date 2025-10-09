@@ -21,6 +21,11 @@ export const tailwindMappings: Record<string, string> = {
   "list-item": "display as list item",
   hidden: "not visible",
 
+  // Visibility
+  visible: "visible",
+  invisible: "hidden but takes up space",
+  collapse: "collapses table rows/columns",
+
   // Object Fit
   "object-contain": "scales to fit while maintaining aspect ratio",
   "object-cover": "covers container while maintaining aspect ratio",
