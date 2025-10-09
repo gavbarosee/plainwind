@@ -21,9 +21,10 @@ export function categorizeClass(className: string): ClassCategory {
 
   // Layout (check auto margins first - they're for centering/alignment)
   if (
-    /^(flex|grid|inline|block|hidden|table|flow)/.test(baseClass) ||
+    /^(flex|grid|inline|block|hidden|table|flow|contents|list-item)/.test(baseClass) ||
     /^(justify-|items-|content-|self-|place-)/.test(baseClass) ||
     /^(flex-|grid-cols-|grid-rows-|gap-|col-|row-)/.test(baseClass) ||
+    /^(object-)/.test(baseClass) ||
     /^(m-auto|mx-auto|my-auto|ml-auto|mr-auto|mt-auto|mb-auto)$/.test(baseClass)
   ) {
     return "Layout";

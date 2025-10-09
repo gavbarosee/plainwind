@@ -21,6 +21,24 @@ export const tailwindMappings: Record<string, string> = {
   "list-item": "display as list item",
   hidden: "not visible",
 
+  // Object Fit
+  "object-contain": "scales to fit while maintaining aspect ratio",
+  "object-cover": "covers container while maintaining aspect ratio",
+  "object-fill": "stretches to fill container",
+  "object-none": "not resized",
+  "object-scale-down": "scales down to fit (contain or none)",
+
+  // Object Position
+  "object-bottom": "positions content at bottom",
+  "object-center": "positions content at center",
+  "object-left": "positions content at left",
+  "object-left-bottom": "positions content at left bottom",
+  "object-left-top": "positions content at left top",
+  "object-right": "positions content at right",
+  "object-right-bottom": "positions content at right bottom",
+  "object-right-top": "positions content at right top",
+  "object-top": "positions content at top",
+
   // Flexbox Layout
   flex: "flexbox container",
   "flex-row": "horizontal layout",
