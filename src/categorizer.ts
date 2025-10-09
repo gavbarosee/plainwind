@@ -54,6 +54,18 @@ export function categorizeClass(className: string): ClassCategory {
     return "Typography";
   }
 
+  // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters, outlines)
+  // Check divide structural classes BEFORE Colors (divide-x, divide-y, but not divide-blue-500)
+  if (
+    /^(shadow|rounded|border|opacity-|transition|duration-|ease-|animate-|cursor-|backdrop-|outline|-outline)/.test(
+      baseClass
+    ) ||
+    /^divide-[xy](-|$)/.test(baseClass) || // divide-x, divide-y, divide-x-0, divide-y-2, etc.
+    /^divide-[xy]-reverse$/.test(baseClass) // divide-x-reverse, divide-y-reverse
+  ) {
+    return "Effects";
+  }
+
   // Colors (text colors, backgrounds, borders, SVG fills/strokes, etc.)
   if (
     /^(bg-|text-|border-|ring-|divide-|fill-|stroke-|decoration-|outline-|from-|via-|to-|gradient)/.test(
@@ -61,15 +73,6 @@ export function categorizeClass(className: string): ClassCategory {
     )
   ) {
     return "Colors";
-  }
-
-  // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters, outlines)
-  if (
-    /^(shadow|rounded|border|opacity-|transition|duration-|ease-|animate-|cursor-|backdrop-|outline|-outline)/.test(
-      baseClass
-    )
-  ) {
-    return "Effects";
   }
 
   // Positioning (including negative positioning)
