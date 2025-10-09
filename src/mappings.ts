@@ -115,12 +115,72 @@ export const tailwindMappings: Record<string, string> = {
   "justify-center": "centers items horizontally",
   "justify-between": "spreads items apart",
   "justify-around": "distributes space around items",
+  "justify-evenly": "distributes space evenly",
+  "justify-normal": "normal justify behavior",
+  "justify-stretch": "stretches items to fill",
+
+  // Justify Items (grid)
+  "justify-items-start": "aligns grid items to start",
+  "justify-items-end": "aligns grid items to end",
+  "justify-items-center": "centers grid items",
+  "justify-items-stretch": "stretches grid items",
+
+  // Justify Self
+  "justify-self-auto": "auto justify alignment",
+  "justify-self-start": "aligns self to start",
+  "justify-self-end": "aligns self to end",
+  "justify-self-center": "centers self",
+  "justify-self-stretch": "stretches self",
+
+  // Align Content
+  "content-normal": "normal content alignment",
+  "content-center": "centers content",
+  "content-start": "aligns content to start",
+  "content-end": "aligns content to end",
+  "content-between": "spreads content apart",
+  "content-around": "distributes space around content",
+  "content-evenly": "distributes content evenly",
+  "content-baseline": "aligns content to baseline",
+  "content-stretch": "stretches content",
 
   // Align Items
   "items-start": "aligns items to top",
   "items-end": "aligns items to bottom",
   "items-center": "centers items vertically",
+  "items-baseline": "aligns items to baseline",
   "items-stretch": "stretches items to fill",
+
+  // Align Self
+  "self-auto": "auto self alignment",
+  "self-start": "aligns self to start",
+  "self-end": "aligns self to end",
+  "self-center": "centers self",
+  "self-stretch": "stretches self",
+  "self-baseline": "aligns self to baseline",
+
+  // Place Content (grid)
+  "place-content-center": "centers content in both axes",
+  "place-content-start": "aligns content to start in both axes",
+  "place-content-end": "aligns content to end in both axes",
+  "place-content-between": "spreads content in both axes",
+  "place-content-around": "distributes space around in both axes",
+  "place-content-evenly": "distributes evenly in both axes",
+  "place-content-baseline": "aligns to baseline in both axes",
+  "place-content-stretch": "stretches in both axes",
+
+  // Place Items (grid)
+  "place-items-start": "aligns items to start in both axes",
+  "place-items-end": "aligns items to end in both axes",
+  "place-items-center": "centers items in both axes",
+  "place-items-baseline": "aligns items to baseline in both axes",
+  "place-items-stretch": "stretches items in both axes",
+
+  // Place Self (grid)
+  "place-self-auto": "auto placement in both axes",
+  "place-self-start": "aligns self to start in both axes",
+  "place-self-end": "aligns self to end in both axes",
+  "place-self-center": "centers self in both axes",
+  "place-self-stretch": "stretches self in both axes",
 
   // Gap
   "gap-0": "no gap",
