@@ -32,16 +32,16 @@ const colorNames: Record<string, string> = {
 
 // Shade descriptions for color variants
 const shadeDescriptions: Record<string, string> = {
-  "50": "very light",
-  "100": "light",
-  "200": "lighter",
-  "300": "light",
+  "50": "lightest",
+  "100": "very light",
+  "200": "light",
+  "300": "lightish",
   "400": "medium light",
   "500": "medium",
   "600": "medium dark",
   "700": "dark",
-  "800": "darker",
-  "900": "very dark",
+  "800": "very dark",
+  "900": "darkest",
   "950": "extremely dark",
 };
 

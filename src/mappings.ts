@@ -171,22 +171,22 @@ export const tailwindMappings: Record<string, string> = {
   "bg-white": "white background",
   "bg-black": "black background",
   "bg-transparent": "transparent background",
-  "bg-gray-50": "very light gray background",
-  "bg-gray-100": "light gray background",
-  "bg-gray-200": "lighter gray background",
-  "bg-gray-300": "light gray background",
+  "bg-gray-50": "lightest gray background",
+  "bg-gray-100": "very light gray background",
+  "bg-gray-200": "light gray background",
+  "bg-gray-300": "lightish gray background",
   "bg-gray-400": "medium light gray background",
   "bg-gray-500": "medium gray background",
   "bg-gray-600": "medium dark gray background",
   "bg-gray-700": "dark gray background",
-  "bg-gray-800": "darker gray background",
-  "bg-gray-900": "very dark gray background",
+  "bg-gray-800": "very dark gray background",
+  "bg-gray-900": "darkest gray background",
 
   // Background Colors - Blues
-  "bg-blue-50": "very light blue background",
-  "bg-blue-100": "light blue background",
+  "bg-blue-50": "lightest blue background",
+  "bg-blue-100": "very light blue background",
   "bg-blue-500": "blue background",
-  "bg-blue-600": "medium blue background",
+  "bg-blue-600": "medium dark blue background",
   "bg-blue-700": "dark blue background",
 
   // Background Colors - Other
@@ -199,18 +199,18 @@ export const tailwindMappings: Record<string, string> = {
   // Text Colors - Grays
   "text-white": "white text",
   "text-black": "black text",
-  "text-gray-50": "very light gray text",
-  "text-gray-100": "light gray text",
+  "text-gray-50": "lightest gray text",
+  "text-gray-100": "very light gray text",
   "text-gray-400": "medium light gray text",
   "text-gray-500": "medium gray text",
   "text-gray-600": "medium dark gray text",
   "text-gray-700": "dark gray text",
-  "text-gray-800": "darker gray text",
-  "text-gray-900": "very dark gray text",
+  "text-gray-800": "very dark gray text",
+  "text-gray-900": "darkest gray text",
 
   // Text Colors - Other
   "text-blue-500": "blue text",
-  "text-blue-600": "medium blue text",
+  "text-blue-600": "medium dark blue text",
   "text-red-500": "red text",
   "text-green-500": "green text",
 
@@ -275,6 +275,20 @@ export const tailwindMappings: Record<string, string> = {
   "border-l": "left border",
   "border-gray-200": "light gray border",
   "border-gray-300": "gray border",
+
+  // Divide (borders between children)
+  "divide-x": "vertical dividers between children",
+  "divide-x-0": "no vertical dividers",
+  "divide-x-2": "2px vertical dividers",
+  "divide-x-4": "4px vertical dividers",
+  "divide-x-8": "8px vertical dividers",
+  "divide-y": "horizontal dividers between children",
+  "divide-y-0": "no horizontal dividers",
+  "divide-y-2": "2px horizontal dividers",
+  "divide-y-4": "4px horizontal dividers",
+  "divide-y-8": "8px horizontal dividers",
+  "divide-x-reverse": "reversed vertical dividers",
+  "divide-y-reverse": "reversed horizontal dividers",
 
   // Outline
   outline: "has outline",
