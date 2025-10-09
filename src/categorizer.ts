@@ -60,7 +60,7 @@ export function categorizeClass(className: string): ClassCategory {
   // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters, outlines)
   // Check divide structural classes BEFORE Colors (divide-x, divide-y, but not divide-blue-500)
   if (
-    /^(shadow|rounded|border|opacity-|transition|duration-|ease-|animate-|cursor-|backdrop-|outline|-outline)/.test(
+    /^(shadow|rounded|border|opacity-|transition|duration-|ease-|animate-|cursor-|backdrop-|outline|-outline|isolat)/.test(
       baseClass
     ) ||
     /^divide-[xy](-|$)/.test(baseClass) || // divide-x, divide-y, divide-x-0, divide-y-2, etc.

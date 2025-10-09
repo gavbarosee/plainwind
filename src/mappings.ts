@@ -391,6 +391,10 @@ export const tailwindMappings: Record<string, string> = {
   "shadow-2xl": "2x large shadow",
   "shadow-none": "no shadow",
 
+  // Isolation
+  isolate: "creates new stacking context",
+  "isolation-auto": "automatic stacking context",
+
   // Backdrop Filters
   "backdrop-blur-none": "no background blur",
   "backdrop-blur-sm": "small background blur",
