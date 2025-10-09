@@ -26,6 +26,21 @@ export const tailwindMappings: Record<string, string> = {
   invisible: "hidden but takes up space",
   collapse: "collapses table rows/columns",
 
+  // Float
+  "float-start": "floats to start side",
+  "float-end": "floats to end side",
+  "float-right": "floats to right",
+  "float-left": "floats to left",
+  "float-none": "no float",
+
+  // Clear
+  "clear-start": "clears start side floats",
+  "clear-end": "clears end side floats",
+  "clear-left": "clears left floats",
+  "clear-right": "clears right floats",
+  "clear-both": "clears both side floats",
+  "clear-none": "no clear",
+
   // Object Fit
   "object-contain": "scales to fit while maintaining aspect ratio",
   "object-cover": "covers container while maintaining aspect ratio",

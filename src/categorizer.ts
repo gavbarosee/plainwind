@@ -23,6 +23,7 @@ export function categorizeClass(className: string): ClassCategory {
   if (
     /^(flex|grid|inline|block|hidden|table|flow|contents|list-item)/.test(baseClass) ||
     /^(visible|invisible|collapse)$/.test(baseClass) ||
+    /^(float-|clear-)/.test(baseClass) ||
     /^(justify-|items-|content-|self-|place-)/.test(baseClass) ||
     /^(flex-|grid-cols-|grid-rows-|gap-|col-|row-)/.test(baseClass) ||
     /^(object-)/.test(baseClass) ||
