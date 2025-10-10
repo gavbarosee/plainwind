@@ -26,7 +26,7 @@ export function categorizeClass(className: string): ClassCategory {
     /^(float-|clear-|box-|order-|columns-|break-before-|break-after-|break-inside-)/.test(baseClass) ||
     /^(justify-|items-|content-|self-|place-)/.test(baseClass) ||
     /^(flex-|grid-cols-|grid-rows-|gap-|col-|row-)/.test(baseClass) ||
-    /^(object-)/.test(baseClass) ||
+    /^(object-|table-auto|table-fixed|border-collapse|border-separate|border-spacing-|caption-)/.test(baseClass) ||
     /^(m-auto|mx-auto|my-auto|ml-auto|mr-auto|mt-auto|mb-auto)$/.test(baseClass)
   ) {
     return "Layout";
