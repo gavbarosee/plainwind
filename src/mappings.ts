@@ -490,6 +490,22 @@ export const tailwindMappings: Record<string, string> = {
   "rounded-full": "fully circular",
   "rounded-none": "no rounded corners",
 
+  // Ring Width
+  ring: "has focus ring (3px)",
+  "ring-0": "no ring",
+  "ring-1": "1px ring",
+  "ring-2": "2px ring",
+  "ring-4": "4px ring",
+  "ring-8": "8px ring",
+  "ring-inset": "inset ring",
+
+  // Ring Offset Width
+  "ring-offset-0": "no ring offset",
+  "ring-offset-1": "1px ring offset",
+  "ring-offset-2": "2px ring offset",
+  "ring-offset-4": "4px ring offset",
+  "ring-offset-8": "8px ring offset",
+
   // Shadow
   "shadow-sm": "small shadow",
   shadow: "has shadow",
