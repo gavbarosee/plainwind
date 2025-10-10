@@ -413,6 +413,32 @@ export function matchColorPattern(className: string): string | null {
     }
   }
 
+  // Accent colors: accent-blue-500, accent-green-700
+  const accentMatch = className.match(/^accent-(\w+)-(\d+)$/);
+  if (accentMatch) {
+    const color = colorNames[accentMatch[1]];
+    const shade = shadeDescriptions[accentMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} accent color`;
+    }
+    if (color) {
+      return `${color} accent color`;
+    }
+  }
+
+  // Caret colors: caret-blue-500, caret-red-700
+  const caretMatch = className.match(/^caret-(\w+)-(\d+)$/);
+  if (caretMatch) {
+    const color = colorNames[caretMatch[1]];
+    const shade = shadeDescriptions[caretMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} caret color`;
+    }
+    if (color) {
+      return `${color} caret color`;
+    }
+  }
+
   return null;
 }
 
