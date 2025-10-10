@@ -45,6 +45,56 @@ export const tailwindMappings: Record<string, string> = {
   "box-border": "includes border and padding in size",
   "box-content": "excludes border and padding from size",
 
+  // Columns
+  "columns-1": "one column layout",
+  "columns-2": "two column layout",
+  "columns-3": "three column layout",
+  "columns-4": "four column layout",
+  "columns-5": "five column layout",
+  "columns-6": "six column layout",
+  "columns-7": "seven column layout",
+  "columns-8": "eight column layout",
+  "columns-9": "nine column layout",
+  "columns-10": "ten column layout",
+  "columns-11": "eleven column layout",
+  "columns-12": "twelve column layout",
+  "columns-auto": "automatic column count",
+  "columns-3xs": "3xs column width",
+  "columns-2xs": "2xs column width",
+  "columns-xs": "xs column width",
+  "columns-sm": "small column width",
+  "columns-md": "medium column width",
+  "columns-lg": "large column width",
+  "columns-xl": "extra large column width",
+  "columns-2xl": "2xl column width",
+  "columns-3xl": "3xl column width",
+
+  // Break Before
+  "break-before-auto": "auto break before",
+  "break-before-avoid": "avoid break before",
+  "break-before-all": "break before always",
+  "break-before-avoid-page": "avoid page break before",
+  "break-before-page": "page break before",
+  "break-before-left": "left page break before",
+  "break-before-right": "right page break before",
+  "break-before-column": "column break before",
+
+  // Break After
+  "break-after-auto": "auto break after",
+  "break-after-avoid": "avoid break after",
+  "break-after-all": "break after always",
+  "break-after-avoid-page": "avoid page break after",
+  "break-after-page": "page break after",
+  "break-after-left": "left page break after",
+  "break-after-right": "right page break after",
+  "break-after-column": "column break after",
+
+  // Break Inside
+  "break-inside-auto": "auto break inside",
+  "break-inside-avoid": "avoid break inside",
+  "break-inside-avoid-page": "avoid page break inside",
+  "break-inside-avoid-column": "avoid column break inside",
+
   // Object Fit
   "object-contain": "scales to fit while maintaining aspect ratio",
   "object-cover": "covers container while maintaining aspect ratio",
