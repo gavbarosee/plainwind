@@ -410,6 +410,10 @@ export const tailwindMappings: Record<string, string> = {
   "text-3xl": "3x large text",
   "text-4xl": "4x large text",
   "text-5xl": "5x large text",
+  "text-6xl": "6x large text",
+  "text-7xl": "7x large text",
+  "text-8xl": "8x large text",
+  "text-9xl": "9x large text",
 
   // Text Alignment
   "text-left": "left aligned text",
@@ -424,12 +428,95 @@ export const tailwindMappings: Record<string, string> = {
 
   // Font Weight
   "font-thin": "thin weight",
+  "font-extralight": "extra light weight",
   "font-light": "light weight",
   "font-normal": "normal weight",
   "font-medium": "medium weight",
   "font-semibold": "semi-bold weight",
   "font-bold": "bold weight",
   "font-extrabold": "extra bold weight",
+  "font-black": "black weight",
+
+  // Font Style
+  italic: "italic text",
+  "not-italic": "not italic",
+
+  // Leading (Line Height)
+  "leading-none": "line height 1",
+  "leading-tight": "tight line height",
+  "leading-snug": "snug line height",
+  "leading-normal": "normal line height",
+  "leading-relaxed": "relaxed line height",
+  "leading-loose": "loose line height",
+  "leading-3": "line height 0.75rem",
+  "leading-4": "line height 1rem",
+  "leading-5": "line height 1.25rem",
+  "leading-6": "line height 1.5rem",
+  "leading-7": "line height 1.75rem",
+  "leading-8": "line height 2rem",
+  "leading-9": "line height 2.25rem",
+  "leading-10": "line height 2.5rem",
+
+  // Tracking (Letter Spacing)
+  "tracking-tighter": "tighter letter spacing",
+  "tracking-tight": "tight letter spacing",
+  "tracking-normal": "normal letter spacing",
+  "tracking-wide": "wide letter spacing",
+  "tracking-wider": "wider letter spacing",
+  "tracking-widest": "widest letter spacing",
+
+  // List Style Type
+  "list-none": "no list markers",
+  "list-disc": "disc list markers",
+  "list-decimal": "decimal list markers",
+
+  // List Style Position
+  "list-inside": "list markers inside",
+  "list-outside": "list markers outside",
+
+  // Text Transform
+  uppercase: "UPPERCASE text",
+  lowercase: "lowercase text",
+  capitalize: "Capitalized Text",
+  "normal-case": "normal case text",
+
+  // Text Indent
+  "indent-0": "no text indent",
+  "indent-px": "1px text indent",
+  "indent-0.5": "0.125rem text indent",
+  "indent-1": "0.25rem text indent",
+  "indent-2": "0.5rem text indent",
+  "indent-4": "1rem text indent",
+  "indent-8": "2rem text indent",
+
+  // Vertical Align
+  "align-baseline": "aligns to baseline",
+  "align-top": "aligns to top",
+  "align-middle": "aligns to middle",
+  "align-bottom": "aligns to bottom",
+  "align-text-top": "aligns to text top",
+  "align-text-bottom": "aligns to text bottom",
+  "align-sub": "subscript alignment",
+  "align-super": "superscript alignment",
+
+  // Whitespace
+  "whitespace-normal": "normal whitespace",
+  "whitespace-nowrap": "no line wrapping",
+  "whitespace-pre": "preserves whitespace",
+  "whitespace-pre-line": "preserves line breaks",
+  "whitespace-pre-wrap": "preserves whitespace and wraps",
+  "whitespace-break-spaces": "breaks at spaces",
+
+  // Word Break
+  "break-normal": "normal word breaks",
+  "break-words": "breaks words if needed",
+  "break-all": "breaks all characters",
+  "break-keep": "keeps words together",
+
+  // Hyphens
+  "hyphens-none": "no hyphenation",
+  "hyphens-manual": "manual hyphenation",
+  "hyphens-auto": "automatic hyphenation",
 
   // Text Decoration
   underline: "underlined text",

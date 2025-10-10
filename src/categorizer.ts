@@ -47,9 +47,11 @@ export function categorizeClass(className: string): ClassCategory {
       baseClass
     ) ||
     /^text-(left|center|right|justify|ellipsis|clip)/.test(baseClass) ||
-    /^(font-|leading-|tracking-|uppercase|lowercase|capitalize|truncate|italic)/.test(
+    /^(font-|leading-|tracking-|uppercase|lowercase|capitalize|normal-case|truncate|italic|not-italic)/.test(
       baseClass
     ) ||
+    /^(list-|indent-|align-|whitespace-|hyphens-)/.test(baseClass) ||
+    /^break-(normal|words|all|keep)$/.test(baseClass) || // word-break only, not page breaks
     /^(underline|no-underline|line-through)$/.test(baseClass) ||
     /^underline-offset-/.test(baseClass) ||
     /^decoration-(solid|double|dotted|dashed|wavy|\d+)$/.test(baseClass)
