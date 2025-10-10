@@ -1011,9 +1011,114 @@ export const tailwindMappings: Record<string, string> = {
   "origin-top-left": "transform from top left",
 
   // Cursor
-  "cursor-pointer": "clickable (hand cursor)",
-  "cursor-not-allowed": "disabled (not allowed)",
+  "cursor-auto": "auto cursor",
   "cursor-default": "normal cursor",
+  "cursor-pointer": "clickable (hand cursor)",
+  "cursor-wait": "waiting cursor",
+  "cursor-text": "text cursor",
+  "cursor-move": "move cursor",
+  "cursor-help": "help cursor",
+  "cursor-not-allowed": "disabled (not allowed)",
+  "cursor-none": "no cursor",
+  "cursor-context-menu": "context menu cursor",
+  "cursor-progress": "progress cursor",
+  "cursor-cell": "cell cursor",
+  "cursor-crosshair": "crosshair cursor",
+  "cursor-vertical-text": "vertical text cursor",
+  "cursor-alias": "alias cursor",
+  "cursor-copy": "copy cursor",
+  "cursor-no-drop": "no drop cursor",
+  "cursor-grab": "grab cursor",
+  "cursor-grabbing": "grabbing cursor",
+  "cursor-all-scroll": "all scroll cursor",
+  "cursor-col-resize": "column resize cursor",
+  "cursor-row-resize": "row resize cursor",
+  "cursor-n-resize": "north resize cursor",
+  "cursor-e-resize": "east resize cursor",
+  "cursor-s-resize": "south resize cursor",
+  "cursor-w-resize": "west resize cursor",
+  "cursor-ne-resize": "northeast resize cursor",
+  "cursor-nw-resize": "northwest resize cursor",
+  "cursor-se-resize": "southeast resize cursor",
+  "cursor-sw-resize": "southwest resize cursor",
+  "cursor-ew-resize": "east-west resize cursor",
+  "cursor-ns-resize": "north-south resize cursor",
+  "cursor-nesw-resize": "northeast-southwest resize cursor",
+  "cursor-nwse-resize": "northwest-southeast resize cursor",
+  "cursor-zoom-in": "zoom in cursor",
+  "cursor-zoom-out": "zoom out cursor",
+
+  // Pointer Events
+  "pointer-events-none": "ignores pointer events",
+  "pointer-events-auto": "allows pointer events",
+
+  // Resize
+  "resize-none": "not resizable",
+  "resize-x": "horizontally resizable",
+  "resize-y": "vertically resizable",
+  resize: "resizable in both directions",
+
+  // Scroll Behavior
+  "scroll-auto": "auto scroll behavior",
+  "scroll-smooth": "smooth scrolling",
+
+  // Scroll Snap Type
+  "snap-none": "no scroll snap",
+  "snap-x": "horizontal scroll snap",
+  "snap-y": "vertical scroll snap",
+  "snap-both": "scroll snap in both directions",
+  "snap-mandatory": "mandatory scroll snap",
+  "snap-proximity": "proximity scroll snap",
+
+  // Scroll Snap Align
+  "snap-start": "snap to start",
+  "snap-end": "snap to end",
+  "snap-center": "snap to center",
+  "snap-align-none": "no snap alignment",
+
+  // Scroll Snap Stop
+  "snap-normal": "normal snap stop",
+  "snap-always": "always snap stop",
+
+  // Scroll Margin & Padding
+  "scroll-m-0": "no scroll margin",
+  "scroll-m-px": "1px scroll margin",
+  "scroll-m-1": "0.25rem scroll margin",
+  "scroll-m-2": "0.5rem scroll margin",
+  "scroll-m-4": "1rem scroll margin",
+  "scroll-p-0": "no scroll padding",
+  "scroll-p-px": "1px scroll padding",
+  "scroll-p-1": "0.25rem scroll padding",
+  "scroll-p-2": "0.5rem scroll padding",
+  "scroll-p-4": "1rem scroll padding",
+
+  // Touch Action
+  "touch-auto": "auto touch actions",
+  "touch-none": "no touch actions",
+  "touch-pan-x": "pan horizontally",
+  "touch-pan-left": "pan left",
+  "touch-pan-right": "pan right",
+  "touch-pan-y": "pan vertically",
+  "touch-pan-up": "pan up",
+  "touch-pan-down": "pan down",
+  "touch-pinch-zoom": "pinch to zoom",
+  "touch-manipulation": "touch manipulation enabled",
+
+  // User Select
+  "select-none": "text not selectable",
+  "select-text": "text selectable",
+  "select-all": "selects all on click",
+  "select-auto": "auto text selection",
+
+  // Will Change
+  "will-change-auto": "auto will-change",
+  "will-change-scroll": "will change scroll position",
+  "will-change-contents": "will change contents",
+  "will-change-transform": "will change transform",
+
+  // Appearance
+  "appearance-none": "no default appearance",
+  "appearance-auto": "default appearance",
 
   // Opacity
   "opacity-0": "invisible",

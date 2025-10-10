@@ -59,7 +59,7 @@ export function categorizeClass(className: string): ClassCategory {
     return "Typography";
   }
 
-  // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters, outlines, transforms, filters)
+  // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters, outlines, transforms, filters, interactivity)
   // Check divide and ring structural classes BEFORE Colors
   if (
     /^(shadow|rounded|border|opacity-|transition|duration-|ease-|delay-|animate-|cursor-|backdrop-|outline|-outline|isolat)/.test(
@@ -69,6 +69,9 @@ export function categorizeClass(className: string): ClassCategory {
       baseClass
     ) ||
     /^(blur-|blur|brightness-|contrast-|drop-shadow-|drop-shadow|grayscale|hue-rotate-|-hue-rotate-|invert|saturate-|sepia)/.test(
+      baseClass
+    ) ||
+    /^(pointer-events-|resize|scroll-|snap-|touch-|select-|will-change-|appearance-)/.test(
       baseClass
     ) ||
     /^divide-[xy](-|$)/.test(baseClass) || // divide-x, divide-y, divide-x-0, divide-y-2, etc.
