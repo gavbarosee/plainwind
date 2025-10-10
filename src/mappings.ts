@@ -1023,4 +1023,8 @@ export const tailwindMappings: Record<string, string> = {
 
   // Container
   container: "centered container",
+
+  // Accessibility
+  "sr-only": "screen reader only (visually hidden)",
+  "not-sr-only": "visible to all (not just screen readers)",
 };
