@@ -874,6 +874,18 @@ export const tailwindMappings: Record<string, string> = {
   "ring-offset-4": "4px ring offset",
   "ring-offset-8": "8px ring offset",
 
+  // Ring Offset Color
+  "ring-offset-transparent": "transparent ring offset",
+  "ring-offset-current": "ring offset matches text color",
+  "ring-offset-black": "black ring offset",
+  "ring-offset-white": "white ring offset",
+
+  // Placeholder Color
+  "placeholder-transparent": "transparent placeholder",
+  "placeholder-current": "placeholder matches text color",
+  "placeholder-black": "black placeholder",
+  "placeholder-white": "white placeholder",
+
   // Shadow
   "shadow-sm": "small shadow",
   shadow: "has shadow",

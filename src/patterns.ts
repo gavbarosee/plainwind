@@ -439,6 +439,69 @@ export function matchColorPattern(className: string): string | null {
     }
   }
 
+  // Per-side border colors: border-t-blue-500, border-r-red-300, border-b-gray-200, border-l-green-700
+  const borderSideColorMatch = className.match(/^border-([trbl])-(\w+)-(\d+)$/);
+  if (borderSideColorMatch) {
+    const side = borderSideColorMatch[1];
+    const color = colorNames[borderSideColorMatch[2]];
+    const shade = shadeDescriptions[borderSideColorMatch[3]];
+    
+    const sideMap: Record<string, string> = {
+      t: "top",
+      r: "right",
+      b: "bottom",
+      l: "left",
+    };
+    
+    const sideName = sideMap[side];
+    
+    if (color && shade) {
+      return `${shade} ${color} ${sideName} border`;
+    }
+    if (color) {
+      return `${color} ${sideName} border`;
+    }
+  }
+
+  // Ring offset colors: ring-offset-blue-500, ring-offset-gray-200
+  const ringOffsetMatch = className.match(/^ring-offset-(\w+)-(\d+)$/);
+  if (ringOffsetMatch) {
+    const color = colorNames[ringOffsetMatch[1]];
+    const shade = shadeDescriptions[ringOffsetMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} ring offset`;
+    }
+    if (color) {
+      return `${color} ring offset`;
+    }
+  }
+
+  // Placeholder colors: placeholder-blue-500, placeholder-gray-400
+  const placeholderMatch = className.match(/^placeholder-(\w+)-(\d+)$/);
+  if (placeholderMatch) {
+    const color = colorNames[placeholderMatch[1]];
+    const shade = shadeDescriptions[placeholderMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} placeholder`;
+    }
+    if (color) {
+      return `${color} placeholder`;
+    }
+  }
+
+  // Shadow colors: shadow-blue-500, shadow-red-300 (Tailwind 3.3+)
+  const shadowColorMatch = className.match(/^shadow-(\w+)-(\d+)$/);
+  if (shadowColorMatch) {
+    const color = colorNames[shadowColorMatch[1]];
+    const shade = shadeDescriptions[shadowColorMatch[2]];
+    if (color && shade) {
+      return `${shade} ${color} shadow`;
+    }
+    if (color) {
+      return `${color} shadow`;
+    }
+  }
+
   return null;
 }
 
