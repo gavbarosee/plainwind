@@ -23,12 +23,13 @@ export function categorizeClass(className: string): ClassCategory {
   if (
     /^(flex|grid|inline|block|hidden|table|flow|contents|list-item)/.test(baseClass) ||
     /^(visible|invisible|collapse)$/.test(baseClass) ||
-    /^(float-|clear-|box-|order-|columns-|break-before-|break-after-|break-inside-)/.test(baseClass) ||
+    /^(float-|clear-|box-|border-sizing-|order-|columns-|break-before-|break-after-|break-inside-)/.test(baseClass) ||
     /^(basis-|grid-flow-|auto-cols-|auto-rows-)/.test(baseClass) ||
     /^(justify-|items-|content-|self-|place-)/.test(baseClass) ||
     /^(flex-|grid-cols-|grid-rows-|gap-|col-|row-)/.test(baseClass) ||
     /^(object-|table-auto|table-fixed|border-collapse|border-separate|border-spacing-|caption-)/.test(baseClass) ||
     /^(overflow-|overscroll-)/.test(baseClass) ||
+    /^(field-sizing-)/.test(baseClass) ||
     /^(m-auto|mx-auto|my-auto|ml-auto|mr-auto|mt-auto|mb-auto)$/.test(baseClass)
   ) {
     return "Layout";
@@ -52,6 +53,9 @@ export function categorizeClass(className: string): ClassCategory {
     /^(font-|leading-|tracking-|uppercase|lowercase|capitalize|normal-case|truncate|italic|not-italic)/.test(
       baseClass
     ) ||
+    /^(normal-nums|ordinal|slashed-zero|lining-nums|oldstyle-nums|proportional-nums|tabular-nums|diagonal-fractions|stacked-fractions)$/.test(
+      baseClass
+    ) ||
     /^(list-|indent-|align-|whitespace-|hyphens-)/.test(baseClass) ||
     /^break-(normal|words|all|keep)$/.test(baseClass) || // word-break only, not page breaks
     /^(underline|no-underline|line-through)$/.test(baseClass) ||
@@ -67,16 +71,17 @@ export function categorizeClass(className: string): ClassCategory {
     /^(shadow|rounded|border|opacity-|transition|duration-|ease-|delay-|animate-|cursor-|backdrop-|outline|-outline|isolat)/.test(
       baseClass
     ) ||
-    /^(scale-|rotate-|translate-|skew-|-rotate-|-translate-|-skew-|origin-)/.test(
+    /^(scale-|rotate-|translate-|skew-|-rotate-|-translate-|-skew-|origin-|perspective-|transform-style-|backface-)/.test(
       baseClass
     ) ||
     /^(blur-|blur|brightness-|contrast-|drop-shadow-|drop-shadow|grayscale|hue-rotate-|-hue-rotate-|invert|saturate-|sepia)/.test(
       baseClass
     ) ||
-    /^(pointer-events-|resize|scroll-|snap-|touch-|select-|will-change-|appearance-)/.test(
+    /^(pointer-events-|resize|scroll|snap-|touch-|select-|will-change-|appearance-|inert)/.test(
       baseClass
     ) ||
     /^(mix-blend-|bg-blend-)/.test(baseClass) ||
+    /^(content-visibility-|contain-)/.test(baseClass) ||
     /^divide-[xy](-|$)/.test(baseClass) || // divide-x, divide-y, divide-x-0, divide-y-2, etc.
     /^divide-[xy]-reverse$/.test(baseClass) || // divide-x-reverse, divide-y-reverse
     /^ring(-\d+|-inset|-offset-\d+)?$/.test(baseClass) // ring, ring-0, ring-1, ring-inset, ring-offset-0, etc. (but not ring-blue-500)
@@ -86,7 +91,7 @@ export function categorizeClass(className: string): ClassCategory {
 
   // Colors (text colors, backgrounds, borders, SVG fills/strokes, etc.)
   if (
-    /^(bg-|text-|border-|ring-|divide-|fill-|stroke-|decoration-|outline-|from-|via-|to-|gradient)/.test(
+    /^(bg-|text-|border-|ring-|divide-|fill-|stroke-|decoration-|outline-|from-|via-|to-|gradient|accent-|caret-|placeholder-|color-scheme-)/.test(
       baseClass
     )
   ) {
