@@ -24,9 +24,11 @@ export function categorizeClass(className: string): ClassCategory {
     /^(flex|grid|inline|block|hidden|table|flow|contents|list-item)/.test(baseClass) ||
     /^(visible|invisible|collapse)$/.test(baseClass) ||
     /^(float-|clear-|box-|order-|columns-|break-before-|break-after-|break-inside-)/.test(baseClass) ||
+    /^(basis-|grid-flow-|auto-cols-|auto-rows-)/.test(baseClass) ||
     /^(justify-|items-|content-|self-|place-)/.test(baseClass) ||
     /^(flex-|grid-cols-|grid-rows-|gap-|col-|row-)/.test(baseClass) ||
     /^(object-|table-auto|table-fixed|border-collapse|border-separate|border-spacing-|caption-)/.test(baseClass) ||
+    /^(overflow-|overscroll-)/.test(baseClass) ||
     /^(m-auto|mx-auto|my-auto|ml-auto|mr-auto|mt-auto|mb-auto)$/.test(baseClass)
   ) {
     return "Layout";
@@ -105,11 +107,6 @@ export function categorizeClass(className: string): ClassCategory {
     /^(w-|h-|min-w-|min-h-|max-w-|max-h-|container|aspect-)/.test(baseClass)
   ) {
     return "Sizing";
-  }
-
-  // Overflow
-  if (/^(overflow-)/.test(baseClass)) {
-    return "Layout";
   }
 
   return "Other";
