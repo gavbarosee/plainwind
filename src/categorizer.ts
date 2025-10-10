@@ -59,8 +59,8 @@ export function categorizeClass(className: string): ClassCategory {
     return "Typography";
   }
 
-  // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters, outlines, transforms, filters, interactivity)
-  // Check divide and ring structural classes BEFORE Colors
+  // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters, outlines, transforms, filters, interactivity, blend modes)
+  // Check divide and ring structural classes BEFORE Colors (bg-blend- before bg-)
   if (
     /^(shadow|rounded|border|opacity-|transition|duration-|ease-|delay-|animate-|cursor-|backdrop-|outline|-outline|isolat)/.test(
       baseClass
@@ -74,6 +74,7 @@ export function categorizeClass(className: string): ClassCategory {
     /^(pointer-events-|resize|scroll-|snap-|touch-|select-|will-change-|appearance-)/.test(
       baseClass
     ) ||
+    /^(mix-blend-|bg-blend-)/.test(baseClass) ||
     /^divide-[xy](-|$)/.test(baseClass) || // divide-x, divide-y, divide-x-0, divide-y-2, etc.
     /^divide-[xy]-reverse$/.test(baseClass) || // divide-x-reverse, divide-y-reverse
     /^ring(-\d+|-inset|-offset-\d+)?$/.test(baseClass) // ring, ring-0, ring-1, ring-inset, ring-offset-0, etc. (but not ring-blue-500)
