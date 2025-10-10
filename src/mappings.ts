@@ -432,6 +432,57 @@ export const tailwindMappings: Record<string, string> = {
   "bg-purple-500": "purple background",
   "bg-pink-500": "pink background",
 
+  // Background Attachment
+  "bg-fixed": "fixed background",
+  "bg-local": "local background (scrolls with element)",
+  "bg-scroll": "scrolling background",
+
+  // Background Clip
+  "bg-clip-border": "background includes border",
+  "bg-clip-padding": "background includes padding",
+  "bg-clip-content": "background within content only",
+  "bg-clip-text": "background clips to text",
+
+  // Background Origin
+  "bg-origin-border": "background origin at border",
+  "bg-origin-padding": "background origin at padding",
+  "bg-origin-content": "background origin at content",
+
+  // Background Position
+  "bg-bottom": "background at bottom",
+  "bg-center": "background at center",
+  "bg-left": "background at left",
+  "bg-left-bottom": "background at left bottom",
+  "bg-left-top": "background at left top",
+  "bg-right": "background at right",
+  "bg-right-bottom": "background at right bottom",
+  "bg-right-top": "background at right top",
+  "bg-top": "background at top",
+
+  // Background Repeat
+  "bg-repeat": "repeating background",
+  "bg-no-repeat": "non-repeating background",
+  "bg-repeat-x": "background repeats horizontally",
+  "bg-repeat-y": "background repeats vertically",
+  "bg-repeat-round": "background repeats and scales to fit",
+  "bg-repeat-space": "background repeats with spacing",
+
+  // Background Size
+  "bg-auto": "auto background size",
+  "bg-cover": "background covers container",
+  "bg-contain": "background contained within element",
+
+  // Background Image
+  "bg-none": "no background image",
+  "bg-gradient-to-t": "gradient to top",
+  "bg-gradient-to-tr": "gradient to top right",
+  "bg-gradient-to-r": "gradient to right",
+  "bg-gradient-to-br": "gradient to bottom right",
+  "bg-gradient-to-b": "gradient to bottom",
+  "bg-gradient-to-bl": "gradient to bottom left",
+  "bg-gradient-to-l": "gradient to left",
+  "bg-gradient-to-tl": "gradient to top left",
+
   // Text Colors - Grays
   "text-white": "white text",
   "text-black": "black text",
