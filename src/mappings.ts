@@ -574,6 +574,30 @@ export const tailwindMappings: Record<string, string> = {
   "bg-gradient-to-l": "gradient to left",
   "bg-gradient-to-tl": "gradient to top left",
 
+  // Radial Gradients (v4)
+  "bg-radial": "radial gradient",
+  "bg-radial-at-t": "radial gradient from top",
+  "bg-radial-at-tr": "radial gradient from top right",
+  "bg-radial-at-r": "radial gradient from right",
+  "bg-radial-at-br": "radial gradient from bottom right",
+  "bg-radial-at-b": "radial gradient from bottom",
+  "bg-radial-at-bl": "radial gradient from bottom left",
+  "bg-radial-at-l": "radial gradient from left",
+  "bg-radial-at-tl": "radial gradient from top left",
+  "bg-radial-at-c": "radial gradient from center",
+
+  // Conic Gradients (v4)
+  "bg-conic": "conic gradient",
+  "bg-conic-at-t": "conic gradient from top",
+  "bg-conic-at-tr": "conic gradient from top right",
+  "bg-conic-at-r": "conic gradient from right",
+  "bg-conic-at-br": "conic gradient from bottom right",
+  "bg-conic-at-b": "conic gradient from bottom",
+  "bg-conic-at-bl": "conic gradient from bottom left",
+  "bg-conic-at-l": "conic gradient from left",
+  "bg-conic-at-tl": "conic gradient from top left",
+  "bg-conic-at-c": "conic gradient from center",
+
   // Text Colors - Grays
   "text-white": "white text",
   "text-black": "black text",
@@ -1152,6 +1176,22 @@ export const tailwindMappings: Record<string, string> = {
   "-rotate-90": "rotate -90°",
   "-rotate-180": "rotate -180°",
 
+  // 3D Transform Rotate (v4)
+  "rotate-x-0": "rotate 0° on X axis",
+  "rotate-x-45": "rotate 45° on X axis",
+  "rotate-x-90": "rotate 90° on X axis",
+  "rotate-x-180": "rotate 180° on X axis",
+  "rotate-y-0": "rotate 0° on Y axis",
+  "rotate-y-45": "rotate 45° on Y axis",
+  "rotate-y-90": "rotate 90° on Y axis",
+  "rotate-y-180": "rotate 180° on Y axis",
+  "-rotate-x-45": "rotate -45° on X axis",
+  "-rotate-x-90": "rotate -90° on X axis",
+  "-rotate-x-180": "rotate -180° on X axis",
+  "-rotate-y-45": "rotate -45° on Y axis",
+  "-rotate-y-90": "rotate -90° on Y axis",
+  "-rotate-y-180": "rotate -180° on Y axis",
+
   // Transform Translate
   "translate-x-0": "translate horizontally 0",
   "translate-x-px": "translate horizontally 1px",
@@ -1216,6 +1256,25 @@ export const tailwindMappings: Record<string, string> = {
   "origin-bottom-left": "transform from bottom left",
   "origin-left": "transform from left",
   "origin-top-left": "transform from top left",
+
+  // Perspective (v4)
+  "perspective-none": "no perspective",
+  "perspective-100": "100px perspective",
+  "perspective-200": "200px perspective",
+  "perspective-300": "300px perspective",
+  "perspective-500": "500px perspective",
+  "perspective-1000": "1000px perspective",
+
+  // Perspective Origin (v4)
+  "perspective-origin-center": "perspective from center",
+  "perspective-origin-top": "perspective from top",
+  "perspective-origin-bottom": "perspective from bottom",
+  "perspective-origin-left": "perspective from left",
+  "perspective-origin-right": "perspective from right",
+
+  // Transform Style (v4)
+  "transform-style-flat": "flat transform style (2D)",
+  "transform-style-3d": "3D transform style",
 
   // Backface Visibility
   "backface-visible": "backface is visible when rotated",
@@ -1330,6 +1389,19 @@ export const tailwindMappings: Record<string, string> = {
   // Appearance
   "appearance-none": "no default appearance",
   "appearance-auto": "default appearance",
+
+  // Inert (v4)
+  inert: "prevents user interaction",
+
+  // Field Sizing (v4)
+  "field-sizing-content": "field sizes to content",
+  "field-sizing-fixed": "field has fixed size",
+
+  // Color Scheme (v4)
+  "color-scheme-normal": "normal color scheme",
+  "color-scheme-light": "light color scheme",
+  "color-scheme-dark": "dark color scheme",
+  "color-scheme-light-dark": "light or dark color scheme",
 
   // Accent Color
   "accent-auto": "default accent color",
