@@ -27,6 +27,8 @@ export const tailwindMappings: Record<string, string> = {
   collapse: "collapses table rows/columns",
 
   // Float
+  start: "floats to start (logical property)",
+  end: "floats to end (logical property)",
   "float-start": "floats to start side",
   "float-end": "floats to end side",
   "float-right": "floats to right",
@@ -44,6 +46,10 @@ export const tailwindMappings: Record<string, string> = {
   // Box Sizing
   "box-border": "includes border and padding in size",
   "box-content": "excludes border and padding from size",
+
+  // Box Decoration Break
+  "box-decoration-slice": "box decoration slices at breaks",
+  "box-decoration-clone": "box decoration clones at breaks",
 
   // Border Sizing (v4 beta)
   "border-sizing-content": "border sizing uses content-box",
@@ -72,6 +78,10 @@ export const tailwindMappings: Record<string, string> = {
   "columns-xl": "extra large column width",
   "columns-2xl": "2xl column width",
   "columns-3xl": "3xl column width",
+  "columns-4xl": "4xl column width",
+  "columns-5xl": "5xl column width",
+  "columns-6xl": "6xl column width",
+  "columns-7xl": "7xl column width",
 
   // Break Before
   "break-before-auto": "auto break before",
@@ -116,6 +126,11 @@ export const tailwindMappings: Record<string, string> = {
   "object-right-bottom": "positions content at right bottom",
   "object-right-top": "positions content at right top",
   "object-top": "positions content at top",
+
+  // Image Rendering
+  "image-render-auto": "auto image rendering",
+  "image-render-crisp-edges": "crisp edge image rendering",
+  "image-render-pixelated": "pixelated image rendering",
 
   // Flexbox Layout
   flex: "flexbox container",
@@ -445,6 +460,33 @@ export const tailwindMappings: Record<string, string> = {
   "my-2": "vertical margin 0.5rem",
   "my-4": "vertical margin 1rem",
 
+  // Size (combined width and height)
+  "size-0": "width and height 0",
+  "size-px": "width and height 1px",
+  "size-0.5": "width and height 0.125rem",
+  "size-1": "width and height 0.25rem",
+  "size-2": "width and height 0.5rem",
+  "size-3": "width and height 0.75rem",
+  "size-4": "width and height 1rem",
+  "size-5": "width and height 1.25rem",
+  "size-6": "width and height 1.5rem",
+  "size-8": "width and height 2rem",
+  "size-10": "width and height 2.5rem",
+  "size-12": "width and height 3rem",
+  "size-16": "width and height 4rem",
+  "size-20": "width and height 5rem",
+  "size-24": "width and height 6rem",
+  "size-32": "width and height 8rem",
+  "size-40": "width and height 10rem",
+  "size-48": "width and height 12rem",
+  "size-56": "width and height 14rem",
+  "size-64": "width and height 16rem",
+  "size-auto": "width and height auto",
+  "size-full": "width and height 100%",
+  "size-min": "width and height min-content",
+  "size-max": "width and height max-content",
+  "size-fit": "width and height fit-content",
+
   // Width
   "w-full": "full width",
   "w-screen": "full screen width",
@@ -497,6 +539,9 @@ export const tailwindMappings: Record<string, string> = {
   "aspect-auto": "automatic aspect ratio",
   "aspect-square": "square aspect ratio (1:1)",
   "aspect-video": "video aspect ratio (16:9)",
+  "aspect-4/3": "4:3 aspect ratio",
+  "aspect-16/9": "16:9 aspect ratio",
+  "aspect-21/9": "21:9 aspect ratio (ultrawide)",
 
   // Background Colors - Grays
   "bg-white": "white background",
@@ -616,6 +661,56 @@ export const tailwindMappings: Record<string, string> = {
   "to-black": "gradient ends with black",
   "to-white": "gradient ends with white",
 
+  // Gradient Color Stop Positions
+  "from-0%": "gradient starts at 0%",
+  "from-5%": "gradient starts at 5%",
+  "from-10%": "gradient starts at 10%",
+  "from-15%": "gradient starts at 15%",
+  "from-20%": "gradient starts at 20%",
+  "from-25%": "gradient starts at 25%",
+  "from-30%": "gradient starts at 30%",
+  "from-40%": "gradient starts at 40%",
+  "from-50%": "gradient starts at 50%",
+  "from-60%": "gradient starts at 60%",
+  "from-70%": "gradient starts at 70%",
+  "from-75%": "gradient starts at 75%",
+  "from-80%": "gradient starts at 80%",
+  "from-90%": "gradient starts at 90%",
+  "from-95%": "gradient starts at 95%",
+  "from-100%": "gradient starts at 100%",
+  "via-0%": "gradient middle at 0%",
+  "via-5%": "gradient middle at 5%",
+  "via-10%": "gradient middle at 10%",
+  "via-15%": "gradient middle at 15%",
+  "via-20%": "gradient middle at 20%",
+  "via-25%": "gradient middle at 25%",
+  "via-30%": "gradient middle at 30%",
+  "via-40%": "gradient middle at 40%",
+  "via-50%": "gradient middle at 50%",
+  "via-60%": "gradient middle at 60%",
+  "via-70%": "gradient middle at 70%",
+  "via-75%": "gradient middle at 75%",
+  "via-80%": "gradient middle at 80%",
+  "via-90%": "gradient middle at 90%",
+  "via-95%": "gradient middle at 95%",
+  "via-100%": "gradient middle at 100%",
+  "to-0%": "gradient ends at 0%",
+  "to-5%": "gradient ends at 5%",
+  "to-10%": "gradient ends at 10%",
+  "to-15%": "gradient ends at 15%",
+  "to-20%": "gradient ends at 20%",
+  "to-25%": "gradient ends at 25%",
+  "to-30%": "gradient ends at 30%",
+  "to-40%": "gradient ends at 40%",
+  "to-50%": "gradient ends at 50%",
+  "to-60%": "gradient ends at 60%",
+  "to-70%": "gradient ends at 70%",
+  "to-75%": "gradient ends at 75%",
+  "to-80%": "gradient ends at 80%",
+  "to-90%": "gradient ends at 90%",
+  "to-95%": "gradient ends at 95%",
+  "to-100%": "gradient ends at 100%",
+
   // Text Colors - Grays
   "text-white": "white text",
   "text-black": "black text",
@@ -659,6 +754,15 @@ export const tailwindMappings: Record<string, string> = {
   truncate: "cuts off text with ellipsis (...)",
   "text-ellipsis": "shows ellipsis for overflow",
   "text-clip": "clips overflow text",
+
+  // Line Clamp
+  "line-clamp-1": "clamps text to 1 line",
+  "line-clamp-2": "clamps text to 2 lines",
+  "line-clamp-3": "clamps text to 3 lines",
+  "line-clamp-4": "clamps text to 4 lines",
+  "line-clamp-5": "clamps text to 5 lines",
+  "line-clamp-6": "clamps text to 6 lines",
+  "line-clamp-none": "no line clamping",
 
   // Font Weight
   "font-thin": "thin weight",
@@ -751,6 +855,12 @@ export const tailwindMappings: Record<string, string> = {
   "whitespace-pre-line": "preserves line breaks",
   "whitespace-pre-wrap": "preserves whitespace and wraps",
   "whitespace-break-spaces": "breaks at spaces",
+
+  // Text Wrap (v4)
+  "text-wrap": "text wraps normally",
+  "text-nowrap": "text doesn't wrap",
+  "text-balance": "balanced text wrapping",
+  "text-pretty": "pretty text wrapping (avoids orphans)",
 
   // Word Break
   "break-normal": "normal word breaks",
@@ -947,6 +1057,15 @@ export const tailwindMappings: Record<string, string> = {
   "shadow-xl": "extra large shadow",
   "shadow-2xl": "2x large shadow",
   "shadow-none": "no shadow",
+  "shadow-inner": "inner shadow",
+
+  // Text Shadow (v4.1)
+  "text-shadow-sm": "small text shadow",
+  "text-shadow": "text shadow",
+  "text-shadow-md": "medium text shadow",
+  "text-shadow-lg": "large text shadow",
+  "text-shadow-xl": "extra large text shadow",
+  "text-shadow-none": "no text shadow",
 
   // Isolation
   isolate: "creates new stacking context",
@@ -965,6 +1084,10 @@ export const tailwindMappings: Record<string, string> = {
   "contain-layout": "contains layout",
   "contain-style": "contains style",
   "contain-paint": "contains paint",
+
+  // Mask (v4.1)
+  mask: "applies mask",
+  "mask-none": "no mask",
 
   // Filters
   "blur-none": "no blur",
@@ -1200,6 +1323,18 @@ export const tailwindMappings: Record<string, string> = {
   "scale-y-125": "scale vertically to 125%",
   "scale-y-150": "scale vertically to 150%",
 
+  // 3D Transform Scale Z (v4)
+  "scale-z-0": "scale on Z axis to 0%",
+  "scale-z-50": "scale on Z axis to 50%",
+  "scale-z-75": "scale on Z axis to 75%",
+  "scale-z-90": "scale on Z axis to 90%",
+  "scale-z-95": "scale on Z axis to 95%",
+  "scale-z-100": "scale on Z axis to 100%",
+  "scale-z-105": "scale on Z axis to 105%",
+  "scale-z-110": "scale on Z axis to 110%",
+  "scale-z-125": "scale on Z axis to 125%",
+  "scale-z-150": "scale on Z axis to 150%",
+
   // Transform Rotate
   "rotate-0": "rotate 0°",
   "rotate-1": "rotate 1°",
@@ -1228,12 +1363,19 @@ export const tailwindMappings: Record<string, string> = {
   "rotate-y-45": "rotate 45° on Y axis",
   "rotate-y-90": "rotate 90° on Y axis",
   "rotate-y-180": "rotate 180° on Y axis",
+  "rotate-z-0": "rotate 0° on Z axis",
+  "rotate-z-45": "rotate 45° on Z axis",
+  "rotate-z-90": "rotate 90° on Z axis",
+  "rotate-z-180": "rotate 180° on Z axis",
   "-rotate-x-45": "rotate -45° on X axis",
   "-rotate-x-90": "rotate -90° on X axis",
   "-rotate-x-180": "rotate -180° on X axis",
   "-rotate-y-45": "rotate -45° on Y axis",
   "-rotate-y-90": "rotate -90° on Y axis",
   "-rotate-y-180": "rotate -180° on Y axis",
+  "-rotate-z-45": "rotate -45° on Z axis",
+  "-rotate-z-90": "rotate -90° on Z axis",
+  "-rotate-z-180": "rotate -180° on Z axis",
 
   // Transform Translate
   "translate-x-0": "translate horizontally 0",
@@ -1264,6 +1406,18 @@ export const tailwindMappings: Record<string, string> = {
   "-translate-y-4": "translate vertically -1rem",
   "-translate-y-1/2": "translate vertically -50%",
   "-translate-y-full": "translate vertically -100%",
+
+  // 3D Transform Translate Z (v4)
+  "translate-z-0": "translate on Z axis 0",
+  "translate-z-px": "translate on Z axis 1px",
+  "translate-z-1": "translate on Z axis 0.25rem",
+  "translate-z-2": "translate on Z axis 0.5rem",
+  "translate-z-4": "translate on Z axis 1rem",
+  "translate-z-8": "translate on Z axis 2rem",
+  "-translate-z-1": "translate on Z axis -0.25rem",
+  "-translate-z-2": "translate on Z axis -0.5rem",
+  "-translate-z-4": "translate on Z axis -1rem",
+  "-translate-z-8": "translate on Z axis -2rem",
 
   // Transform Skew
   "skew-x-0": "skew horizontally 0°",
