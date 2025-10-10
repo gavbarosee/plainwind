@@ -45,6 +45,10 @@ export const tailwindMappings: Record<string, string> = {
   "box-border": "includes border and padding in size",
   "box-content": "excludes border and padding from size",
 
+  // Border Sizing (v4 beta)
+  "border-sizing-content": "border sizing uses content-box",
+  "border-sizing-border": "border sizing uses border-box",
+
   // Columns
   "columns-1": "one column layout",
   "columns-2": "two column layout",
@@ -598,6 +602,20 @@ export const tailwindMappings: Record<string, string> = {
   "bg-conic-at-tl": "conic gradient from top left",
   "bg-conic-at-c": "conic gradient from center",
 
+  // Gradient Color Stops (base classes, colors handled by patterns)
+  "from-transparent": "gradient starts with transparent",
+  "from-current": "gradient starts with current color",
+  "from-black": "gradient starts with black",
+  "from-white": "gradient starts with white",
+  "via-transparent": "gradient middle is transparent",
+  "via-current": "gradient middle is current color",
+  "via-black": "gradient middle is black",
+  "via-white": "gradient middle is white",
+  "to-transparent": "gradient ends with transparent",
+  "to-current": "gradient ends with current color",
+  "to-black": "gradient ends with black",
+  "to-white": "gradient ends with white",
+
   // Text Colors - Grays
   "text-white": "white text",
   "text-black": "black text",
@@ -656,6 +674,17 @@ export const tailwindMappings: Record<string, string> = {
   // Font Style
   italic: "italic text",
   "not-italic": "not italic",
+
+  // Font Variant Numeric
+  "normal-nums": "default numeric style",
+  ordinal: "ordinal numbers (1st, 2nd, 3rd)",
+  "slashed-zero": "slashed zero (0)",
+  "lining-nums": "lining numerals",
+  "oldstyle-nums": "old-style numerals",
+  "proportional-nums": "proportional numerals",
+  "tabular-nums": "tabular numerals (monospace)",
+  "diagonal-fractions": "diagonal fractions (1/2)",
+  "stacked-fractions": "stacked fractions",
 
   // Leading (Line Height)
   "leading-none": "line height 1",
@@ -922,6 +951,20 @@ export const tailwindMappings: Record<string, string> = {
   // Isolation
   isolate: "creates new stacking context",
   "isolation-auto": "automatic stacking context",
+
+  // Content Visibility (v4)
+  "content-visibility-auto": "auto content visibility (renders when visible)",
+  "content-visibility-hidden": "hides content (skips rendering)",
+  "content-visibility-visible": "always renders content",
+
+  // Containment (v4)
+  "contain-none": "no containment",
+  "contain-content": "contains layout and style",
+  "contain-strict": "strict containment (layout, style, paint, size)",
+  "contain-size": "contains size",
+  "contain-layout": "contains layout",
+  "contain-style": "contains style",
+  "contain-paint": "contains paint",
 
   // Filters
   "blur-none": "no blur",
@@ -1332,6 +1375,13 @@ export const tailwindMappings: Record<string, string> = {
   "scroll-auto": "auto scroll behavior",
   "scroll-smooth": "smooth scrolling",
 
+  // Scrollbar (@tailwindcss/scrollbar plugin)
+  scrollbar: "styled scrollbar",
+  "scrollbar-thin": "thin scrollbar",
+  "scrollbar-none": "hides scrollbar",
+  "scrollbar-track": "scrollbar track styles",
+  "scrollbar-thumb": "scrollbar thumb styles",
+
   // Scroll Snap Type
   "snap-none": "no scroll snap",
   "snap-x": "horizontal scroll snap",
@@ -1483,6 +1533,20 @@ export const tailwindMappings: Record<string, string> = {
   "stroke-0": "no stroke",
   "stroke-1": "1px stroke",
   "stroke-2": "2px stroke",
+
+  // SVG Stroke Dash Array
+  "stroke-dash-0": "no stroke dash",
+  "stroke-dash-1": "1px stroke dash",
+  "stroke-dash-2": "2px stroke dash",
+  "stroke-dash-4": "4px stroke dash",
+  "stroke-dash-8": "8px stroke dash",
+
+  // SVG Stroke Dash Offset
+  "stroke-offset-0": "no stroke offset",
+  "stroke-offset-1": "1px stroke offset",
+  "stroke-offset-2": "2px stroke offset",
+  "stroke-offset-4": "4px stroke offset",
+  "stroke-offset-8": "8px stroke offset",
 
   // SVG Fill
   "fill-none": "no fill",
