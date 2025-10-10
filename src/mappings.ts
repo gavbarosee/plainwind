@@ -179,6 +179,8 @@ export const tailwindMappings: Record<string, string> = {
   "grid-flow-dense": "dense grid flow",
   "grid-flow-row-dense": "dense grid flow by row",
   "grid-flow-col-dense": "dense grid flow by column",
+  "grid-flow-row-reverse": "grid flows by reversed rows",
+  "grid-flow-col-reverse": "grid flows by reversed columns",
   "auto-cols-auto": "auto column width",
   "auto-cols-min": "minimum column width",
   "auto-cols-max": "maximum column width",
@@ -727,6 +729,18 @@ export const tailwindMappings: Record<string, string> = {
   "underline-offset-2": "medium underline offset",
   "underline-offset-4": "large underline offset",
   "underline-offset-8": "extra large underline offset",
+  "decoration-inherit": "decoration color inherits",
+  "decoration-transparent": "transparent decoration color",
+  "decoration-current": "decoration matches text color",
+  "decoration-black": "black decoration color",
+  "decoration-white": "white decoration color",
+  "decoration-gray-500": "gray decoration color",
+  "decoration-red-500": "red decoration color",
+  "decoration-blue-500": "blue decoration color",
+  "decoration-green-500": "green decoration color",
+  "decoration-yellow-500": "yellow decoration color",
+  "decoration-purple-500": "purple decoration color",
+  "decoration-pink-500": "pink decoration color",
 
   // Border
   border: "has border",
@@ -1200,6 +1214,10 @@ export const tailwindMappings: Record<string, string> = {
   "origin-left": "transform from left",
   "origin-top-left": "transform from top left",
 
+  // Backface Visibility
+  "backface-visible": "backface is visible when rotated",
+  "backface-hidden": "backface is hidden when rotated",
+
   // Cursor
   "cursor-auto": "auto cursor",
   "cursor-default": "normal cursor",
@@ -1309,6 +1327,35 @@ export const tailwindMappings: Record<string, string> = {
   // Appearance
   "appearance-none": "no default appearance",
   "appearance-auto": "default appearance",
+
+  // Accent Color
+  "accent-auto": "default accent color",
+  "accent-transparent": "transparent accent color",
+  "accent-current": "accent matches text color",
+  "accent-inherit": "inherits accent color",
+  "accent-black": "black accent color",
+  "accent-white": "white accent color",
+  "accent-gray-500": "gray accent color",
+  "accent-red-500": "red accent color",
+  "accent-blue-500": "blue accent color",
+  "accent-green-500": "green accent color",
+  "accent-yellow-500": "yellow accent color",
+  "accent-purple-500": "purple accent color",
+  "accent-pink-500": "pink accent color",
+
+  // Caret Color
+  "caret-transparent": "transparent caret color",
+  "caret-current": "caret matches text color",
+  "caret-inherit": "inherits caret color",
+  "caret-black": "black caret color",
+  "caret-white": "white caret color",
+  "caret-gray-500": "gray caret color",
+  "caret-red-500": "red caret color",
+  "caret-blue-500": "blue caret color",
+  "caret-green-500": "green caret color",
+  "caret-yellow-500": "yellow caret color",
+  "caret-purple-500": "purple caret color",
+  "caret-pink-500": "pink caret color",
 
   // Animation
   "animate-none": "no animation",
