@@ -365,12 +365,15 @@ export const tailwindMappings: Record<string, string> = {
   // Justify Content
   "justify-start": "aligns items to start",
   "justify-end": "aligns items to end",
+  "justify-end-safe": "safely aligns items to end",
   "justify-center": "centers items horizontally",
+  "justify-center-safe": "safely centers items",
   "justify-between": "spreads items apart",
   "justify-around": "distributes space around items",
   "justify-evenly": "distributes space evenly",
-  "justify-normal": "normal justify behavior",
   "justify-stretch": "stretches items to fill",
+  "justify-baseline": "aligns items to baseline",
+  "justify-normal": "normal justify behavior",
 
   // Justify Items (grid)
   "justify-items-start": "aligns grid items to start",
