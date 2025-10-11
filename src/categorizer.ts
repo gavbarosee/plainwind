@@ -31,6 +31,7 @@ export function categorizeClass(className: string): ClassCategory {
     /^(object-|image-render-|table-auto|table-fixed|border-collapse|border-separate|border-spacing-|caption-)/.test(baseClass) ||
     /^(overflow-|overscroll-)/.test(baseClass) ||
     /^(field-sizing-)/.test(baseClass) ||
+    /^isolat/.test(baseClass) || // isolation utilities
     /^(m-auto|mx-auto|my-auto|ml-auto|mr-auto|mt-auto|mb-auto)$/.test(baseClass)
   ) {
     return "Layout";
@@ -69,7 +70,7 @@ export function categorizeClass(className: string): ClassCategory {
   // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters, outlines, transforms, filters, interactivity, blend modes)
   // Check divide and ring structural classes BEFORE Colors (bg-blend- before bg-)
   if (
-    /^(shadow|text-shadow|rounded|border|opacity-|transition|duration-|ease-|delay-|animate-|cursor-|backdrop-|outline|-outline|isolat)/.test(
+    /^(shadow|text-shadow|rounded|border|opacity-|transition|duration-|ease-|delay-|animate-|cursor-|backdrop-|outline|-outline)/.test(
       baseClass
     ) ||
     /^(scale-|rotate-|translate-|skew-|-rotate-|-translate-|-skew-|origin-|perspective-|transform-style-|backface-)/.test(
