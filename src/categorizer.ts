@@ -38,7 +38,7 @@ export function categorizeClass(className: string): ClassCategory {
 
   // Spacing (padding, margin, space) - check AFTER auto margins
   if (
-    /^(p-|px-|py-|pt-|pr-|pb-|pl-|m-|mx-|my-|mt-|mr-|mb-|ml-|space-)/.test(
+    /^(p-|px-|py-|pt-|pr-|pb-|pl-|ps-|pe-|m-|mx-|my-|mt-|mr-|mb-|ml-|ms-|me-|space-)/.test(
       baseClass
     )
   ) {

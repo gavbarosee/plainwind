@@ -20,20 +20,66 @@ function parseNonEmptyClasses(classString: string): string[] {
  * Variant prefixes and their plain English descriptions
  */
 const variantDescriptions: Record<string, string> = {
+  // Interaction
   hover: "on hover",
   focus: "on focus",
   active: "when active",
   disabled: "when disabled",
+  enabled: "when enabled",
+  visited: "when visited",
+  "focus-within": "when focused within",
+  "focus-visible": "when focus visible",
+  // Structure/pseudo
+  before: "before pseudo-element",
+  after: "after pseudo-element",
+  first: "on first child",
+  last: "on last child",
+  only: "on only child",
+  odd: "on odd items",
+  even: "on even items",
+  empty: "when empty",
+  // Forms/state
+  checked: "when checked",
+  indeterminate: "when indeterminate",
+  required: "when required",
+  optional: "when optional",
+  'read-only': "when read-only",
+  'read-write': "when read-write",
+  valid: "when valid",
+  invalid: "when invalid",
+  open: "when open",
+  target: "when target",
+  // Color scheme / dark
   dark: "in dark mode",
-  "not-dark": "in light mode",
+  'not-dark': "in light mode",
+  // Responsive
   sm: "on small screens",
   md: "on medium screens",
   lg: "on large screens",
   xl: "on extra large screens",
-  "2xl": "on 2xl screens",
-  "group-hover": "when group hovered",
-  "focus-within": "when focused within",
-  "focus-visible": "when focus visible",
+  '2xl': "on 2xl screens",
+  // Motion/media
+  'motion-safe': "when motion is allowed",
+  'motion-reduce': "when motion reduced",
+  portrait: "in portrait",
+  landscape: "in landscape",
+  print: "when printing",
+  'forced-colors': "when forced colors",
+  // Direction
+  ltr: "in LTR",
+  rtl: "in RTL",
+  // Group/peer
+  'group-hover': "when group hovered",
+  'group-focus': "when group focused",
+  'peer-hover': "when peer hovered",
+  'peer-focus': "when peer focused",
+  'peer-checked': "when peer checked",
+  'peer-disabled': "when peer disabled",
+  // Misc element variants
+  placeholder: "placeholder",
+  file: "file input button",
+  marker: "list marker",
+  selection: "selection",
 };
 
 /**

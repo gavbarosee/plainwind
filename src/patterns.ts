@@ -87,8 +87,8 @@ const spacingScale: Record<string, string> = {
  * Try to match spacing patterns (p-*, m-*, gap-*, space-*, etc.)
  */
 export function matchSpacingPattern(className: string): string | null {
-  // Padding patterns: p-4, px-2, py-6, pt-4, pr-4, pb-4, pl-4
-  const paddingMatch = className.match(/^p([xytrbl]?)-(.+)$/);
+  // Padding patterns: p-4, px-2, py-6, pt-4, pr-4, pb-4, pl-4, ps-4, pe-4
+  const paddingMatch = className.match(/^p([xytrblse]?)-(.+)$/);
   if (paddingMatch) {
     const direction = paddingMatch[1];
     const value = paddingMatch[2];
@@ -102,13 +102,15 @@ export function matchSpacingPattern(className: string): string | null {
       r: "right padding",
       b: "bottom padding",
       l: "left padding",
+      s: "start padding",
+      e: "end padding",
     };
 
     return `${directionMap[direction] || "padding"} ${spacing}`;
   }
 
-  // Margin patterns: m-4, mx-auto, my-2, mt-4, mr-4, mb-4, ml-4
-  const marginMatch = className.match(/^m([xytrbl]?)-(.+)$/);
+  // Margin patterns: m-4, mx-auto, my-2, mt-4, mr-4, mb-4, ml-4, ms-4, me-4
+  const marginMatch = className.match(/^m([xytrblse]?)-(.+)$/);
   if (marginMatch) {
     const direction = marginMatch[1];
     const value = marginMatch[2];
@@ -129,6 +131,8 @@ export function matchSpacingPattern(className: string): string | null {
       r: "right margin",
       b: "bottom margin",
       l: "left margin",
+      s: "start margin",
+      e: "end margin",
     };
 
     return `${directionMap[direction] || "margin"} ${spacing}`;
@@ -189,6 +193,30 @@ export function matchSizingPattern(className: string): string | null {
   if (className === "min-h-0") return "min height 0";
   if (className === "min-h-full") return "min height full";
 
+  // Size shorthand: size-10, size-px, size-[72px]
+  const sizeNumberMatch = className.match(/^size-(\d+(?:\.\d+)?)$/);
+  if (sizeNumberMatch) {
+    const value = sizeNumberMatch[1];
+    const size = spacingScale[value] || `${value}`;
+    return `width and height ${size}`;
+  }
+
+  if (className === "size-px") {
+    return "width and height 1px";
+  }
+
+  const sizeKeywordMatch = className.match(/^size-(full|min|max|fit|auto)$/);
+  if (sizeKeywordMatch) {
+    const kw = sizeKeywordMatch[1];
+    return `width and height ${kw}`;
+  }
+
+  const sizeArbitraryMatch = className.match(/^size-\[(.+?)\]$/);
+  if (sizeArbitraryMatch) {
+    const value = sizeArbitraryMatch[1];
+    return `width and height ${value}`;
+  }
+
   // Max-width and max-height are already in static mappings
 
   return null;
@@ -211,6 +239,16 @@ export function matchTypographyPattern(className: string): string | null {
   if (decorationThicknessMatch) {
     const value = decorationThicknessMatch[1];
     return `${value}px decoration`;
+  }
+
+  // Line clamp: line-clamp-3, line-clamp-[7]
+  const lineClampNumberMatch = className.match(/^line-clamp-(\d+)$/);
+  if (lineClampNumberMatch) {
+    return `line clamp ${lineClampNumberMatch[1]}`;
+  }
+  const lineClampArbitraryMatch = className.match(/^line-clamp-\[(.+?)\]$/);
+  if (lineClampArbitraryMatch) {
+    return `line clamp ${lineClampArbitraryMatch[1]}`;
   }
 
   return null;
@@ -527,9 +565,14 @@ export function matchArbitraryValue(className: string): string | null {
     "min-h": "min height",
     "max-w": "max width",
     "max-h": "max height",
+    size: "width and height",
     // Spacing
     p: "padding",
     m: "margin",
+    ps: "start padding",
+    pe: "end padding",
+    ms: "start margin",
+    me: "end margin",
     gap: "gap",
     // Colors
     bg: "background",
@@ -541,9 +584,30 @@ export function matchArbitraryValue(className: string): string | null {
     bottom: "bottom",
     left: "left",
     z: "z-index",
+    ring: "ring width",
+    "ring-offset": "ring offset",
+    rounded: "corner radius",
+    outline: "outline width",
+    flex: "flex",
+    "grid-cols": "grid columns",
+    "grid-rows": "grid rows",
+    "auto-cols": "auto columns",
+    "auto-rows": "auto rows",
+    content: "content",
   };
 
   const propertyName = propertyMap[property] || property;
+
+  // If value is a CSS function or variable, keep as-is for clarity
+  if (/^(oklch|lch|lab|rgb|rgba|hsl|hsla|color|calc|var|theme)\(/.test(value)) {
+    return `${propertyName} ${value}`;
+  }
+
+  // Support container query units and viewport units transparently
+  if (/(cqw|cqh|cqi|cqb|cqmin|cqmax|svw|lvw|dvw|svh|lvh|dvh)\b/.test(value)) {
+    return `${propertyName} ${value}`;
+  }
+
   return `${propertyName} ${value}`;
 }
 
@@ -581,6 +645,12 @@ export function matchGradientPattern(className: string): string | null {
     }
   }
 
+  // Gradient from arbitrary: from-[...]
+  const fromArbitrary = className.match(/^from-\[(.+?)\]$/);
+  if (fromArbitrary) {
+    return `gradient from ${fromArbitrary[1]}`;
+  }
+
   // Gradient via: via-blue-500, via-slate-100
   const viaMatch = className.match(/^via-(\w+)-(\d+)$/);
   if (viaMatch) {
@@ -594,6 +664,12 @@ export function matchGradientPattern(className: string): string | null {
     }
   }
 
+  // Gradient via arbitrary: via-[...]
+  const viaArbitrary = className.match(/^via-\[(.+?)\]$/);
+  if (viaArbitrary) {
+    return `gradient via ${viaArbitrary[1]}`;
+  }
+
   // Gradient to: to-blue-500, to-indigo-950
   const toMatch = className.match(/^to-(\w+)-(\d+)$/);
   if (toMatch) {
@@ -605,6 +681,12 @@ export function matchGradientPattern(className: string): string | null {
     if (color) {
       return `gradient to ${color}`;
     }
+  }
+
+  // Gradient to arbitrary: to-[...]
+  const toArbitrary = className.match(/^to-\[(.+?)\]$/);
+  if (toArbitrary) {
+    return `gradient to ${toArbitrary[1]}`;
   }
 
   return null;
