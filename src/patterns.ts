@@ -647,6 +647,110 @@ export function matchGridColumnPattern(className: string): string | null {
 }
 
 /**
+ * Try to match grid-row patterns (row-span-*, row-start-*, row-end-*, row-*)
+ */
+export function matchGridRowPattern(className: string): string | null {
+  // row-span-* patterns
+  if (className.startsWith("row-span-")) {
+    // row-span-(--custom-property)
+    const customPropMatch = className.match(/^row-span-\((--[\w-]+)\)$/);
+    if (customPropMatch) {
+      return `spans ${customPropMatch[1]} rows`;
+    }
+
+    // row-span-[value]
+    const arbitraryMatch = className.match(/^row-span-\[(.+?)\]$/);
+    if (arbitraryMatch) {
+      return `spans ${arbitraryMatch[1]} rows`;
+    }
+
+    // row-span-<number> (dynamic numbers > 12)
+    const numberMatch = className.match(/^row-span-(\d+)$/);
+    if (numberMatch) {
+      const value = numberMatch[1];
+      return `spans ${value} row${value === "1" ? "" : "s"}`;
+    }
+  }
+
+  // row-start-* patterns
+  if (className.startsWith("row-start-") || className.startsWith("-row-start-")) {
+    const isNegative = className.startsWith("-");
+    const baseClass = isNegative ? className.slice(1) : className;
+
+    // row-start-(--custom-property)
+    const customPropMatch = baseClass.match(/^row-start-\((--[\w-]+)\)$/);
+    if (customPropMatch) {
+      return `starts at row ${customPropMatch[1]}`;
+    }
+
+    // row-start-[value]
+    const arbitraryMatch = baseClass.match(/^row-start-\[(.+?)\]$/);
+    if (arbitraryMatch) {
+      return `starts at row ${arbitraryMatch[1]}`;
+    }
+
+    // row-start-<number> or -row-start-<number>
+    const numberMatch = baseClass.match(/^row-start-(\d+)$/);
+    if (numberMatch) {
+      const value = numberMatch[1];
+      return `starts at row ${isNegative ? "-" : ""}${value}`;
+    }
+  }
+
+  // row-end-* patterns
+  if (className.startsWith("row-end-") || className.startsWith("-row-end-")) {
+    const isNegative = className.startsWith("-");
+    const baseClass = isNegative ? className.slice(1) : className;
+
+    // row-end-(--custom-property)
+    const customPropMatch = baseClass.match(/^row-end-\((--[\w-]+)\)$/);
+    if (customPropMatch) {
+      return `ends at row ${customPropMatch[1]}`;
+    }
+
+    // row-end-[value]
+    const arbitraryMatch = baseClass.match(/^row-end-\[(.+?)\]$/);
+    if (arbitraryMatch) {
+      return `ends at row ${arbitraryMatch[1]}`;
+    }
+
+    // row-end-<number> or -row-end-<number>
+    const numberMatch = baseClass.match(/^row-end-(\d+)$/);
+    if (numberMatch) {
+      const value = numberMatch[1];
+      return `ends at row ${isNegative ? "-" : ""}${value}`;
+    }
+  }
+
+  // row-* patterns (plain row without span/start/end)
+  if (className.startsWith("row-") && !className.startsWith("row-span-") && !className.startsWith("row-start-") && !className.startsWith("row-end-")) {
+    const isNegative = className.startsWith("-row-");
+    const baseClass = isNegative ? className.slice(1) : className;
+
+    // row-(--custom-property)
+    const customPropMatch = baseClass.match(/^row-\((--[\w-]+)\)$/);
+    if (customPropMatch) {
+      return `row ${customPropMatch[1]}`;
+    }
+
+    // row-[value]
+    const arbitraryMatch = baseClass.match(/^row-\[(.+?)\]$/);
+    if (arbitraryMatch) {
+      return `row ${arbitraryMatch[1]}`;
+    }
+
+    // row-<number> or -row-<number>
+    const numberMatch = baseClass.match(/^row-(\d+)$/);
+    if (numberMatch) {
+      const value = numberMatch[1];
+      return `row ${isNegative ? "-" : ""}${value}`;
+    }
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {
