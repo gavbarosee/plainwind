@@ -4,11 +4,12 @@
 
 export type ClassCategory =
   | "Layout"
+  | "Flexbox & Grid"
   | "Spacing"
+  | "Sizing"
   | "Colors"
   | "Typography"
   | "Effects"
-  | "Sizing"
   | "Other";
 
 /**
@@ -18,15 +19,12 @@ export function categorizeClass(className: string): ClassCategory {
   // Remove variants to get base class
   const baseClass = className.split(":").pop() || className;
 
-  // Layout (check auto margins first - they're for centering/alignment)
+  // Layout
   if (
-    /^(flex|grid|inline|block|hidden|table|flow|contents|list-item)/.test(baseClass) ||
+    /^(inline|block|hidden|table|flow|contents|list-item)/.test(baseClass) ||
     /^(visible|invisible|collapse)$/.test(baseClass) ||
     /^(start|end)$/.test(baseClass) || // logical float properties
     /^(float-|clear-|box-|border-sizing-|order-|columns-|break-before-|break-after-|break-inside-)/.test(baseClass) ||
-    /^(basis-|grid-flow-|auto-cols-|auto-rows-)/.test(baseClass) ||
-    /^(justify-|items-|content-|self-|place-)/.test(baseClass) ||
-    /^(flex-|grid-cols-|grid-rows-|gap-|col-|row-)/.test(baseClass) ||
     /^(object-|image-render-|table-auto|table-fixed|border-collapse|border-separate|border-spacing-|caption-)/.test(baseClass) ||
     /^(overflow-|overscroll-)/.test(baseClass) ||
     /^(field-sizing-)/.test(baseClass) ||
@@ -36,6 +34,17 @@ export function categorizeClass(className: string): ClassCategory {
     /^(m-auto|mx-auto|my-auto|ml-auto|mr-auto|mt-auto|mb-auto)$/.test(baseClass)
   ) {
     return "Layout";
+  }
+
+  // Flexbox & Grid
+  if (
+    /^(flex|grid)$/.test(baseClass) || // display: flex, display: grid
+    /^(inline-flex|inline-grid)$/.test(baseClass) ||
+    /^(basis-|grid-flow-|auto-cols-|auto-rows-)/.test(baseClass) ||
+    /^(justify-|items-|content-|self-|place-)/.test(baseClass) ||
+    /^(flex-|grid-cols-|grid-rows-|gap-|col-|row-)/.test(baseClass)
+  ) {
+    return "Flexbox & Grid";
   }
 
   // Spacing (padding, margin, space) - check AFTER auto margins
@@ -133,8 +142,9 @@ export function groupTranslationsByCategory(
   // Order categories logically
   const categoryOrder: ClassCategory[] = [
     "Layout",
-    "Sizing",
+    "Flexbox & Grid",
     "Spacing",
+    "Sizing",
     "Colors",
     "Typography",
     "Effects",
@@ -144,6 +154,7 @@ export function groupTranslationsByCategory(
   // Map categories to emojis for visual distinction
   const categoryEmojis: Record<ClassCategory, string> = {
     Layout: "📐",
+    "Flexbox & Grid": "📦",
     Sizing: "📏",
     Spacing: "↔️",
     Colors: "🎨",

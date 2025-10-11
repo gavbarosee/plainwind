@@ -309,6 +309,41 @@ export function matchObjectPositionPattern(className: string): string | null {
 }
 
 /**
+ * Try to match flex-basis patterns (basis-*, basis-<number>, basis-<fraction>)
+ */
+export function matchFlexBasisPattern(className: string): string | null {
+  // Match basis with custom property: basis-(--custom-var)
+  const customPropMatch = className.match(/^basis-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `flex basis ${customPropMatch[1]}`;
+  }
+
+  // Match basis with arbitrary value: basis-[value]
+  const arbitraryMatch = className.match(/^basis-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `flex basis ${arbitraryMatch[1]}`;
+  }
+
+  // Match basis with fraction: basis-1/2, basis-2/3, etc.
+  const fractionMatch = className.match(/^basis-(\d+)\/(\d+)$/);
+  if (fractionMatch) {
+    const [_, num, denom] = fractionMatch;
+    const percent = ((Number(num) / Number(denom)) * 100).toFixed(1).replace(/\.0$/, "");
+    return `flex basis ${percent}%`;
+  }
+
+  // Match basis with number: basis-16, basis-32, basis-64
+  const numberMatch = className.match(/^basis-(\d+(?:\.\d+)?)$/);
+  if (numberMatch) {
+    const value = numberMatch[1];
+    const size = spacingScale[value] || `${value}`;
+    return `flex basis ${size}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {
