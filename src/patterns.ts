@@ -770,6 +770,25 @@ export function matchGridAutoColumnsPattern(className: string): string | null {
 }
 
 /**
+ * Try to match grid-auto-rows patterns (auto-rows-(<custom-property>), auto-rows-[<value>])
+ */
+export function matchGridAutoRowsPattern(className: string): string | null {
+  // auto-rows-(--custom-property)
+  const customPropMatch = className.match(/^auto-rows-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `grid auto rows ${customPropMatch[1]}`;
+  }
+
+  // auto-rows-[value]
+  const arbitraryMatch = className.match(/^auto-rows-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `grid auto rows ${arbitraryMatch[1]}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {
