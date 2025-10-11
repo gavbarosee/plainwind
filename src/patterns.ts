@@ -789,6 +789,79 @@ export function matchGridAutoRowsPattern(className: string): string | null {
 }
 
 /**
+ * Try to match gap patterns (gap-*, gap-x-*, gap-y-*)
+ */
+export function matchGapPattern(className: string): string | null {
+  // gap-x-* patterns (column gap)
+  if (className.startsWith("gap-x-")) {
+    // gap-x-(--custom-property)
+    const customPropMatch = className.match(/^gap-x-\((--[\w-]+)\)$/);
+    if (customPropMatch) {
+      return `horizontal gap ${customPropMatch[1]}`;
+    }
+
+    // gap-x-[value]
+    const arbitraryMatch = className.match(/^gap-x-\[(.+?)\]$/);
+    if (arbitraryMatch) {
+      return `horizontal gap ${arbitraryMatch[1]}`;
+    }
+
+    // gap-x-<number> (dynamic numbers)
+    const numberMatch = className.match(/^gap-x-(\d+(?:\.\d+)?)$/);
+    if (numberMatch) {
+      const value = numberMatch[1];
+      return `horizontal gap ${value}`;
+    }
+  }
+
+  // gap-y-* patterns (row gap)
+  if (className.startsWith("gap-y-")) {
+    // gap-y-(--custom-property)
+    const customPropMatch = className.match(/^gap-y-\((--[\w-]+)\)$/);
+    if (customPropMatch) {
+      return `vertical gap ${customPropMatch[1]}`;
+    }
+
+    // gap-y-[value]
+    const arbitraryMatch = className.match(/^gap-y-\[(.+?)\]$/);
+    if (arbitraryMatch) {
+      return `vertical gap ${arbitraryMatch[1]}`;
+    }
+
+    // gap-y-<number> (dynamic numbers)
+    const numberMatch = className.match(/^gap-y-(\d+(?:\.\d+)?)$/);
+    if (numberMatch) {
+      const value = numberMatch[1];
+      return `vertical gap ${value}`;
+    }
+  }
+
+  // gap-* patterns (both row and column)
+  if (className.startsWith("gap-") && !className.startsWith("gap-x-") && !className.startsWith("gap-y-")) {
+    // gap-(--custom-property)
+    const customPropMatch = className.match(/^gap-\((--[\w-]+)\)$/);
+    if (customPropMatch) {
+      return `gap ${customPropMatch[1]}`;
+    }
+
+    // gap-[value]
+    const arbitraryMatch = className.match(/^gap-\[(.+?)\]$/);
+    if (arbitraryMatch) {
+      return `gap ${arbitraryMatch[1]}`;
+    }
+
+    // gap-<number> (dynamic numbers)
+    const numberMatch = className.match(/^gap-(\d+(?:\.\d+)?)$/);
+    if (numberMatch) {
+      const value = numberMatch[1];
+      return `gap ${value}`;
+    }
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {
