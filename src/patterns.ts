@@ -250,6 +250,46 @@ export function matchAspectRatioPattern(className: string): string | null {
 }
 
 /**
+ * Try to match columns patterns (columns-*, columns-<number>)
+ */
+export function matchColumnsPattern(className: string): string | null {
+  // Match columns-<number> patterns: columns-1, columns-15, columns-20
+  const numberMatch = className.match(/^columns-(\d+)$/);
+  if (numberMatch) {
+    const num = numberMatch[1];
+    const numWord = {
+      "1": "one",
+      "2": "two",
+      "3": "three",
+      "4": "four",
+      "5": "five",
+      "6": "six",
+      "7": "seven",
+      "8": "eight",
+      "9": "nine",
+      "10": "ten",
+      "11": "eleven",
+      "12": "twelve",
+    }[num] || num;
+    return `${numWord} column layout`;
+  }
+
+  // Match columns with custom property: columns-(--custom-var)
+  const customPropMatch = className.match(/^columns-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `columns ${customPropMatch[1]}`;
+  }
+
+  // Match columns with arbitrary value: columns-[value]
+  const arbitraryMatch = className.match(/^columns-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `columns ${arbitraryMatch[1]}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {
