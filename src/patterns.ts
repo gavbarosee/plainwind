@@ -503,6 +503,46 @@ export function matchGridColumnsPattern(className: string): string | null {
 }
 
 /**
+ * Try to match grid-template-rows patterns (grid-rows-<number>, grid-rows-(<custom-property>), grid-rows-[<value>])
+ */
+export function matchGridRowsPattern(className: string): string | null {
+  // Match grid-rows with custom property: grid-rows-(--custom-var)
+  const customPropMatch = className.match(/^grid-rows-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `grid rows ${customPropMatch[1]}`;
+  }
+
+  // Match grid-rows with arbitrary value: grid-rows-[value]
+  const arbitraryMatch = className.match(/^grid-rows-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `grid rows ${arbitraryMatch[1]}`;
+  }
+
+  // Match grid-rows with number: grid-rows-13, grid-rows-20
+  const numberMatch = className.match(/^grid-rows-(\d+)$/);
+  if (numberMatch) {
+    const value = numberMatch[1];
+    const numWord = {
+      "1": "one",
+      "2": "two",
+      "3": "three",
+      "4": "four",
+      "5": "five",
+      "6": "six",
+      "7": "seven",
+      "8": "eight",
+      "9": "nine",
+      "10": "ten",
+      "11": "eleven",
+      "12": "twelve",
+    }[value] || value;
+    return `${numWord} row${value === "1" ? "" : "s"}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match grid-column patterns (col-span-*, col-start-*, col-end-*, col-*)
  */
 export function matchGridColumnPattern(className: string): string | null {
