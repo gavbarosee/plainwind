@@ -223,6 +223,33 @@ export function matchSizingPattern(className: string): string | null {
 }
 
 /**
+ * Try to match aspect ratio patterns (aspect-*, aspect-X/Y)
+ */
+export function matchAspectRatioPattern(className: string): string | null {
+  // Match aspect-X/Y patterns: aspect-3/2, aspect-16/9, aspect-21/9
+  const ratioMatch = className.match(/^aspect-(\d+)\/(\d+)$/);
+  if (ratioMatch) {
+    const width = ratioMatch[1];
+    const height = ratioMatch[2];
+    return `${width}:${height} aspect ratio`;
+  }
+
+  // Match aspect with custom property: aspect-(--custom-var)
+  const customPropMatch = className.match(/^aspect-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `aspect ratio ${customPropMatch[1]}`;
+  }
+
+  // Match aspect with arbitrary value: aspect-[value]
+  const arbitraryMatch = className.match(/^aspect-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `aspect ratio ${arbitraryMatch[1]}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {
