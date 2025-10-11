@@ -450,7 +450,9 @@ export const tailwindMappings: Record<string, string> = {
   "place-self-auto": "auto placement in both axes",
   "place-self-start": "aligns self to start in both axes",
   "place-self-end": "aligns self to end in both axes",
+  "place-self-end-safe": "safely aligns self to end in both axes",
   "place-self-center": "centers self in both axes",
+  "place-self-center-safe": "safely centers self in both axes",
   "place-self-stretch": "stretches self in both axes",
 
   // Gap

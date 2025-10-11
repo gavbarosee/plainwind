@@ -91,7 +91,17 @@ export function matchSpacingPattern(className: string): string | null {
   const paddingMatch = className.match(/^p([xytrblse]?)-(.+)$/);
   if (paddingMatch) {
     const direction = paddingMatch[1];
-    const value = paddingMatch[2];
+    let value = paddingMatch[2];
+    
+    // Handle custom properties: p-(--custom) -> --custom
+    if (value.startsWith('(--') && value.endsWith(')')) {
+      value = value.slice(1, -1);
+    }
+    // Handle arbitrary values: p-[5px] -> 5px
+    else if (value.startsWith('[') && value.endsWith(']')) {
+      value = value.slice(1, -1);
+    }
+    
     const spacing = spacingScale[value] || value;
 
     const directionMap: Record<string, string> = {
@@ -109,11 +119,12 @@ export function matchSpacingPattern(className: string): string | null {
     return `${directionMap[direction] || "padding"} ${spacing}`;
   }
 
-  // Margin patterns: m-4, mx-auto, my-2, mt-4, mr-4, mb-4, ml-4, ms-4, me-4
-  const marginMatch = className.match(/^m([xytrblse]?)-(.+)$/);
+  // Margin patterns: m-4, -m-4, mx-auto, my-2, mt-4, mr-4, mb-4, ml-4, ms-4, me-4
+  const marginMatch = className.match(/^(-?)m([xytrblse]?)-(.+)$/);
   if (marginMatch) {
-    const direction = marginMatch[1];
-    const value = marginMatch[2];
+    const isNegative = marginMatch[1] === "-";
+    const direction = marginMatch[2];
+    let value = marginMatch[3];
 
     if (value === "auto") {
       if (direction === "x") return "horizontally centered";
@@ -121,7 +132,17 @@ export function matchSpacingPattern(className: string): string | null {
       return "centered with auto margin";
     }
 
+    // Handle custom properties: m-(--custom) -> --custom
+    if (value.startsWith('(--') && value.endsWith(')')) {
+      value = value.slice(1, -1);
+    }
+    // Handle arbitrary values: m-[5px] -> 5px
+    else if (value.startsWith('[') && value.endsWith(']')) {
+      value = value.slice(1, -1);
+    }
+
     const spacing = spacingScale[value] || value;
+    const prefix = isNegative ? "negative " : "";
 
     const directionMap: Record<string, string> = {
       "": "margin",
@@ -135,7 +156,7 @@ export function matchSpacingPattern(className: string): string | null {
       e: "end margin",
     };
 
-    return `${directionMap[direction] || "margin"} ${spacing}`;
+    return `${prefix}${directionMap[direction] || "margin"} ${spacing}`;
   }
 
   // Gap patterns: gap-4, gap-x-2, gap-y-4
@@ -150,16 +171,28 @@ export function matchSpacingPattern(className: string): string | null {
     return `gap ${spacing}`;
   }
 
-  // Space between patterns: space-x-4, space-y-2
-  const spaceMatch = className.match(/^space-([xy])-(.+)$/);
+  // Space between patterns: space-x-4, -space-x-4, space-y-2, -space-y-2
+  const spaceMatch = className.match(/^(-?)space-([xy])-(.+)$/);
   if (spaceMatch) {
-    const direction = spaceMatch[1];
-    const value = spaceMatch[2];
+    const isNegative = spaceMatch[1] === "-";
+    const direction = spaceMatch[2];
+    let value = spaceMatch[3];
+    
+    // Handle custom properties: space-x-(--custom) -> --custom
+    if (value.startsWith('(--') && value.endsWith(')')) {
+      value = value.slice(1, -1);
+    }
+    // Handle arbitrary values: space-x-[5px] -> 5px
+    else if (value.startsWith('[') && value.endsWith(']')) {
+      value = value.slice(1, -1);
+    }
+    
     const spacing = spacingScale[value] || value;
+    const prefix = isNegative ? "negative " : "";
 
     return direction === "x"
-      ? `horizontal space ${spacing}`
-      : `vertical space ${spacing}`;
+      ? `${prefix}horizontal space ${spacing}`
+      : `${prefix}vertical space ${spacing}`;
   }
 
   return null;
