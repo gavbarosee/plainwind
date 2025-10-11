@@ -18,6 +18,7 @@ import {
   matchGridRowsPattern,
   matchGridColumnPattern,
   matchGridRowPattern,
+  matchGridAutoColumnsPattern,
   matchTypographyPattern,
   matchGridPattern,
   matchPositioningPattern,
@@ -246,40 +247,46 @@ function translateSingleClass(cls: string): string {
                               if (gridRowMatch) {
                                 translation = gridRowMatch;
                               } else {
-                                // Try pattern matching for typography
-                                const typographyMatch = matchTypographyPattern(classWithoutOpacity);
-                                if (typographyMatch) {
-                                  translation = typographyMatch;
+                                // Try pattern matching for grid-auto-columns
+                                const gridAutoColumnsMatch = matchGridAutoColumnsPattern(classWithoutOpacity);
+                                if (gridAutoColumnsMatch) {
+                                  translation = gridAutoColumnsMatch;
                                 } else {
-                                  // Try pattern matching for grid
-                                  const gridMatch = matchGridPattern(classWithoutOpacity);
-                                  if (gridMatch) {
-                                    translation = gridMatch;
+                                  // Try pattern matching for typography
+                                  const typographyMatch = matchTypographyPattern(classWithoutOpacity);
+                                  if (typographyMatch) {
+                                    translation = typographyMatch;
                                   } else {
-                                    // Try pattern matching for positioning
-                                    const positioningMatch =
-                                      matchPositioningPattern(classWithoutOpacity);
-                                    if (positioningMatch) {
-                                      translation = positioningMatch;
+                                    // Try pattern matching for grid
+                                    const gridMatch = matchGridPattern(classWithoutOpacity);
+                                    if (gridMatch) {
+                                      translation = gridMatch;
                                     } else {
-                                      // Try pattern matching for colors
-                                      const colorMatch = matchColorPattern(classWithoutOpacity);
-                                      if (colorMatch) {
-                                        translation = colorMatch;
+                                      // Try pattern matching for positioning
+                                      const positioningMatch =
+                                        matchPositioningPattern(classWithoutOpacity);
+                                      if (positioningMatch) {
+                                        translation = positioningMatch;
                                       } else {
-                                        // Try pattern matching for arbitrary values
-                                        const arbitraryMatch = matchArbitraryValue(classWithoutOpacity);
-                                        if (arbitraryMatch) {
-                                          translation = arbitraryMatch;
+                                        // Try pattern matching for colors
+                                        const colorMatch = matchColorPattern(classWithoutOpacity);
+                                        if (colorMatch) {
+                                          translation = colorMatch;
                                         } else {
-                                          // Try pattern matching for gradients
-                                          const gradientMatch =
-                                            matchGradientPattern(classWithoutOpacity);
-                                          if (gradientMatch) {
-                                            translation = gradientMatch;
+                                          // Try pattern matching for arbitrary values
+                                          const arbitraryMatch = matchArbitraryValue(classWithoutOpacity);
+                                          if (arbitraryMatch) {
+                                            translation = arbitraryMatch;
                                           } else {
-                                            // If not found, use original class
-                                            translation = baseClass;
+                                            // Try pattern matching for gradients
+                                            const gradientMatch =
+                                              matchGradientPattern(classWithoutOpacity);
+                                            if (gradientMatch) {
+                                              translation = gradientMatch;
+                                            } else {
+                                              // If not found, use original class
+                                              translation = baseClass;
+                                            }
                                           }
                                         }
                                       }

@@ -751,6 +751,25 @@ export function matchGridRowPattern(className: string): string | null {
 }
 
 /**
+ * Try to match grid-auto-columns patterns (auto-cols-(<custom-property>), auto-cols-[<value>])
+ */
+export function matchGridAutoColumnsPattern(className: string): string | null {
+  // auto-cols-(--custom-property)
+  const customPropMatch = className.match(/^auto-cols-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `grid auto columns ${customPropMatch[1]}`;
+  }
+
+  // auto-cols-[value]
+  const arbitraryMatch = className.match(/^auto-cols-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `grid auto columns ${arbitraryMatch[1]}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {
