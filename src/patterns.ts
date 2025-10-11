@@ -430,6 +430,39 @@ export function matchFlexShrinkPattern(className: string): string | null {
 }
 
 /**
+ * Try to match order patterns (order-<number>, -order-<number>, order-(<custom-property>), order-[<value>])
+ */
+export function matchOrderPattern(className: string): string | null {
+  // Match order with custom property: order-(--custom-var)
+  const customPropMatch = className.match(/^order-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `order ${customPropMatch[1]}`;
+  }
+
+  // Match order with arbitrary value: order-[value]
+  const arbitraryMatch = className.match(/^order-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `order ${arbitraryMatch[1]}`;
+  }
+
+  // Match negative order: -order-1, -order-5
+  const negativeMatch = className.match(/^-order-(\d+)$/);
+  if (negativeMatch) {
+    const value = negativeMatch[1];
+    return `order -${value}`;
+  }
+
+  // Match order with number: order-13, order-20
+  const numberMatch = className.match(/^order-(\d+)$/);
+  if (numberMatch) {
+    const value = numberMatch[1];
+    return `order ${value}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {

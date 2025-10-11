@@ -24,7 +24,7 @@ export function categorizeClass(className: string): ClassCategory {
     /^(inline|block|hidden|table|flow|contents|list-item)/.test(baseClass) ||
     /^(visible|invisible|collapse)$/.test(baseClass) ||
     /^(start|end)$/.test(baseClass) || // logical float properties
-    /^(float-|clear-|box-|border-sizing-|order-|columns-|break-before-|break-after-|break-inside-)/.test(baseClass) ||
+    /^(float-|clear-|box-|border-sizing-|columns-|break-before-|break-after-|break-inside-)/.test(baseClass) ||
     /^(object-|image-render-|table-auto|table-fixed|border-collapse|border-separate|border-spacing-|caption-)/.test(baseClass) ||
     /^(overflow-|overscroll-)/.test(baseClass) ||
     /^(field-sizing-)/.test(baseClass) ||
@@ -42,7 +42,9 @@ export function categorizeClass(className: string): ClassCategory {
     /^(inline-flex|inline-grid)$/.test(baseClass) ||
     /^(basis-|grid-flow-|auto-cols-|auto-rows-)/.test(baseClass) ||
     /^(justify-|items-|content-|self-|place-)/.test(baseClass) ||
-    /^(flex-|grid-cols-|grid-rows-|gap-|col-|row-)/.test(baseClass)
+    /^(flex-|grid-cols-|grid-rows-|gap-|col-|row-)/.test(baseClass) ||
+    /^(order-|-order-)/.test(baseClass) || // order utilities
+    /^(grow|grow-|shrink|shrink-)/.test(baseClass) // flex-grow and flex-shrink
   ) {
     return "Flexbox & Grid";
   }
