@@ -440,7 +440,9 @@ export const tailwindMappings: Record<string, string> = {
   // Place Items (grid)
   "place-items-start": "aligns items to start in both axes",
   "place-items-end": "aligns items to end in both axes",
+  "place-items-end-safe": "safely aligns items to end in both axes",
   "place-items-center": "centers items in both axes",
+  "place-items-center-safe": "safely centers items in both axes",
   "place-items-baseline": "aligns items to baseline in both axes",
   "place-items-stretch": "stretches items in both axes",
 
