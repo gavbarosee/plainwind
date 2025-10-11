@@ -393,6 +393,30 @@ export function matchGridPattern(className: string): string | null {
  * Try to match positioning patterns (top-*, -bottom-*, inset-*, etc.)
  */
 export function matchPositioningPattern(className: string): string | null {
+  // Z-index with custom property: z-(--custom-var)
+  const zCustomPropMatch = className.match(/^z-\((--[\w-]+)\)$/);
+  if (zCustomPropMatch) {
+    return `z-index ${zCustomPropMatch[1]}`;
+  }
+
+  // Z-index with arbitrary value: z-[value]
+  const zArbitraryMatch = className.match(/^z-\[(.+?)\]$/);
+  if (zArbitraryMatch) {
+    return `z-index ${zArbitraryMatch[1]}`;
+  }
+
+  // Z-index with dynamic number: z-100, z-999
+  const zNumberMatch = className.match(/^z-(\d+)$/);
+  if (zNumberMatch) {
+    return `z-index ${zNumberMatch[1]}`;
+  }
+
+  // Negative z-index with dynamic number: -z-100, -z-999
+  const negativeZMatch = className.match(/^-z-(\d+)$/);
+  if (negativeZMatch) {
+    return `z-index -${negativeZMatch[1]}`;
+  }
+
   // Helper to format size values
   const formatSize = (value: string): string => {
     if (value === "px") return "1px";
