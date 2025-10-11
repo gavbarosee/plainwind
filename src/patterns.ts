@@ -344,6 +344,40 @@ export function matchFlexBasisPattern(className: string): string | null {
 }
 
 /**
+ * Try to match flex patterns (flex-<number>, flex-<fraction>, flex-(<custom-property>), flex-[<value>])
+ */
+export function matchFlexPattern(className: string): string | null {
+  // Match flex with custom property: flex-(--custom-var)
+  const customPropMatch = className.match(/^flex-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `flex ${customPropMatch[1]}`;
+  }
+
+  // Match flex with arbitrary value: flex-[value]
+  const arbitraryMatch = className.match(/^flex-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `flex ${arbitraryMatch[1]}`;
+  }
+
+  // Match flex with fraction: flex-1/2, flex-2/3, etc.
+  const fractionMatch = className.match(/^flex-(\d+)\/(\d+)$/);
+  if (fractionMatch) {
+    const [_, num, denom] = fractionMatch;
+    const percent = ((Number(num) / Number(denom)) * 100).toFixed(1).replace(/\.0$/, "");
+    return `flex ${percent}%`;
+  }
+
+  // Match flex with number: flex-2, flex-3, flex-10
+  const numberMatch = className.match(/^flex-(\d+)$/);
+  if (numberMatch) {
+    const value = numberMatch[1];
+    return `flex ${value}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {
