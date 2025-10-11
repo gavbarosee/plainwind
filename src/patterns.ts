@@ -378,6 +378,32 @@ export function matchFlexPattern(className: string): string | null {
 }
 
 /**
+ * Try to match flex-grow patterns (grow-<number>, grow-(<custom-property>), grow-[<value>])
+ */
+export function matchFlexGrowPattern(className: string): string | null {
+  // Match grow with custom property: grow-(--custom-var)
+  const customPropMatch = className.match(/^grow-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `flex grow ${customPropMatch[1]}`;
+  }
+
+  // Match grow with arbitrary value: grow-[value]
+  const arbitraryMatch = className.match(/^grow-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `flex grow ${arbitraryMatch[1]}`;
+  }
+
+  // Match grow with number: grow-2, grow-3, grow-10
+  const numberMatch = className.match(/^grow-(\d+)$/);
+  if (numberMatch) {
+    const value = numberMatch[1];
+    return `flex grow ${value}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {
