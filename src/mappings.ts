@@ -427,8 +427,10 @@ export const tailwindMappings: Record<string, string> = {
 
   // Place Content (grid)
   "place-content-center": "centers content in both axes",
+  "place-content-center-safe": "safely centers content in both axes",
   "place-content-start": "aligns content to start in both axes",
   "place-content-end": "aligns content to end in both axes",
+  "place-content-end-safe": "safely aligns content to end in both axes",
   "place-content-between": "spreads content in both axes",
   "place-content-around": "distributes space around in both axes",
   "place-content-evenly": "distributes evenly in both axes",
