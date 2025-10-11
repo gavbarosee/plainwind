@@ -418,9 +418,12 @@ export const tailwindMappings: Record<string, string> = {
   "self-auto": "auto self alignment",
   "self-start": "aligns self to start",
   "self-end": "aligns self to end",
+  "self-end-safe": "safely aligns self to end",
   "self-center": "centers self",
+  "self-center-safe": "safely centers self",
   "self-stretch": "stretches self",
   "self-baseline": "aligns self to baseline",
+  "self-baseline-last": "aligns self to last baseline",
 
   // Place Content (grid)
   "place-content-center": "centers content in both axes",
