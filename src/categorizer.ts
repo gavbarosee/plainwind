@@ -32,6 +32,7 @@ export function categorizeClass(className: string): ClassCategory {
     /^(overflow-|overscroll-)/.test(baseClass) ||
     /^(field-sizing-)/.test(baseClass) ||
     /^isolat/.test(baseClass) || // isolation utilities
+    /^(static|fixed|absolute|relative|sticky)$/.test(baseClass) || // position utilities
     /^(m-auto|mx-auto|my-auto|ml-auto|mr-auto|mt-auto|mb-auto)$/.test(baseClass)
   ) {
     return "Layout";
@@ -100,9 +101,9 @@ export function categorizeClass(className: string): ClassCategory {
     return "Colors";
   }
 
-  // Positioning (including negative positioning)
+  // Positioning (top/right/bottom/left/inset/z-index, including negative positioning)
   if (
-    /^(static|fixed|absolute|relative|sticky|top-|right-|bottom-|left-|inset-|z-|-top-|-right-|-bottom-|-left-|-inset-)/.test(
+    /^(top-|right-|bottom-|left-|inset-|z-|-top-|-right-|-bottom-|-left-|-inset-)/.test(
       baseClass
     )
   ) {
