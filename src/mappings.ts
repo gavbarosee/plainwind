@@ -378,8 +378,11 @@ export const tailwindMappings: Record<string, string> = {
   // Justify Items (grid)
   "justify-items-start": "aligns grid items to start",
   "justify-items-end": "aligns grid items to end",
+  "justify-items-end-safe": "safely aligns grid items to end",
   "justify-items-center": "centers grid items",
+  "justify-items-center-safe": "safely centers grid items",
   "justify-items-stretch": "stretches grid items",
+  "justify-items-normal": "normal justify items behavior",
 
   // Justify Self
   "justify-self-auto": "auto justify alignment",
