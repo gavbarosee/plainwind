@@ -8,7 +8,6 @@ export type ClassCategory =
   | "Colors"
   | "Typography"
   | "Effects"
-  | "Positioning"
   | "Sizing"
   | "Other";
 
@@ -33,6 +32,7 @@ export function categorizeClass(className: string): ClassCategory {
     /^(field-sizing-)/.test(baseClass) ||
     /^isolat/.test(baseClass) || // isolation utilities
     /^(static|fixed|absolute|relative|sticky)$/.test(baseClass) || // position utilities
+    /^(top-|right-|bottom-|left-|inset-|inset-x-|inset-y-|start-|end-|z-|-top-|-right-|-bottom-|-left-|-inset-|-start-|-end-)/.test(baseClass) || // positioning coordinates
     /^(m-auto|mx-auto|my-auto|ml-auto|mr-auto|mt-auto|mb-auto)$/.test(baseClass)
   ) {
     return "Layout";
@@ -101,14 +101,6 @@ export function categorizeClass(className: string): ClassCategory {
     return "Colors";
   }
 
-  // Positioning (top/right/bottom/left/inset/z-index, including negative positioning)
-  if (
-    /^(top-|right-|bottom-|left-|inset-|z-|-top-|-right-|-bottom-|-left-|-inset-)/.test(
-      baseClass
-    )
-  ) {
-    return "Positioning";
-  }
 
   // Sizing
   if (
@@ -146,7 +138,6 @@ export function groupTranslationsByCategory(
     "Colors",
     "Typography",
     "Effects",
-    "Positioning",
     "Other",
   ];
 
@@ -158,7 +149,6 @@ export function groupTranslationsByCategory(
     Colors: "🎨",
     Typography: "📝",
     Effects: "✨",
-    Positioning: "📍",
     Other: "🔧",
   };
 
