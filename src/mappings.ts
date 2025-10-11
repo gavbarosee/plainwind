@@ -387,8 +387,10 @@ export const tailwindMappings: Record<string, string> = {
   // Justify Self
   "justify-self-auto": "auto justify alignment",
   "justify-self-start": "aligns self to start",
-  "justify-self-end": "aligns self to end",
   "justify-self-center": "centers self",
+  "justify-self-center-safe": "safely centers self",
+  "justify-self-end": "aligns self to end",
+  "justify-self-end-safe": "safely aligns self to end",
   "justify-self-stretch": "stretches self",
 
   // Align Content
