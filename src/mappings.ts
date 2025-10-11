@@ -407,8 +407,11 @@ export const tailwindMappings: Record<string, string> = {
   // Align Items
   "items-start": "aligns items to top",
   "items-end": "aligns items to bottom",
+  "items-end-safe": "safely aligns items to bottom",
   "items-center": "centers items vertically",
+  "items-center-safe": "safely centers items vertically",
   "items-baseline": "aligns items to baseline",
+  "items-baseline-last": "aligns items to last baseline",
   "items-stretch": "stretches items to fill",
 
   // Align Self
