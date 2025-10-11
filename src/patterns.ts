@@ -463,6 +463,46 @@ export function matchOrderPattern(className: string): string | null {
 }
 
 /**
+ * Try to match grid-template-columns patterns (grid-cols-<number>, grid-cols-(<custom-property>), grid-cols-[<value>])
+ */
+export function matchGridColumnsPattern(className: string): string | null {
+  // Match grid-cols with custom property: grid-cols-(--custom-var)
+  const customPropMatch = className.match(/^grid-cols-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `grid columns ${customPropMatch[1]}`;
+  }
+
+  // Match grid-cols with arbitrary value: grid-cols-[value]
+  const arbitraryMatch = className.match(/^grid-cols-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `grid columns ${arbitraryMatch[1]}`;
+  }
+
+  // Match grid-cols with number: grid-cols-13, grid-cols-20
+  const numberMatch = className.match(/^grid-cols-(\d+)$/);
+  if (numberMatch) {
+    const value = numberMatch[1];
+    const numWord = {
+      "1": "one",
+      "2": "two",
+      "3": "three",
+      "4": "four",
+      "5": "five",
+      "6": "six",
+      "7": "seven",
+      "8": "eight",
+      "9": "nine",
+      "10": "ten",
+      "11": "eleven",
+      "12": "twelve",
+    }[value] || value;
+    return `${numWord} column${value === "1" ? "" : "s"}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {
