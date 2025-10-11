@@ -404,6 +404,32 @@ export function matchFlexGrowPattern(className: string): string | null {
 }
 
 /**
+ * Try to match flex-shrink patterns (shrink-<number>, shrink-(<custom-property>), shrink-[<value>])
+ */
+export function matchFlexShrinkPattern(className: string): string | null {
+  // Match shrink with custom property: shrink-(--custom-var)
+  const customPropMatch = className.match(/^shrink-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `flex shrink ${customPropMatch[1]}`;
+  }
+
+  // Match shrink with arbitrary value: shrink-[value]
+  const arbitraryMatch = className.match(/^shrink-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `flex shrink ${arbitraryMatch[1]}`;
+  }
+
+  // Match shrink with number: shrink-2, shrink-3, shrink-10
+  const numberMatch = className.match(/^shrink-(\d+)$/);
+  if (numberMatch) {
+    const value = numberMatch[1];
+    return `flex shrink ${value}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {
