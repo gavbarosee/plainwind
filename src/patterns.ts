@@ -290,6 +290,25 @@ export function matchColumnsPattern(className: string): string | null {
 }
 
 /**
+ * Try to match object-position patterns (object-(<custom-property>), object-[<value>])
+ */
+export function matchObjectPositionPattern(className: string): string | null {
+  // Match object with custom property: object-(--custom-var)
+  const customPropMatch = className.match(/^object-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `positions content at ${customPropMatch[1]}`;
+  }
+
+  // Match object with arbitrary value: object-[value]
+  const arbitraryMatch = className.match(/^object-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `positions content at ${arbitraryMatch[1]}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match typography patterns (underline-offset-*, decoration-*)
  */
 export function matchTypographyPattern(className: string): string | null {

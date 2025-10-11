@@ -121,12 +121,16 @@ export const tailwindMappings: Record<string, string> = {
   "object-bottom": "positions content at bottom",
   "object-center": "positions content at center",
   "object-left": "positions content at left",
+  "object-right": "positions content at right",
+  "object-top": "positions content at top",
+  "object-top-left": "positions content at top left",
+  "object-top-right": "positions content at top right",
+  "object-bottom-left": "positions content at bottom left",
+  "object-bottom-right": "positions content at bottom right",
   "object-left-bottom": "positions content at left bottom",
   "object-left-top": "positions content at left top",
-  "object-right": "positions content at right",
   "object-right-bottom": "positions content at right bottom",
   "object-right-top": "positions content at right top",
-  "object-top": "positions content at top",
 
   // Image Rendering
   "image-render-auto": "auto image rendering",
