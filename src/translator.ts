@@ -34,6 +34,14 @@ import {
 } from "./patterns";
 import { groupTranslationsByCategory } from "./categorizer";
 
+/**
+ * Type definition for pattern matcher functions
+ */
+type PatternMatcher = (className: string) => string | null;
+
+/**
+ * Parse a class string into individual non-empty class names
+ */
 function parseNonEmptyClasses(classString: string): string[] {
   return classString.split(" ").filter((c) => c.trim());
 }
@@ -41,7 +49,7 @@ function parseNonEmptyClasses(classString: string): string[] {
 /**
  * Variant prefixes and their plain English descriptions
  */
-const variantDescriptions: Record<string, string> = {
+const VARIANT_DESCRIPTIONS: Record<string, string> = {
   // Interaction
   hover: "on hover",
   focus: "on focus",
@@ -149,253 +157,143 @@ function extractVariants(className: string): {
 }
 
 /**
- * Translate a single Tailwind class
+ * Pattern matchers in priority order (static mappings are checked first in translateBaseClass)
+ * Add new pattern matchers to this array to extend translation capabilities
  */
-function translateSingleClass(cls: string): string {
-  const { variants, baseClass } = extractVariants(cls);
+const TRANSLATION_PATTERN_MATCHERS: PatternMatcher[] = [
+  matchSpacingPattern,
+  matchSizingPattern,
+  matchAspectRatioPattern,
+  matchColumnsPattern,
+  matchObjectPositionPattern,
+  matchFlexBasisPattern,
+  matchFlexPattern,
+  matchFlexGrowPattern,
+  matchFlexShrinkPattern,
+  matchOrderPattern,
+  matchGridColumnsPattern,
+  matchGridRowsPattern,
+  matchGridColumnPattern,
+  matchGridRowPattern,
+  matchGridAutoColumnsPattern,
+  matchGridAutoRowsPattern,
+  matchGapPattern,
+  matchWidthPattern,
+  matchSizePattern,
+  matchMinWidthPattern,
+  matchMaxWidthPattern,
+  matchHeightPattern,
+  matchMinHeightPattern,
+  matchMaxHeightPattern,
+  matchTypographyPattern,
+  matchGridPattern,
+  matchPositioningPattern,
+  matchColorPattern,
+  matchArbitraryValue,
+  matchGradientPattern,
+];
 
-  // Extract opacity modifier if present (e.g., bg-white/10)
-  let opacity = "";
-  let classWithoutOpacity = baseClass;
-  const opacityMatch = baseClass.match(/^(.+)\/(\d+)$/);
+/**
+ * Opacity extraction result
+ */
+interface OpacityExtraction {
+  className: string;
+  opacity: string;
+}
+
+/**
+ * Extract opacity modifier from a class (e.g., "bg-white/10" -> { className: "bg-white", opacity: "10" })
+ */
+function extractOpacity(classNameWithOpacity: string): OpacityExtraction {
+  const opacityMatch = classNameWithOpacity.match(/^(.+)\/(\d+)$/);
   if (opacityMatch) {
-    classWithoutOpacity = opacityMatch[1];
-    opacity = opacityMatch[2];
+    return {
+      className: opacityMatch[1],
+      opacity: opacityMatch[2],
+    };
+  }
+  return { className: classNameWithOpacity, opacity: "" };
+}
+
+/**
+ * Check if a class is a custom CSS variable (e.g., "[--my-var:value]")
+ */
+function isCustomCSSVariable(className: string): boolean {
+  return /^\[--[\w-]+:/.test(className);
+}
+
+/**
+ * Translate the base class (without variants or opacity) to plain English
+ * Returns the original className if no translation is found
+ */
+function translateBaseClass(className: string): string {
+  // Check for arbitrary CSS custom properties
+  if (isCustomCSSVariable(className)) {
+    return "custom CSS variable";
   }
 
-  // Check for arbitrary CSS custom properties (after extracting opacity)
-  if (classWithoutOpacity.match(/^\[--[\w-]+:/)) {
-    let translation = "custom CSS variable";
-    if (opacity) {
-      translation = `${translation} with ${opacity}% opacity`;
+  // Look up in static mappings first
+  if (tailwindMappings[className]) {
+    return tailwindMappings[className];
+  }
+
+  // Try pattern matchers in order
+  for (const matcher of TRANSLATION_PATTERN_MATCHERS) {
+    const result = matcher(className);
+    if (result) {
+      return result;
     }
-    // Add variant descriptions
-    if (variants.length > 0) {
-      const variantParts = variants
-        .map((v) => variantDescriptions[v] || v)
-        .join(", ");
-      return `${translation} ${variantParts}`;
-    }
+  }
+
+  // If nothing matched, return the original class name
+  return className;
+}
+
+/**
+ * Apply opacity modifier to translation
+ */
+function applyOpacity(translation: string, opacity: string): string {
+  return opacity ? `${translation} with ${opacity}% opacity` : translation;
+}
+
+/**
+ * Apply variant descriptions to translation (e.g., "hover:", "md:", "dark:")
+ */
+function applyVariants(translation: string, variants: string[]): string {
+  if (variants.length === 0) {
     return translation;
   }
 
-  // Translate the base class (without opacity)
-  let translation = "";
+  const variantParts = variants
+    .map((v) => VARIANT_DESCRIPTIONS[v] || v)
+    .join(", ");
+  return `${translation} ${variantParts}`;
+}
 
-  // Look up in static mappings first
-  if (tailwindMappings[classWithoutOpacity]) {
-    translation = tailwindMappings[classWithoutOpacity];
-  } else {
-    // Try pattern matching for spacing
-    const spacingMatch = matchSpacingPattern(classWithoutOpacity);
-    if (spacingMatch) {
-      translation = spacingMatch;
-    } else {
-      // Try pattern matching for sizing
-      const sizingMatch = matchSizingPattern(classWithoutOpacity);
-      if (sizingMatch) {
-        translation = sizingMatch;
-      } else {
-        // Try pattern matching for aspect ratio
-        const aspectRatioMatch = matchAspectRatioPattern(classWithoutOpacity);
-        if (aspectRatioMatch) {
-          translation = aspectRatioMatch;
-        } else {
-          // Try pattern matching for columns
-          const columnsMatch = matchColumnsPattern(classWithoutOpacity);
-          if (columnsMatch) {
-            translation = columnsMatch;
-          } else {
-            // Try pattern matching for object-position
-            const objectPositionMatch = matchObjectPositionPattern(classWithoutOpacity);
-            if (objectPositionMatch) {
-              translation = objectPositionMatch;
-            } else {
-              // Try pattern matching for flex-basis
-              const flexBasisMatch = matchFlexBasisPattern(classWithoutOpacity);
-              if (flexBasisMatch) {
-                translation = flexBasisMatch;
-              } else {
-                // Try pattern matching for flex
-                const flexMatch = matchFlexPattern(classWithoutOpacity);
-                if (flexMatch) {
-                  translation = flexMatch;
-                } else {
-                  // Try pattern matching for flex-grow
-                  const flexGrowMatch = matchFlexGrowPattern(classWithoutOpacity);
-                  if (flexGrowMatch) {
-                    translation = flexGrowMatch;
-                  } else {
-                    // Try pattern matching for flex-shrink
-                    const flexShrinkMatch = matchFlexShrinkPattern(classWithoutOpacity);
-                    if (flexShrinkMatch) {
-                      translation = flexShrinkMatch;
-                    } else {
-                      // Try pattern matching for order
-                      const orderMatch = matchOrderPattern(classWithoutOpacity);
-                      if (orderMatch) {
-                        translation = orderMatch;
-                      } else {
-                        // Try pattern matching for grid-template-columns
-                        const gridColumnsMatch = matchGridColumnsPattern(classWithoutOpacity);
-                        if (gridColumnsMatch) {
-                          translation = gridColumnsMatch;
-                        } else {
-                          // Try pattern matching for grid-template-rows
-                          const gridRowsMatch = matchGridRowsPattern(classWithoutOpacity);
-                          if (gridRowsMatch) {
-                            translation = gridRowsMatch;
-                          } else {
-                            // Try pattern matching for grid-column
-                            const gridColumnMatch = matchGridColumnPattern(classWithoutOpacity);
-                            if (gridColumnMatch) {
-                              translation = gridColumnMatch;
-                            } else {
-                              // Try pattern matching for grid-row
-                              const gridRowMatch = matchGridRowPattern(classWithoutOpacity);
-                              if (gridRowMatch) {
-                                translation = gridRowMatch;
-                              } else {
-                                // Try pattern matching for grid-auto-columns
-                                const gridAutoColumnsMatch = matchGridAutoColumnsPattern(classWithoutOpacity);
-                                if (gridAutoColumnsMatch) {
-                                  translation = gridAutoColumnsMatch;
-                                } else {
-                                  // Try pattern matching for grid-auto-rows
-                                  const gridAutoRowsMatch = matchGridAutoRowsPattern(classWithoutOpacity);
-                                  if (gridAutoRowsMatch) {
-                                    translation = gridAutoRowsMatch;
-                                  } else {
-                                    // Try pattern matching for gap
-                                    const gapMatch = matchGapPattern(classWithoutOpacity);
-                                    if (gapMatch) {
-                                      translation = gapMatch;
-                                    } else {
-                                      // Try pattern matching for width
-                                      const widthMatch = matchWidthPattern(classWithoutOpacity);
-                                      if (widthMatch) {
-                                        translation = widthMatch;
-                                      } else {
-                                        // Try pattern matching for size
-                                        const sizeMatch = matchSizePattern(classWithoutOpacity);
-                                        if (sizeMatch) {
-                                          translation = sizeMatch;
-                                        } else {
-                                          // Try pattern matching for min-width
-                                          const minWidthMatch = matchMinWidthPattern(classWithoutOpacity);
-                                          if (minWidthMatch) {
-                                            translation = minWidthMatch;
-                                          } else {
-                                            // Try pattern matching for max-width
-                                            const maxWidthMatch = matchMaxWidthPattern(classWithoutOpacity);
-                                            if (maxWidthMatch) {
-                                              translation = maxWidthMatch;
-                                            } else {
-                                              // Try pattern matching for height
-                                              const heightMatch = matchHeightPattern(classWithoutOpacity);
-                                              if (heightMatch) {
-                                                translation = heightMatch;
-                                              } else {
-                                                // Try pattern matching for min-height
-                                                const minHeightMatch = matchMinHeightPattern(classWithoutOpacity);
-                                                if (minHeightMatch) {
-                                                  translation = minHeightMatch;
-                                                } else {
-                                                  // Try pattern matching for max-height
-                                                  const maxHeightMatch = matchMaxHeightPattern(classWithoutOpacity);
-                                                  if (maxHeightMatch) {
-                                                    translation = maxHeightMatch;
-                                                  } else {
-                                                    // Try pattern matching for typography
-                                                    const typographyMatch = matchTypographyPattern(classWithoutOpacity);
-                                                    if (typographyMatch) {
-                                                      translation = typographyMatch;
-                                                    } else {
-                                                      // Try pattern matching for grid
-                                                      const gridMatch = matchGridPattern(classWithoutOpacity);
-                                                      if (gridMatch) {
-                                                        translation = gridMatch;
-                                                      } else {
-                                                        // Try pattern matching for positioning
-                                                        const positioningMatch =
-                                                          matchPositioningPattern(classWithoutOpacity);
-                                                        if (positioningMatch) {
-                                                          translation = positioningMatch;
-                                                        } else {
-                                                          // Try pattern matching for colors
-                                                          const colorMatch = matchColorPattern(classWithoutOpacity);
-                                                          if (colorMatch) {
-                                                            translation = colorMatch;
-                                                          } else {
-                                                            // Try pattern matching for arbitrary values
-                                                            const arbitraryMatch = matchArbitraryValue(classWithoutOpacity);
-                                                            if (arbitraryMatch) {
-                                                              translation = arbitraryMatch;
-                                                            } else {
-                                                              // Try pattern matching for gradients
-                                                              const gradientMatch =
-                                                                matchGradientPattern(classWithoutOpacity);
-                                                              if (gradientMatch) {
-                                                                translation = gradientMatch;
-                                                              } else {
-                                                                // If not found, use original class
-                                                                translation = baseClass;
-                                                              }
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+/**
+ * Translate a single Tailwind class to plain English
+ * Handles variants (e.g., "hover:", "md:"), opacity modifiers (e.g., "/50"), and base classes
+ */
+function translateSingleClass(cls: string): string {
+  const { variants, baseClass } = extractVariants(cls);
+  const { className, opacity } = extractOpacity(baseClass);
 
-  // Add opacity if present
-  if (opacity) {
-    translation = `${translation} with ${opacity}% opacity`;
-  }
-
-  // Add variant descriptions
-  if (variants.length > 0) {
-    const variantParts = variants
-      .map((v) => variantDescriptions[v] || v)
-      .join(", ");
-    return `${translation} ${variantParts}`;
-  }
+  let translation = translateBaseClass(className);
+  translation = applyOpacity(translation, opacity);
+  translation = applyVariants(translation, variants);
 
   return translation;
 }
 
 /**
- * Translates Tailwind classes to plain English
+ * Translates a string of Tailwind classes to plain English
+ * @param classString - Space-separated Tailwind class names (e.g., "flex items-center gap-4")
+ * @returns Plain English description, optionally grouped by category based on user settings
  */
 export function translateClasses(classString: string): string {
   const classes = parseNonEmptyClasses(classString);
   const translations = classes.map((cls) => translateSingleClass(cls));
 
-  // Check if grouping is enabled
   const config = vscode.workspace.getConfiguration("plainwind");
   const groupByCategory = config.get<boolean>("groupByCategory", true);
   const showEmojis = config.get<boolean>("showCategoryEmojis", false);
