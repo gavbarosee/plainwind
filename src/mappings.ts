@@ -1917,6 +1917,11 @@ export const tailwindMappings: Record<string, string> = {
   "to-95%": "gradient ends at 95%",
   "to-100%": "gradient ends at 100%",
 
+  // Text Colors - Special
+  "text-inherit": "inherited text color",
+  "text-current": "current color text",
+  "text-transparent": "transparent text",
+  
   // Text Colors - Grays
   "text-white": "white text",
   "text-black": "black text",
@@ -1972,6 +1977,11 @@ export const tailwindMappings: Record<string, string> = {
   "line-clamp-6": "clamps text to 6 lines",
   "line-clamp-none": "no line clamping",
 
+  // Font Family
+  "font-sans": "sans-serif font family",
+  "font-serif": "serif font family",
+  "font-mono": "monospace font family",
+
   // Font Weight
   "font-thin": "thin weight",
   "font-extralight": "extra light weight",
@@ -1986,6 +1996,28 @@ export const tailwindMappings: Record<string, string> = {
   // Font Style
   italic: "italic text",
   "not-italic": "not italic",
+
+  // Font Stretch
+  "font-stretch-ultra-condensed": "ultra condensed font (50%)",
+  "font-stretch-extra-condensed": "extra condensed font (62.5%)",
+  "font-stretch-condensed": "condensed font (75%)",
+  "font-stretch-semi-condensed": "semi-condensed font (87.5%)",
+  "font-stretch-normal": "normal font width (100%)",
+  "font-stretch-semi-expanded": "semi-expanded font (112.5%)",
+  "font-stretch-expanded": "expanded font (125%)",
+  "font-stretch-extra-expanded": "extra expanded font (150%)",
+  "font-stretch-ultra-expanded": "ultra expanded font (200%)",
+  
+  // Font Stretch - Common Percentage Values
+  "font-stretch-50%": "font stretch 50%",
+  "font-stretch-62.5%": "font stretch 62.5%",
+  "font-stretch-75%": "font stretch 75%",
+  "font-stretch-87.5%": "font stretch 87.5%",
+  "font-stretch-100%": "font stretch 100%",
+  "font-stretch-112.5%": "font stretch 112.5%",
+  "font-stretch-125%": "font stretch 125%",
+  "font-stretch-150%": "font stretch 150%",
+  "font-stretch-200%": "font stretch 200%",
 
   // Font Smoothing
   antialiased: "antialiased font smoothing",
@@ -2035,6 +2067,9 @@ export const tailwindMappings: Record<string, string> = {
   "list-inside": "list markers inside",
   "list-outside": "list markers outside",
 
+  // List Style Image
+  "list-image-none": "no list marker image",
+
   // Text Transform
   uppercase: "UPPERCASE text",
   lowercase: "lowercase text",
@@ -2080,6 +2115,11 @@ export const tailwindMappings: Record<string, string> = {
   "break-all": "breaks all characters",
   "break-keep": "keeps words together",
 
+  // Overflow Wrap
+  "wrap-break-word": "breaks long words to prevent overflow",
+  "wrap-anywhere": "breaks words anywhere to prevent overflow",
+  "wrap-normal": "normal word wrapping",
+
   // Hyphens
   "hyphens-none": "no hyphenation",
   "hyphens-manual": "manual hyphenation",
@@ -2087,8 +2127,9 @@ export const tailwindMappings: Record<string, string> = {
 
   // Text Decoration
   underline: "underlined text",
-  "no-underline": "no underline",
+  overline: "overlined text",
   "line-through": "strikethrough",
+  "no-underline": "no underline",
   "decoration-solid": "solid decoration",
   "decoration-double": "double decoration",
   "decoration-dotted": "dotted decoration",
@@ -2110,6 +2151,8 @@ export const tailwindMappings: Record<string, string> = {
   "decoration-inherit": "decoration color inherits",
   "decoration-transparent": "transparent decoration color",
   "decoration-current": "decoration matches text color",
+  "decoration-black": "black decoration",
+  "decoration-white": "white decoration",
 
   // Border
   border: "has border",

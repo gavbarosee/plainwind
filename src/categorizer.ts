@@ -63,18 +63,21 @@ export function categorizeClass(className: string): ClassCategory {
     /^text-(xs|sm|base|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|8xl|9xl)/.test(
       baseClass
     ) ||
-    /^text-(left|center|right|justify|ellipsis|clip|wrap|nowrap|balance|pretty)/.test(baseClass) ||
+    /^text-(left|center|right|justify|start|end|ellipsis|clip|wrap|nowrap|balance|pretty)/.test(baseClass) ||
     /^(font-|leading-|tracking-|uppercase|lowercase|capitalize|normal-case|truncate|italic|not-italic)/.test(
       baseClass
     ) ||
     /^(normal-nums|ordinal|slashed-zero|lining-nums|oldstyle-nums|proportional-nums|tabular-nums|diagonal-fractions|stacked-fractions)$/.test(
       baseClass
     ) ||
-    /^(list-|indent-|align-|whitespace-|hyphens-|line-clamp-)/.test(baseClass) ||
+    /^(list-|-?indent-|align-|whitespace-|hyphens-|line-clamp-)/.test(baseClass) ||
     /^break-(normal|words|all|keep)$/.test(baseClass) || // word-break only, not page breaks
-    /^(underline|no-underline|line-through)$/.test(baseClass) ||
-    /^underline-offset-/.test(baseClass) ||
-    /^decoration-(solid|double|dotted|dashed|wavy|\d+)$/.test(baseClass)
+    /^wrap-(break-word|anywhere|normal)$/.test(baseClass) ||
+    /^(underline|overline|line-through|no-underline)$/.test(baseClass) ||
+    /^-?underline-offset-/.test(baseClass) ||
+    /^decoration-(solid|double|dotted|dashed|wavy|\d+)$/.test(baseClass) ||
+    /^(antialiased|subpixel-antialiased)$/.test(baseClass) ||
+    /^content-(none|\[|\()/.test(baseClass) // pseudo-element content utilities
   ) {
     return "Typography";
   }
