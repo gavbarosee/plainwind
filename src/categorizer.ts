@@ -9,6 +9,7 @@ export type ClassCategory =
   | "Sizing"
   | "Colors"
   | "Backgrounds"
+  | "Borders"
   | "Typography"
   | "Effects"
   | "Other";
@@ -83,10 +84,25 @@ export function categorizeClass(className: string): ClassCategory {
     return "Typography";
   }
 
-  // Effects (shadows, borders, rounded, opacity, transitions, backdrop filters, outlines, transforms, filters, interactivity, blend modes)
+  // Borders (border-specific utilities, checked BEFORE Effects and Colors)
+  if (
+    /^rounded/.test(baseClass) || // border-radius (all variants: rounded, rounded-t, rounded-tl, rounded-s, rounded-ss, etc.)
+    /^border(-[trblxyse])?(-\d+|-0|-px)?$/.test(baseClass) || // border-width (border, border-2, border-t, border-t-4, etc.)
+    /^border(-[trblxyse])?-\(length:/.test(baseClass) || // border-(length:--var), border-t-(length:--var)
+    /^border(-[trblxyse])?-\[/.test(baseClass) || // border-[value], border-t-[value]
+    /^border-(solid|dashed|dotted|double|hidden|none)$/.test(baseClass) || // border-style utilities
+    /^divide-[xy]/.test(baseClass) || // divide utilities (divide-x, divide-y, divide-x-2, divide-y-reverse, etc.)
+    /^divide-(solid|dashed|dotted|double|hidden|none)$/.test(baseClass) || // divide-style utilities
+    /^outline/.test(baseClass) || // outline utilities (outline, outline-2, outline-solid, outline-offset-2, etc.)
+    /^-outline-offset-/.test(baseClass) // negative outline-offset utilities (-outline-offset-1, -outline-offset-2, etc.)
+  ) {
+    return "Borders";
+  }
+
+  // Effects (shadows, opacity, transitions, backdrop filters, transforms, filters, interactivity, blend modes)
   // Check divide and ring structural classes BEFORE Colors (bg-blend- before bg-)
   if (
-    /^(shadow|text-shadow|rounded|border|opacity-|transition|duration-|ease-|delay-|animate-|cursor-|backdrop-|outline|-outline)/.test(
+    /^(shadow|text-shadow|opacity-|transition|duration-|ease-|delay-|animate-|cursor-|backdrop-)/.test(
       baseClass
     ) ||
     /^(scale-|rotate-|translate-|skew-|-rotate-|-translate-|-skew-|origin-|perspective-|transform-style-|backface-)/.test(
@@ -100,8 +116,6 @@ export function categorizeClass(className: string): ClassCategory {
     ) ||
     /^(mix-blend-|bg-blend-)/.test(baseClass) ||
     /^(content-visibility-|contain-|mask)/.test(baseClass) ||
-    /^divide-[xy](-|$)/.test(baseClass) || // divide-x, divide-y, divide-x-0, divide-y-2, etc.
-    /^divide-[xy]-reverse$/.test(baseClass) || // divide-x-reverse, divide-y-reverse
     /^ring(-\d+|-inset|-offset-\d+)?$/.test(baseClass) // ring, ring-0, ring-1, ring-inset, ring-offset-0, etc. (but not ring-blue-500)
   ) {
     return "Effects";
@@ -125,7 +139,7 @@ export function categorizeClass(className: string): ClassCategory {
 
   // Colors (text colors, backgrounds, borders, SVG fills/strokes, etc.)
   if (
-    /^(bg-|text-|border-|ring-|divide-|fill-|stroke-|decoration-|outline-|from-|via-|to-|gradient|accent-|caret-|placeholder-|color-scheme-)/.test(
+    /^(bg-|text-|border-|ring-|divide-|fill-|stroke-|decoration-|from-|via-|to-|gradient|accent-|caret-|placeholder-|color-scheme-)/.test(
       baseClass
     )
   ) {
@@ -169,6 +183,7 @@ export function groupTranslationsByCategory(
     "Sizing",
     "Colors",
     "Backgrounds",
+    "Borders",
     "Typography",
     "Effects",
     "Other",
@@ -182,6 +197,7 @@ export function groupTranslationsByCategory(
     Spacing: "↔️",
     Colors: "🎨",
     Backgrounds: "🖼️",
+    Borders: "🔲",
     Typography: "📝",
     Effects: "✨",
     Other: "🔧",
