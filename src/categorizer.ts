@@ -8,6 +8,7 @@ export type ClassCategory =
   | "Spacing"
   | "Sizing"
   | "Colors"
+  | "Backgrounds"
   | "Typography"
   | "Effects"
   | "Other";
@@ -106,6 +107,22 @@ export function categorizeClass(className: string): ClassCategory {
     return "Effects";
   }
 
+  // Backgrounds (background-specific utilities, checked BEFORE Colors)
+  if (
+    /^bg-(fixed|local|scroll)$/.test(baseClass) || // background-attachment
+    /^bg-clip-(border|padding|content|text)$/.test(baseClass) || // background-clip
+    /^bg-(none|linear|radial|conic)/.test(baseClass) || // background-image (gradients)
+    /^-bg-(linear|conic)/.test(baseClass) || // negative angle gradients
+    /^bg-origin-(border|padding|content)$/.test(baseClass) || // background-origin
+    /^bg-(top|bottom|left|right|center)/.test(baseClass) || // background-position (includes bg-top-left, bg-bottom-right, etc.)
+    /^bg-position-/.test(baseClass) || // bg-position-(--var) and bg-position-[value]
+    /^bg-(no-)?repeat/.test(baseClass) || // background-repeat (bg-repeat, bg-no-repeat, bg-repeat-x, bg-repeat-y, bg-repeat-round, bg-repeat-space)
+    /^bg-(auto|cover|contain)$/.test(baseClass) || // background-size (static values)
+    /^bg-size-/.test(baseClass) // bg-size-(--var) and bg-size-[value]
+  ) {
+    return "Backgrounds";
+  }
+
   // Colors (text colors, backgrounds, borders, SVG fills/strokes, etc.)
   if (
     /^(bg-|text-|border-|ring-|divide-|fill-|stroke-|decoration-|outline-|from-|via-|to-|gradient|accent-|caret-|placeholder-|color-scheme-)/.test(
@@ -151,6 +168,7 @@ export function groupTranslationsByCategory(
     "Spacing",
     "Sizing",
     "Colors",
+    "Backgrounds",
     "Typography",
     "Effects",
     "Other",
@@ -163,6 +181,7 @@ export function groupTranslationsByCategory(
     Sizing: "📏",
     Spacing: "↔️",
     Colors: "🎨",
+    Backgrounds: "🖼️",
     Typography: "📝",
     Effects: "✨",
     Other: "🔧",

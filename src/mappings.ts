@@ -1750,9 +1750,11 @@ export const tailwindMappings: Record<string, string> = {
   "aspect-21/9": "21:9 aspect ratio (ultrawide)",
 
   // Background Colors - Grays
+  "bg-inherit": "inherited background color",
+  "bg-current": "current color background",
+  "bg-transparent": "transparent background",
   "bg-white": "white background",
   "bg-black": "black background",
-  "bg-transparent": "transparent background",
   "bg-gray-50": "lightest gray background",
   "bg-gray-100": "very light gray background",
   "bg-gray-200": "light gray background",
@@ -1795,15 +1797,20 @@ export const tailwindMappings: Record<string, string> = {
   "bg-origin-content": "background origin at content",
 
   // Background Position
-  "bg-bottom": "background at bottom",
-  "bg-center": "background at center",
-  "bg-left": "background at left",
-  "bg-left-bottom": "background at left bottom",
-  "bg-left-top": "background at left top",
-  "bg-right": "background at right",
-  "bg-right-bottom": "background at right bottom",
-  "bg-right-top": "background at right top",
+  "bg-top-left": "background at top left",
   "bg-top": "background at top",
+  "bg-top-right": "background at top right",
+  "bg-left": "background at left",
+  "bg-center": "background at center",
+  "bg-right": "background at right",
+  "bg-bottom-left": "background at bottom left",
+  "bg-bottom": "background at bottom",
+  "bg-bottom-right": "background at bottom right",
+  // Legacy v3 naming (still supported)
+  "bg-left-top": "background at left top",
+  "bg-left-bottom": "background at left bottom",
+  "bg-right-top": "background at right top",
+  "bg-right-bottom": "background at right bottom",
 
   // Background Repeat
   "bg-repeat": "repeating background",
@@ -1820,6 +1827,18 @@ export const tailwindMappings: Record<string, string> = {
 
   // Background Image
   "bg-none": "no background image",
+  
+  // Linear Gradients (v4 syntax)
+  "bg-linear-to-t": "linear gradient to top",
+  "bg-linear-to-tr": "linear gradient to top right",
+  "bg-linear-to-r": "linear gradient to right",
+  "bg-linear-to-br": "linear gradient to bottom right",
+  "bg-linear-to-b": "linear gradient to bottom",
+  "bg-linear-to-bl": "linear gradient to bottom left",
+  "bg-linear-to-l": "linear gradient to left",
+  "bg-linear-to-tl": "linear gradient to top left",
+  
+  // Legacy v3 gradient syntax (still supported)
   "bg-gradient-to-t": "gradient to top",
   "bg-gradient-to-tr": "gradient to top right",
   "bg-gradient-to-r": "gradient to right",
@@ -1854,16 +1873,19 @@ export const tailwindMappings: Record<string, string> = {
   "bg-conic-at-c": "conic gradient from center",
 
   // Gradient Color Stops (base classes, colors handled by patterns)
-  "from-transparent": "gradient starts with transparent",
+  "from-inherit": "gradient starts with inherited color",
   "from-current": "gradient starts with current color",
+  "from-transparent": "gradient starts with transparent",
   "from-black": "gradient starts with black",
   "from-white": "gradient starts with white",
-  "via-transparent": "gradient middle is transparent",
+  "via-inherit": "gradient middle is inherited color",
   "via-current": "gradient middle is current color",
+  "via-transparent": "gradient middle is transparent",
   "via-black": "gradient middle is black",
   "via-white": "gradient middle is white",
-  "to-transparent": "gradient ends with transparent",
+  "to-inherit": "gradient ends with inherited color",
   "to-current": "gradient ends with current color",
+  "to-transparent": "gradient ends with transparent",
   "to-black": "gradient ends with black",
   "to-white": "gradient ends with white",
 
