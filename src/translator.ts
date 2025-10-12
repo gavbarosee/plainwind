@@ -21,6 +21,13 @@ import {
   matchGridAutoColumnsPattern,
   matchGridAutoRowsPattern,
   matchGapPattern,
+  matchWidthPattern,
+  matchSizePattern,
+  matchMinWidthPattern,
+  matchMaxWidthPattern,
+  matchHeightPattern,
+  matchMinHeightPattern,
+  matchMaxHeightPattern,
   matchTypographyPattern,
   matchGridPattern,
   matchPositioningPattern,
@@ -264,40 +271,82 @@ function translateSingleClass(cls: string): string {
                                     if (gapMatch) {
                                       translation = gapMatch;
                                     } else {
-                                      // Try pattern matching for typography
-                                      const typographyMatch = matchTypographyPattern(classWithoutOpacity);
-                                      if (typographyMatch) {
-                                        translation = typographyMatch;
+                                      // Try pattern matching for width
+                                      const widthMatch = matchWidthPattern(classWithoutOpacity);
+                                      if (widthMatch) {
+                                        translation = widthMatch;
                                       } else {
-                                        // Try pattern matching for grid
-                                        const gridMatch = matchGridPattern(classWithoutOpacity);
-                                        if (gridMatch) {
-                                          translation = gridMatch;
+                                        // Try pattern matching for size
+                                        const sizeMatch = matchSizePattern(classWithoutOpacity);
+                                        if (sizeMatch) {
+                                          translation = sizeMatch;
                                         } else {
-                                          // Try pattern matching for positioning
-                                          const positioningMatch =
-                                            matchPositioningPattern(classWithoutOpacity);
-                                          if (positioningMatch) {
-                                            translation = positioningMatch;
+                                          // Try pattern matching for min-width
+                                          const minWidthMatch = matchMinWidthPattern(classWithoutOpacity);
+                                          if (minWidthMatch) {
+                                            translation = minWidthMatch;
                                           } else {
-                                            // Try pattern matching for colors
-                                            const colorMatch = matchColorPattern(classWithoutOpacity);
-                                            if (colorMatch) {
-                                              translation = colorMatch;
+                                            // Try pattern matching for max-width
+                                            const maxWidthMatch = matchMaxWidthPattern(classWithoutOpacity);
+                                            if (maxWidthMatch) {
+                                              translation = maxWidthMatch;
                                             } else {
-                                              // Try pattern matching for arbitrary values
-                                              const arbitraryMatch = matchArbitraryValue(classWithoutOpacity);
-                                              if (arbitraryMatch) {
-                                                translation = arbitraryMatch;
+                                              // Try pattern matching for height
+                                              const heightMatch = matchHeightPattern(classWithoutOpacity);
+                                              if (heightMatch) {
+                                                translation = heightMatch;
                                               } else {
-                                                // Try pattern matching for gradients
-                                                const gradientMatch =
-                                                  matchGradientPattern(classWithoutOpacity);
-                                                if (gradientMatch) {
-                                                  translation = gradientMatch;
+                                                // Try pattern matching for min-height
+                                                const minHeightMatch = matchMinHeightPattern(classWithoutOpacity);
+                                                if (minHeightMatch) {
+                                                  translation = minHeightMatch;
                                                 } else {
-                                                  // If not found, use original class
-                                                  translation = baseClass;
+                                                  // Try pattern matching for max-height
+                                                  const maxHeightMatch = matchMaxHeightPattern(classWithoutOpacity);
+                                                  if (maxHeightMatch) {
+                                                    translation = maxHeightMatch;
+                                                  } else {
+                                                    // Try pattern matching for typography
+                                                    const typographyMatch = matchTypographyPattern(classWithoutOpacity);
+                                                    if (typographyMatch) {
+                                                      translation = typographyMatch;
+                                                    } else {
+                                                      // Try pattern matching for grid
+                                                      const gridMatch = matchGridPattern(classWithoutOpacity);
+                                                      if (gridMatch) {
+                                                        translation = gridMatch;
+                                                      } else {
+                                                        // Try pattern matching for positioning
+                                                        const positioningMatch =
+                                                          matchPositioningPattern(classWithoutOpacity);
+                                                        if (positioningMatch) {
+                                                          translation = positioningMatch;
+                                                        } else {
+                                                          // Try pattern matching for colors
+                                                          const colorMatch = matchColorPattern(classWithoutOpacity);
+                                                          if (colorMatch) {
+                                                            translation = colorMatch;
+                                                          } else {
+                                                            // Try pattern matching for arbitrary values
+                                                            const arbitraryMatch = matchArbitraryValue(classWithoutOpacity);
+                                                            if (arbitraryMatch) {
+                                                              translation = arbitraryMatch;
+                                                            } else {
+                                                              // Try pattern matching for gradients
+                                                              const gradientMatch =
+                                                                matchGradientPattern(classWithoutOpacity);
+                                                              if (gradientMatch) {
+                                                                translation = gradientMatch;
+                                                              } else {
+                                                                // If not found, use original class
+                                                                translation = baseClass;
+                                                              }
+                                                            }
+                                                          }
+                                                        }
+                                                      }
+                                                    }
+                                                  }
                                                 }
                                               }
                                             }
