@@ -2,8 +2,10 @@
  * Pattern-based translation for dynamic Tailwind classes
  */
 
-// Color names used across Tailwind
-const colorNames: Record<string, string> = {
+/**
+ * Color names used across Tailwind
+ */
+const COLOR_NAMES: Record<string, string> = {
   slate: "slate",
   gray: "gray",
   zinc: "zinc",
@@ -30,8 +32,10 @@ const colorNames: Record<string, string> = {
   black: "black",
 };
 
-// Shade descriptions for color variants
-const shadeDescriptions: Record<string, string> = {
+/**
+ * Shade descriptions for color variants
+ */
+const SHADE_DESCRIPTIONS: Record<string, string> = {
   "50": "lightest",
   "100": "very light",
   "200": "light",
@@ -45,8 +49,10 @@ const shadeDescriptions: Record<string, string> = {
   "950": "extremely dark",
 };
 
-// Spacing scale (Tailwind default)
-const spacingScale: Record<string, string> = {
+/**
+ * Spacing scale (Tailwind default)
+ */
+const SPACING_SCALE: Record<string, string> = {
   "0": "0",
   "0.5": "0.125rem",
   "1": "0.25rem",
@@ -84,6 +90,74 @@ const spacingScale: Record<string, string> = {
 };
 
 /**
+ * Number word mappings for better readability (1-12)
+ */
+const NUMBER_WORDS: Record<string, string> = {
+  "1": "one",
+  "2": "two",
+  "3": "three",
+  "4": "four",
+  "5": "five",
+  "6": "six",
+  "7": "seven",
+  "8": "eight",
+  "9": "nine",
+  "10": "ten",
+  "11": "eleven",
+  "12": "twelve",
+};
+
+/**
+ * Helper: Extract custom property from parentheses, e.g., "(--my-var)" -> "--my-var"
+ */
+function extractCustomProperty(value: string): string | null {
+  const match = value.match(/^\((--[\w-]+)\)$/);
+  return match ? match[1] : null;
+}
+
+/**
+ * Helper: Extract arbitrary value from brackets, e.g., "[10px]" -> "10px"
+ */
+function extractArbitraryValue(value: string): string | null {
+  const match = value.match(/^\[(.+?)\]$/);
+  return match ? match[1] : null;
+}
+
+/**
+ * Helper: Try to match a pattern with custom property, arbitrary value, or number
+ * Returns the matched value or null
+ */
+function matchFlexibleValue(
+  className: string,
+  prefix: string
+): { type: "custom" | "arbitrary" | "number"; value: string } | null {
+  if (!className.startsWith(prefix)) {
+    return null;
+  }
+
+  const suffix = className.slice(prefix.length);
+
+  // Check for custom property: prefix-(--var)
+  const customProp = extractCustomProperty(suffix);
+  if (customProp) {
+    return { type: "custom", value: customProp };
+  }
+
+  // Check for arbitrary value: prefix-[value]
+  const arbitrary = extractArbitraryValue(suffix);
+  if (arbitrary) {
+    return { type: "arbitrary", value: arbitrary };
+  }
+
+  // Check for number: prefix-123
+  if (/^-?\d+$/.test(suffix)) {
+    return { type: "number", value: suffix };
+  }
+
+  return null;
+}
+
+/**
  * Try to match spacing patterns (p-*, m-*, gap-*, space-*, etc.)
  */
 export function matchSpacingPattern(className: string): string | null {
@@ -102,7 +176,7 @@ export function matchSpacingPattern(className: string): string | null {
       value = value.slice(1, -1);
     }
     
-    const spacing = spacingScale[value] || value;
+    const spacing = SPACING_SCALE[value] || value;
 
     const directionMap: Record<string, string> = {
       "": "padding",
@@ -141,7 +215,7 @@ export function matchSpacingPattern(className: string): string | null {
       value = value.slice(1, -1);
     }
 
-    const spacing = spacingScale[value] || value;
+    const spacing = SPACING_SCALE[value] || value;
     const prefix = isNegative ? "negative " : "";
 
     const directionMap: Record<string, string> = {
@@ -164,7 +238,7 @@ export function matchSpacingPattern(className: string): string | null {
   if (gapMatch) {
     const direction = gapMatch[1];
     const value = gapMatch[2];
-    const spacing = spacingScale[value] || value;
+    const spacing = SPACING_SCALE[value] || value;
 
     if (direction === "x-") return `horizontal gap ${spacing}`;
     if (direction === "y-") return `vertical gap ${spacing}`;
@@ -187,7 +261,7 @@ export function matchSpacingPattern(className: string): string | null {
       value = value.slice(1, -1);
     }
     
-    const spacing = spacingScale[value] || value;
+    const spacing = SPACING_SCALE[value] || value;
     const prefix = isNegative ? "negative " : "";
 
     return direction === "x"
@@ -206,7 +280,7 @@ export function matchSizingPattern(className: string): string | null {
   const widthMatch = className.match(/^w-(\d+(?:\.\d+)?)$/);
   if (widthMatch) {
     const value = widthMatch[1];
-    const size = spacingScale[value] || `${value}`;
+    const size = SPACING_SCALE[value] || `${value}`;
     return `width ${size}`;
   }
 
@@ -214,7 +288,7 @@ export function matchSizingPattern(className: string): string | null {
   const heightMatch = className.match(/^h-(\d+(?:\.\d+)?)$/);
   if (heightMatch) {
     const value = heightMatch[1];
-    const size = spacingScale[value] || `${value}`;
+    const size = SPACING_SCALE[value] || `${value}`;
     return `height ${size}`;
   }
 
@@ -230,7 +304,7 @@ export function matchSizingPattern(className: string): string | null {
   const sizeNumberMatch = className.match(/^size-(\d+(?:\.\d+)?)$/);
   if (sizeNumberMatch) {
     const value = sizeNumberMatch[1];
-    const size = spacingScale[value] || `${value}`;
+    const size = SPACING_SCALE[value] || `${value}`;
     return `width and height ${size}`;
   }
 
@@ -290,20 +364,7 @@ export function matchColumnsPattern(className: string): string | null {
   const numberMatch = className.match(/^columns-(\d+)$/);
   if (numberMatch) {
     const num = numberMatch[1];
-    const numWord = {
-      "1": "one",
-      "2": "two",
-      "3": "three",
-      "4": "four",
-      "5": "five",
-      "6": "six",
-      "7": "seven",
-      "8": "eight",
-      "9": "nine",
-      "10": "ten",
-      "11": "eleven",
-      "12": "twelve",
-    }[num] || num;
+    const numWord = NUMBER_WORDS[num] || num;
     return `${numWord} column layout`;
   }
 
@@ -369,7 +430,7 @@ export function matchFlexBasisPattern(className: string): string | null {
   const numberMatch = className.match(/^basis-(\d+(?:\.\d+)?)$/);
   if (numberMatch) {
     const value = numberMatch[1];
-    const size = spacingScale[value] || `${value}`;
+    const size = SPACING_SCALE[value] || `${value}`;
     return `flex basis ${size}`;
   }
 
@@ -515,20 +576,7 @@ export function matchGridColumnsPattern(className: string): string | null {
   const numberMatch = className.match(/^grid-cols-(\d+)$/);
   if (numberMatch) {
     const value = numberMatch[1];
-    const numWord = {
-      "1": "one",
-      "2": "two",
-      "3": "three",
-      "4": "four",
-      "5": "five",
-      "6": "six",
-      "7": "seven",
-      "8": "eight",
-      "9": "nine",
-      "10": "ten",
-      "11": "eleven",
-      "12": "twelve",
-    }[value] || value;
+    const numWord = NUMBER_WORDS[value] || value;
     return `${numWord} column${value === "1" ? "" : "s"}`;
   }
 
@@ -555,20 +603,7 @@ export function matchGridRowsPattern(className: string): string | null {
   const numberMatch = className.match(/^grid-rows-(\d+)$/);
   if (numberMatch) {
     const value = numberMatch[1];
-    const numWord = {
-      "1": "one",
-      "2": "two",
-      "3": "three",
-      "4": "four",
-      "5": "five",
-      "6": "six",
-      "7": "seven",
-      "8": "eight",
-      "9": "nine",
-      "10": "ten",
-      "11": "eleven",
-      "12": "twelve",
-    }[value] || value;
+    const numWord = NUMBER_WORDS[value] || value;
     return `${numWord} row${value === "1" ? "" : "s"}`;
   }
 
@@ -1140,7 +1175,7 @@ export function matchTypographyPattern(className: string): string | null {
   const underlineOffsetMatch = className.match(/^underline-offset-(\d+)$/);
   if (underlineOffsetMatch) {
     const value = underlineOffsetMatch[1];
-    const size = spacingScale[value] || `${value}px`;
+    const size = SPACING_SCALE[value] || `${value}px`;
     return `underline offset ${size}`;
   }
 
@@ -1252,7 +1287,7 @@ export function matchPositioningPattern(className: string): string | null {
       const percent = ((num / denom) * 100).toFixed(3).replace(/\.?0+$/, "");
       return `${percent}%`;
     }
-    return spacingScale[value] || value;
+    return SPACING_SCALE[value] || value;
   };
 
   // Negative inset-x: -inset-x-4, -inset-x-1/2, -inset-x-px
@@ -1355,8 +1390,8 @@ export function matchColorPattern(className: string): string | null {
   // Background colors: bg-blue-500, bg-slate-800
   const bgMatch = className.match(/^bg-(\w+)-(\d+)$/);
   if (bgMatch) {
-    const color = colorNames[bgMatch[1]];
-    const shade = shadeDescriptions[bgMatch[2]];
+    const color = COLOR_NAMES[bgMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[bgMatch[2]];
     if (color && shade) {
       return `${shade} ${color} background`;
     }
@@ -1368,8 +1403,8 @@ export function matchColorPattern(className: string): string | null {
   // Text colors: text-blue-500, text-slate-900
   const textMatch = className.match(/^text-(\w+)-(\d+)$/);
   if (textMatch) {
-    const color = colorNames[textMatch[1]];
-    const shade = shadeDescriptions[textMatch[2]];
+    const color = COLOR_NAMES[textMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[textMatch[2]];
     if (color && shade) {
       return `${shade} ${color} text`;
     }
@@ -1381,8 +1416,8 @@ export function matchColorPattern(className: string): string | null {
   // Border colors: border-slate-200, border-blue-500
   const borderColorMatch = className.match(/^border-(\w+)-(\d+)$/);
   if (borderColorMatch) {
-    const color = colorNames[borderColorMatch[1]];
-    const shade = shadeDescriptions[borderColorMatch[2]];
+    const color = COLOR_NAMES[borderColorMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[borderColorMatch[2]];
     if (color && shade) {
       return `${shade} ${color} border`;
     }
@@ -1394,8 +1429,8 @@ export function matchColorPattern(className: string): string | null {
   // Ring colors: ring-blue-500
   const ringMatch = className.match(/^ring-(\w+)-(\d+)$/);
   if (ringMatch) {
-    const color = colorNames[ringMatch[1]];
-    const shade = shadeDescriptions[ringMatch[2]];
+    const color = COLOR_NAMES[ringMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[ringMatch[2]];
     if (color && shade) {
       return `${shade} ${color} ring`;
     }
@@ -1407,8 +1442,8 @@ export function matchColorPattern(className: string): string | null {
   // Divide colors: divide-slate-200
   const divideMatch = className.match(/^divide-(\w+)-(\d+)$/);
   if (divideMatch) {
-    const color = colorNames[divideMatch[1]];
-    const shade = shadeDescriptions[divideMatch[2]];
+    const color = COLOR_NAMES[divideMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[divideMatch[2]];
     if (color && shade) {
       return `${shade} ${color} divider`;
     }
@@ -1420,8 +1455,8 @@ export function matchColorPattern(className: string): string | null {
   // SVG fill colors: fill-blue-500, fill-slate-400
   const fillMatch = className.match(/^fill-(\w+)-(\d+)$/);
   if (fillMatch) {
-    const color = colorNames[fillMatch[1]];
-    const shade = shadeDescriptions[fillMatch[2]];
+    const color = COLOR_NAMES[fillMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[fillMatch[2]];
     if (color && shade) {
       return `${shade} ${color} fill`;
     }
@@ -1433,8 +1468,8 @@ export function matchColorPattern(className: string): string | null {
   // SVG stroke colors: stroke-blue-500, stroke-slate-400
   const strokeMatch = className.match(/^stroke-(\w+)-(\d+)$/);
   if (strokeMatch) {
-    const color = colorNames[strokeMatch[1]];
-    const shade = shadeDescriptions[strokeMatch[2]];
+    const color = COLOR_NAMES[strokeMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[strokeMatch[2]];
     if (color && shade) {
       return `${shade} ${color} stroke`;
     }
@@ -1446,8 +1481,8 @@ export function matchColorPattern(className: string): string | null {
   // Text decoration colors: decoration-blue-500, decoration-sky-400
   const decorationMatch = className.match(/^decoration-(\w+)-(\d+)$/);
   if (decorationMatch) {
-    const color = colorNames[decorationMatch[1]];
-    const shade = shadeDescriptions[decorationMatch[2]];
+    const color = COLOR_NAMES[decorationMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[decorationMatch[2]];
     if (color && shade) {
       return `${shade} ${color} decoration`;
     }
@@ -1459,8 +1494,8 @@ export function matchColorPattern(className: string): string | null {
   // Outline colors: outline-blue-500, outline-slate-400
   const outlineMatch = className.match(/^outline-(\w+)-(\d+)$/);
   if (outlineMatch) {
-    const color = colorNames[outlineMatch[1]];
-    const shade = shadeDescriptions[outlineMatch[2]];
+    const color = COLOR_NAMES[outlineMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[outlineMatch[2]];
     if (color && shade) {
       return `${shade} ${color} outline`;
     }
@@ -1472,8 +1507,8 @@ export function matchColorPattern(className: string): string | null {
   // Accent colors: accent-blue-500, accent-green-700
   const accentMatch = className.match(/^accent-(\w+)-(\d+)$/);
   if (accentMatch) {
-    const color = colorNames[accentMatch[1]];
-    const shade = shadeDescriptions[accentMatch[2]];
+    const color = COLOR_NAMES[accentMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[accentMatch[2]];
     if (color && shade) {
       return `${shade} ${color} accent color`;
     }
@@ -1485,8 +1520,8 @@ export function matchColorPattern(className: string): string | null {
   // Caret colors: caret-blue-500, caret-red-700
   const caretMatch = className.match(/^caret-(\w+)-(\d+)$/);
   if (caretMatch) {
-    const color = colorNames[caretMatch[1]];
-    const shade = shadeDescriptions[caretMatch[2]];
+    const color = COLOR_NAMES[caretMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[caretMatch[2]];
     if (color && shade) {
       return `${shade} ${color} caret color`;
     }
@@ -1499,8 +1534,8 @@ export function matchColorPattern(className: string): string | null {
   const borderSideColorMatch = className.match(/^border-([trbl])-(\w+)-(\d+)$/);
   if (borderSideColorMatch) {
     const side = borderSideColorMatch[1];
-    const color = colorNames[borderSideColorMatch[2]];
-    const shade = shadeDescriptions[borderSideColorMatch[3]];
+    const color = COLOR_NAMES[borderSideColorMatch[2]];
+    const shade = SHADE_DESCRIPTIONS[borderSideColorMatch[3]];
     
     const sideMap: Record<string, string> = {
       t: "top",
@@ -1522,8 +1557,8 @@ export function matchColorPattern(className: string): string | null {
   // Ring offset colors: ring-offset-blue-500, ring-offset-gray-200
   const ringOffsetMatch = className.match(/^ring-offset-(\w+)-(\d+)$/);
   if (ringOffsetMatch) {
-    const color = colorNames[ringOffsetMatch[1]];
-    const shade = shadeDescriptions[ringOffsetMatch[2]];
+    const color = COLOR_NAMES[ringOffsetMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[ringOffsetMatch[2]];
     if (color && shade) {
       return `${shade} ${color} ring offset`;
     }
@@ -1535,8 +1570,8 @@ export function matchColorPattern(className: string): string | null {
   // Placeholder colors: placeholder-blue-500, placeholder-gray-400
   const placeholderMatch = className.match(/^placeholder-(\w+)-(\d+)$/);
   if (placeholderMatch) {
-    const color = colorNames[placeholderMatch[1]];
-    const shade = shadeDescriptions[placeholderMatch[2]];
+    const color = COLOR_NAMES[placeholderMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[placeholderMatch[2]];
     if (color && shade) {
       return `${shade} ${color} placeholder`;
     }
@@ -1548,8 +1583,8 @@ export function matchColorPattern(className: string): string | null {
   // Shadow colors: shadow-blue-500, shadow-red-300 (Tailwind 3.3+)
   const shadowColorMatch = className.match(/^shadow-(\w+)-(\d+)$/);
   if (shadowColorMatch) {
-    const color = colorNames[shadowColorMatch[1]];
-    const shade = shadeDescriptions[shadowColorMatch[2]];
+    const color = COLOR_NAMES[shadowColorMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[shadowColorMatch[2]];
     if (color && shade) {
       return `${shade} ${color} shadow`;
     }
@@ -1653,8 +1688,8 @@ export function matchGradientPattern(className: string): string | null {
   // Gradient from: from-blue-500, from-slate-50
   const fromMatch = className.match(/^from-(\w+)-(\d+)$/);
   if (fromMatch) {
-    const color = colorNames[fromMatch[1]];
-    const shade = shadeDescriptions[fromMatch[2]];
+    const color = COLOR_NAMES[fromMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[fromMatch[2]];
     if (color && shade) {
       return `gradient from ${shade} ${color}`;
     }
@@ -1672,8 +1707,8 @@ export function matchGradientPattern(className: string): string | null {
   // Gradient via: via-blue-500, via-slate-100
   const viaMatch = className.match(/^via-(\w+)-(\d+)$/);
   if (viaMatch) {
-    const color = colorNames[viaMatch[1]];
-    const shade = shadeDescriptions[viaMatch[2]];
+    const color = COLOR_NAMES[viaMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[viaMatch[2]];
     if (color && shade) {
       return `gradient via ${shade} ${color}`;
     }
@@ -1691,8 +1726,8 @@ export function matchGradientPattern(className: string): string | null {
   // Gradient to: to-blue-500, to-indigo-950
   const toMatch = className.match(/^to-(\w+)-(\d+)$/);
   if (toMatch) {
-    const color = colorNames[toMatch[1]];
-    const shade = shadeDescriptions[toMatch[2]];
+    const color = COLOR_NAMES[toMatch[1]];
+    const shade = SHADE_DESCRIPTIONS[toMatch[2]];
     if (color && shade) {
       return `gradient to ${shade} ${color}`;
     }
