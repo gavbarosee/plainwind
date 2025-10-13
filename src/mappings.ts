@@ -249,6 +249,10 @@ export const tailwindMappings: Record<string, string> = {
   "auto-rows-min": "minimum row height",
   "auto-rows-max": "maximum row height",
   "auto-rows-fr": "fractional row height",
+
+  // Container Queries
+  "@container": "container query context",
+  
   "grid-cols-1": "one column",
   "grid-cols-2": "two columns",
   "grid-cols-3": "three columns",

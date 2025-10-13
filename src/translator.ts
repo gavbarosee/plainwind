@@ -548,13 +548,38 @@ function isCustomCSSVariable(className: string): boolean {
 }
 
 /**
+ * Check if a class is an arbitrary CSS property (e.g., "[mask-type:luminance]")
+ */
+function isArbitraryProperty(className: string): boolean {
+  return /^\[[\w-]+:/.test(className) && !isCustomCSSVariable(className);
+}
+
+/**
+ * Describe an arbitrary CSS property
+ */
+function describeArbitraryProperty(className: string): string {
+  const match = className.match(/^\[([\w-]+):(.*)\]$/);
+  if (match) {
+    const property = match[1];
+    const value = match[2];
+    return `${property}: ${value}`;
+  }
+  return className;
+}
+
+/**
  * Translate the base class (without variants or opacity) to plain English
  * Returns the original className if no translation is found
  */
 function translateBaseClass(className: string): string {
-  // Check for arbitrary CSS custom properties
+  // Check for arbitrary CSS custom properties (e.g., [--scroll-offset:56px])
   if (isCustomCSSVariable(className)) {
-    return "custom CSS variable";
+    return `CSS variable ${describeArbitraryProperty(className)}`;
+  }
+
+  // Check for arbitrary CSS properties (e.g., [mask-type:luminance])
+  if (isArbitraryProperty(className)) {
+    return `CSS property ${describeArbitraryProperty(className)}`;
   }
 
   // Look up in static mappings first
@@ -709,14 +734,53 @@ function describeArbitraryVariant(variant: string): string {
     return `in container <${value}`;
   }
   
-  // Handle group/peer with named groups: group/name or peer/name
+  // Handle group/peer/container with named references: group/name, peer/name, @container/name, @sm/name
   if (variant.includes("/")) {
     const [base, name] = variant.split("/");
+    
+    // Named groups
     if (base === "group") {
       return `when group "${name}"`;
     }
+    
+    // Named peers
     if (base === "peer") {
       return `when peer "${name}"`;
+    }
+    
+    // Named container marker (e.g., @container/main)
+    if (base === "@container") {
+      return `container "${name}"`;
+    }
+    
+    // Named container query variants (e.g., @sm/main, @md/sidebar)
+    if (base.startsWith("@")) {
+      const size = base.slice(1); // Remove @ prefix
+      // Check if it's a standard container size
+      const containerSizes: Record<string, string> = {
+        "3xs": "3xs (≥256px)",
+        "2xs": "2xs (≥288px)",
+        "xs": "xs (≥320px)",
+        "sm": "small (≥384px)",
+        "md": "medium (≥448px)",
+        "lg": "large (≥512px)",
+        "xl": "xl (≥576px)",
+        "2xl": "2xl (≥672px)",
+        "3xl": "3xl (≥768px)",
+        "4xl": "4xl (≥896px)",
+        "5xl": "5xl (≥1024px)",
+        "6xl": "6xl (≥1152px)",
+        "7xl": "7xl (≥1280px)",
+      };
+      
+      const sizeDesc = containerSizes[size] || size;
+      return `in ${sizeDesc} container "${name}"`;
+    }
+    
+    // Named container max-width query variants (e.g., @max-sm/main)
+    if (base.startsWith("@max-")) {
+      const size = base.slice(5); // Remove @max- prefix
+      return `in container <${size} "${name}"`;
     }
   }
   
@@ -751,16 +815,85 @@ function applyVariants(translation: string, variants: string[]): string {
 }
 
 /**
+ * Extract important modifier from a class (e.g., "bg-white!" -> { className: "bg-white", important: true })
+ */
+function extractImportant(className: string): {
+  className: string;
+  important: boolean;
+} {
+  if (className.endsWith("!")) {
+    return {
+      className: className.slice(0, -1),
+      important: true,
+    };
+  }
+  return {
+    className,
+    important: false,
+  };
+}
+
+/**
+ * Extract prefix from a class (e.g., "tw:bg-white" -> { className: "bg-white", prefix: "tw" })
+ * Handles common Tailwind prefix patterns
+ */
+function extractPrefix(className: string): {
+  className: string;
+  prefix: string | null;
+} {
+  // Match any prefix followed by backslash-colon (escaped in CSS)
+  // Common pattern: tw\:bg-white or custom\:flex
+  const prefixMatch = className.match(/^([a-z]+)\\:(.+)$/);
+  if (prefixMatch) {
+    return {
+      className: prefixMatch[2],
+      prefix: prefixMatch[1],
+    };
+  }
+  return {
+    className,
+    prefix: null,
+  };
+}
+
+/**
  * Translate a single Tailwind class to plain English
- * Handles variants (e.g., "hover:", "md:"), opacity modifiers (e.g., "/50"), and base classes
+ * Handles:
+ * - Variants (e.g., "hover:", "md:")
+ * - Opacity modifiers (e.g., "/50")
+ * - Important modifier (e.g., "!")
+ * - Prefixes (e.g., "tw:")
+ * - Base classes
  */
 function translateSingleClass(cls: string): string {
-  const { variants, baseClass } = extractVariants(cls);
-  const { className, opacity } = extractOpacity(baseClass);
+  // Extract prefix first (e.g., tw\:bg-white)
+  const { className: withoutPrefix, prefix } = extractPrefix(cls);
+  
+  // Extract variants (e.g., hover:, md:)
+  const { variants, baseClass } = extractVariants(withoutPrefix);
+  
+  // Extract important modifier (e.g., bg-white!)
+  const { className: withoutImportant, important } = extractImportant(baseClass);
+  
+  // Extract opacity (e.g., bg-white/50)
+  const { className, opacity } = extractOpacity(withoutImportant);
 
+  // Translate the base class
   let translation = translateBaseClass(className);
+  
+  // Apply modifiers in order
   translation = applyOpacity(translation, opacity);
   translation = applyVariants(translation, variants);
+  
+  // Add important modifier if present
+  if (important) {
+    translation = `${translation} !important`;
+  }
+  
+  // Add prefix note if present
+  if (prefix) {
+    translation = `[${prefix}] ${translation}`;
+  }
 
   return translation;
 }
