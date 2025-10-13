@@ -12,6 +12,7 @@ export type ClassCategory =
   | "Borders"
   | "Typography"
   | "Effects"
+  | "Filters"
   | "Other";
 
 /**
@@ -99,16 +100,27 @@ export function categorizeClass(className: string): ClassCategory {
     return "Borders";
   }
 
-  // Effects (shadows, opacity, transitions, backdrop filters, transforms, filters, interactivity, blend modes)
+  // Filters (filter utilities: blur, brightness, contrast, drop-shadow, grayscale, hue-rotate, invert, saturate, sepia, backdrop-filter)
+  if (
+    /^filter/.test(baseClass) || // filter, filter-none, filter-[...], filter-(...) 
+    /^backdrop-filter/.test(baseClass) || // backdrop-filter, backdrop-filter-none, backdrop-filter-[...], backdrop-filter-(...) 
+    /^(blur-|blur|brightness-|contrast-|drop-shadow-|drop-shadow|grayscale|hue-rotate-|-hue-rotate-|invert|saturate-|sepia)/.test(
+      baseClass
+    ) ||
+    /^backdrop-(blur|brightness|contrast|grayscale|hue-rotate|invert|opacity|saturate|sepia)/.test(
+      baseClass
+    )
+  ) {
+    return "Filters";
+  }
+
+  // Effects (shadows, opacity, transitions, transforms, interactivity, blend modes, masks)
   // Check divide and ring structural classes BEFORE Colors (bg-blend- before bg-)
   if (
-    /^(shadow|inset-shadow|text-shadow|opacity-|transition|duration-|ease-|delay-|animate-|cursor-|backdrop-)/.test(
+    /^(shadow|inset-shadow|text-shadow|opacity-|transition|duration-|ease-|delay-|animate-|cursor-)/.test(
       baseClass
     ) ||
     /^(scale-|rotate-|translate-|skew-|-rotate-|-translate-|-skew-|origin-|perspective-|transform-style-|backface-)/.test(
-      baseClass
-    ) ||
-    /^(blur-|blur|brightness-|contrast-|drop-shadow-|drop-shadow|grayscale|hue-rotate-|-hue-rotate-|invert|saturate-|sepia)/.test(
       baseClass
     ) ||
     /^(pointer-events-|resize|scroll|snap-|touch-|select-|will-change-|appearance-|inert)/.test(
@@ -187,6 +199,7 @@ export function groupTranslationsByCategory(
     "Borders",
     "Typography",
     "Effects",
+    "Filters",
     "Other",
   ];
 
@@ -201,6 +214,7 @@ export function groupTranslationsByCategory(
     Borders: "🔲",
     Typography: "📝",
     Effects: "✨",
+    Filters: "🎭",
     Other: "🔧",
   };
 
