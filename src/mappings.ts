@@ -2462,19 +2462,34 @@ export const tailwindMappings: Record<string, string> = {
   "rounded-es-full": "fully circular end-start corner",
 
   // Ring Width
-  ring: "has focus ring (3px)",
+  ring: "has focus ring (1px default)",
   "ring-0": "no ring",
   "ring-1": "1px ring",
   "ring-2": "2px ring",
   "ring-4": "4px ring",
   "ring-8": "8px ring",
-  "ring-inset": "inset ring",
 
   // Ring Color
-  "ring-transparent": "transparent ring",
+  "ring-inherit": "inherited ring color",
   "ring-current": "ring matches text color",
+  "ring-transparent": "transparent ring",
   "ring-black": "black ring",
   "ring-white": "white ring",
+
+  // Inset Ring Width
+  "inset-ring": "has inset ring (1px default)",
+  "inset-ring-0": "no inset ring",
+  "inset-ring-1": "1px inset ring",
+  "inset-ring-2": "2px inset ring",
+  "inset-ring-4": "4px inset ring",
+  "inset-ring-8": "8px inset ring",
+
+  // Inset Ring Color
+  "inset-ring-inherit": "inherited inset ring color",
+  "inset-ring-current": "inset ring matches text color",
+  "inset-ring-transparent": "transparent inset ring",
+  "inset-ring-black": "black inset ring",
+  "inset-ring-white": "white inset ring",
 
   // Ring Offset Width
   "ring-offset-0": "no ring offset",
@@ -2495,23 +2510,52 @@ export const tailwindMappings: Record<string, string> = {
   "placeholder-black": "black placeholder",
   "placeholder-white": "white placeholder",
 
-  // Shadow
+  // Box Shadow - Size
+  "shadow-2xs": "2x small shadow",
+  "shadow-xs": "extra small shadow",
   "shadow-sm": "small shadow",
-  shadow: "has shadow",
+  shadow: "medium shadow",
   "shadow-md": "medium shadow",
   "shadow-lg": "large shadow",
   "shadow-xl": "extra large shadow",
   "shadow-2xl": "2x large shadow",
   "shadow-none": "no shadow",
-  "shadow-inner": "inner shadow",
 
-  // Text Shadow (v4.1)
+  // Box Shadow - Color
+  "shadow-inherit": "inherited shadow color",
+  "shadow-current": "shadow matches text color",
+  "shadow-transparent": "transparent shadow",
+  "shadow-black": "black shadow",
+  "shadow-white": "white shadow",
+
+  // Inset Shadow - Size
+  "inset-shadow-2xs": "2x small inset shadow",
+  "inset-shadow-xs": "extra small inset shadow",
+  "inset-shadow-sm": "small inset shadow",
+  "inset-shadow-none": "no inset shadow",
+
+  // Inset Shadow - Color
+  "inset-shadow-inherit": "inherited inset shadow color",
+  "inset-shadow-current": "inset shadow matches text color",
+  "inset-shadow-transparent": "transparent inset shadow",
+  "inset-shadow-black": "black inset shadow",
+  "inset-shadow-white": "white inset shadow",
+
+  // Text Shadow - Size (v4.1)
+  "text-shadow-2xs": "2x small text shadow",
+  "text-shadow-xs": "extra small text shadow",
   "text-shadow-sm": "small text shadow",
-  "text-shadow": "text shadow",
+  "text-shadow": "medium text shadow",
   "text-shadow-md": "medium text shadow",
   "text-shadow-lg": "large text shadow",
-  "text-shadow-xl": "extra large text shadow",
   "text-shadow-none": "no text shadow",
+
+  // Text Shadow - Color
+  "text-shadow-inherit": "inherited text shadow color",
+  "text-shadow-current": "text shadow matches text color",
+  "text-shadow-transparent": "transparent text shadow",
+  "text-shadow-black": "black text shadow",
+  "text-shadow-white": "white text shadow",
 
   // Isolation
   isolate: "creates new stacking context",
@@ -2534,6 +2578,83 @@ export const tailwindMappings: Record<string, string> = {
   // Mask (v4.1)
   mask: "applies mask",
   "mask-none": "no mask",
+
+  // Mask Clip
+  "mask-clip-border": "mask clips to border box",
+  "mask-clip-padding": "mask clips to padding box",
+  "mask-clip-content": "mask clips to content box",
+  "mask-clip-fill": "mask clips to fill box",
+  "mask-clip-stroke": "mask clips to stroke box",
+  "mask-clip-view": "mask clips to view box",
+  "mask-no-clip": "mask does not clip",
+
+  // Mask Composite
+  "mask-add": "add mask composite",
+  "mask-subtract": "subtract mask composite",
+  "mask-intersect": "intersect mask composite",
+  "mask-exclude": "exclude mask composite",
+
+  // Mask Radial - Shape
+  "mask-circle": "circular radial mask",
+  "mask-ellipse": "elliptical radial mask",
+
+  // Mask Radial - Size
+  "mask-radial-closest-corner": "radial mask to closest corner",
+  "mask-radial-closest-side": "radial mask to closest side",
+  "mask-radial-farthest-corner": "radial mask to farthest corner",
+  "mask-radial-farthest-side": "radial mask to farthest side",
+
+  // Mask Radial - Position
+  "mask-radial-at-top-left": "radial mask at top left",
+  "mask-radial-at-top": "radial mask at top",
+  "mask-radial-at-top-right": "radial mask at top right",
+  "mask-radial-at-left": "radial mask at left",
+  "mask-radial-at-center": "radial mask at center",
+  "mask-radial-at-right": "radial mask at right",
+  "mask-radial-at-bottom-left": "radial mask at bottom left",
+  "mask-radial-at-bottom": "radial mask at bottom",
+  "mask-radial-at-bottom-right": "radial mask at bottom right",
+
+  // Mask Mode
+  "mask-alpha": "alpha mask mode (opacity determines visibility)",
+  "mask-luminance": "luminance mask mode (brightness determines visibility)",
+  "mask-match": "match source mask mode",
+
+  // Mask Origin
+  "mask-origin-border": "mask positioned relative to border box",
+  "mask-origin-padding": "mask positioned relative to padding box",
+  "mask-origin-content": "mask positioned relative to content box",
+  "mask-origin-fill": "mask positioned relative to fill box",
+  "mask-origin-stroke": "mask positioned relative to stroke box",
+  "mask-origin-view": "mask positioned relative to view box",
+
+  // Mask Position
+  "mask-top-left": "mask at top left",
+  "mask-top": "mask at top",
+  "mask-top-right": "mask at top right",
+  "mask-left": "mask at left",
+  "mask-center": "mask at center",
+  "mask-right": "mask at right",
+  "mask-bottom-left": "mask at bottom left",
+  "mask-bottom": "mask at bottom",
+  "mask-bottom-right": "mask at bottom right",
+
+  // Mask Repeat
+  "mask-repeat": "repeating mask",
+  "mask-no-repeat": "non-repeating mask",
+  "mask-repeat-x": "mask repeats horizontally",
+  "mask-repeat-y": "mask repeats vertically",
+  "mask-repeat-space": "mask repeats with spacing",
+  "mask-repeat-round": "mask repeats rounded",
+
+  // Mask Size
+  "mask-auto": "auto mask size",
+  "mask-cover": "mask covers container",
+  "mask-contain": "mask contained in container",
+
+  // Mask Type (SVG)
+  "mask-type-alpha": "SVG mask uses alpha channel",
+  "mask-type-luminance": "SVG mask uses luminance",
 
   // Filters
   filter: "enables filters",

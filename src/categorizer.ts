@@ -102,7 +102,7 @@ export function categorizeClass(className: string): ClassCategory {
   // Effects (shadows, opacity, transitions, backdrop filters, transforms, filters, interactivity, blend modes)
   // Check divide and ring structural classes BEFORE Colors (bg-blend- before bg-)
   if (
-    /^(shadow|text-shadow|opacity-|transition|duration-|ease-|delay-|animate-|cursor-|backdrop-)/.test(
+    /^(shadow|inset-shadow|text-shadow|opacity-|transition|duration-|ease-|delay-|animate-|cursor-|backdrop-)/.test(
       baseClass
     ) ||
     /^(scale-|rotate-|translate-|skew-|-rotate-|-translate-|-skew-|origin-|perspective-|transform-style-|backface-)/.test(
@@ -116,7 +116,8 @@ export function categorizeClass(className: string): ClassCategory {
     ) ||
     /^(mix-blend-|bg-blend-)/.test(baseClass) ||
     /^(content-visibility-|contain-|mask)/.test(baseClass) ||
-    /^ring(-\d+|-inset|-offset-\d+)?$/.test(baseClass) // ring, ring-0, ring-1, ring-inset, ring-offset-0, etc. (but not ring-blue-500)
+    /^ring(-\d+|-offset-\d+)?$/.test(baseClass) || // ring, ring-0, ring-1, ring-offset-0, etc. (but not ring-blue-500)
+    /^inset-ring(-\d+)?$/.test(baseClass) // inset-ring, inset-ring-0, inset-ring-1, etc. (but not inset-ring-blue-500)
   ) {
     return "Effects";
   }
