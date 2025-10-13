@@ -14,6 +14,7 @@ export type ClassCategory =
   | "Tables"
   | "Transitions & Animation"
   | "Transforms"
+  | "Interactivity"
   | "Effects"
   | "Filters"
   | "Other";
@@ -131,6 +132,14 @@ export function categorizeClass(className: string): ClassCategory {
     return "Transforms";
   }
 
+  // Interactivity (accent-color, appearance, color-scheme, field-sizing, pointer-events, resize, scroll, snap, touch-action, user-select, will-change, caret-color, cursor)
+  if (
+    /^accent-/.test(baseClass) || // accent-color utilities (accent-red-500, accent-[...], accent-(...))
+    /^(appearance-|scheme-|color-scheme-|field-sizing-|caret-|pointer-events-|resize|scroll|snap-|touch-|select-|user-select-|will-change-|cursor-)/.test(baseClass)
+  ) {
+    return "Interactivity";
+  }
+
   // Filters (filter utilities: blur, brightness, contrast, drop-shadow, grayscale, hue-rotate, invert, saturate, sepia, backdrop-filter)
   if (
     /^filter/.test(baseClass) || // filter, filter-none, filter-[...], filter-(...) 
@@ -145,13 +154,13 @@ export function categorizeClass(className: string): ClassCategory {
     return "Filters";
   }
 
-  // Effects (shadows, opacity, interactivity, blend modes, masks)
+  // Effects (shadows, opacity, blend modes, masks, inert)
   // Check divide and ring structural classes BEFORE Colors (bg-blend- before bg-)
   if (
-    /^(shadow|inset-shadow|text-shadow|opacity-|cursor-)/.test(
+    /^(shadow|inset-shadow|text-shadow|opacity-)/.test(
       baseClass
     ) ||
-    /^(pointer-events-|resize|scroll|snap-|touch-|select-|will-change-|appearance-|inert)/.test(
+    /^(inert)/.test(
       baseClass
     ) ||
     /^(mix-blend-|bg-blend-)/.test(baseClass) ||
@@ -229,6 +238,7 @@ export function groupTranslationsByCategory(
     "Tables",
     "Transitions & Animation",
     "Transforms",
+    "Interactivity",
     "Effects",
     "Filters",
     "Other",
@@ -247,6 +257,7 @@ export function groupTranslationsByCategory(
     Tables: "📊",
     "Transitions & Animation": "🎬",
     Transforms: "🔄",
+    Interactivity: "👆",
     Effects: "✨",
     Filters: "🎭",
     Other: "🔧",

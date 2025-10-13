@@ -3476,17 +3476,27 @@ export const tailwindMappings: Record<string, string> = {
   "color-scheme-light": "light color scheme",
   "color-scheme-dark": "dark color scheme",
   "color-scheme-light-dark": "light or dark color scheme",
+  "scheme-normal": "normal color scheme",
+  "scheme-light": "light color scheme",
+  "scheme-dark": "dark color scheme",
+  "scheme-light-dark": "light or dark color scheme",
+  "scheme-only-light": "only light color scheme",
+  "scheme-only-dark": "only dark color scheme",
 
   // Accent Color
   "accent-auto": "default accent color",
   "accent-transparent": "transparent accent color",
   "accent-current": "accent matches text color",
   "accent-inherit": "inherits accent color",
+  "accent-black": "black accent color",
+  "accent-white": "white accent color",
 
   // Caret Color
   "caret-transparent": "transparent caret color",
   "caret-current": "caret matches text color",
   "caret-inherit": "inherits caret color",
+  "caret-black": "black caret color",
+  "caret-white": "white caret color",
 
   // Animation
   "animate-none": "no animation",
