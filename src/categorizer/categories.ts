@@ -1,41 +1,22 @@
 /**
- * Categorize Tailwind classes for grouped display
+ * Category Pattern Definitions
+ * 
+ * This file defines how Tailwind classes are categorized.
+ * 
+ * IMPORTANT: Order matters! Categories are checked in array order, and the
+ * first matching pattern wins. This is why specific patterns (like "Tables")
+ * must come before general ones (like "Layout").
+ *
+ * Each category has:
+ *   name:        The display name of the category
+ *   emoji:       Icon for visual distinction
+ *   patterns:    Array of RegExp patterns to match class names
+ *   description: Optional note about ordering or special handling
  */
 
-export type ClassCategory =
-  | "Layout"
-  | "Flexbox & Grid"
-  | "Spacing"
-  | "Sizing"
-  | "Colors"
-  | "Backgrounds"
-  | "Borders"
-  | "Typography"
-  | "Tables"
-  | "Transitions & Animation"
-  | "Transforms"
-  | "Interactivity"
-  | "Effects"
-  | "Filters"
-  | "SVG"
-  | "Accessibility"
-  | "Other";
+import type { Category } from "./types";
 
-/**
- * Category definition with patterns and metadata
- */
-interface CategoryDefinition {
-  name: ClassCategory;
-  emoji: string;
-  patterns: RegExp[];
-  description?: string;
-}
-
-/**
- * Category registry - ordered by priority (first match wins)
- * Categories are checked in array order, so order matters!
- */
-const CATEGORY_REGISTRY: CategoryDefinition[] = [
+export const CATEGORIES: Category[] = [
   {
     name: "Layout",
     emoji: "📐",
@@ -226,75 +207,3 @@ const CATEGORY_REGISTRY: CategoryDefinition[] = [
   },
 ];
 
-/**
- * Determine the category of a Tailwind class
- */
-export function categorizeClass(className: string): ClassCategory {
-  // Remove variants to get base class
-  const baseClass = className.split(":").pop() || className;
-
-  // Check each category in priority order (first match wins)
-  for (const category of CATEGORY_REGISTRY) {
-    for (const pattern of category.patterns) {
-      if (pattern.test(baseClass)) {
-        return category.name;
-      }
-    }
-  }
-
-  return "Other";
-}
-
-/**
- * Get category emoji
- */
-export function getCategoryEmoji(category: ClassCategory): string {
-  const found = CATEGORY_REGISTRY.find((c) => c.name === category);
-  return found?.emoji ?? "🔧";
-}
-
-/**
- * Get all categories in priority order
- */
-export function getCategoryOrder(): ClassCategory[] {
-  return [
-    ...CATEGORY_REGISTRY.map((c) => c.name),
-    "Other",
-  ];
-}
-
-/**
- * Group translations by category
- */
-export function groupTranslationsByCategory(
-  classNames: string[],
-  translations: string[],
-  showEmojis: boolean = false
-): string {
-  const grouped = new Map<ClassCategory, string[]>();
-
-  classNames.forEach((className, index) => {
-    const category = categorizeClass(className);
-    if (!grouped.has(category)) {
-      grouped.set(category, []);
-    }
-    grouped.get(category)!.push(translations[index]);
-  });
-
-  const parts: string[] = [];
-  const categoryOrder = getCategoryOrder();
-  
-  categoryOrder.forEach((category) => {
-    if (grouped.has(category)) {
-      const items = grouped.get(category)!.join(", ");
-      if (showEmojis) {
-        const emoji = getCategoryEmoji(category);
-        parts.push(`${emoji} ${category}: ${items}`);
-      } else {
-        parts.push(`${category}: ${items}`);
-      }
-    }
-  });
-
-  return parts.join(" | ");
-}
