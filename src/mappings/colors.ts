@@ -1,0 +1,51 @@
+/**
+ * Base color utilities
+ */
+export const colorsMappings: Record<string, string> = {
+  // Background Colors - Grays
+  "bg-inherit": "inherited background color",
+  "bg-current": "current color background",
+  "bg-transparent": "transparent background",
+  "bg-white": "white background",
+  "bg-black": "black background",
+  "bg-gray-50": "lightest gray background",
+  "bg-gray-100": "very light gray background",
+  "bg-gray-200": "light gray background",
+  "bg-gray-300": "lightish gray background",
+  "bg-gray-400": "medium light gray background",
+  "bg-gray-500": "medium gray background",
+  "bg-gray-600": "medium dark gray background",
+  "bg-gray-700": "dark gray background",
+  "bg-gray-800": "very dark gray background",
+  "bg-gray-900": "darkest gray background",
+  // Background Colors - Blues
+  "bg-blue-50": "lightest blue background",
+  "bg-blue-100": "very light blue background",
+  "bg-blue-500": "blue background",
+  "bg-blue-600": "medium dark blue background",
+  "bg-blue-700": "dark blue background",
+  // Background Colors - Other
+  "bg-red-500": "red background",
+  "bg-green-500": "green background",
+  "bg-yellow-500": "yellow background",
+  "bg-purple-500": "purple background",
+  "bg-pink-500": "pink background",
+  // Text Colors - Special
+  "text-inherit": "inherited text color",
+  "text-current": "current color text",
+  "text-transparent": "transparent text",
+  "text-white": "white text",
+  "text-black": "black text",
+  "text-gray-50": "lightest gray text",
+  "text-gray-100": "very light gray text",
+  "text-gray-400": "medium light gray text",
+  "text-gray-500": "medium gray text",
+  "text-gray-600": "medium dark gray text",
+  "text-gray-700": "dark gray text",
+  "text-gray-800": "very dark gray text",
+  "text-gray-900": "darkest gray text",
+  "text-blue-500": "blue text",
+  "text-blue-600": "medium dark blue text",
+  "text-red-500": "red text",
+  "text-green-500": "green text",
+};
