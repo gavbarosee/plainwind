@@ -17,6 +17,7 @@ export type ClassCategory =
   | "Interactivity"
   | "Effects"
   | "Filters"
+  | "SVG"
   | "Other";
 
 /**
@@ -187,9 +188,9 @@ export function categorizeClass(className: string): ClassCategory {
     return "Backgrounds";
   }
 
-  // Colors (text colors, backgrounds, borders, SVG fills/strokes, etc.)
+  // Colors (text colors, backgrounds, borders, etc.)
   if (
-    /^(bg-|text-|border-|ring-|divide-|fill-|stroke-|decoration-|from-|via-|to-|gradient|accent-|caret-|placeholder-|color-scheme-)/.test(
+    /^(bg-|text-|border-|ring-|divide-|decoration-|from-|via-|to-|gradient|accent-|caret-|placeholder-|color-scheme-)/.test(
       baseClass
     )
   ) {
@@ -202,6 +203,14 @@ export function categorizeClass(className: string): ClassCategory {
     /^(size-|w-|h-|min-w-|min-h-|max-w-|max-h-|container|aspect-)/.test(baseClass)
   ) {
     return "Sizing";
+  }
+
+  // SVG (fill, stroke)
+  if (
+    /^fill-/.test(baseClass) || // fill utilities (fill-red-500, fill-[...], fill-(...), fill-none, fill-current)
+    /^stroke-/.test(baseClass) // stroke utilities (stroke-red-500, stroke-[...], stroke-(...), stroke-none, stroke-current)
+  ) {
+    return "SVG";
   }
 
   return "Other";
@@ -241,6 +250,7 @@ export function groupTranslationsByCategory(
     "Interactivity",
     "Effects",
     "Filters",
+    "SVG",
     "Other",
   ];
 
@@ -260,6 +270,7 @@ export function groupTranslationsByCategory(
     Interactivity: "👆",
     Effects: "✨",
     Filters: "🎭",
+    SVG: "🎨",
     Other: "🔧",
   };
 

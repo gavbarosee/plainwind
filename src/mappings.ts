@@ -3587,11 +3587,19 @@ export const tailwindMappings: Record<string, string> = {
 
   // SVG Fill
   "fill-none": "no fill",
+  "fill-inherit": "inherit fill color",
   "fill-current": "fill with current color",
+  "fill-transparent": "transparent fill",
+  "fill-black": "black fill",
+  "fill-white": "white fill",
 
   // SVG Stroke
   "stroke-none": "no stroke",
+  "stroke-inherit": "inherit stroke color",
   "stroke-current": "stroke with current color",
+  "stroke-transparent": "transparent stroke",
+  "stroke-black": "black stroke",
+  "stroke-white": "white stroke",
 
   // Table Layout
   "table-auto": "automatic table layout",

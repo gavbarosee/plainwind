@@ -3118,6 +3118,68 @@ export function matchScrollPaddingPattern(className: string): string | null {
 }
 
 /**
+ * Try to match stroke color patterns (stroke-*)
+ */
+export function matchStrokePattern(className: string): string | null {
+  // stroke-(length:<custom-property>) - custom CSS property for stroke width
+  const strokeWidthCustomPropMatch = className.match(/^stroke-\(length:(--[\w-]+)\)$/);
+  if (strokeWidthCustomPropMatch) {
+    return `stroke width ${strokeWidthCustomPropMatch[1]}`;
+  }
+
+  // stroke-(<custom-property>) - custom CSS property for stroke color
+  const customPropMatch = className.match(/^stroke-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `stroke ${customPropMatch[1]}`;
+  }
+
+  // stroke-[value] - arbitrary stroke value (could be width or color)
+  const arbitraryMatch = className.match(/^stroke-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `stroke ${arbitraryMatch[1]}`;
+  }
+
+  // stroke-<number> - stroke width (numeric values)
+  const widthMatch = className.match(/^stroke-(\d+(?:\.\d+)?)$/);
+  if (widthMatch) {
+    return `stroke width ${widthMatch[1]}`;
+  }
+
+  // stroke-<color>-<shade> - Tailwind color palette
+  const colorMatch = className.match(/^stroke-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone)-(\d+)$/);
+  if (colorMatch) {
+    return `${colorMatch[1]}-${colorMatch[2]} stroke`;
+  }
+
+  return null;
+}
+
+/**
+ * Try to match fill patterns (fill-*)
+ */
+export function matchFillPattern(className: string): string | null {
+  // fill-(<custom-property>) - custom CSS property for fill
+  const customPropMatch = className.match(/^fill-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `fill ${customPropMatch[1]}`;
+  }
+
+  // fill-[value] - arbitrary fill value
+  const arbitraryMatch = className.match(/^fill-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `fill ${arbitraryMatch[1]}`;
+  }
+
+  // fill-<color>-<shade> - Tailwind color palette
+  const colorMatch = className.match(/^fill-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone)-(\d+)$/);
+  if (colorMatch) {
+    return `${colorMatch[1]}-${colorMatch[2]} fill`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match will-change patterns (will-change-*)
  */
 export function matchWillChangePattern(className: string): string | null {
