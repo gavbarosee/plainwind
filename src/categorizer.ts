@@ -18,6 +18,7 @@ export type ClassCategory =
   | "Effects"
   | "Filters"
   | "SVG"
+  | "Accessibility"
   | "Other";
 
 /**
@@ -213,6 +214,14 @@ export function categorizeClass(className: string): ClassCategory {
     return "SVG";
   }
 
+  // Accessibility (forced-color-adjust, sr-only)
+  if (
+    /^forced-color-adjust-/.test(baseClass) || // forced-color-adjust utilities (forced-color-adjust-auto, forced-color-adjust-none)
+    /^(sr-only|not-sr-only)$/.test(baseClass) // screen reader utilities
+  ) {
+    return "Accessibility";
+  }
+
   return "Other";
 }
 
@@ -251,6 +260,7 @@ export function groupTranslationsByCategory(
     "Effects",
     "Filters",
     "SVG",
+    "Accessibility",
     "Other",
   ];
 
@@ -271,6 +281,7 @@ export function groupTranslationsByCategory(
     Effects: "✨",
     Filters: "🎭",
     SVG: "🎨",
+    Accessibility: "♿",
     Other: "🔧",
   };
 
