@@ -11,6 +11,7 @@ export type ClassCategory =
   | "Backgrounds"
   | "Borders"
   | "Typography"
+  | "Tables"
   | "Effects"
   | "Filters"
   | "Other";
@@ -28,7 +29,7 @@ export function categorizeClass(className: string): ClassCategory {
     /^(visible|invisible|collapse)$/.test(baseClass) ||
     /^(start|end)$/.test(baseClass) || // logical float properties
     /^(float-|clear-|box-|border-sizing-|columns-|break-before-|break-after-|break-inside-)/.test(baseClass) ||
-    /^(object-|image-render-|table-auto|table-fixed|border-collapse|border-separate|border-spacing-|caption-)/.test(baseClass) ||
+    /^(object-|image-render-)/.test(baseClass) ||
     /^(overflow-|overscroll-)/.test(baseClass) ||
     /^(field-sizing-)/.test(baseClass) ||
     /^isolat/.test(baseClass) || // isolation utilities
@@ -83,6 +84,16 @@ export function categorizeClass(className: string): ClassCategory {
     /^content-(none|\[|\()/.test(baseClass) // pseudo-element content utilities
   ) {
     return "Typography";
+  }
+
+  // Tables (table layout and border spacing utilities)
+  if (
+    /^(table-auto|table-fixed)$/.test(baseClass) || // table-layout utilities
+    /^(border-collapse|border-separate)$/.test(baseClass) || // border-collapse utilities
+    /^border-spacing(-[xy])?(-\d+|-\[|-\()/.test(baseClass) || // border-spacing utilities (border-spacing-2, border-spacing-x-4, border-spacing-[value], border-spacing-(--var))
+    /^(caption-top|caption-bottom)$/.test(baseClass) // caption-side utilities
+  ) {
+    return "Tables";
   }
 
   // Borders (border-specific utilities, checked BEFORE Effects and Colors)
@@ -198,6 +209,7 @@ export function groupTranslationsByCategory(
     "Backgrounds",
     "Borders",
     "Typography",
+    "Tables",
     "Effects",
     "Filters",
     "Other",
@@ -213,6 +225,7 @@ export function groupTranslationsByCategory(
     Backgrounds: "🖼️",
     Borders: "🔲",
     Typography: "📝",
+    Tables: "📊",
     Effects: "✨",
     Filters: "🎭",
     Other: "🔧",

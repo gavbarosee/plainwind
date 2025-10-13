@@ -2515,6 +2515,67 @@ export function matchFilterPattern(className: string): string | null {
 }
 
 /**
+ * Try to match border-spacing patterns (border-spacing-*)
+ */
+export function matchBorderSpacingPattern(className: string): string | null {
+  // border-spacing-x-(<custom-property>) - custom CSS property for horizontal border spacing
+  const xCustomPropMatch = className.match(/^border-spacing-x-\((--[\w-]+)\)$/);
+  if (xCustomPropMatch) {
+    return `horizontal border spacing ${xCustomPropMatch[1]}`;
+  }
+
+  // border-spacing-y-(<custom-property>) - custom CSS property for vertical border spacing
+  const yCustomPropMatch = className.match(/^border-spacing-y-\((--[\w-]+)\)$/);
+  if (yCustomPropMatch) {
+    return `vertical border spacing ${yCustomPropMatch[1]}`;
+  }
+
+  // border-spacing-(<custom-property>) - custom CSS property for border spacing
+  const customPropMatch = className.match(/^border-spacing-\((--[\w-]+)\)$/);
+  if (customPropMatch) {
+    return `border spacing ${customPropMatch[1]}`;
+  }
+
+  // border-spacing-x-[value] - arbitrary horizontal border spacing value
+  const xArbitraryMatch = className.match(/^border-spacing-x-\[(.+?)\]$/);
+  if (xArbitraryMatch) {
+    return `horizontal border spacing ${xArbitraryMatch[1]}`;
+  }
+
+  // border-spacing-y-[value] - arbitrary vertical border spacing value
+  const yArbitraryMatch = className.match(/^border-spacing-y-\[(.+?)\]$/);
+  if (yArbitraryMatch) {
+    return `vertical border spacing ${yArbitraryMatch[1]}`;
+  }
+
+  // border-spacing-[value] - arbitrary border spacing value
+  const arbitraryMatch = className.match(/^border-spacing-\[(.+?)\]$/);
+  if (arbitraryMatch) {
+    return `border spacing ${arbitraryMatch[1]}`;
+  }
+
+  // border-spacing-x-<number> - horizontal border spacing scale
+  const xNumberMatch = className.match(/^border-spacing-x-(\d+(?:\.\d+)?)$/);
+  if (xNumberMatch) {
+    return `horizontal border spacing ${xNumberMatch[1]}`;
+  }
+
+  // border-spacing-y-<number> - vertical border spacing scale
+  const yNumberMatch = className.match(/^border-spacing-y-(\d+(?:\.\d+)?)$/);
+  if (yNumberMatch) {
+    return `vertical border spacing ${yNumberMatch[1]}`;
+  }
+
+  // border-spacing-<number> - border spacing scale
+  const numberMatch = className.match(/^border-spacing-(\d+(?:\.\d+)?)$/);
+  if (numberMatch) {
+    return `border spacing ${numberMatch[1]}`;
+  }
+
+  return null;
+}
+
+/**
  * Try to match background size patterns (bg-size-*)
  */
 export function matchBackgroundSizePattern(className: string): string | null {
