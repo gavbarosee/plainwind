@@ -12,6 +12,7 @@ export type ClassCategory =
   | "Borders"
   | "Typography"
   | "Tables"
+  | "Transitions & Animation"
   | "Effects"
   | "Filters"
   | "Other";
@@ -111,6 +112,14 @@ export function categorizeClass(className: string): ClassCategory {
     return "Borders";
   }
 
+  // Transitions & Animation (transition properties, timing, duration, delay, animations)
+  if (
+    /^transition/.test(baseClass) || // transition, transition-all, transition-colors, transition-[...], transition-(...)
+    /^(duration-|delay-|ease-|animate-)/.test(baseClass) // duration, delay, ease, animate utilities
+  ) {
+    return "Transitions & Animation";
+  }
+
   // Filters (filter utilities: blur, brightness, contrast, drop-shadow, grayscale, hue-rotate, invert, saturate, sepia, backdrop-filter)
   if (
     /^filter/.test(baseClass) || // filter, filter-none, filter-[...], filter-(...) 
@@ -125,10 +134,10 @@ export function categorizeClass(className: string): ClassCategory {
     return "Filters";
   }
 
-  // Effects (shadows, opacity, transitions, transforms, interactivity, blend modes, masks)
+  // Effects (shadows, opacity, transforms, interactivity, blend modes, masks)
   // Check divide and ring structural classes BEFORE Colors (bg-blend- before bg-)
   if (
-    /^(shadow|inset-shadow|text-shadow|opacity-|transition|duration-|ease-|delay-|animate-|cursor-)/.test(
+    /^(shadow|inset-shadow|text-shadow|opacity-|cursor-)/.test(
       baseClass
     ) ||
     /^(scale-|rotate-|translate-|skew-|-rotate-|-translate-|-skew-|origin-|perspective-|transform-style-|backface-)/.test(
@@ -210,6 +219,7 @@ export function groupTranslationsByCategory(
     "Borders",
     "Typography",
     "Tables",
+    "Transitions & Animation",
     "Effects",
     "Filters",
     "Other",
@@ -226,6 +236,7 @@ export function groupTranslationsByCategory(
     Borders: "🔲",
     Typography: "📝",
     Tables: "📊",
+    "Transitions & Animation": "🎬",
     Effects: "✨",
     Filters: "🎭",
     Other: "🔧",
