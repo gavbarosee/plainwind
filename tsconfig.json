@@ -6,14 +6,17 @@
     "lib": ["ES2020"],
     "sourceMap": true,
     "rootDir": "src",
-    "strict": true
+    "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"]
+    }
   },
   "include": ["src/**/*.ts"],
   "exclude": [
     "node_modules",
     ".vscode-test",
-    "**/*.test.ts",
-    "**/__tests__/**",
+    "tests/**",
     "*.config.ts",
     "vitest.config.ts"
   ]
