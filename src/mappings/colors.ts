@@ -4,7 +4,7 @@
 export const colorsMappings: Record<string, string> = {
   // Background Colors - Grays
   'bg-inherit': 'inherited background color',
-  'bg-current': 'current color background',
+  'bg-current': 'background matches text color',
   'bg-transparent': 'transparent background',
   'bg-white': 'white background',
   'bg-black': 'black background',
@@ -32,7 +32,7 @@ export const colorsMappings: Record<string, string> = {
   'bg-pink-500': 'pink background',
   // Text Colors - Special
   'text-inherit': 'inherited text color',
-  'text-current': 'current color text',
+  'text-current': 'text matches current color',
   'text-transparent': 'transparent text',
   'text-white': 'white text',
   'text-black': 'black text',

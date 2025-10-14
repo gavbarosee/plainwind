@@ -3,8 +3,8 @@
  */
 export const bordersMappings: Record<string, string> = {
   // Border Sizing (v4 beta)
-  'border-sizing-content': 'border sizing uses content-box',
-  'border-sizing-border': 'border sizing uses border-box',
+  'border-sizing-content': 'width excludes border and padding (content-box)',
+  'border-sizing-border': 'width includes border and padding (border-box)',
   // Border
   border: 'has border',
   'border-0': 'no border',
@@ -38,11 +38,11 @@ export const bordersMappings: Record<string, string> = {
   'border-y-2': '2px top and bottom borders',
   'border-y-4': '4px top and bottom borders',
   'border-y-8': '8px top and bottom borders',
-  'border-s': 'start side border (logical)',
+  'border-s': 'start side border (left in LTR, right in RTL)',
   'border-s-0': 'no start side border',
   'border-s-2': '2px start side border',
   'border-s-4': '4px start side border',
-  'border-e': 'end side border (logical)',
+  'border-e': 'end side border (right in LTR, left in RTL)',
   'border-e-0': 'no end side border',
   'border-e-2': '2px end side border',
   'border-e-4': '4px end side border',
@@ -70,8 +70,8 @@ export const bordersMappings: Record<string, string> = {
   'divide-y-2': '2px horizontal dividers',
   'divide-y-4': '4px horizontal dividers',
   'divide-y-8': '8px horizontal dividers',
-  'divide-x-reverse': 'reversed vertical dividers',
-  'divide-y-reverse': 'reversed horizontal dividers',
+  'divide-x-reverse': 'vertical dividers on opposite side',
+  'divide-y-reverse': 'horizontal dividers on opposite side',
   // Divide Color
   'divide-transparent': 'transparent dividers',
   'divide-current': 'dividers match text color',
@@ -274,7 +274,7 @@ export const bordersMappings: Record<string, string> = {
   'rounded-es-none': 'no rounded end-start corner',
   'rounded-es-full': 'fully circular end-start corner',
   // Ring Width
-  ring: 'has focus ring (1px default)',
+  ring: 'has focus ring (3px default)',
   'ring-0': 'no ring',
   'ring-1': '1px ring',
   'ring-2': '2px ring',
@@ -287,7 +287,7 @@ export const bordersMappings: Record<string, string> = {
   'ring-black': 'black ring',
   'ring-white': 'white ring',
   // Inset Ring Width
-  'inset-ring': 'has inset ring (1px default)',
+  'inset-ring': 'has inset ring (3px default)',
   'inset-ring-0': 'no inset ring',
   'inset-ring-1': '1px inset ring',
   'inset-ring-2': '2px inset ring',
