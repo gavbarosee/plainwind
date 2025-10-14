@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { translateClasses } from './translator';
+import { translateClasses } from '../translation/translator';
 
 // Constants
 // Matches: className="..." or class="..." with single/double quotes

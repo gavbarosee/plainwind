@@ -8,10 +8,10 @@ import {
   initializeDecorations,
   updateInlineDecorations,
   disposeDecorations,
-} from './decorations';
-import { TailwindCodeLensProvider } from './codelens';
-import { PanelManager } from './panel/panelManager';
-import { HighlightManager } from './highlight/highlightManager';
+} from './ui/decorations';
+import { TailwindCodeLensProvider } from './ui/codelens';
+import { PanelManager } from './ui/panel/panelManager';
+import { HighlightManager } from './ui/highlight/highlightManager';
 
 // Module instances
 let panelManager: PanelManager | undefined;

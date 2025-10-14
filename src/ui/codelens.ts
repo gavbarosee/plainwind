@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { translateClasses } from './translator';
+import { translateClasses } from '../translation/translator';
 
 const CLASS_NAME_PATTERN = /(class(?:Name)?=["'])([^"']+)(["'])/g;
 const MAX_CODELENS_LENGTH = 150; // Maximum characters before truncation
