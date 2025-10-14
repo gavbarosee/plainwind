@@ -1,0 +1,146 @@
+/**
+ * Manages Tailwind class detail panels
+ */
+
+import * as vscode from 'vscode';
+import { PanelState, PanelInfo } from './panelState';
+import { generatePanelHTML } from './panelTemplate';
+
+export class PanelManager {
+  private state: PanelState;
+  private onHighlightUpdate: () => void;
+
+  constructor(onHighlightUpdate: () => void) {
+    this.state = new PanelState();
+    this.onHighlightUpdate = onHighlightUpdate;
+  }
+
+  /**
+   * Show or focus a translation detail panel
+   */
+  showPanel(
+    classString: string,
+    translation: string,
+    range: vscode.Range,
+    documentUri: vscode.Uri
+  ): void {
+    // Find the editor for this document
+    const editor = vscode.window.visibleTextEditors.find(
+      e => e.document.uri.toString() === documentUri.toString()
+    );
+
+    if (!editor) {
+      return;
+    }
+
+    // Check if a panel already exists for this exact range
+    const existingPanel = this.state.findPanel(editor, range);
+    if (existingPanel) {
+      // Just reveal/focus the existing panel
+      existingPanel.panel.reveal(vscode.ViewColumn.Beside);
+      this.state.setFocusedPanel(existingPanel.panel);
+      this.onHighlightUpdate();
+      return;
+    }
+
+    // Create a new panel
+    const panel = vscode.window.createWebviewPanel(
+      'plainwindDetails',
+      'Tailwind Class Details',
+      vscode.ViewColumn.Beside,
+      {
+        enableScripts: true,
+        retainContextWhenHidden: false,
+      }
+    );
+
+    // Track this panel
+    const panelInfo: PanelInfo = { panel, editor, range };
+    this.state.addPanel(panelInfo);
+
+    // Set panel content
+    const currentCount = this.state.getPanelCount();
+    panel.webview.html = generatePanelHTML(classString, translation, currentCount);
+    this.onHighlightUpdate();
+
+    // Handle webview messages
+    panel.webview.onDidReceiveMessage(message => {
+      if (message.command === 'clearAll') {
+        this.closeAllPanels();
+      } else if (message.command === 'ready') {
+        this.updateAllPanelCounts();
+      }
+    });
+
+    // Track when panel becomes active/visible
+    panel.onDidChangeViewState(e => {
+      if (e.webviewPanel.active) {
+        this.state.setFocusedPanel(e.webviewPanel);
+        this.onHighlightUpdate();
+      }
+    });
+
+    // Handle panel disposal
+    panel.onDidDispose(() => {
+      this.state.removePanel(panelInfo);
+      this.onHighlightUpdate();
+      this.updateAllPanelCounts();
+    });
+  }
+
+  /**
+   * Close all open panels
+   */
+  closeAllPanels(): void {
+    const panelsToClose = [...this.state.getAllPanels()];
+    for (const panelInfo of panelsToClose) {
+      panelInfo.panel.dispose();
+    }
+    this.state.clear();
+    this.onHighlightUpdate();
+  }
+
+  /**
+   * Update the panel count in all open panels
+   */
+  updateAllPanelCounts(): void {
+    const count = this.state.getPanelCount();
+    for (const panelInfo of this.state.getAllPanels()) {
+      panelInfo.panel.webview.postMessage({
+        command: 'updateCount',
+        count: count
+      });
+    }
+  }
+
+  /**
+   * Get all active panels (for highlight manager)
+   */
+  getAllPanels(): PanelInfo[] {
+    return this.state.getAllPanels();
+  }
+
+  /**
+   * Get the currently focused panel (for highlight manager)
+   */
+  getFocusedPanel(): vscode.WebviewPanel | undefined {
+    return this.state.getFocusedPanel();
+  }
+
+  /**
+   * Register webview serializer to prevent restoration
+   */
+  registerSerializer(context: vscode.ExtensionContext): void {
+    if (vscode.window.registerWebviewPanelSerializer) {
+      context.subscriptions.push(
+        vscode.window.registerWebviewPanelSerializer('plainwindDetails', {
+          async deserializeWebviewPanel(webviewPanel: vscode.WebviewPanel) {
+            // Close any restored panels instead of trying to deserialize them
+            webviewPanel.dispose();
+          }
+        })
+      );
+    }
+  }
+}
+
