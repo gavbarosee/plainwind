@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { translateClasses } from './translator';
 
 const CLASS_NAME_PATTERN = /(class(?:Name)?=["'])([^"']+)(["'])/g;
+const MAX_CODELENS_LENGTH = 150; // Maximum characters before truncation
 
 /**
  * CodeLens provider for Tailwind class translations
@@ -30,11 +31,22 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
 
       const translation = translateClasses(classString);
       const startPos = document.positionAt(match.index);
-      const range = new vscode.Range(startPos, startPos);
+      const endPos = document.positionAt(match.index + match[0].length);
+      const range = new vscode.Range(startPos, endPos);
+
+      // Truncate if too long
+      let displayText = translation;
+      let isTruncated = false;
+      
+      if (translation.length > MAX_CODELENS_LENGTH) {
+        displayText = translation.substring(0, MAX_CODELENS_LENGTH).trim() + '...';
+        isTruncated = true;
+      }
 
       const codeLens = new vscode.CodeLens(range, {
-        title: `💨 ${translation}`,
-        command: '',
+        title: `💨 ${displayText}${isTruncated ? ' (click for details)' : ''}`,
+        command: 'plainwind.showFullTranslation',
+        arguments: [translation, classString, range, document.uri],
       });
 
       codeLenses.push(codeLens);
