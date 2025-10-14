@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { expectIncludesAll, expectIncludesInOrder, expectTranslation } from '@tests/_support/testUtils';
 import { setPlainwindConfig } from '@tests/_support/setup';
-import { VARIANT_CASES, CATEGORY_ORDER } from '@tests/_support/cases';
+import { VARIANT_CASES, CATEGORY_ORDER, FULL_MODIFIER_CHAIN_CASES, GRACEFUL_DEGRADATION_CASES, REAL_WORLD_COMPLEX_CASES, PERFORMANCE_CASES, MALFORMED_MODIFIER_CASES } from '@tests/_support/cases';
 import { translateClasses } from '@src/translation/translator';
 import { ClassBuilder } from '@tests/_support/classBuilder';
 
@@ -255,6 +255,70 @@ describe('translateClasses - Full Integration', () => {
       const longString = Array(50).fill('p-4').join(' ');
       const result = translateClasses(longString);
       expect(result).toContain('padding');
+    });
+  });
+
+  describe('full modifier chains (order-of-operations)', () => {
+    it.each(FULL_MODIFIER_CHAIN_CASES)('correctly processes %s', (cls, expectedParts) => {
+      const result = translateClasses(cls);
+      expectedParts.forEach(part => {
+        expect(result).toContain(part);
+      });
+    });
+  });
+
+  describe('error recovery - graceful degradation', () => {
+    it.each(GRACEFUL_DEGRADATION_CASES)('handles malformed input: %s', (input, shouldNotError) => {
+      expect(() => {
+        const result = translateClasses(input);
+        expect(typeof result).toBe('string');
+      }).not.toThrow();
+    });
+
+    it.each(MALFORMED_MODIFIER_CASES)('processes malformed modifier %s as-is', (input, expected) => {
+      const result = translateClasses(input);
+      expect(result).toContain(expected);
+    });
+  });
+
+  describe('real-world complex combinations', () => {
+    it.each(REAL_WORLD_COMPLEX_CASES)('correctly translates %s', (cls, expectedParts) => {
+      const result = translateClasses(cls);
+      expectedParts.forEach(part => {
+        expect(result).toContain(part);
+      });
+    });
+  });
+
+  describe('performance - scalability', () => {
+    it('should handle very long class strings efficiently', () => {
+      const startTime = performance.now();
+      const result = translateClasses(PERFORMANCE_CASES.longClassString);
+      const duration = performance.now() - startTime;
+      
+      expect(result).toContain('padding');
+      expect(duration).toBeLessThan(100); // Should complete in < 100ms
+    });
+
+    it('should handle deeply nested variants', () => {
+      const result = translateClasses(PERFORMANCE_CASES.deeplyNestedVariants);
+      expect(result).toContain('padding');
+      expect(result).toContain('small screens');
+    });
+
+    it('should handle long arbitrary values', () => {
+      const result = translateClasses(PERFORMANCE_CASES.longArbitraryValue);
+      expect(result).toContain('width');
+      expect(result).toContain('calc');
+    });
+
+    it('should handle many classes efficiently', () => {
+      const startTime = performance.now();
+      const result = translateClasses(PERFORMANCE_CASES.manyClasses);
+      const duration = performance.now() - startTime;
+      
+      expect(result).toContain('flex');
+      expect(duration).toBeLessThan(200); // Should complete in < 200ms
     });
   });
 });

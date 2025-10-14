@@ -606,6 +606,134 @@ export const GROUP_CATEGORY_ORDER_CASE = {
   categories: ['Flexbox & Grid', 'Spacing', 'Typography'],
 };
 
+// Complex modifier chain cases (order-of-operations)
+export const FULL_MODIFIER_CHAIN_CASES: Array<[string, string[]]> = [
+  ['tw\\:bg-white', ['[tw]', 'white background']],
+  ['hover:bg-blue-500!', ['on hover', '!important']],
+  ['md:bg-white/50', ['on medium screens', '50% opacity']],
+  ['tw\\:md:hover:bg-blue-500', ['[tw]', 'on medium screens', 'on hover', 'blue background']],
+  ['md:hover:bg-blue-500/75', ['on medium screens', 'on hover', '75% opacity']],
+  ['hover:bg-blue-500/50!', ['on hover', '50% opacity', '!important']],
+  ['tw\\:md:hover:bg-blue-500/50!', ['[tw]', 'on medium screens', 'on hover', '50% opacity', '!important']],
+  ['dark:md:hover:focus:bg-gradient-to-r/75!', ['in dark mode', 'on medium screens', 'on hover', 'on focus', '75% opacity', '!important']],
+];
+
+// Parser edge cases - bracket handling
+export const BRACKET_EDGE_CASES: Array<[string, string, string]> = [
+  ['hover:[clip-path:polygon(0_0,100%_0)]', 'variants', 'hover'],
+  ['[mask:url(data:image/svg)]', 'baseClass', '[mask:url(data:image/svg)]'],
+  ['dark:[background:rgb(0,0,0)]', 'variants', 'dark'],
+  ['[content:"hello"]', 'baseClass', '[content:"hello"]'],
+  ['has-[>img]:flex', 'variants', 'has-[>img]'],
+  ['group-hover:peer-focus:[&>div]:p-4', 'variants', 'group-hover'],
+];
+
+// Error recovery - malformed input 
+export const MALFORMED_MODIFIER_CASES: Array<[string, string]> = [
+  ['hover:', 'on hover'], // empty base class, parsed gracefully
+  [':bg-white', 'white background'], // leading colon is treated as variant name
+  ['md::flex', 'on medium screens'], // double colon creates empty variant
+  [':::test', 'test'], // multiple colons are stripped
+];
+
+export const INVALID_OPACITY_CASES: Array<[string, string | null]> = [
+  ['bg-white/abc', null],
+  ['bg-white/150', '150'],
+  ['bg-white/-10', null],
+  ['bg-white/', null],
+  ['bg-white/0', '0'],
+  ['bg-white/100', '100'],
+];
+
+// Unicode and special characters
+export const UNICODE_ARBITRARY_CASES: Array<[string, string]> = [
+  ['[content:"🎉"]', 'content:"🎉"'],
+  ['[content:"中文"]', 'content:"中文"'],
+  ['[content:"hello_world"]', 'content:"hello_world"'],
+  ['[font-family:"SF_Pro"]', 'font-family:"SF_Pro"'],
+];
+
+// Parser edge cases for extractVariants with complex bracket nesting
+export const COMPLEX_VARIANT_EXTRACTION_CASES: Array<[string, string[], string]> = [
+  ['hover:focus:bg-white', ['hover', 'focus'], 'bg-white'],
+  ['md:hover:focus:active:p-4', ['md', 'hover', 'focus', 'active'], 'p-4'],
+  ['has-[>img]:flex', ['has-[>img]'], 'flex'],
+  ['data-[state=open]:block', ['data-[state=open]'], 'block'],
+  ['[&>div]:hover:p-4', ['[&>div]', 'hover'], 'p-4'],
+  ['group-[:hover]:flex', ['group-[:hover]'], 'flex'],
+  ['dark:[&:nth-child(3)]:block', ['dark', '[&:nth-child(3)]'], 'block'],
+];
+
+// Opacity extraction edge cases
+export const OPACITY_EXTRACTION_EDGE_CASES: Array<[string, string, string | null]> = [
+  ['bg-white/50', 'bg-white', '50'],
+  ['bg-white/0', 'bg-white', '0'],
+  ['bg-white/100', 'bg-white', '100'],
+  ['text-blue-500/75', 'text-blue-500', '75'],
+  ['bg-white', 'bg-white', null],
+  ['bg-white/', 'bg-white/', null],
+  ['bg-white/abc', 'bg-white/abc', null],
+  ['bg-white/-10', 'bg-white/-10', null],
+  ['bg-white/150', 'bg-white', '150'], // parser accepts 150, validation elsewhere
+];
+
+// Important extraction edge cases
+export const IMPORTANT_EXTRACTION_EDGE_CASES: Array<[string, string, boolean]> = [
+  ['bg-white!', 'bg-white', true],
+  ['!bg-white', '!bg-white', false],
+  ['bg-white!!', 'bg-white!', true],
+  ['bg-white', 'bg-white', false],
+  ['!', '', true],
+];
+
+// Prefix extraction edge cases
+export const PREFIX_EXTRACTION_EDGE_CASES: Array<[string, string, string]> = [
+  ['tw\\:bg-white', 'bg-white', 'tw'],
+  ['ui\\:hover:p-4', 'hover:p-4', 'ui'],
+  ['my-prefix\\:text-lg', 'text-lg', 'my-prefix'],
+  ['bg-white', 'bg-white', ''],
+  ['tw:bg-white', 'tw:bg-white', ''],
+  ['\\:bg-white', '\\:bg-white', ''],
+];
+
+// Performance test cases
+export const PERFORMANCE_CASES = {
+  longClassString: Array(100).fill('p-4 m-2 bg-white text-black').join(' '),
+  deeplyNestedVariants: 'sm:md:lg:xl:2xl:hover:focus:active:disabled:group-hover:p-4',
+  longArbitraryValue: `w-[calc(100vw-theme(spacing.64)-theme(spacing.48))]`,
+  manyClasses: Array(50).fill(['flex', 'items-center', 'justify-between', 'p-4', 'm-2', 'bg-white', 'text-black', 'rounded-lg', 'shadow-md', 'hover:shadow-lg']).flat().join(' '),
+};
+
+// Error recovery - graceful degradation cases
+export const GRACEFUL_DEGRADATION_CASES: Array<[string, boolean]> = [
+  ['', true], // empty string should work
+  ['   ', true], // whitespace only
+  ['flex  items-center', true], // multiple spaces
+  ['flex\titems-center', true], // tabs
+  ['flex\nitems-center', true], // newlines
+  ['hover:', true], // incomplete modifier
+  [':bg-white', true], // leading colon
+  ['::::', true], // only colons
+  ['//////', true], // only slashes
+  ['!!!!!!', true], // only exclamation marks
+];
+
+// Real-world complex combinations
+export const REAL_WORLD_COMPLEX_CASES: Array<[string, string[]]> = [
+  [
+    'tw\\:dark:md:hover:focus-visible:bg-gradient-to-br/90!',
+    ['[tw]', 'in dark mode', 'on medium screens', 'on hover', 'when focus visible', 'gradient', '90% opacity', '!important']
+  ],
+  [
+    'group-hover:peer-focus:data-[state=open]:block',
+    ['when group hovered', 'when peer focused', 'when data-state=open', 'block']
+  ],
+  [
+    'before:content-["→"]:hover:opacity-50',
+    ['before pseudo-element', 'on hover', 'opacity']
+  ],
+];
+
 // Parser cases
 export const PARSE_SPLIT_CASES: Array<[string, string[]]> = [
   ['flex items-center gap-4', ['flex', 'items-center', 'gap-4']],
