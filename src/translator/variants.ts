@@ -231,7 +231,7 @@ export const VARIANT_DESCRIPTIONS: Record<string, string> = {
   'peer-in-range': 'when peer in range',
   'peer-out-of-range': 'when peer out of range',
   'peer-placeholder-shown': 'when peer placeholder shown',
-  'peer-autofilled': 'when peer autofilled',
+  'peer-autofill': 'when peer autofilled',
   'peer-read-only': 'when peer read-only',
   'peer-open': 'when peer open',
   'peer-aria-busy': 'when peer aria-busy',
