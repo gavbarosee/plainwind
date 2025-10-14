@@ -6,7 +6,7 @@ export const typographyMappings: Record<string, string> = {
   hidden: 'not visible',
   // Text Colors - Special
   'text-inherit': 'inherited text color',
-  'text-current': 'current color text',
+  'text-current': 'text matches current color',
   'text-transparent': 'transparent text',
   // Text Colors - Grays
   'text-white': 'white text',
@@ -43,8 +43,8 @@ export const typographyMappings: Record<string, string> = {
   'text-center': 'center aligned text',
   'text-right': 'right aligned text',
   'text-justify': 'justified text',
-  'text-start': 'start aligned text (logical)',
-  'text-end': 'end aligned text (logical)',
+  'text-start': 'start aligned text (left in LTR, right in RTL)',
+  'text-end': 'end aligned text (right in LTR, left in RTL)',
   // Text Overflow
   truncate: 'cuts off text with ellipsis (...)',
   'text-ellipsis': 'shows ellipsis for overflow',
@@ -207,7 +207,7 @@ export const typographyMappings: Record<string, string> = {
   'underline-offset-auto': 'auto underline offset',
   'decoration-auto': 'auto decoration thickness',
   'decoration-from-font': 'decoration thickness from font',
-  'decoration-inherit': 'decoration color inherits',
+  'decoration-inherit': 'inherited decoration color',
   'decoration-transparent': 'transparent decoration color',
   'decoration-current': 'decoration matches text color',
   'decoration-black': 'black decoration',

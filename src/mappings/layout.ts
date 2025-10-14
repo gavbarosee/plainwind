@@ -19,7 +19,7 @@ export const layoutMappings: Record<string, string> = {
   'table-header-group': 'display as table header group',
   'table-row-group': 'display as table row group',
   'table-row': 'display as table row',
-  'flow-root': 'flow-root display',
+  'flow-root': 'creates new block formatting context',
   contents: 'contents only (no box)',
   'list-item': 'display as list item',
   hidden: 'not visible',
@@ -30,17 +30,17 @@ export const layoutMappings: Record<string, string> = {
   collapse: 'collapses table rows/columns',
 
   // Float
-  start: 'floats to start (logical property)',
-  end: 'floats to end (logical property)',
-  'float-start': 'floats to start side',
-  'float-end': 'floats to end side',
+  start: 'floats to start (left in LTR, right in RTL)',
+  end: 'floats to end (right in LTR, left in RTL)',
+  'float-start': 'floats to start (left in LTR, right in RTL)',
+  'float-end': 'floats to end (right in LTR, left in RTL)',
   'float-right': 'floats to right',
   'float-left': 'floats to left',
   'float-none': 'no float',
 
   // Clear
-  'clear-start': 'clears start side floats',
-  'clear-end': 'clears end side floats',
+  'clear-start': 'clears start side floats (left in LTR, right in RTL)',
+  'clear-end': 'clears end side floats (right in LTR, left in RTL)',
   'clear-left': 'clears left floats',
   'clear-right': 'clears right floats',
   'clear-both': 'clears both side floats',
@@ -55,8 +55,8 @@ export const layoutMappings: Record<string, string> = {
   'box-decoration-clone': 'box decoration clones at breaks',
 
   // Border Sizing (v4 beta)
-  'border-sizing-content': 'border sizing uses content-box',
-  'border-sizing-border': 'border sizing uses border-box',
+  'border-sizing-content': 'width excludes border and padding (content-box)',
+  'border-sizing-border': 'width includes border and padding (border-box)',
 
   // Columns
   'columns-1': 'one column layout',
@@ -166,14 +166,14 @@ export const layoutMappings: Record<string, string> = {
 
   // Overscroll Behavior
   'overscroll-auto': 'auto overscroll behavior',
-  'overscroll-contain': 'contains overscroll',
-  'overscroll-none': 'no overscroll behavior',
+  'overscroll-contain': 'prevents scroll chaining to parent',
+  'overscroll-none': 'prevents bounce and scroll chaining',
   'overscroll-x-auto': 'auto horizontal overscroll',
-  'overscroll-x-contain': 'contains horizontal overscroll',
-  'overscroll-x-none': 'no horizontal overscroll',
+  'overscroll-x-contain': 'prevents horizontal scroll chaining to parent',
+  'overscroll-x-none': 'prevents horizontal bounce and scroll chaining',
   'overscroll-y-auto': 'auto vertical overscroll',
-  'overscroll-y-contain': 'contains vertical overscroll',
-  'overscroll-y-none': 'no vertical overscroll',
+  'overscroll-y-contain': 'prevents vertical scroll chaining to parent',
+  'overscroll-y-none': 'prevents vertical bounce and scroll chaining',
 
   // Z-Index
   '-z-50': 'z-index -50 (deep below)',
