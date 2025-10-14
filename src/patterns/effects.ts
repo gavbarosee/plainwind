@@ -72,7 +72,9 @@ export function matchTextShadowPattern(className: string): string | null {
   }
 
   // text-shadow-(color:<custom-property>) - custom CSS property for text shadow color
-  const colorCustomPropMatch = className.match(/^text-shadow-\(color:(--[\w-]+)\)$/);
+  const colorCustomPropMatch = className.match(
+    /^text-shadow-\(color:(--[\w-]+)\)$/
+  );
   if (colorCustomPropMatch) {
     return `text shadow color ${colorCustomPropMatch[1]}`;
   }
@@ -191,4 +193,3 @@ export function matchInsetRingPattern(className: string): string | null {
 /**
  * Try to match text-shadow patterns (text-shadow-*)
  */
-

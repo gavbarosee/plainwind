@@ -1,36 +1,36 @@
-import * as vscode from "vscode";
+import * as vscode from 'vscode';
 import {
   initializeDecorations,
   updateInlineDecorations,
   disposeDecorations,
-} from "./decorations";
-import { TailwindCodeLensProvider } from "./codelens";
+} from './decorations';
+import { TailwindCodeLensProvider } from './codelens';
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log("Plainwind extension is now active");
+  console.log('Plainwind extension is now active');
 
-  const config = vscode.workspace.getConfiguration("plainwind");
-  const displayMode = config.get<string>("displayMode", "codelens");
-  const enabled = config.get<boolean>("enabled", true);
+  const config = vscode.workspace.getConfiguration('plainwind');
+  const displayMode = config.get<string>('displayMode', 'codelens');
+  const enabled = config.get<boolean>('enabled', true);
 
-  if (!enabled || displayMode === "off") {
-    console.log("Plainwind is disabled");
+  if (!enabled || displayMode === 'off') {
+    console.log('Plainwind is disabled');
     return;
   }
 
   // Register CodeLens provider if enabled
-  if (displayMode === "codelens" || displayMode === "both") {
+  if (displayMode === 'codelens' || displayMode === 'both') {
     const codeLensProvider = new TailwindCodeLensProvider();
     context.subscriptions.push(
       vscode.languages.registerCodeLensProvider(
         [
-          { language: "javascriptreact" },
-          { language: "typescriptreact" },
-          { language: "javascript" },
-          { language: "typescript" },
-          { language: "html" },
-          { language: "vue" },
-          { language: "svelte" },
+          { language: 'javascriptreact' },
+          { language: 'typescriptreact' },
+          { language: 'javascript' },
+          { language: 'typescript' },
+          { language: 'html' },
+          { language: 'vue' },
+          { language: 'svelte' },
         ],
         codeLensProvider
       )
@@ -38,7 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
   }
 
   // Initialize inline decorations if enabled
-  if (displayMode === "inline" || displayMode === "both") {
+  if (displayMode === 'inline' || displayMode === 'both') {
     initializeDecorations();
     updateActiveEditor();
     registerEventListeners(context);

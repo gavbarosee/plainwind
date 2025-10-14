@@ -40,13 +40,17 @@ export function matchMaskImagePattern(className: string): string | null {
   }
 
   // mask-linear-from-(<custom-property>)
-  const linearFromCustomMatch = className.match(/^mask-linear-from-\((--[\w-]+)\)$/);
+  const linearFromCustomMatch = className.match(
+    /^mask-linear-from-\((--[\w-]+)\)$/
+  );
   if (linearFromCustomMatch) {
     return `linear mask from ${linearFromCustomMatch[1]}`;
   }
 
   // mask-linear-from-[value]
-  const linearFromArbitraryMatch = className.match(/^mask-linear-from-\[(.+?)\]$/);
+  const linearFromArbitraryMatch = className.match(
+    /^mask-linear-from-\[(.+?)\]$/
+  );
   if (linearFromArbitraryMatch) {
     return `linear mask from ${linearFromArbitraryMatch[1]}`;
   }
@@ -64,7 +68,9 @@ export function matchMaskImagePattern(className: string): string | null {
   }
 
   // mask-linear-to-(<custom-property>)
-  const linearToCustomMatch = className.match(/^mask-linear-to-\((--[\w-]+)\)$/);
+  const linearToCustomMatch = className.match(
+    /^mask-linear-to-\((--[\w-]+)\)$/
+  );
   if (linearToCustomMatch) {
     return `linear mask to ${linearToCustomMatch[1]}`;
   }
@@ -78,10 +84,17 @@ export function matchMaskImagePattern(className: string): string | null {
   // mask-<side>-from/to patterns (t, r, b, l, x, y)
   const sideMatch = className.match(/^mask-([trblxy])-(from|to)-(.+)$/);
   if (sideMatch) {
-    const side = { t: "top", r: "right", b: "bottom", l: "left", x: "horizontal", y: "vertical" }[sideMatch[1]];
+    const side = {
+      t: 'top',
+      r: 'right',
+      b: 'bottom',
+      l: 'left',
+      x: 'horizontal',
+      y: 'vertical',
+    }[sideMatch[1]];
     const direction = sideMatch[2];
     const value = sideMatch[3];
-    
+
     // Check for different value types
     if (/^\d+$/.test(value)) {
       return `${side} mask ${direction} ${value} spacing`;
@@ -113,13 +126,17 @@ export function matchMaskImagePattern(className: string): string | null {
   }
 
   // mask-radial-from-(<custom-property>)
-  const radialFromCustomMatch = className.match(/^mask-radial-from-\((--[\w-]+)\)$/);
+  const radialFromCustomMatch = className.match(
+    /^mask-radial-from-\((--[\w-]+)\)$/
+  );
   if (radialFromCustomMatch) {
     return `radial mask from ${radialFromCustomMatch[1]}`;
   }
 
   // mask-radial-from-[value]
-  const radialFromArbitraryMatch = className.match(/^mask-radial-from-\[(.+?)\]$/);
+  const radialFromArbitraryMatch = className.match(
+    /^mask-radial-from-\[(.+?)\]$/
+  );
   if (radialFromArbitraryMatch) {
     return `radial mask from ${radialFromArbitraryMatch[1]}`;
   }
@@ -137,7 +154,9 @@ export function matchMaskImagePattern(className: string): string | null {
   }
 
   // mask-radial-to-(<custom-property>)
-  const radialToCustomMatch = className.match(/^mask-radial-to-\((--[\w-]+)\)$/);
+  const radialToCustomMatch = className.match(
+    /^mask-radial-to-\((--[\w-]+)\)$/
+  );
   if (radialToCustomMatch) {
     return `radial mask to ${radialToCustomMatch[1]}`;
   }
@@ -179,13 +198,17 @@ export function matchMaskImagePattern(className: string): string | null {
   }
 
   // mask-conic-from-(<custom-property>)
-  const conicFromCustomMatch = className.match(/^mask-conic-from-\((--[\w-]+)\)$/);
+  const conicFromCustomMatch = className.match(
+    /^mask-conic-from-\((--[\w-]+)\)$/
+  );
   if (conicFromCustomMatch) {
     return `conic mask from ${conicFromCustomMatch[1]}`;
   }
 
   // mask-conic-from-[value]
-  const conicFromArbitraryMatch = className.match(/^mask-conic-from-\[(.+?)\]$/);
+  const conicFromArbitraryMatch = className.match(
+    /^mask-conic-from-\[(.+?)\]$/
+  );
   if (conicFromArbitraryMatch) {
     return `conic mask from ${conicFromArbitraryMatch[1]}`;
   }
@@ -260,4 +283,3 @@ export function matchMaskSizePattern(className: string): string | null {
 /**
  * Try to match blur patterns (blur-*)
  */
-

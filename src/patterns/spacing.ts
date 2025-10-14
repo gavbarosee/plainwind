@@ -2,7 +2,7 @@
  * Spacing pattern matchers
  */
 
-import { SPACING_SCALE } from "./helpers";
+import { SPACING_SCALE } from './helpers';
 
 export function matchSpacingPattern(className: string): string | null {
   // Padding patterns: p-4, px-2, py-6, pt-4, pr-4, pb-4, pl-4, ps-4, pe-4
@@ -10,7 +10,7 @@ export function matchSpacingPattern(className: string): string | null {
   if (paddingMatch) {
     const direction = paddingMatch[1];
     let value = paddingMatch[2];
-    
+
     // Handle custom properties: p-(--custom) -> --custom
     if (value.startsWith('(--') && value.endsWith(')')) {
       value = value.slice(1, -1);
@@ -19,35 +19,35 @@ export function matchSpacingPattern(className: string): string | null {
     else if (value.startsWith('[') && value.endsWith(']')) {
       value = value.slice(1, -1);
     }
-    
+
     const spacing = SPACING_SCALE[value] || value;
 
     const directionMap: Record<string, string> = {
-      "": "padding",
-      x: "horizontal padding",
-      y: "vertical padding",
-      t: "top padding",
-      r: "right padding",
-      b: "bottom padding",
-      l: "left padding",
-      s: "start padding",
-      e: "end padding",
+      '': 'padding',
+      x: 'horizontal padding',
+      y: 'vertical padding',
+      t: 'top padding',
+      r: 'right padding',
+      b: 'bottom padding',
+      l: 'left padding',
+      s: 'start padding',
+      e: 'end padding',
     };
 
-    return `${directionMap[direction] || "padding"} ${spacing}`;
+    return `${directionMap[direction] || 'padding'} ${spacing}`;
   }
 
   // Margin patterns: m-4, -m-4, mx-auto, my-2, mt-4, mr-4, mb-4, ml-4, ms-4, me-4
   const marginMatch = className.match(/^(-?)m([xytrblse]?)-(.+)$/);
   if (marginMatch) {
-    const isNegative = marginMatch[1] === "-";
+    const isNegative = marginMatch[1] === '-';
     const direction = marginMatch[2];
     let value = marginMatch[3];
 
-    if (value === "auto") {
-      if (direction === "x") return "horizontally centered";
-      if (direction === "y") return "vertically centered";
-      return "centered with auto margin";
+    if (value === 'auto') {
+      if (direction === 'x') return 'horizontally centered';
+      if (direction === 'y') return 'vertically centered';
+      return 'centered with auto margin';
     }
 
     // Handle custom properties: m-(--custom) -> --custom
@@ -60,21 +60,21 @@ export function matchSpacingPattern(className: string): string | null {
     }
 
     const spacing = SPACING_SCALE[value] || value;
-    const prefix = isNegative ? "negative " : "";
+    const prefix = isNegative ? 'negative ' : '';
 
     const directionMap: Record<string, string> = {
-      "": "margin",
-      x: "horizontal margin",
-      y: "vertical margin",
-      t: "top margin",
-      r: "right margin",
-      b: "bottom margin",
-      l: "left margin",
-      s: "start margin",
-      e: "end margin",
+      '': 'margin',
+      x: 'horizontal margin',
+      y: 'vertical margin',
+      t: 'top margin',
+      r: 'right margin',
+      b: 'bottom margin',
+      l: 'left margin',
+      s: 'start margin',
+      e: 'end margin',
     };
 
-    return `${prefix}${directionMap[direction] || "margin"} ${spacing}`;
+    return `${prefix}${directionMap[direction] || 'margin'} ${spacing}`;
   }
 
   // Gap patterns: gap-4, gap-x-2, gap-y-4
@@ -84,18 +84,18 @@ export function matchSpacingPattern(className: string): string | null {
     const value = gapMatch[2];
     const spacing = SPACING_SCALE[value] || value;
 
-    if (direction === "x-") return `horizontal gap ${spacing}`;
-    if (direction === "y-") return `vertical gap ${spacing}`;
+    if (direction === 'x-') return `horizontal gap ${spacing}`;
+    if (direction === 'y-') return `vertical gap ${spacing}`;
     return `gap ${spacing}`;
   }
 
   // Space between patterns: space-x-4, -space-x-4, space-y-2, -space-y-2
   const spaceMatch = className.match(/^(-?)space-([xy])-(.+)$/);
   if (spaceMatch) {
-    const isNegative = spaceMatch[1] === "-";
+    const isNegative = spaceMatch[1] === '-';
     const direction = spaceMatch[2];
     let value = spaceMatch[3];
-    
+
     // Handle custom properties: space-x-(--custom) -> --custom
     if (value.startsWith('(--') && value.endsWith(')')) {
       value = value.slice(1, -1);
@@ -104,11 +104,11 @@ export function matchSpacingPattern(className: string): string | null {
     else if (value.startsWith('[') && value.endsWith(']')) {
       value = value.slice(1, -1);
     }
-    
-    const spacing = SPACING_SCALE[value] || value;
-    const prefix = isNegative ? "negative " : "";
 
-    return direction === "x"
+    const spacing = SPACING_SCALE[value] || value;
+    const prefix = isNegative ? 'negative ' : '';
+
+    return direction === 'x'
       ? `${prefix}horizontal space ${spacing}`
       : `${prefix}vertical space ${spacing}`;
   }
@@ -570,7 +570,7 @@ export function matchScrollPaddingPattern(className: string): string | null {
 
 export function matchGapPattern(className: string): string | null {
   // gap-x-* patterns (column gap)
-  if (className.startsWith("gap-x-")) {
+  if (className.startsWith('gap-x-')) {
     // gap-x-(--custom-property)
     const customPropMatch = className.match(/^gap-x-\((--[\w-]+)\)$/);
     if (customPropMatch) {
@@ -592,7 +592,7 @@ export function matchGapPattern(className: string): string | null {
   }
 
   // gap-y-* patterns (row gap)
-  if (className.startsWith("gap-y-")) {
+  if (className.startsWith('gap-y-')) {
     // gap-y-(--custom-property)
     const customPropMatch = className.match(/^gap-y-\((--[\w-]+)\)$/);
     if (customPropMatch) {
@@ -614,7 +614,11 @@ export function matchGapPattern(className: string): string | null {
   }
 
   // gap-* patterns (both row and column)
-  if (className.startsWith("gap-") && !className.startsWith("gap-x-") && !className.startsWith("gap-y-")) {
+  if (
+    className.startsWith('gap-') &&
+    !className.startsWith('gap-x-') &&
+    !className.startsWith('gap-y-')
+  ) {
     // gap-(--custom-property)
     const customPropMatch = className.match(/^gap-\((--[\w-]+)\)$/);
     if (customPropMatch) {
@@ -641,4 +645,3 @@ export function matchGapPattern(className: string): string | null {
 /**
  * Try to match width patterns (w-*, size-*)
  */
-

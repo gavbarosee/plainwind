@@ -38,4 +38,3 @@ export interface PrefixExtraction {
   className: string;
   prefix: string;
 }
-

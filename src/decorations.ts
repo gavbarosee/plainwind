@@ -1,11 +1,11 @@
-import * as vscode from "vscode";
-import { translateClasses } from "./translator";
+import * as vscode from 'vscode';
+import { translateClasses } from './translator';
 
 // Constants
 // Matches: className="..." or class="..." with single/double quotes
 const CLASS_NAME_PATTERN = /(class(?:Name)?=["'])([^"']+)(["'])/g;
-const DECORATION_MARGIN = "0 0 0 2em";
-const TRANSLATION_PREFIX = " // ";
+const DECORATION_MARGIN = '0 0 0 2em';
+const TRANSLATION_PREFIX = ' // ';
 
 let inlineDecorationType: vscode.TextEditorDecorationType;
 
@@ -15,8 +15,8 @@ let inlineDecorationType: vscode.TextEditorDecorationType;
 export function initializeDecorations() {
   inlineDecorationType = vscode.window.createTextEditorDecorationType({
     after: {
-      color: new vscode.ThemeColor("editorCodeLens.foreground"),
-      fontStyle: "italic",
+      color: new vscode.ThemeColor('editorCodeLens.foreground'),
+      fontStyle: 'italic',
       margin: DECORATION_MARGIN,
     },
   });

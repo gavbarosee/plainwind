@@ -1,11 +1,11 @@
 /**
  * Pattern matchers for Tailwind CSS classes
- * 
+ *
  * This module exports all pattern matching functions organized by category.
  */
 
 // Shared utilities
-export * from "./helpers";
+export * from './helpers';
 
 // Spacing patterns
 export {
@@ -13,7 +13,7 @@ export {
   matchScrollMarginPattern,
   matchScrollPaddingPattern,
   matchGapPattern,
-} from "./spacing";
+} from './spacing';
 
 // Sizing patterns
 export {
@@ -25,14 +25,14 @@ export {
   matchMinHeightPattern,
   matchMaxHeightPattern,
   matchSizePattern,
-} from "./sizing";
+} from './sizing';
 
 // Layout patterns
 export {
   matchAspectRatioPattern,
   matchColumnsPattern,
   matchObjectPositionPattern,
-} from "./layout";
+} from './layout';
 
 // Flexbox patterns
 export {
@@ -41,7 +41,7 @@ export {
   matchFlexGrowPattern,
   matchFlexShrinkPattern,
   matchOrderPattern,
-} from "./flexbox";
+} from './flexbox';
 
 // Grid patterns
 export {
@@ -52,7 +52,7 @@ export {
   matchGridRowPattern,
   matchGridAutoColumnsPattern,
   matchGridAutoRowsPattern,
-} from "./grid";
+} from './grid';
 
 // Typography patterns
 export {
@@ -68,7 +68,7 @@ export {
   matchListStyleTypePattern,
   matchContentPattern,
   matchTypographyPattern,
-} from "./typography";
+} from './typography';
 
 // Borders patterns
 export {
@@ -79,7 +79,7 @@ export {
   matchOutlineWidthPattern,
   matchOutlineOffsetPattern,
   matchOutlineColorPattern,
-} from "./borders";
+} from './borders';
 
 // Backgrounds patterns
 export {
@@ -87,7 +87,7 @@ export {
   matchBackgroundPositionPattern,
   matchBackgroundSizePattern,
   matchBackgroundColorPattern,
-} from "./backgrounds";
+} from './backgrounds';
 
 // Colors patterns
 export {
@@ -100,7 +100,7 @@ export {
   matchStrokePattern,
   matchGradientColorStopPattern,
   matchGradientPattern,
-} from "./colors";
+} from './colors';
 
 // Effects patterns
 export {
@@ -110,7 +110,7 @@ export {
   matchOpacityPattern,
   matchRingPattern,
   matchInsetRingPattern,
-} from "./effects";
+} from './effects';
 
 // Filters patterns
 export {
@@ -134,7 +134,7 @@ export {
   matchBackdropOpacityPattern,
   matchBackdropSaturatePattern,
   matchBackdropSepiaPattern,
-} from "./filters";
+} from './filters';
 
 // Transforms patterns
 export {
@@ -146,7 +146,7 @@ export {
   matchTransformOriginPattern,
   matchPerspectivePattern,
   matchPerspectiveOriginPattern,
-} from "./transforms";
+} from './transforms';
 
 // Transitions patterns
 export {
@@ -156,22 +156,17 @@ export {
   matchTransitionTimingPattern,
   matchAnimationPattern,
   matchWillChangePattern,
-} from "./transitions";
+} from './transitions';
 
 // Positioning patterns
-export {
-  matchPositioningPattern,
-} from "./positioning";
+export { matchPositioningPattern } from './positioning';
 
 // Masks patterns
 export {
   matchMaskImagePattern,
   matchMaskPositionPattern,
   matchMaskSizePattern,
-} from "./masks";
+} from './masks';
 
 // Arbitrary patterns
-export {
-  matchArbitraryValue,
-} from "./arbitrary";
-
+export { matchArbitraryValue } from './arbitrary';

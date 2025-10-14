@@ -2,13 +2,18 @@
  * Parsing utilities for class names
  */
 
-import type { VariantExtraction, OpacityExtraction, ImportantExtraction, PrefixExtraction } from "./types";
+import type {
+  VariantExtraction,
+  OpacityExtraction,
+  ImportantExtraction,
+  PrefixExtraction,
+} from './types';
 
 /**
  * Parse a class string into individual non-empty class names
  */
 export function parseNonEmptyClasses(classString: string): string[] {
-  return classString.split(" ").filter((c) => c.trim());
+  return classString.split(' ').filter((c) => c.trim());
 }
 
 /**
@@ -18,29 +23,29 @@ export function parseNonEmptyClasses(classString: string): string[] {
  */
 export function extractVariants(className: string): VariantExtraction {
   // If no colons, no variants
-  if (!className.includes(":")) {
+  if (!className.includes(':')) {
     return { variants: [], baseClass: className };
   }
 
   // Split carefully, respecting brackets
   const variants: string[] = [];
-  let currentVariant = "";
+  let currentVariant = '';
   let bracketDepth = 0;
 
   for (let i = 0; i < className.length; i++) {
     const char = className[i];
 
-    if (char === "[") {
+    if (char === '[') {
       bracketDepth++;
       currentVariant += char;
-    } else if (char === "]") {
+    } else if (char === ']') {
       bracketDepth--;
       currentVariant += char;
-    } else if (char === ":" && bracketDepth === 0) {
+    } else if (char === ':' && bracketDepth === 0) {
       // This is a variant separator, not part of arbitrary value
       if (currentVariant) {
         variants.push(currentVariant);
-        currentVariant = "";
+        currentVariant = '';
       }
     } else {
       currentVariant += char;
@@ -55,7 +60,9 @@ export function extractVariants(className: string): VariantExtraction {
 /**
  * Extract opacity modifier from a class (e.g., "bg-white/10" -> { className: "bg-white", opacity: "10" })
  */
-export function extractOpacity(classNameWithOpacity: string): OpacityExtraction {
+export function extractOpacity(
+  classNameWithOpacity: string
+): OpacityExtraction {
   const opacityMatch = classNameWithOpacity.match(/^(.+)\/(\d+)$/);
   if (opacityMatch) {
     return {
@@ -70,7 +77,7 @@ export function extractOpacity(classNameWithOpacity: string): OpacityExtraction 
  * Extract important modifier from a class (e.g., "bg-white!" -> { className: "bg-white", isImportant: true })
  */
 export function extractImportant(className: string): ImportantExtraction {
-  if (className.endsWith("!")) {
+  if (className.endsWith('!')) {
     return {
       className: className.slice(0, -1),
       isImportant: true,
@@ -96,7 +103,6 @@ export function extractPrefix(className: string): PrefixExtraction {
   }
   return {
     className,
-    prefix: "",
+    prefix: '',
   };
 }
-

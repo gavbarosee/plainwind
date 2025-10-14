@@ -2,7 +2,7 @@
  * Borders pattern matchers
  */
 
-import { COLOR_NAMES, SHADE_DESCRIPTIONS } from "./helpers";
+import { COLOR_NAMES, SHADE_DESCRIPTIONS } from './helpers';
 
 export function matchBorderWidthPattern(className: string): string | null {
   // border-<number> - all sides
@@ -27,30 +27,32 @@ export function matchBorderWidthPattern(className: string): string | null {
   const sideNumber = className.match(/^border-([trblxyse])-(\d+)$/);
   if (sideNumber) {
     const sideMap: Record<string, string> = {
-      t: "top",
-      r: "right",
-      b: "bottom",
-      l: "left",
-      x: "horizontal",
-      y: "vertical",
-      s: "start",
-      e: "end",
+      t: 'top',
+      r: 'right',
+      b: 'bottom',
+      l: 'left',
+      x: 'horizontal',
+      y: 'vertical',
+      s: 'start',
+      e: 'end',
     };
     return `${sideNumber[2]}px ${sideMap[sideNumber[1]]} border`;
   }
 
   // border-{side}-(length:--custom-property)
-  const sideCustom = className.match(/^border-([trblxyse])-\(length:(--[\w-]+)\)$/);
+  const sideCustom = className.match(
+    /^border-([trblxyse])-\(length:(--[\w-]+)\)$/
+  );
   if (sideCustom) {
     const sideMap: Record<string, string> = {
-      t: "top",
-      r: "right",
-      b: "bottom",
-      l: "left",
-      x: "horizontal",
-      y: "vertical",
-      s: "start",
-      e: "end",
+      t: 'top',
+      r: 'right',
+      b: 'bottom',
+      l: 'left',
+      x: 'horizontal',
+      y: 'vertical',
+      s: 'start',
+      e: 'end',
     };
     return `${sideMap[sideCustom[1]]} border width ${sideCustom[2]}`;
   }
@@ -59,14 +61,14 @@ export function matchBorderWidthPattern(className: string): string | null {
   const sideArbitrary = className.match(/^border-([trblxyse])-\[(.+?)\]$/);
   if (sideArbitrary) {
     const sideMap: Record<string, string> = {
-      t: "top",
-      r: "right",
-      b: "bottom",
-      l: "left",
-      x: "horizontal",
-      y: "vertical",
-      s: "start",
-      e: "end",
+      t: 'top',
+      r: 'right',
+      b: 'bottom',
+      l: 'left',
+      x: 'horizontal',
+      y: 'vertical',
+      s: 'start',
+      e: 'end',
     };
     return `${sideMap[sideArbitrary[1]]} border width ${sideArbitrary[2]}`;
   }
@@ -74,21 +76,21 @@ export function matchBorderWidthPattern(className: string): string | null {
   // divide-x-<number>, divide-y-<number>
   const divideNumber = className.match(/^divide-([xy])-(\d+)$/);
   if (divideNumber) {
-    const direction = divideNumber[1] === "x" ? "vertical" : "horizontal";
+    const direction = divideNumber[1] === 'x' ? 'vertical' : 'horizontal';
     return `${divideNumber[2]}px ${direction} dividers between children`;
   }
 
   // divide-x-(length:--custom-property), divide-y-(length:--custom-property)
   const divideCustom = className.match(/^divide-([xy])-\(length:(--[\w-]+)\)$/);
   if (divideCustom) {
-    const direction = divideCustom[1] === "x" ? "vertical" : "horizontal";
+    const direction = divideCustom[1] === 'x' ? 'vertical' : 'horizontal';
     return `${direction} dividers ${divideCustom[2]} between children`;
   }
 
   // divide-x-[value], divide-y-[value]
   const divideArbitrary = className.match(/^divide-([xy])-\[(.+?)\]$/);
   if (divideArbitrary) {
-    const direction = divideArbitrary[1] === "x" ? "vertical" : "horizontal";
+    const direction = divideArbitrary[1] === 'x' ? 'vertical' : 'horizontal';
     return `${direction} dividers ${divideArbitrary[2]} between children`;
   }
 
@@ -121,14 +123,14 @@ export function matchBorderColorPattern(className: string): string | null {
   const sideCustom = className.match(/^border-([trblxyse])-\((--[\w-]+)\)$/);
   if (sideCustom) {
     const sideMap: Record<string, string> = {
-      t: "top",
-      r: "right",
-      b: "bottom",
-      l: "left",
-      x: "horizontal",
-      y: "vertical",
-      s: "start",
-      e: "end",
+      t: 'top',
+      r: 'right',
+      b: 'bottom',
+      l: 'left',
+      x: 'horizontal',
+      y: 'vertical',
+      s: 'start',
+      e: 'end',
     };
     return `${sideMap[sideCustom[1]]} border color ${sideCustom[2]}`;
   }
@@ -140,14 +142,14 @@ export function matchBorderColorPattern(className: string): string | null {
     // Check if it looks like a color value
     if (/^(#|rgb|oklch|hsl|hwb|lab|lch|color\()/i.test(value)) {
       const sideMap: Record<string, string> = {
-        t: "top",
-        r: "right",
-        b: "bottom",
-        l: "left",
-        x: "horizontal",
-        y: "vertical",
-        s: "start",
-        e: "end",
+        t: 'top',
+        r: 'right',
+        b: 'bottom',
+        l: 'left',
+        x: 'horizontal',
+        y: 'vertical',
+        s: 'start',
+        e: 'end',
       };
       return `${sideMap[sideArbitrary[1]]} border color ${value}`;
     }
@@ -160,14 +162,14 @@ export function matchBorderColorPattern(className: string): string | null {
     const side = sideDirColorMatch[1];
     const color = COLOR_NAMES[sideDirColorMatch[2]];
     const shade = SHADE_DESCRIPTIONS[sideDirColorMatch[3]];
-    
+
     const sideMap: Record<string, string> = {
-      x: "horizontal",
-      y: "vertical",
-      s: "start",
-      e: "end",
+      x: 'horizontal',
+      y: 'vertical',
+      s: 'start',
+      e: 'end',
     };
-    
+
     if (color && shade) {
       return `${shade} ${color} ${sideMap[side]} border`;
     }
@@ -200,12 +202,12 @@ export function matchBorderRadiusPattern(className: string): string | null {
   const sideCustom = className.match(/^rounded-([trblse])-\((--[\w-]+)\)$/);
   if (sideCustom) {
     const sideMap: Record<string, string> = {
-      t: "top",
-      r: "right",
-      b: "bottom",
-      l: "left",
-      s: "start",
-      e: "end",
+      t: 'top',
+      r: 'right',
+      b: 'bottom',
+      l: 'left',
+      s: 'start',
+      e: 'end',
     };
     return `rounded ${sideMap[sideCustom[1]]} corners ${sideCustom[2]}`;
   }
@@ -214,44 +216,48 @@ export function matchBorderRadiusPattern(className: string): string | null {
   const sideArbitrary = className.match(/^rounded-([trblse])-\[(.+?)\]$/);
   if (sideArbitrary) {
     const sideMap: Record<string, string> = {
-      t: "top",
-      r: "right",
-      b: "bottom",
-      l: "left",
-      s: "start",
-      e: "end",
+      t: 'top',
+      r: 'right',
+      b: 'bottom',
+      l: 'left',
+      s: 'start',
+      e: 'end',
     };
     return `rounded ${sideMap[sideArbitrary[1]]} corners ${sideArbitrary[2]}`;
   }
 
   // rounded-{corner}-(--custom-property) - corners (tl, tr, br, bl, ss, se, ee, es)
-  const cornerCustom = className.match(/^rounded-(tl|tr|br|bl|ss|se|ee|es)-\((--[\w-]+)\)$/);
+  const cornerCustom = className.match(
+    /^rounded-(tl|tr|br|bl|ss|se|ee|es)-\((--[\w-]+)\)$/
+  );
   if (cornerCustom) {
     const cornerMap: Record<string, string> = {
-      tl: "top-left",
-      tr: "top-right",
-      br: "bottom-right",
-      bl: "bottom-left",
-      ss: "start-start",
-      se: "start-end",
-      ee: "end-end",
-      es: "end-start",
+      tl: 'top-left',
+      tr: 'top-right',
+      br: 'bottom-right',
+      bl: 'bottom-left',
+      ss: 'start-start',
+      se: 'start-end',
+      ee: 'end-end',
+      es: 'end-start',
     };
     return `rounded ${cornerMap[cornerCustom[1]]} corner ${cornerCustom[2]}`;
   }
 
   // rounded-{corner}-[value] - corners arbitrary
-  const cornerArbitrary = className.match(/^rounded-(tl|tr|br|bl|ss|se|ee|es)-\[(.+?)\]$/);
+  const cornerArbitrary = className.match(
+    /^rounded-(tl|tr|br|bl|ss|se|ee|es)-\[(.+?)\]$/
+  );
   if (cornerArbitrary) {
     const cornerMap: Record<string, string> = {
-      tl: "top-left",
-      tr: "top-right",
-      br: "bottom-right",
-      bl: "bottom-left",
-      ss: "start-start",
-      se: "start-end",
-      ee: "end-end",
-      es: "end-start",
+      tl: 'top-left',
+      tr: 'top-right',
+      br: 'bottom-right',
+      bl: 'bottom-left',
+      ss: 'start-start',
+      se: 'start-end',
+      ee: 'end-end',
+      es: 'end-start',
     };
     return `rounded ${cornerMap[cornerArbitrary[1]]} corner ${cornerArbitrary[2]}`;
   }
@@ -407,4 +413,3 @@ export function matchOutlineColorPattern(className: string): string | null {
 /**
  * Try to match outline-offset patterns (outline-offset-*, -outline-offset-*)
  */
-

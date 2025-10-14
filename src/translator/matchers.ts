@@ -2,7 +2,7 @@
  * Pattern matching and translation logic
  */
 
-import { tailwindMappings } from "../mappings";
+import { tailwindMappings } from '../mappings';
 import {
   matchSpacingPattern,
   matchColorPattern,
@@ -108,8 +108,8 @@ import {
   matchTypographyPattern,
   matchGridPattern,
   matchPositioningPattern,
-} from "../patterns";
-import type { PatternMatcher } from "./types";
+} from '../patterns';
+import type { PatternMatcher } from './types';
 
 /**
  * Pattern matchers in priority order (static mappings are checked first in translateBaseClass)
@@ -284,7 +284,9 @@ export function translateBaseClass(className: string): string {
 /**
  * Apply opacity modifier to translation
  */
-export function applyOpacity(translation: string, opacity: string | null): string {
+export function applyOpacity(
+  translation: string,
+  opacity: string | null
+): string {
   return opacity ? `${translation} with ${opacity}% opacity` : translation;
 }
-

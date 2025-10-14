@@ -312,19 +312,25 @@ export function matchSkewPattern(className: string): string | null {
 
 export function matchTranslatePattern(className: string): string | null {
   // translate-x-(<custom-property>) - custom CSS property for X-axis translation
-  const translateXCustomPropMatch = className.match(/^translate-x-\((--[\w-]+)\)$/);
+  const translateXCustomPropMatch = className.match(
+    /^translate-x-\((--[\w-]+)\)$/
+  );
   if (translateXCustomPropMatch) {
     return `translate horizontally ${translateXCustomPropMatch[1]}`;
   }
 
   // translate-y-(<custom-property>) - custom CSS property for Y-axis translation
-  const translateYCustomPropMatch = className.match(/^translate-y-\((--[\w-]+)\)$/);
+  const translateYCustomPropMatch = className.match(
+    /^translate-y-\((--[\w-]+)\)$/
+  );
   if (translateYCustomPropMatch) {
     return `translate vertically ${translateYCustomPropMatch[1]}`;
   }
 
   // translate-z-(<custom-property>) - custom CSS property for Z-axis translation
-  const translateZCustomPropMatch = className.match(/^translate-z-\((--[\w-]+)\)$/);
+  const translateZCustomPropMatch = className.match(
+    /^translate-z-\((--[\w-]+)\)$/
+  );
   if (translateZCustomPropMatch) {
     return `translate on Z axis ${translateZCustomPropMatch[1]}`;
   }
@@ -360,46 +366,72 @@ export function matchTranslatePattern(className: string): string | null {
   }
 
   // -translate-x-<fraction> - negative X-axis translation fraction
-  const negativeTranslateXFractionMatch = className.match(/^-translate-x-(\d+)\/(\d+)$/);
+  const negativeTranslateXFractionMatch = className.match(
+    /^-translate-x-(\d+)\/(\d+)$/
+  );
   if (negativeTranslateXFractionMatch) {
-    const percentage = (parseFloat(negativeTranslateXFractionMatch[1]) / parseFloat(negativeTranslateXFractionMatch[2]) * 100).toFixed(3);
+    const percentage = (
+      (parseFloat(negativeTranslateXFractionMatch[1]) /
+        parseFloat(negativeTranslateXFractionMatch[2])) *
+      100
+    ).toFixed(3);
     return `translate horizontally -${percentage}%`;
   }
 
   // -translate-y-<fraction> - negative Y-axis translation fraction
-  const negativeTranslateYFractionMatch = className.match(/^-translate-y-(\d+)\/(\d+)$/);
+  const negativeTranslateYFractionMatch = className.match(
+    /^-translate-y-(\d+)\/(\d+)$/
+  );
   if (negativeTranslateYFractionMatch) {
-    const percentage = (parseFloat(negativeTranslateYFractionMatch[1]) / parseFloat(negativeTranslateYFractionMatch[2]) * 100).toFixed(3);
+    const percentage = (
+      (parseFloat(negativeTranslateYFractionMatch[1]) /
+        parseFloat(negativeTranslateYFractionMatch[2])) *
+      100
+    ).toFixed(3);
     return `translate vertically -${percentage}%`;
   }
 
   // -translate-<fraction> - negative both axes translation fraction
-  const negativeTranslateFractionMatch = className.match(/^-translate-(\d+)\/(\d+)$/);
+  const negativeTranslateFractionMatch = className.match(
+    /^-translate-(\d+)\/(\d+)$/
+  );
   if (negativeTranslateFractionMatch) {
-    const percentage = (parseFloat(negativeTranslateFractionMatch[1]) / parseFloat(negativeTranslateFractionMatch[2]) * 100).toFixed(3);
+    const percentage = (
+      (parseFloat(negativeTranslateFractionMatch[1]) /
+        parseFloat(negativeTranslateFractionMatch[2])) *
+      100
+    ).toFixed(3);
     return `translate -${percentage}% on both axes`;
   }
 
   // -translate-x-<number> - negative X-axis translation in spacing scale
-  const negativeTranslateXMatch = className.match(/^-translate-x-(\d+(?:\.\d+)?)$/);
+  const negativeTranslateXMatch = className.match(
+    /^-translate-x-(\d+(?:\.\d+)?)$/
+  );
   if (negativeTranslateXMatch) {
     return `translate horizontally -${negativeTranslateXMatch[1]} (spacing scale)`;
   }
 
   // -translate-y-<number> - negative Y-axis translation in spacing scale
-  const negativeTranslateYMatch = className.match(/^-translate-y-(\d+(?:\.\d+)?)$/);
+  const negativeTranslateYMatch = className.match(
+    /^-translate-y-(\d+(?:\.\d+)?)$/
+  );
   if (negativeTranslateYMatch) {
     return `translate vertically -${negativeTranslateYMatch[1]} (spacing scale)`;
   }
 
   // -translate-z-<number> - negative Z-axis translation in spacing scale
-  const negativeTranslateZMatch = className.match(/^-translate-z-(\d+(?:\.\d+)?)$/);
+  const negativeTranslateZMatch = className.match(
+    /^-translate-z-(\d+(?:\.\d+)?)$/
+  );
   if (negativeTranslateZMatch) {
     return `translate on Z axis -${negativeTranslateZMatch[1]} (spacing scale)`;
   }
 
   // -translate-<number> - negative both axes translation in spacing scale
-  const negativeTranslateMatch = className.match(/^-translate-(\d+(?:\.\d+)?)$/);
+  const negativeTranslateMatch = className.match(
+    /^-translate-(\d+(?:\.\d+)?)$/
+  );
   if (negativeTranslateMatch) {
     return `translate -${negativeTranslateMatch[1]} on both axes (spacing scale)`;
   }
@@ -407,21 +439,33 @@ export function matchTranslatePattern(className: string): string | null {
   // translate-x-<fraction> - X-axis translation fraction
   const translateXFractionMatch = className.match(/^translate-x-(\d+)\/(\d+)$/);
   if (translateXFractionMatch) {
-    const percentage = (parseFloat(translateXFractionMatch[1]) / parseFloat(translateXFractionMatch[2]) * 100).toFixed(3);
+    const percentage = (
+      (parseFloat(translateXFractionMatch[1]) /
+        parseFloat(translateXFractionMatch[2])) *
+      100
+    ).toFixed(3);
     return `translate horizontally ${percentage}%`;
   }
 
   // translate-y-<fraction> - Y-axis translation fraction
   const translateYFractionMatch = className.match(/^translate-y-(\d+)\/(\d+)$/);
   if (translateYFractionMatch) {
-    const percentage = (parseFloat(translateYFractionMatch[1]) / parseFloat(translateYFractionMatch[2]) * 100).toFixed(3);
+    const percentage = (
+      (parseFloat(translateYFractionMatch[1]) /
+        parseFloat(translateYFractionMatch[2])) *
+      100
+    ).toFixed(3);
     return `translate vertically ${percentage}%`;
   }
 
   // translate-<fraction> - both axes translation fraction
   const translateFractionMatch = className.match(/^translate-(\d+)\/(\d+)$/);
   if (translateFractionMatch) {
-    const percentage = (parseFloat(translateFractionMatch[1]) / parseFloat(translateFractionMatch[2]) * 100).toFixed(3);
+    const percentage = (
+      (parseFloat(translateFractionMatch[1]) /
+        parseFloat(translateFractionMatch[2])) *
+      100
+    ).toFixed(3);
     return `translate ${percentage}% on both axes`;
   }
 
@@ -496,9 +540,13 @@ export function matchPerspectivePattern(className: string): string | null {
  * Try to match perspective-origin patterns (perspective-origin-*)
  */
 
-export function matchPerspectiveOriginPattern(className: string): string | null {
+export function matchPerspectiveOriginPattern(
+  className: string
+): string | null {
   // perspective-origin-(<custom-property>) - custom CSS property for perspective origin
-  const customPropMatch = className.match(/^perspective-origin-\((--[\w-]+)\)$/);
+  const customPropMatch = className.match(
+    /^perspective-origin-\((--[\w-]+)\)$/
+  );
   if (customPropMatch) {
     return `perspective origin ${customPropMatch[1]}`;
   }
@@ -515,4 +563,3 @@ export function matchPerspectiveOriginPattern(className: string): string | null 
 /**
  * Try to match border-spacing patterns (border-spacing-*)
  */
-

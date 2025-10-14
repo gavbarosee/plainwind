@@ -2,7 +2,7 @@
  * Colors pattern matchers
  */
 
-import { COLOR_NAMES, SHADE_DESCRIPTIONS } from "./helpers";
+import { COLOR_NAMES, SHADE_DESCRIPTIONS } from './helpers';
 
 export function matchColorPattern(className: string): string | null {
   // Background colors: bg-blue-500, bg-slate-800
@@ -154,16 +154,16 @@ export function matchColorPattern(className: string): string | null {
     const side = borderSideColorMatch[1];
     const color = COLOR_NAMES[borderSideColorMatch[2]];
     const shade = SHADE_DESCRIPTIONS[borderSideColorMatch[3]];
-    
+
     const sideMap: Record<string, string> = {
-      t: "top",
-      r: "right",
-      b: "bottom",
-      l: "left",
+      t: 'top',
+      r: 'right',
+      b: 'bottom',
+      l: 'left',
     };
-    
+
     const sideName = sideMap[side];
-    
+
     if (color && shade) {
       return `${shade} ${color} ${sideName} border`;
     }
@@ -283,7 +283,9 @@ export function matchCaretColorPattern(className: string): string | null {
   }
 
   // caret-<color>-<shade> - Tailwind color palette
-  const colorMatch = className.match(/^caret-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone)-(\d+)$/);
+  const colorMatch = className.match(
+    /^caret-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone)-(\d+)$/
+  );
   if (colorMatch) {
     return `${colorMatch[1]}-${colorMatch[2]} caret color`;
   }
@@ -309,7 +311,9 @@ export function matchAccentColorPattern(className: string): string | null {
   }
 
   // accent-<color>-<shade> - Tailwind color palette
-  const colorMatch = className.match(/^accent-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone)-(\d+)$/);
+  const colorMatch = className.match(
+    /^accent-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone)-(\d+)$/
+  );
   if (colorMatch) {
     return `${colorMatch[1]}-${colorMatch[2]} accent color`;
   }
@@ -335,7 +339,9 @@ export function matchFillPattern(className: string): string | null {
   }
 
   // fill-<color>-<shade> - Tailwind color palette
-  const colorMatch = className.match(/^fill-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone)-(\d+)$/);
+  const colorMatch = className.match(
+    /^fill-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone)-(\d+)$/
+  );
   if (colorMatch) {
     return `${colorMatch[1]}-${colorMatch[2]} fill`;
   }
@@ -349,7 +355,9 @@ export function matchFillPattern(className: string): string | null {
 
 export function matchStrokePattern(className: string): string | null {
   // stroke-(length:<custom-property>) - custom CSS property for stroke width
-  const strokeWidthCustomPropMatch = className.match(/^stroke-\(length:(--[\w-]+)\)$/);
+  const strokeWidthCustomPropMatch = className.match(
+    /^stroke-\(length:(--[\w-]+)\)$/
+  );
   if (strokeWidthCustomPropMatch) {
     return `stroke width ${strokeWidthCustomPropMatch[1]}`;
   }
@@ -373,7 +381,9 @@ export function matchStrokePattern(className: string): string | null {
   }
 
   // stroke-<color>-<shade> - Tailwind color palette
-  const colorMatch = className.match(/^stroke-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone)-(\d+)$/);
+  const colorMatch = className.match(
+    /^stroke-(red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose|slate|gray|zinc|neutral|stone)-(\d+)$/
+  );
   if (colorMatch) {
     return `${colorMatch[1]}-${colorMatch[2]} stroke`;
   }
@@ -385,16 +395,18 @@ export function matchStrokePattern(className: string): string | null {
  * Try to match fill patterns (fill-*)
  */
 
-export function matchGradientColorStopPattern(className: string): string | null {
+export function matchGradientColorStopPattern(
+  className: string
+): string | null {
   // from-<percentage>, via-<percentage>, to-<percentage>
   const percentageMatch = className.match(/^(from|via|to)-(\d+)%$/);
   if (percentageMatch) {
     const position = percentageMatch[1];
     const percent = percentageMatch[2];
     const positionMap: Record<string, string> = {
-      from: "start",
-      via: "middle",
-      to: "end",
+      from: 'start',
+      via: 'middle',
+      to: 'end',
     };
     return `gradient ${positionMap[position]} position at ${percent}%`;
   }
@@ -427,14 +439,14 @@ export function matchGradientPattern(className: string): string | null {
   const linearDirMatch = className.match(/^bg-linear-to-([a-z]+)$/);
   if (linearDirMatch) {
     const dirMap: Record<string, string> = {
-      t: "top",
-      tr: "top right",
-      r: "right",
-      br: "bottom right",
-      b: "bottom",
-      bl: "bottom left",
-      l: "left",
-      tl: "top left",
+      t: 'top',
+      tr: 'top right',
+      r: 'right',
+      br: 'bottom right',
+      b: 'bottom',
+      bl: 'bottom left',
+      l: 'left',
+      tl: 'top left',
     };
     const direction = dirMap[linearDirMatch[1]] || linearDirMatch[1];
     return `linear gradient to ${direction}`;
@@ -444,14 +456,14 @@ export function matchGradientPattern(className: string): string | null {
   const gradientDirMatch = className.match(/^bg-gradient-to-([a-z]+)$/);
   if (gradientDirMatch) {
     const dirMap: Record<string, string> = {
-      t: "top",
-      tr: "top right",
-      r: "right",
-      br: "bottom right",
-      b: "bottom",
-      bl: "bottom left",
-      l: "left",
-      tl: "top left",
+      t: 'top',
+      tr: 'top right',
+      r: 'right',
+      br: 'bottom right',
+      b: 'bottom',
+      bl: 'bottom left',
+      l: 'left',
+      tl: 'top left',
     };
     const direction = dirMap[gradientDirMatch[1]] || gradientDirMatch[1];
     return `gradient to ${direction}`;
@@ -516,5 +528,3 @@ export function matchGradientPattern(className: string): string | null {
 
   return null;
 }
-
-

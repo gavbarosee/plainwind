@@ -2,11 +2,13 @@
  * Typography pattern matchers
  */
 
-import { SPACING_SCALE } from "./helpers";
+import { SPACING_SCALE } from './helpers';
 
 export function matchFontFamilyPattern(className: string): string | null {
   // font-(family-name:--custom-property) - special syntax for font-family custom properties
-  const familyNameCustomMatch = className.match(/^font-\(family-name:(--[\w-]+)\)$/);
+  const familyNameCustomMatch = className.match(
+    /^font-\(family-name:(--[\w-]+)\)$/
+  );
   if (familyNameCustomMatch) {
     return `font family ${familyNameCustomMatch[1]}`;
   }
@@ -85,72 +87,78 @@ export function matchFontStretchPattern(className: string): string | null {
 
 export function matchFontSizePattern(className: string): string | null {
   // text-<size>/(<custom-property>) - font size with custom property line height
-  const sizeWithCustomLineHeightMatch = className.match(/^text-(xs|sm|base|lg|xl|\dxl)\/\((--[\w-]+)\)$/);
+  const sizeWithCustomLineHeightMatch = className.match(
+    /^text-(xs|sm|base|lg|xl|\dxl)\/\((--[\w-]+)\)$/
+  );
   if (sizeWithCustomLineHeightMatch) {
     const size = sizeWithCustomLineHeightMatch[1];
     const customProp = sizeWithCustomLineHeightMatch[2];
     const sizeMap: Record<string, string> = {
-      xs: "extra small",
-      sm: "small",
-      base: "base",
-      lg: "large",
-      xl: "extra large",
-      "2xl": "2x large",
-      "3xl": "3x large",
-      "4xl": "4x large",
-      "5xl": "5x large",
-      "6xl": "6x large",
-      "7xl": "7x large",
-      "8xl": "8x large",
-      "9xl": "9x large",
+      xs: 'extra small',
+      sm: 'small',
+      base: 'base',
+      lg: 'large',
+      xl: 'extra large',
+      '2xl': '2x large',
+      '3xl': '3x large',
+      '4xl': '4x large',
+      '5xl': '5x large',
+      '6xl': '6x large',
+      '7xl': '7x large',
+      '8xl': '8x large',
+      '9xl': '9x large',
     };
     const sizeDesc = sizeMap[size] || size;
     return `${sizeDesc} text with line height ${customProp}`;
   }
 
   // text-<size>/[<value>] - font size with arbitrary line height
-  const sizeWithArbitraryLineHeightMatch = className.match(/^text-(xs|sm|base|lg|xl|\dxl)\/\[(.+?)\]$/);
+  const sizeWithArbitraryLineHeightMatch = className.match(
+    /^text-(xs|sm|base|lg|xl|\dxl)\/\[(.+?)\]$/
+  );
   if (sizeWithArbitraryLineHeightMatch) {
     const size = sizeWithArbitraryLineHeightMatch[1];
     const lineHeight = sizeWithArbitraryLineHeightMatch[2];
     const sizeMap: Record<string, string> = {
-      xs: "extra small",
-      sm: "small",
-      base: "base",
-      lg: "large",
-      xl: "extra large",
-      "2xl": "2x large",
-      "3xl": "3x large",
-      "4xl": "4x large",
-      "5xl": "5x large",
-      "6xl": "6x large",
-      "7xl": "7x large",
-      "8xl": "8x large",
-      "9xl": "9x large",
+      xs: 'extra small',
+      sm: 'small',
+      base: 'base',
+      lg: 'large',
+      xl: 'extra large',
+      '2xl': '2x large',
+      '3xl': '3x large',
+      '4xl': '4x large',
+      '5xl': '5x large',
+      '6xl': '6x large',
+      '7xl': '7x large',
+      '8xl': '8x large',
+      '9xl': '9x large',
     };
     const sizeDesc = sizeMap[size] || size;
     return `${sizeDesc} text with line height ${lineHeight}`;
   }
 
   // text-<size>/<line-height> - font size with line height (e.g., text-sm/6, text-lg/7)
-  const sizeWithLineHeightMatch = className.match(/^text-(xs|sm|base|lg|xl|\dxl)\/(.+)$/);
+  const sizeWithLineHeightMatch = className.match(
+    /^text-(xs|sm|base|lg|xl|\dxl)\/(.+)$/
+  );
   if (sizeWithLineHeightMatch) {
     const size = sizeWithLineHeightMatch[1];
     const lineHeight = sizeWithLineHeightMatch[2];
     const sizeMap: Record<string, string> = {
-      xs: "extra small",
-      sm: "small",
-      base: "base",
-      lg: "large",
-      xl: "extra large",
-      "2xl": "2x large",
-      "3xl": "3x large",
-      "4xl": "4x large",
-      "5xl": "5x large",
-      "6xl": "6x large",
-      "7xl": "7x large",
-      "8xl": "8x large",
-      "9xl": "9x large",
+      xs: 'extra small',
+      sm: 'small',
+      base: 'base',
+      lg: 'large',
+      xl: 'extra large',
+      '2xl': '2x large',
+      '3xl': '3x large',
+      '4xl': '4x large',
+      '5xl': '5x large',
+      '6xl': '6x large',
+      '7xl': '7x large',
+      '8xl': '8x large',
+      '9xl': '9x large',
     };
     const sizeDesc = sizeMap[size] || size;
     return `${sizeDesc} text with line height ${lineHeight}`;
@@ -185,14 +193,14 @@ export function matchLetterSpacingPattern(className: string): string | null {
   // tracking-(--custom-property) - custom CSS properties
   const customPropMatch = className.match(/^(-)?tracking-\((--[\w-]+)\)$/);
   if (customPropMatch) {
-    const negative = customPropMatch[1] ? "negative " : "";
+    const negative = customPropMatch[1] ? 'negative ' : '';
     return `${negative}letter spacing ${customPropMatch[2]}`;
   }
 
   // tracking-[value] - arbitrary values
   const arbitraryMatch = className.match(/^(-)?tracking-\[(.+?)\]$/);
   if (arbitraryMatch) {
-    const negative = arbitraryMatch[1] ? "negative " : "";
+    const negative = arbitraryMatch[1] ? 'negative ' : '';
     return `${negative}letter spacing ${arbitraryMatch[2]}`;
   }
 
@@ -244,7 +252,7 @@ export function matchTextIndentPattern(className: string): string | null {
   // indent-<number> or -indent-<number> - numeric indent values
   const numberMatch = className.match(/^(-)?indent-(\d+(?:\.\d+)?)$/);
   if (numberMatch) {
-    const negative = numberMatch[1] ? "negative " : "";
+    const negative = numberMatch[1] ? 'negative ' : '';
     const value = numberMatch[2];
     const spacing = SPACING_SCALE[value];
     if (spacing) {
@@ -256,21 +264,21 @@ export function matchTextIndentPattern(className: string): string | null {
   // indent-px or -indent-px
   const pxMatch = className.match(/^(-)?indent-px$/);
   if (pxMatch) {
-    const negative = pxMatch[1] ? "negative " : "";
+    const negative = pxMatch[1] ? 'negative ' : '';
     return `${negative}1px text indent`;
   }
 
   // indent-(--custom-property) - custom CSS properties
   const customPropMatch = className.match(/^(-)?indent-\((--[\w-]+)\)$/);
   if (customPropMatch) {
-    const negative = customPropMatch[1] ? "negative " : "";
+    const negative = customPropMatch[1] ? 'negative ' : '';
     return `${negative}text indent ${customPropMatch[2]}`;
   }
 
   // indent-[value] - arbitrary values
   const arbitraryMatch = className.match(/^(-)?indent-\[(.+?)\]$/);
   if (arbitraryMatch) {
-    const negative = arbitraryMatch[1] ? "negative " : "";
+    const negative = arbitraryMatch[1] ? 'negative ' : '';
     return `${negative}text indent ${arbitraryMatch[2]}`;
   }
 
@@ -365,23 +373,27 @@ export function matchTypographyPattern(className: string): string | null {
   // Underline offset: underline-offset-3, underline-offset-12, -underline-offset-2
   const underlineOffsetMatch = className.match(/^(-)?underline-offset-(\d+)$/);
   if (underlineOffsetMatch) {
-    const negative = underlineOffsetMatch[1] ? "negative " : "";
+    const negative = underlineOffsetMatch[1] ? 'negative ' : '';
     const value = underlineOffsetMatch[2];
     const size = SPACING_SCALE[value] || `${value}px`;
     return `${negative}underline offset ${size}`;
   }
 
   // underline-offset-(--custom-property) - custom CSS properties
-  const underlineOffsetCustomMatch = className.match(/^(-)?underline-offset-\((--[\w-]+)\)$/);
+  const underlineOffsetCustomMatch = className.match(
+    /^(-)?underline-offset-\((--[\w-]+)\)$/
+  );
   if (underlineOffsetCustomMatch) {
-    const negative = underlineOffsetCustomMatch[1] ? "negative " : "";
+    const negative = underlineOffsetCustomMatch[1] ? 'negative ' : '';
     return `${negative}underline offset ${underlineOffsetCustomMatch[2]}`;
   }
 
   // underline-offset-[value] - arbitrary values
-  const underlineOffsetArbitraryMatch = className.match(/^(-)?underline-offset-\[(.+?)\]$/);
+  const underlineOffsetArbitraryMatch = className.match(
+    /^(-)?underline-offset-\[(.+?)\]$/
+  );
   if (underlineOffsetArbitraryMatch) {
-    const negative = underlineOffsetArbitraryMatch[1] ? "negative " : "";
+    const negative = underlineOffsetArbitraryMatch[1] ? 'negative ' : '';
     return `${negative}underline offset ${underlineOffsetArbitraryMatch[2]}`;
   }
 
@@ -393,7 +405,9 @@ export function matchTypographyPattern(className: string): string | null {
   }
 
   // decoration-(length:--custom-property) - special syntax for decoration thickness
-  const decorationLengthCustomMatch = className.match(/^decoration-\(length:(--[\w-]+)\)$/);
+  const decorationLengthCustomMatch = className.match(
+    /^decoration-\(length:(--[\w-]+)\)$/
+  );
   if (decorationLengthCustomMatch) {
     return `decoration thickness ${decorationLengthCustomMatch[1]}`;
   }
@@ -429,4 +443,3 @@ export function matchTypographyPattern(className: string): string | null {
 /**
  * Try to match grid layout patterns (col-span-*, row-start-*, etc.)
  */
-

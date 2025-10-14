@@ -2,7 +2,7 @@
  * Positioning pattern matchers
  */
 
-import { SPACING_SCALE } from "./helpers";
+import { SPACING_SCALE } from './helpers';
 
 export function matchPositioningPattern(className: string): string | null {
   // Z-index with custom property: z-(--custom-var)
@@ -31,13 +31,13 @@ export function matchPositioningPattern(className: string): string | null {
 
   // Helper to format size values
   const formatSize = (value: string): string => {
-    if (value === "px") return "1px";
-    if (value === "full") return "100%";
-    if (value === "auto") return "auto";
+    if (value === 'px') return '1px';
+    if (value === 'full') return '100%';
+    if (value === 'auto') return 'auto';
     // Handle fractions: 1/2, 1/3, 2/3, etc.
     if (/^\d+\/\d+$/.test(value)) {
-      const [num, denom] = value.split("/").map(Number);
-      const percent = ((num / denom) * 100).toFixed(3).replace(/\.?0+$/, "");
+      const [num, denom] = value.split('/').map(Number);
+      const percent = ((num / denom) * 100).toFixed(3).replace(/\.?0+$/, '');
       return `${percent}%`;
     }
     return SPACING_SCALE[value] || value;
@@ -98,7 +98,9 @@ export function matchPositioningPattern(className: string): string | null {
   }
 
   // Custom property patterns: inset-(<custom-property>), top-(<custom-property>), etc.
-  const customPropMatch = className.match(/^(inset|inset-x|inset-y|top|right|bottom|left|start|end)-\((--[\w-]+)\)$/);
+  const customPropMatch = className.match(
+    /^(inset|inset-x|inset-y|top|right|bottom|left|start|end)-\((--[\w-]+)\)$/
+  );
   if (customPropMatch) {
     const direction = customPropMatch[1];
     const varName = customPropMatch[2];
@@ -106,7 +108,9 @@ export function matchPositioningPattern(className: string): string | null {
   }
 
   // Arbitrary value patterns: inset-[<value>], top-[<value>], etc.
-  const arbitraryMatch = className.match(/^(inset|inset-x|inset-y|top|right|bottom|left|start|end)-\[(.+?)\]$/);
+  const arbitraryMatch = className.match(
+    /^(inset|inset-x|inset-y|top|right|bottom|left|start|end)-\[(.+?)\]$/
+  );
   if (arbitraryMatch) {
     const direction = arbitraryMatch[1];
     const value = arbitraryMatch[2];
@@ -139,4 +143,3 @@ export function matchPositioningPattern(className: string): string | null {
 /**
  * Try to match color patterns (bg-*, text-*, border-*, etc.)
  */
-

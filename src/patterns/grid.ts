@@ -2,7 +2,7 @@
  * Grid pattern matchers
  */
 
-import { NUMBER_WORDS } from "./helpers";
+import { NUMBER_WORDS } from './helpers';
 
 export function matchGridPattern(className: string): string | null {
   // Column span: col-span-5, col-span-8
@@ -72,7 +72,7 @@ export function matchGridColumnsPattern(className: string): string | null {
   if (numberMatch) {
     const value = numberMatch[1];
     const numWord = NUMBER_WORDS[value] || value;
-    return `${numWord} column${value === "1" ? "" : "s"}`;
+    return `${numWord} column${value === '1' ? '' : 's'}`;
   }
 
   return null;
@@ -100,7 +100,7 @@ export function matchGridRowsPattern(className: string): string | null {
   if (numberMatch) {
     const value = numberMatch[1];
     const numWord = NUMBER_WORDS[value] || value;
-    return `${numWord} row${value === "1" ? "" : "s"}`;
+    return `${numWord} row${value === '1' ? '' : 's'}`;
   }
 
   return null;
@@ -112,7 +112,7 @@ export function matchGridRowsPattern(className: string): string | null {
 
 export function matchGridColumnPattern(className: string): string | null {
   // col-span-* patterns
-  if (className.startsWith("col-span-")) {
+  if (className.startsWith('col-span-')) {
     // col-span-(--custom-property)
     const customPropMatch = className.match(/^col-span-\((--[\w-]+)\)$/);
     if (customPropMatch) {
@@ -129,13 +129,16 @@ export function matchGridColumnPattern(className: string): string | null {
     const numberMatch = className.match(/^col-span-(\d+)$/);
     if (numberMatch) {
       const value = numberMatch[1];
-      return `spans ${value} column${value === "1" ? "" : "s"}`;
+      return `spans ${value} column${value === '1' ? '' : 's'}`;
     }
   }
 
   // col-start-* patterns
-  if (className.startsWith("col-start-") || className.startsWith("-col-start-")) {
-    const isNegative = className.startsWith("-");
+  if (
+    className.startsWith('col-start-') ||
+    className.startsWith('-col-start-')
+  ) {
+    const isNegative = className.startsWith('-');
     const baseClass = isNegative ? className.slice(1) : className;
 
     // col-start-(--custom-property)
@@ -154,13 +157,13 @@ export function matchGridColumnPattern(className: string): string | null {
     const numberMatch = baseClass.match(/^col-start-(\d+)$/);
     if (numberMatch) {
       const value = numberMatch[1];
-      return `starts at column ${isNegative ? "-" : ""}${value}`;
+      return `starts at column ${isNegative ? '-' : ''}${value}`;
     }
   }
 
   // col-end-* patterns
-  if (className.startsWith("col-end-") || className.startsWith("-col-end-")) {
-    const isNegative = className.startsWith("-");
+  if (className.startsWith('col-end-') || className.startsWith('-col-end-')) {
+    const isNegative = className.startsWith('-');
     const baseClass = isNegative ? className.slice(1) : className;
 
     // col-end-(--custom-property)
@@ -179,13 +182,18 @@ export function matchGridColumnPattern(className: string): string | null {
     const numberMatch = baseClass.match(/^col-end-(\d+)$/);
     if (numberMatch) {
       const value = numberMatch[1];
-      return `ends at column ${isNegative ? "-" : ""}${value}`;
+      return `ends at column ${isNegative ? '-' : ''}${value}`;
     }
   }
 
   // col-* patterns (plain col without span/start/end)
-  if (className.startsWith("col-") && !className.startsWith("col-span-") && !className.startsWith("col-start-") && !className.startsWith("col-end-")) {
-    const isNegative = className.startsWith("-col-");
+  if (
+    className.startsWith('col-') &&
+    !className.startsWith('col-span-') &&
+    !className.startsWith('col-start-') &&
+    !className.startsWith('col-end-')
+  ) {
+    const isNegative = className.startsWith('-col-');
     const baseClass = isNegative ? className.slice(1) : className;
 
     // col-(--custom-property)
@@ -204,7 +212,7 @@ export function matchGridColumnPattern(className: string): string | null {
     const numberMatch = baseClass.match(/^col-(\d+)$/);
     if (numberMatch) {
       const value = numberMatch[1];
-      return `column ${isNegative ? "-" : ""}${value}`;
+      return `column ${isNegative ? '-' : ''}${value}`;
     }
   }
 
@@ -217,7 +225,7 @@ export function matchGridColumnPattern(className: string): string | null {
 
 export function matchGridRowPattern(className: string): string | null {
   // row-span-* patterns
-  if (className.startsWith("row-span-")) {
+  if (className.startsWith('row-span-')) {
     // row-span-(--custom-property)
     const customPropMatch = className.match(/^row-span-\((--[\w-]+)\)$/);
     if (customPropMatch) {
@@ -234,13 +242,16 @@ export function matchGridRowPattern(className: string): string | null {
     const numberMatch = className.match(/^row-span-(\d+)$/);
     if (numberMatch) {
       const value = numberMatch[1];
-      return `spans ${value} row${value === "1" ? "" : "s"}`;
+      return `spans ${value} row${value === '1' ? '' : 's'}`;
     }
   }
 
   // row-start-* patterns
-  if (className.startsWith("row-start-") || className.startsWith("-row-start-")) {
-    const isNegative = className.startsWith("-");
+  if (
+    className.startsWith('row-start-') ||
+    className.startsWith('-row-start-')
+  ) {
+    const isNegative = className.startsWith('-');
     const baseClass = isNegative ? className.slice(1) : className;
 
     // row-start-(--custom-property)
@@ -259,13 +270,13 @@ export function matchGridRowPattern(className: string): string | null {
     const numberMatch = baseClass.match(/^row-start-(\d+)$/);
     if (numberMatch) {
       const value = numberMatch[1];
-      return `starts at row ${isNegative ? "-" : ""}${value}`;
+      return `starts at row ${isNegative ? '-' : ''}${value}`;
     }
   }
 
   // row-end-* patterns
-  if (className.startsWith("row-end-") || className.startsWith("-row-end-")) {
-    const isNegative = className.startsWith("-");
+  if (className.startsWith('row-end-') || className.startsWith('-row-end-')) {
+    const isNegative = className.startsWith('-');
     const baseClass = isNegative ? className.slice(1) : className;
 
     // row-end-(--custom-property)
@@ -284,13 +295,18 @@ export function matchGridRowPattern(className: string): string | null {
     const numberMatch = baseClass.match(/^row-end-(\d+)$/);
     if (numberMatch) {
       const value = numberMatch[1];
-      return `ends at row ${isNegative ? "-" : ""}${value}`;
+      return `ends at row ${isNegative ? '-' : ''}${value}`;
     }
   }
 
   // row-* patterns (plain row without span/start/end)
-  if (className.startsWith("row-") && !className.startsWith("row-span-") && !className.startsWith("row-start-") && !className.startsWith("row-end-")) {
-    const isNegative = className.startsWith("-row-");
+  if (
+    className.startsWith('row-') &&
+    !className.startsWith('row-span-') &&
+    !className.startsWith('row-start-') &&
+    !className.startsWith('row-end-')
+  ) {
+    const isNegative = className.startsWith('-row-');
     const baseClass = isNegative ? className.slice(1) : className;
 
     // row-(--custom-property)
@@ -309,7 +325,7 @@ export function matchGridRowPattern(className: string): string | null {
     const numberMatch = baseClass.match(/^row-(\d+)$/);
     if (numberMatch) {
       const value = numberMatch[1];
-      return `row ${isNegative ? "-" : ""}${value}`;
+      return `row ${isNegative ? '-' : ''}${value}`;
     }
   }
 
@@ -359,4 +375,3 @@ export function matchGridAutoRowsPattern(className: string): string | null {
 /**
  * Try to match gap patterns (gap-*, gap-x-*, gap-y-*)
  */
-

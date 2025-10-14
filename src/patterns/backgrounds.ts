@@ -92,7 +92,9 @@ export function matchBackgroundImagePattern(className: string): string | null {
  * Try to match gradient color stop patterns (from-*, via-*, to-*)
  */
 
-export function matchBackgroundPositionPattern(className: string): string | null {
+export function matchBackgroundPositionPattern(
+  className: string
+): string | null {
   // bg-position-(--custom-property) - custom CSS property for background position
   const customPropMatch = className.match(/^bg-position-\((--[\w-]+)\)$/);
   if (customPropMatch) {
@@ -157,4 +159,3 @@ export function matchBackgroundColorPattern(className: string): string | null {
  * Try to match text color custom properties and arbitrary values (text-*)
  * This must run before matchFontSizePattern to avoid conflicts
  */
-

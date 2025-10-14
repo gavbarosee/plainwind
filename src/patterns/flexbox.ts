@@ -2,7 +2,7 @@
  * Flexbox pattern matchers
  */
 
-import { SPACING_SCALE } from "./helpers";
+import { SPACING_SCALE } from './helpers';
 
 export function matchFlexPattern(className: string): string | null {
   // Match flex with custom property: flex-(--custom-var)
@@ -21,7 +21,9 @@ export function matchFlexPattern(className: string): string | null {
   const fractionMatch = className.match(/^flex-(\d+)\/(\d+)$/);
   if (fractionMatch) {
     const [_, num, denom] = fractionMatch;
-    const percent = ((Number(num) / Number(denom)) * 100).toFixed(1).replace(/\.0$/, "");
+    const percent = ((Number(num) / Number(denom)) * 100)
+      .toFixed(1)
+      .replace(/\.0$/, '');
     return `flex ${percent}%`;
   }
 
@@ -56,7 +58,9 @@ export function matchFlexBasisPattern(className: string): string | null {
   const fractionMatch = className.match(/^basis-(\d+)\/(\d+)$/);
   if (fractionMatch) {
     const [_, num, denom] = fractionMatch;
-    const percent = ((Number(num) / Number(denom)) * 100).toFixed(1).replace(/\.0$/, "");
+    const percent = ((Number(num) / Number(denom)) * 100)
+      .toFixed(1)
+      .replace(/\.0$/, '');
     return `flex basis ${percent}%`;
   }
 
@@ -162,4 +166,3 @@ export function matchOrderPattern(className: string): string | null {
 /**
  * Try to match grid-template-columns patterns (grid-cols-<number>, grid-cols-(<custom-property>), grid-cols-[<value>])
  */
-

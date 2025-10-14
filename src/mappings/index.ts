@@ -1,20 +1,20 @@
-import { layoutMappings } from "./layout";
-import { flexboxGridMappings } from "./flexbox-grid";
-import { spacingMappings } from "./spacing";
-import { sizingMappings } from "./sizing";
-import { colorsMappings } from "./colors";
-import { backgroundsMappings } from "./backgrounds";
-import { bordersMappings } from "./borders";
-import { typographyMappings } from "./typography";
-import { tablesMappings } from "./tables";
-import { transitionsMappings } from "./transitions-animations";
-import { transformsMappings } from "./transforms";
-import { interactivityMappings } from "./interactivity";
-import { effectsMappings } from "./effects";
-import { filtersMappings } from "./filters";
-import { positioningMappings } from "./positioning";
-import { svgMappings } from "./svg";
-import { accessibilityMappings } from "./accessibility";
+import { layoutMappings } from './layout';
+import { flexboxGridMappings } from './flexbox-grid';
+import { spacingMappings } from './spacing';
+import { sizingMappings } from './sizing';
+import { colorsMappings } from './colors';
+import { backgroundsMappings } from './backgrounds';
+import { bordersMappings } from './borders';
+import { typographyMappings } from './typography';
+import { tablesMappings } from './tables';
+import { transitionsMappings } from './transitions-animations';
+import { transformsMappings } from './transforms';
+import { interactivityMappings } from './interactivity';
+import { effectsMappings } from './effects';
+import { filtersMappings } from './filters';
+import { positioningMappings } from './positioning';
+import { svgMappings } from './svg';
+import { accessibilityMappings } from './accessibility';
 
 /**
  * Combined Tailwind class mappings
@@ -60,4 +60,3 @@ export {
   svgMappings,
   accessibilityMappings,
 };
-

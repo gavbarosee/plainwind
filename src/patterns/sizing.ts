@@ -2,7 +2,7 @@
  * Sizing pattern matchers
  */
 
-import { SPACING_SCALE } from "./helpers";
+import { SPACING_SCALE } from './helpers';
 
 export function matchSizingPattern(className: string): string | null {
   // Width patterns: w-12, w-64, w-96
@@ -22,12 +22,12 @@ export function matchSizingPattern(className: string): string | null {
   }
 
   // Min-width: min-w-0, min-w-full
-  if (className === "min-w-0") return "min width 0";
-  if (className === "min-w-full") return "min width full";
+  if (className === 'min-w-0') return 'min width 0';
+  if (className === 'min-w-full') return 'min width full';
 
   // Min-height: min-h-0, min-h-full, min-h-screen
-  if (className === "min-h-0") return "min height 0";
-  if (className === "min-h-full") return "min height full";
+  if (className === 'min-h-0') return 'min height 0';
+  if (className === 'min-h-full') return 'min height full';
 
   // Size shorthand: size-10, size-px, size-[72px]
   const sizeNumberMatch = className.match(/^size-(\d+(?:\.\d+)?)$/);
@@ -37,8 +37,8 @@ export function matchSizingPattern(className: string): string | null {
     return `width and height ${size}`;
   }
 
-  if (className === "size-px") {
-    return "width and height 1px";
+  if (className === 'size-px') {
+    return 'width and height 1px';
   }
 
   const sizeKeywordMatch = className.match(/^size-(full|min|max|fit|auto)$/);
@@ -306,4 +306,3 @@ export function matchSizePattern(className: string): string | null {
 /**
  * Try to match min-width patterns (min-w-*)
  */
-

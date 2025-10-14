@@ -1,8 +1,8 @@
 /**
  * Category Pattern Definitions
- * 
+ *
  * This file defines how Tailwind classes are categorized.
- * 
+ *
  * IMPORTANT: Order matters! Categories are checked in array order, and the
  * first matching pattern wins. This is why specific patterns (like "Tables")
  * must come before general ones (like "Layout").
@@ -14,15 +14,15 @@
  *   description: Optional note about ordering or special handling
  */
 
-import type { Category } from "./types";
+import type { Category } from './types';
 
 export const CATEGORIES: Category[] = [
   {
-    name: "Layout",
-    emoji: "📐",
+    name: 'Layout',
+    emoji: '📐',
     patterns: [
       /^(inline|block|hidden|flow|contents|list-item)/, // display utilities
-      /^table$/, // display: table 
+      /^table$/, // display: table
       /^(visible|invisible|collapse)$/,
       /^(start|end)$/, // logical float properties
       /^(float-|clear-|box-|border-sizing-|columns-|break-before-|break-after-|break-inside-)/,
@@ -36,8 +36,8 @@ export const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: "Flexbox & Grid",
-    emoji: "📦",
+    name: 'Flexbox & Grid',
+    emoji: '📦',
     patterns: [
       /^(flex|grid)$/, // display: flex, display: grid
       /^(inline-flex|inline-grid)$/,
@@ -49,17 +49,17 @@ export const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: "Spacing",
-    emoji: "↔️",
-    description: "padding, margin, space - check AFTER auto margins",
+    name: 'Spacing',
+    emoji: '↔️',
+    description: 'padding, margin, space - check AFTER auto margins',
     patterns: [
       /^(p-|px-|py-|pt-|pr-|pb-|pl-|ps-|pe-|m-|mx-|my-|mt-|mr-|mb-|ml-|ms-|me-|space-)/,
     ],
   },
   {
-    name: "Typography",
-    emoji: "📝",
-    description: "check BEFORE colors to catch text-xl, text-center, etc.",
+    name: 'Typography',
+    emoji: '📝',
+    description: 'check BEFORE colors to catch text-xl, text-center, etc.',
     patterns: [
       /^text-(xs|sm|base|lg|xl|2xl|3xl|4xl|5xl|6xl|7xl|8xl|9xl)/,
       /^text-(left|center|right|justify|start|end|ellipsis|clip|wrap|nowrap|balance|pretty)/,
@@ -76,9 +76,9 @@ export const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: "Tables",
-    emoji: "📊",
-    description: "table layout and border spacing utilities",
+    name: 'Tables',
+    emoji: '📊',
+    description: 'table layout and border spacing utilities',
     patterns: [
       /^(table-auto|table-fixed)$/, // table-layout utilities
       /^(border-collapse|border-separate)$/, // border-collapse utilities
@@ -87,9 +87,9 @@ export const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: "Borders",
-    emoji: "🔲",
-    description: "checked BEFORE Effects and Colors",
+    name: 'Borders',
+    emoji: '🔲',
+    description: 'checked BEFORE Effects and Colors',
     patterns: [
       /^rounded/, // border-radius
       /^border(-[trblxyse])?(-\d+|-0|-px)?$/, // border-width
@@ -103,18 +103,19 @@ export const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: "Transitions & Animation",
-    emoji: "🎬",
-    description: "transition properties, timing, duration, delay, animations",
+    name: 'Transitions & Animation',
+    emoji: '🎬',
+    description: 'transition properties, timing, duration, delay, animations',
     patterns: [
       /^transition/, // transition, transition-all, transition-colors, etc.
       /^(duration-|delay-|ease-|animate-)/, // duration, delay, ease, animate
     ],
   },
   {
-    name: "Transforms",
-    emoji: "🔄",
-    description: "scale, rotate, translate, skew, transform-origin, perspective",
+    name: 'Transforms',
+    emoji: '🔄',
+    description:
+      'scale, rotate, translate, skew, transform-origin, perspective',
     patterns: [
       /^(scale-|rotate-|translate-|skew-|-rotate-|-translate-|-skew-)/, // transform utilities
       /^(origin-)/, // transform-origin utilities
@@ -123,18 +124,20 @@ export const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: "Interactivity",
-    emoji: "👆",
-    description: "accent, appearance, pointer-events, resize, scroll, snap, user-select, cursor",
+    name: 'Interactivity',
+    emoji: '👆',
+    description:
+      'accent, appearance, pointer-events, resize, scroll, snap, user-select, cursor',
     patterns: [
       /^accent-/, // accent-color utilities
       /^(appearance-|scheme-|color-scheme-|field-sizing-|caret-|pointer-events-|resize|scroll|snap-|touch-|select-|user-select-|will-change-|cursor-)/,
     ],
   },
   {
-    name: "Filters",
-    emoji: "🎭",
-    description: "blur, brightness, contrast, drop-shadow, grayscale, hue-rotate, backdrop-filter",
+    name: 'Filters',
+    emoji: '🎭',
+    description:
+      'blur, brightness, contrast, drop-shadow, grayscale, hue-rotate, backdrop-filter',
     patterns: [
       /^filter/, // filter, filter-none, filter-[...], filter-(...)
       /^backdrop-filter/, // backdrop-filter, backdrop-filter-none
@@ -143,9 +146,10 @@ export const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: "Effects",
-    emoji: "✨",
-    description: "shadows, opacity, blend modes, masks, inert - check BEFORE Colors",
+    name: 'Effects',
+    emoji: '✨',
+    description:
+      'shadows, opacity, blend modes, masks, inert - check BEFORE Colors',
     patterns: [
       /^(shadow|inset-shadow|text-shadow|opacity-)/,
       /^(inert)/,
@@ -156,9 +160,9 @@ export const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: "Backgrounds",
-    emoji: "🖼️",
-    description: "background-specific utilities, checked BEFORE Colors",
+    name: 'Backgrounds',
+    emoji: '🖼️',
+    description: 'background-specific utilities, checked BEFORE Colors',
     patterns: [
       /^bg-(fixed|local|scroll)$/, // background-attachment
       /^bg-clip-(border|padding|content|text)$/, // background-clip
@@ -173,37 +177,34 @@ export const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: "Colors",
-    emoji: "🎨",
-    description: "text colors, backgrounds, borders, etc.",
+    name: 'Colors',
+    emoji: '🎨',
+    description: 'text colors, backgrounds, borders, etc.',
     patterns: [
       /^(bg-|text-|border-|ring-|divide-|decoration-|from-|via-|to-|gradient|accent-|caret-|placeholder-|color-scheme-)/,
     ],
   },
   {
-    name: "Sizing",
-    emoji: "📏",
-    patterns: [
-      /^(size-|w-|h-|min-w-|min-h-|max-w-|max-h-|container|aspect-)/,
-    ],
+    name: 'Sizing',
+    emoji: '📏',
+    patterns: [/^(size-|w-|h-|min-w-|min-h-|max-w-|max-h-|container|aspect-)/],
   },
   {
-    name: "SVG",
-    emoji: "🎨",
-    description: "fill, stroke",
+    name: 'SVG',
+    emoji: '🎨',
+    description: 'fill, stroke',
     patterns: [
       /^fill-/, // fill utilities
       /^stroke-/, // stroke utilities
     ],
   },
   {
-    name: "Accessibility",
-    emoji: "♿",
-    description: "forced-color-adjust, sr-only",
+    name: 'Accessibility',
+    emoji: '♿',
+    description: 'forced-color-adjust, sr-only',
     patterns: [
       /^forced-color-adjust-/, // forced-color-adjust utilities
       /^(sr-only|not-sr-only)$/, // screen reader utilities
     ],
   },
 ];
-

@@ -1,5 +1,5 @@
-import * as vscode from "vscode";
-import { translateClasses } from "./translator";
+import * as vscode from 'vscode';
+import { translateClasses } from './translator';
 
 const CLASS_NAME_PATTERN = /(class(?:Name)?=["'])([^"']+)(["'])/g;
 
@@ -34,7 +34,7 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
 
       const codeLens = new vscode.CodeLens(range, {
         title: `💨 ${translation}`,
-        command: "",
+        command: '',
       });
 
       codeLenses.push(codeLens);

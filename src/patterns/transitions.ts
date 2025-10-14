@@ -2,7 +2,9 @@
  * Transitions pattern matchers
  */
 
-export function matchTransitionPropertyPattern(className: string): string | null {
+export function matchTransitionPropertyPattern(
+  className: string
+): string | null {
   // transition-(<custom-property>) - custom CSS property for transition property
   const customPropMatch = className.match(/^transition-\((--[\w-]+)\)$/);
   if (customPropMatch) {
@@ -22,7 +24,9 @@ export function matchTransitionPropertyPattern(className: string): string | null
  * Try to match transition-duration patterns (duration-*)
  */
 
-export function matchTransitionDurationPattern(className: string): string | null {
+export function matchTransitionDurationPattern(
+  className: string
+): string | null {
   // duration-(<custom-property>) - custom CSS property for transition duration
   const customPropMatch = className.match(/^duration-\((--[\w-]+)\)$/);
   if (customPropMatch) {
@@ -133,4 +137,3 @@ export function matchWillChangePattern(className: string): string | null {
 /**
  * Try to match translate patterns (translate-*, translate-x-*, translate-y-*, translate-z-*)
  */
-

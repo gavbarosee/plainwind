@@ -6,23 +6,23 @@
  * All possible Tailwind class categories
  */
 export type ClassCategory =
-  | "Layout"
-  | "Flexbox & Grid"
-  | "Spacing"
-  | "Sizing"
-  | "Colors"
-  | "Backgrounds"
-  | "Borders"
-  | "Typography"
-  | "Tables"
-  | "Transitions & Animation"
-  | "Transforms"
-  | "Interactivity"
-  | "Effects"
-  | "Filters"
-  | "SVG"
-  | "Accessibility"
-  | "Other";
+  | 'Layout'
+  | 'Flexbox & Grid'
+  | 'Spacing'
+  | 'Sizing'
+  | 'Colors'
+  | 'Backgrounds'
+  | 'Borders'
+  | 'Typography'
+  | 'Tables'
+  | 'Transitions & Animation'
+  | 'Transforms'
+  | 'Interactivity'
+  | 'Effects'
+  | 'Filters'
+  | 'SVG'
+  | 'Accessibility'
+  | 'Other';
 
 /**
  * Internal definition of a category with its matching patterns
@@ -33,4 +33,3 @@ export interface Category {
   patterns: RegExp[];
   description?: string;
 }
-

@@ -2,7 +2,7 @@
  * Layout pattern matchers
  */
 
-import { NUMBER_WORDS } from "./helpers";
+import { NUMBER_WORDS } from './helpers';
 
 export function matchAspectRatioPattern(className: string): string | null {
   // Match aspect-X/Y patterns: aspect-3/2, aspect-16/9, aspect-21/9
@@ -79,4 +79,3 @@ export function matchObjectPositionPattern(className: string): string | null {
 /**
  * Try to match flex-basis patterns (basis-*, basis-<number>, basis-<fraction>)
  */
-

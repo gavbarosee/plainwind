@@ -303,9 +303,13 @@ export function matchBackdropBlurPattern(className: string): string | null {
  * Try to match backdrop-brightness patterns (backdrop-brightness-*)
  */
 
-export function matchBackdropBrightnessPattern(className: string): string | null {
+export function matchBackdropBrightnessPattern(
+  className: string
+): string | null {
   // backdrop-brightness-(<custom-property>) - custom CSS property for backdrop brightness
-  const customPropMatch = className.match(/^backdrop-brightness-\((--[\w-]+)\)$/);
+  const customPropMatch = className.match(
+    /^backdrop-brightness-\((--[\w-]+)\)$/
+  );
   if (customPropMatch) {
     return `backdrop brightness ${customPropMatch[1]}`;
   }
@@ -355,9 +359,13 @@ export function matchBackdropContrastPattern(className: string): string | null {
  * Try to match backdrop-grayscale patterns (backdrop-grayscale-*)
  */
 
-export function matchBackdropGrayscalePattern(className: string): string | null {
+export function matchBackdropGrayscalePattern(
+  className: string
+): string | null {
   // backdrop-grayscale-(<custom-property>) - custom CSS property for backdrop grayscale
-  const customPropMatch = className.match(/^backdrop-grayscale-\((--[\w-]+)\)$/);
+  const customPropMatch = className.match(
+    /^backdrop-grayscale-\((--[\w-]+)\)$/
+  );
   if (customPropMatch) {
     return `backdrop grayscale ${customPropMatch[1]}`;
   }
@@ -381,9 +389,13 @@ export function matchBackdropGrayscalePattern(className: string): string | null 
  * Try to match backdrop-hue-rotate patterns (backdrop-hue-rotate-*)
  */
 
-export function matchBackdropHueRotatePattern(className: string): string | null {
+export function matchBackdropHueRotatePattern(
+  className: string
+): string | null {
   // backdrop-hue-rotate-(<custom-property>) - custom CSS property for backdrop hue-rotate
-  const customPropMatch = className.match(/^backdrop-hue-rotate-\((--[\w-]+)\)$/);
+  const customPropMatch = className.match(
+    /^backdrop-hue-rotate-\((--[\w-]+)\)$/
+  );
   if (customPropMatch) {
     return `backdrop hue rotation ${customPropMatch[1]}`;
   }
@@ -516,4 +528,3 @@ export function matchBackdropSepiaPattern(className: string): string | null {
 /**
  * Try to match backdrop-filter patterns (backdrop-filter-*)
  */
-
