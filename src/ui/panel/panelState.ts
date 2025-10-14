@@ -39,18 +39,23 @@ export class PanelState {
 
     // Update focused panel if this was it
     if (this.focusedPanel === panelInfo.panel) {
-      this.focusedPanel = this.panels.length > 0 ? this.panels[0].panel : undefined;
+      this.focusedPanel =
+        this.panels.length > 0 ? this.panels[0].panel : undefined;
     }
   }
 
   /**
    * Find an existing panel for the given editor and range
    */
-  findPanel(editor: vscode.TextEditor, range: vscode.Range): PanelInfo | undefined {
+  findPanel(
+    editor: vscode.TextEditor,
+    range: vscode.Range
+  ): PanelInfo | undefined {
     return this.panels.find(
-      p => p.editor === editor &&
-           p.range.start.line === range.start.line &&
-           p.range.end.line === range.end.line
+      (p) =>
+        p.editor === editor &&
+        p.range.start.line === range.start.line &&
+        p.range.end.line === range.end.line
     );
   }
 
@@ -90,4 +95,3 @@ export class PanelState {
     this.focusedPanel = undefined;
   }
 }
-

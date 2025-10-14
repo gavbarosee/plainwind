@@ -1,5 +1,29 @@
+# Development files
 .vscode/**
+.vscode-test/**
 .gitignore
 tsconfig.json
 src/**
+
+# Dependencies
 node_modules/**
+
+# Test files (ensure they're never packaged)
+**/__tests__/**
+**/*.test.ts
+**/*.test.js
+vitest.config.ts
+vitest.config.js
+coverage/**
+
+# Build artifacts
+**/*.map
+
+# Documentation
+README.md
+
+# Config files
+.eslintrc*
+.prettierrc*
+commitlint.config.js
+eslint.config.mjs

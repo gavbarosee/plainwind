@@ -13,7 +13,7 @@ import type {
  * Parse a class string into individual non-empty class names
  */
 export function parseNonEmptyClasses(classString: string): string[] {
-  return classString.split(' ').filter((c) => c.trim());
+  return classString.split(/\s+/).filter((c) => c.trim());
 }
 
 /**

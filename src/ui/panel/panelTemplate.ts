@@ -25,7 +25,7 @@ export function generatePanelHTML(
   // Split translation by pipe separator and format each category on its own line
   const formattedTranslation = translation
     .split(' | ')
-    .map(line => {
+    .map((line) => {
       const escapedLine = escapeHtml(line);
       // Bold the category name (text before the first colon)
       const colonIndex = escapedLine.indexOf(':');
@@ -184,4 +184,3 @@ export function generatePanelHTML(
 </body>
 </html>`;
 }
-

@@ -8,5 +8,13 @@
     "rootDir": "src",
     "strict": true
   },
-  "exclude": ["node_modules", ".vscode-test"]
+  "include": ["src/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    ".vscode-test",
+    "**/*.test.ts",
+    "**/__tests__/**",
+    "*.config.ts",
+    "vitest.config.ts"
+  ]
 }

@@ -26,7 +26,7 @@ export class PanelManager {
   ): void {
     // Find the editor for this document
     const editor = vscode.window.visibleTextEditors.find(
-      e => e.document.uri.toString() === documentUri.toString()
+      (e) => e.document.uri.toString() === documentUri.toString()
     );
 
     if (!editor) {
@@ -60,11 +60,15 @@ export class PanelManager {
 
     // Set panel content
     const currentCount = this.state.getPanelCount();
-    panel.webview.html = generatePanelHTML(classString, translation, currentCount);
+    panel.webview.html = generatePanelHTML(
+      classString,
+      translation,
+      currentCount
+    );
     this.onHighlightUpdate();
 
     // Handle webview messages
-    panel.webview.onDidReceiveMessage(message => {
+    panel.webview.onDidReceiveMessage((message) => {
       if (message.command === 'clearAll') {
         this.closeAllPanels();
       } else if (message.command === 'ready') {
@@ -73,7 +77,7 @@ export class PanelManager {
     });
 
     // Track when panel becomes active/visible
-    panel.onDidChangeViewState(e => {
+    panel.onDidChangeViewState((e) => {
       if (e.webviewPanel.active) {
         this.state.setFocusedPanel(e.webviewPanel);
         this.onHighlightUpdate();
@@ -108,7 +112,7 @@ export class PanelManager {
     for (const panelInfo of this.state.getAllPanels()) {
       panelInfo.panel.webview.postMessage({
         command: 'updateCount',
-        count: count
+        count: count,
       });
     }
   }
@@ -137,10 +141,9 @@ export class PanelManager {
           async deserializeWebviewPanel(webviewPanel: vscode.WebviewPanel) {
             // Close any restored panels instead of trying to deserialize them
             webviewPanel.dispose();
-          }
+          },
         })
       );
     }
   }
 }
-

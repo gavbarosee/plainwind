@@ -99,7 +99,12 @@ function registerCodeLensFeatures(context: vscode.ExtensionContext) {
         range: vscode.Range,
         documentUri: vscode.Uri
       ) => {
-        panelManager?.showPanel(classString, fullTranslation, range, documentUri);
+        panelManager?.showPanel(
+          classString,
+          fullTranslation,
+          range,
+          documentUri
+        );
       }
     )
   );
@@ -121,7 +126,7 @@ function initializeInlineDecorations(context: vscode.ExtensionContext) {
 
   // Register event listeners
   context.subscriptions.push(
-    vscode.window.onDidChangeActiveTextEditor(editor => {
+    vscode.window.onDidChangeActiveTextEditor((editor) => {
       if (editor) {
         updateInlineDecorations(editor);
       }
@@ -129,7 +134,7 @@ function initializeInlineDecorations(context: vscode.ExtensionContext) {
   );
 
   context.subscriptions.push(
-    vscode.workspace.onDidChangeTextDocument(event => {
+    vscode.workspace.onDidChangeTextDocument((event) => {
       const editor = vscode.window.activeTextEditor;
       if (editor && event.document === editor.document) {
         updateInlineDecorations(editor);

@@ -247,9 +247,11 @@ export const flexboxGridMappings: Record<string, string> = {
   // Justify Items (grid)
   'justify-items-start': 'aligns grid items to start',
   'justify-items-end': 'aligns grid items to end',
-  'justify-items-end-safe': 'aligns grid items to end (prevents overflow data loss)',
+  'justify-items-end-safe':
+    'aligns grid items to end (prevents overflow data loss)',
   'justify-items-center': 'centers grid items',
-  'justify-items-center-safe': 'centers grid items (prevents overflow data loss)',
+  'justify-items-center-safe':
+    'centers grid items (prevents overflow data loss)',
   'justify-items-stretch': 'stretches grid items',
   'justify-items-normal': 'normal justify items behavior',
 
@@ -278,7 +280,8 @@ export const flexboxGridMappings: Record<string, string> = {
   'items-end': 'aligns items to bottom',
   'items-end-safe': 'aligns items to bottom (prevents overflow data loss)',
   'items-center': 'centers items along cross axis',
-  'items-center-safe': 'centers items along cross axis (prevents overflow data loss)',
+  'items-center-safe':
+    'centers items along cross axis (prevents overflow data loss)',
   'items-baseline': 'aligns items to baseline',
   'items-baseline-last': 'aligns items to last baseline',
   'items-stretch': 'stretches items to fill',
@@ -296,10 +299,12 @@ export const flexboxGridMappings: Record<string, string> = {
 
   // Place Content (grid)
   'place-content-center': 'centers content in both axes',
-  'place-content-center-safe': 'centers content in both axes (prevents overflow data loss)',
+  'place-content-center-safe':
+    'centers content in both axes (prevents overflow data loss)',
   'place-content-start': 'aligns content to start in both axes',
   'place-content-end': 'aligns content to end in both axes',
-  'place-content-end-safe': 'aligns content to end in both axes (prevents overflow data loss)',
+  'place-content-end-safe':
+    'aligns content to end in both axes (prevents overflow data loss)',
   'place-content-between': 'spreads content in both axes',
   'place-content-around': 'distributes space around in both axes',
   'place-content-evenly': 'distributes evenly in both axes',
@@ -309,9 +314,11 @@ export const flexboxGridMappings: Record<string, string> = {
   // Place Items (grid)
   'place-items-start': 'aligns items to start in both axes',
   'place-items-end': 'aligns items to end in both axes',
-  'place-items-end-safe': 'aligns items to end in both axes (prevents overflow data loss)',
+  'place-items-end-safe':
+    'aligns items to end in both axes (prevents overflow data loss)',
   'place-items-center': 'centers items in both axes',
-  'place-items-center-safe': 'centers items in both axes (prevents overflow data loss)',
+  'place-items-center-safe':
+    'centers items in both axes (prevents overflow data loss)',
   'place-items-baseline': 'aligns items to baseline in both axes',
   'place-items-stretch': 'stretches items in both axes',
 
@@ -319,9 +326,11 @@ export const flexboxGridMappings: Record<string, string> = {
   'place-self-auto': 'auto placement in both axes',
   'place-self-start': 'aligns self to start in both axes',
   'place-self-end': 'aligns self to end in both axes',
-  'place-self-end-safe': 'aligns self to end in both axes (prevents overflow data loss)',
+  'place-self-end-safe':
+    'aligns self to end in both axes (prevents overflow data loss)',
   'place-self-center': 'centers self in both axes',
-  'place-self-center-safe': 'centers self in both axes (prevents overflow data loss)',
+  'place-self-center-safe':
+    'centers self in both axes (prevents overflow data loss)',
   'place-self-stretch': 'stretches self in both axes',
 
   // Gap

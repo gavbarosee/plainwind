@@ -52,4 +52,3 @@ export class HighlightDecorations {
     this.focusedDecoration.dispose();
   }
 }
-

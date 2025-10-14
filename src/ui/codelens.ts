@@ -37,9 +37,10 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
       // Truncate if too long
       let displayText = translation;
       let isTruncated = false;
-      
+
       if (translation.length > MAX_CODELENS_LENGTH) {
-        displayText = translation.substring(0, MAX_CODELENS_LENGTH).trim() + '...';
+        displayText =
+          translation.substring(0, MAX_CODELENS_LENGTH).trim() + '...';
         isTruncated = true;
       }
 
