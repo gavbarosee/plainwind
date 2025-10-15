@@ -34,7 +34,7 @@ export class TailwindHoverProvider implements vscode.HoverProvider {
       // Check if the hover position is within this className attribute
       if (matchRange.contains(position)) {
         const translation = translateClasses(classString);
-        
+
         // Create markdown content with the translation
         const markdown = new vscode.MarkdownString();
         markdown.appendMarkdown(`**💨 Tailwind Translation**\n\n`);
@@ -71,4 +71,3 @@ export class TailwindHoverProvider implements vscode.HoverProvider {
     return undefined;
   }
 }
-
