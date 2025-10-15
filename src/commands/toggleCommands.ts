@@ -1,0 +1,253 @@
+/**
+ * Command handlers for toggling extension settings
+ */
+
+import * as vscode from 'vscode';
+import { updateStatusBar } from '../ui/statusBar';
+import {
+  disableFile,
+  enableFile,
+  isFileDisabled,
+} from './fileState';
+
+/**
+ * Register all toggle commands
+ */
+export function registerToggleCommands(
+  context: vscode.ExtensionContext
+): void {
+  context.subscriptions.push(
+    vscode.commands.registerCommand(
+      'plainwind.toggleEnabled',
+      toggleExtensionEnabled
+    ),
+    vscode.commands.registerCommand(
+      'plainwind.disableForFile',
+      disableForCurrentFile
+    ),
+    vscode.commands.registerCommand(
+      'plainwind.enableForFile',
+      enableForCurrentFile
+    ),
+    vscode.commands.registerCommand(
+      'plainwind.toggleForFile',
+      toggleForCurrentFile
+    ),
+    vscode.commands.registerCommand(
+      'plainwind.chooseDisplayMode',
+      chooseDisplayMode
+    ),
+    vscode.commands.registerCommand(
+      'plainwind.toggleGroupByCategory',
+      toggleGroupByCategory
+    ),
+    vscode.commands.registerCommand(
+      'plainwind.toggleCategoryEmojis',
+      toggleCategoryEmojis
+    )
+  );
+}
+
+/**
+ * Toggle extension globally on/off
+ */
+async function toggleExtensionEnabled(): Promise<void> {
+  const config = vscode.workspace.getConfiguration('plainwind');
+  const currentEnabled = config.get<boolean>('enabled', true);
+  await config.update(
+    'enabled',
+    !currentEnabled,
+    vscode.ConfigurationTarget.Global
+  );
+
+  const newState = !currentEnabled;
+  updateStatusBar(newState);
+
+  promptReload(
+    `Plainwind ${newState ? 'enabled' : 'disabled'}. Reload window to apply changes?`
+  );
+}
+
+/**
+ * Disable extension for current file
+ */
+async function disableForCurrentFile(): Promise<void> {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) {
+    vscode.window.showWarningMessage('No active file');
+    return;
+  }
+
+  const fileUri = editor.document.uri.toString();
+  await disableFile(fileUri);
+
+  const fileName = editor.document.fileName.split('/').pop();
+  promptReload(
+    `Plainwind disabled for ${fileName}. Reload window to apply.`
+  );
+}
+
+/**
+ * Enable extension for current file
+ */
+async function enableForCurrentFile(): Promise<void> {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) {
+    vscode.window.showWarningMessage('No active file');
+    return;
+  }
+
+  const fileUri = editor.document.uri.toString();
+  if (!isFileDisabled(fileUri)) {
+    vscode.window.showInformationMessage(
+      'Plainwind is already enabled for this file'
+    );
+    return;
+  }
+
+  await enableFile(fileUri);
+
+  const fileName = editor.document.fileName.split('/').pop();
+  promptReload(`Plainwind enabled for ${fileName}. Reload window to apply.`);
+}
+
+/**
+ * Toggle extension for current file
+ */
+async function toggleForCurrentFile(): Promise<void> {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) {
+    vscode.window.showWarningMessage('No active file');
+    return;
+  }
+
+  const fileUri = editor.document.uri.toString();
+  const isDisabled = isFileDisabled(fileUri);
+
+  if (isDisabled) {
+    await enableFile(fileUri);
+  } else {
+    await disableFile(fileUri);
+  }
+
+  const fileName = editor.document.fileName.split('/').pop();
+  promptReload(
+    `Plainwind ${isDisabled ? 'enabled' : 'disabled'} for ${fileName}. Reload window to apply.`
+  );
+}
+
+/**
+ * Show picker to choose display mode
+ */
+async function chooseDisplayMode(): Promise<void> {
+  const config = vscode.workspace.getConfiguration('plainwind');
+  const currentMode = config.get<string>('displayMode', 'codelens');
+
+  const options = [
+    {
+      label: 'CodeLens',
+      description: 'Show translations above className lines',
+      value: 'codelens',
+    },
+    {
+      label: 'Hover',
+      description: 'Show translations only on hover',
+      value: 'hover',
+    },
+    {
+      label: 'Off',
+      description: 'Disable all translations',
+      value: 'off',
+    },
+  ];
+
+  const selected = await vscode.window.showQuickPick(options, {
+    placeHolder: `Current: ${currentMode}`,
+    title: 'Choose Display Mode',
+  });
+
+  if (selected && selected.value !== currentMode) {
+    await config.update(
+      'displayMode',
+      selected.value,
+      vscode.ConfigurationTarget.Global
+    );
+
+    promptReload(
+      `Display mode changed to ${selected.label}. Reload window to apply?`
+    );
+  }
+}
+
+/**
+ * Toggle group by category setting
+ */
+async function toggleGroupByCategory(): Promise<void> {
+  const config = vscode.workspace.getConfiguration('plainwind');
+  const current = config.get<boolean>('groupByCategory', true);
+  await config.update(
+    'groupByCategory',
+    !current,
+    vscode.ConfigurationTarget.Global
+  );
+
+  vscode.window.showInformationMessage(
+    `Group by category ${!current ? 'enabled' : 'disabled'}`
+  );
+}
+
+/**
+ * Toggle category emojis setting
+ */
+async function toggleCategoryEmojis(): Promise<void> {
+  const config = vscode.workspace.getConfiguration('plainwind');
+  const grouping = config.get<boolean>('groupByCategory', true);
+
+  if (!grouping) {
+    const selection = await vscode.window.showWarningMessage(
+      'Category emojis only work when "Group by Category" is enabled. Enable grouping?',
+      'Enable Grouping',
+      'Cancel'
+    );
+
+    if (selection === 'Enable Grouping') {
+      await config.update(
+        'groupByCategory',
+        true,
+        vscode.ConfigurationTarget.Global
+      );
+      await config.update(
+        'showCategoryEmojis',
+        true,
+        vscode.ConfigurationTarget.Global
+      );
+      vscode.window.showInformationMessage('Grouping and emojis enabled');
+    }
+    return;
+  }
+
+  const current = config.get<boolean>('showCategoryEmojis', false);
+  await config.update(
+    'showCategoryEmojis',
+    !current,
+    vscode.ConfigurationTarget.Global
+  );
+
+  vscode.window.showInformationMessage(
+    `Category emojis ${!current ? 'enabled' : 'disabled'}`
+  );
+}
+
+/**
+ * Helper to prompt for window reload
+ */
+function promptReload(message: string): void {
+  vscode.window
+    .showInformationMessage(message, 'Reload', 'Later')
+    .then((selection) => {
+      if (selection === 'Reload') {
+        vscode.commands.executeCommand('workbench.action.reloadWindow');
+      }
+    });
+}
+

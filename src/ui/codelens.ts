@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { translateClasses } from '../translation/translator';
+import { isFileEnabled } from '../extension';
 
 const CLASS_NAME_PATTERN = /(class(?:Name)?=["'])([^"']+)(["'])/g;
 const MAX_CODELENS_LENGTH = 150; // Maximum characters before truncation
@@ -16,6 +17,11 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
   public provideCodeLenses(
     document: vscode.TextDocument
   ): vscode.CodeLens[] | Thenable<vscode.CodeLens[]> {
+    // Check if extension is enabled for this file
+    if (!isFileEnabled(document.uri)) {
+      return [];
+    }
+
     const codeLenses: vscode.CodeLens[] = [];
     const text = document.getText();
     const regex = new RegExp(CLASS_NAME_PATTERN);

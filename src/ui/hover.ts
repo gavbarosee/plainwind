@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { translateClasses } from '../translation/translator';
+import { isFileEnabled } from '../extension';
 
 const CLASS_NAME_PATTERN = /(class(?:Name)?=["'])([^"']+)(["'])/g;
 
@@ -11,6 +12,11 @@ export class TailwindHoverProvider implements vscode.HoverProvider {
     document: vscode.TextDocument,
     position: vscode.Position
   ): vscode.Hover | undefined {
+    // Check if extension is enabled for this file
+    if (!isFileEnabled(document.uri)) {
+      return undefined;
+    }
+
     const line = document.lineAt(position.line);
     const lineText = line.text;
     const regex = new RegExp(CLASS_NAME_PATTERN);

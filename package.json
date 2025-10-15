@@ -20,7 +20,40 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [],
+    "commands": [
+      {
+        "command": "plainwind.toggleEnabled",
+        "title": "Plainwind: Toggle Extension On/Off"
+      },
+      {
+        "command": "plainwind.chooseDisplayMode",
+        "title": "Plainwind: Choose Display Mode"
+      },
+      {
+        "command": "plainwind.toggleGroupByCategory",
+        "title": "Plainwind: Toggle Group By Category"
+      },
+      {
+        "command": "plainwind.toggleCategoryEmojis",
+        "title": "Plainwind: Toggle Category Emojis"
+      },
+      {
+        "command": "plainwind.disableForFile",
+        "title": "Plainwind: Disable for This File"
+      },
+      {
+        "command": "plainwind.enableForFile",
+        "title": "Plainwind: Enable for This File"
+      },
+      {
+        "command": "plainwind.toggleForFile",
+        "title": "Plainwind: Toggle for This File"
+      },
+      {
+        "command": "plainwind.clearAllPanels",
+        "title": "Plainwind: Clear All Detail Panels"
+      }
+    ],
     "configuration": {
       "title": "Plainwind",
       "properties": {
