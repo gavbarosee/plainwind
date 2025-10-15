@@ -60,7 +60,9 @@ async function showQuickMenu(): Promise<void> {
   const items: QuickPickItemWithAction[] = [
     {
       label: `$(${enabled ? 'check' : 'circle-outline'}) ${enabled ? 'Disable' : 'Enable'} Extension`,
-      description: enabled ? 'Turn off Plainwind globally' : 'Turn on Plainwind globally',
+      description: enabled
+        ? 'Turn off Plainwind globally'
+        : 'Turn on Plainwind globally',
       action: toggleExtensionEnabled,
     },
     {
