@@ -4,11 +4,6 @@
  */
 
 import * as vscode from 'vscode';
-import {
-  initializeDecorations,
-  updateInlineDecorations,
-  disposeDecorations,
-} from './ui/decorations';
 import { TailwindCodeLensProvider } from './ui/codelens';
 import { PanelManager } from './ui/panel/panelManager';
 import { HighlightManager } from './ui/highlight/highlightManager';
@@ -24,8 +19,8 @@ export function activate(context: vscode.ExtensionContext) {
   console.log('Plainwind extension is now active');
 
   const config = vscode.workspace.getConfiguration('plainwind');
-  const displayMode = config.get<string>('displayMode', 'codelens');
   const enabled = config.get<boolean>('enabled', true);
+  const displayMode = config.get<string>('displayMode', 'codelens');
 
   if (!enabled || displayMode === 'off') {
     console.log('Plainwind is disabled');
@@ -48,22 +43,14 @@ export function activate(context: vscode.ExtensionContext) {
   // Register panel serializer
   panelManager.registerSerializer(context);
 
-  // Register CodeLens provider if enabled
-  if (displayMode === 'codelens' || displayMode === 'both') {
-    registerCodeLensFeatures(context);
-  }
-
-  // Initialize inline decorations if enabled
-  if (displayMode === 'inline' || displayMode === 'both') {
-    initializeInlineDecorations(context);
-  }
+  // Register CodeLens provider
+  registerCodeLensFeatures(context);
 }
 
 /**
  * Extension deactivation
  */
 export function deactivate() {
-  disposeDecorations();
   panelManager?.closeAllPanels();
   highlightManager?.dispose();
 }
@@ -134,40 +121,4 @@ function registerCodeLensFeatures(context: vscode.ExtensionContext) {
       panelManager?.closeAllPanels();
     })
   );
-}
-
-/**
- * Initialize inline decorations and event listeners
- */
-function initializeInlineDecorations(context: vscode.ExtensionContext) {
-  initializeDecorations();
-  updateActiveEditor();
-
-  // Register event listeners
-  context.subscriptions.push(
-    vscode.window.onDidChangeActiveTextEditor((editor) => {
-      if (editor) {
-        updateInlineDecorations(editor);
-      }
-    })
-  );
-
-  context.subscriptions.push(
-    vscode.workspace.onDidChangeTextDocument((event) => {
-      const editor = vscode.window.activeTextEditor;
-      if (editor && event.document === editor.document) {
-        updateInlineDecorations(editor);
-      }
-    })
-  );
-}
-
-/**
- * Update decorations for the currently active editor
- */
-function updateActiveEditor() {
-  const activeEditor = vscode.window.activeTextEditor;
-  if (activeEditor) {
-    updateInlineDecorations(activeEditor);
-  }
 }

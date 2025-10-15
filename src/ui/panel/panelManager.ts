@@ -127,9 +127,7 @@ export class PanelManager {
     position: vscode.Position
   ): PanelInfo | undefined {
     return this.state.getAllPanels().find((panelInfo) => {
-      return (
-        panelInfo.editor === editor && panelInfo.range.contains(position)
-      );
+      return panelInfo.editor === editor && panelInfo.range.contains(position);
     });
   }
 

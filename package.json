@@ -34,14 +34,10 @@
           "default": "codelens",
           "enum": [
             "codelens",
-            "inline",
-            "both",
             "off"
           ],
           "enumDescriptions": [
             "Show translations above the className line",
-            "Show translations at the end of the className line",
-            "Show both CodeLens and inline translations",
             "Disable all translations"
           ],
           "description": "Choose how to display Tailwind translations"
