@@ -60,4 +60,3 @@ async function saveFileState(): Promise<void> {
     );
   }
 }
-

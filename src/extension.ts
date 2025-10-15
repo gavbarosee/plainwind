@@ -131,12 +131,7 @@ function registerSharedCommands(context: vscode.ExtensionContext): void {
         range: vscode.Range,
         documentUri: vscode.Uri
       ) => {
-        handleShowTranslation(
-          fullTranslation,
-          classString,
-          range,
-          documentUri
-        );
+        handleShowTranslation(fullTranslation, classString, range, documentUri);
       }
     )
   );
@@ -163,12 +158,7 @@ function registerSharedCommands(context: vscode.ExtensionContext): void {
         );
         const documentUri = vscode.Uri.parse(documentUriString);
 
-        handleShowTranslation(
-          fullTranslation,
-          classString,
-          range,
-          documentUri
-        );
+        handleShowTranslation(fullTranslation, classString, range, documentUri);
       }
     )
   );
@@ -197,10 +187,7 @@ function handleShowTranslation(
 
   if (editor && panelManager) {
     // Check if a panel already exists for this range
-    const existingPanel = panelManager.findPanelAtPosition(
-      editor,
-      range.start
-    );
+    const existingPanel = panelManager.findPanelAtPosition(editor, range.start);
 
     if (existingPanel) {
       // Panel exists - close it
@@ -215,9 +202,7 @@ function handleShowTranslation(
 /**
  * Listen for configuration changes
  */
-function registerConfigurationListener(
-  context: vscode.ExtensionContext
-): void {
+function registerConfigurationListener(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration((e) => {
       if (

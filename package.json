@@ -22,6 +22,10 @@
   "contributes": {
     "commands": [
       {
+        "command": "plainwind.showMenu",
+        "title": "Plainwind: Show Options Menu"
+      },
+      {
         "command": "plainwind.toggleEnabled",
         "title": "Plainwind: Toggle Extension On/Off"
       },

@@ -4,19 +4,14 @@
 
 import * as vscode from 'vscode';
 import { updateStatusBar } from '../ui/statusBar';
-import {
-  disableFile,
-  enableFile,
-  isFileDisabled,
-} from './fileState';
+import { disableFile, enableFile, isFileDisabled } from './fileState';
 
 /**
  * Register all toggle commands
  */
-export function registerToggleCommands(
-  context: vscode.ExtensionContext
-): void {
+export function registerToggleCommands(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
+    vscode.commands.registerCommand('plainwind.showMenu', showQuickMenu),
     vscode.commands.registerCommand(
       'plainwind.toggleEnabled',
       toggleExtensionEnabled
@@ -46,6 +41,70 @@ export function registerToggleCommands(
       toggleCategoryEmojis
     )
   );
+}
+
+/**
+ * Show quick menu with all Plainwind options
+ */
+async function showQuickMenu(): Promise<void> {
+  const config = vscode.workspace.getConfiguration('plainwind');
+  const enabled = config.get<boolean>('enabled', true);
+  const displayMode = config.get<string>('displayMode', 'codelens');
+  const grouping = config.get<boolean>('groupByCategory', true);
+  const emojis = config.get<boolean>('showCategoryEmojis', false);
+
+  interface QuickPickItemWithAction extends vscode.QuickPickItem {
+    action: () => Promise<void> | void;
+  }
+
+  const items: QuickPickItemWithAction[] = [
+    {
+      label: `$(${enabled ? 'check' : 'circle-outline'}) ${enabled ? 'Disable' : 'Enable'} Extension`,
+      description: enabled ? 'Turn off Plainwind globally' : 'Turn on Plainwind globally',
+      action: toggleExtensionEnabled,
+    },
+    {
+      label: '$(settings-gear) Choose Display Mode',
+      description: `Current: ${displayMode}`,
+      action: chooseDisplayMode,
+    },
+    {
+      label: '$(symbol-namespace) Toggle Group By Category',
+      description: grouping ? '✓ Enabled' : '○ Disabled',
+      action: toggleGroupByCategory,
+    },
+    {
+      label: '$(smiley) Toggle Category Emojis',
+      description: emojis ? '✓ Enabled' : '○ Disabled',
+      action: toggleCategoryEmojis,
+    },
+    {
+      label: '',
+      kind: vscode.QuickPickItemKind.Separator,
+      action: async () => {},
+    },
+    {
+      label: '$(file) Toggle for Current File',
+      description: 'Enable/disable for the active file',
+      action: toggleForCurrentFile,
+    },
+    {
+      label: '$(close-all) Clear All Detail Panels',
+      description: 'Close all open translation panels',
+      action: async () => {
+        await vscode.commands.executeCommand('plainwind.clearAllPanels');
+      },
+    },
+  ];
+
+  const selected = await vscode.window.showQuickPick(items, {
+    placeHolder: 'Plainwind Options',
+    title: 'Plainwind - Tailwind to Plain English',
+  });
+
+  if (selected) {
+    await selected.action();
+  }
 }
 
 /**
@@ -82,9 +141,7 @@ async function disableForCurrentFile(): Promise<void> {
   await disableFile(fileUri);
 
   const fileName = editor.document.fileName.split('/').pop();
-  promptReload(
-    `Plainwind disabled for ${fileName}. Reload window to apply.`
-  );
+  promptReload(`Plainwind disabled for ${fileName}. Reload window to apply.`);
 }
 
 /**
@@ -250,4 +307,3 @@ function promptReload(message: string): void {
       }
     });
 }
-
