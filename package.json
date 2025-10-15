@@ -34,10 +34,12 @@
           "default": "codelens",
           "enum": [
             "codelens",
+            "hover",
             "off"
           ],
           "enumDescriptions": [
-            "Show translations above the className line",
+            "Always show translations above className lines",
+            "Show translations only on hover",
             "Disable all translations"
           ],
           "description": "Choose how to display Tailwind translations"
@@ -50,7 +52,7 @@
         "plainwind.showCategoryEmojis": {
           "type": "boolean",
           "default": false,
-          "description": "Show emojis next to category names when grouping is enabled"
+          "description": "Show emojis next to category names (only works when 'Group By Category' is enabled)"
         }
       }
     }
