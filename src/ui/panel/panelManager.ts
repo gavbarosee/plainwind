@@ -105,6 +105,35 @@ export class PanelManager {
   }
 
   /**
+   * Close a specific panel at a given position
+   */
+  closePanelAtPosition(
+    editor: vscode.TextEditor,
+    position: vscode.Position
+  ): boolean {
+    const panelInfo = this.findPanelAtPosition(editor, position);
+    if (panelInfo) {
+      panelInfo.panel.dispose();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Find a panel at a specific position
+   */
+  findPanelAtPosition(
+    editor: vscode.TextEditor,
+    position: vscode.Position
+  ): PanelInfo | undefined {
+    return this.state.getAllPanels().find((panelInfo) => {
+      return (
+        panelInfo.editor === editor && panelInfo.range.contains(position)
+      );
+    });
+  }
+
+  /**
    * Update the panel count in all open panels
    */
   updateAllPanelCounts(): void {

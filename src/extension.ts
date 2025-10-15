@@ -89,7 +89,7 @@ function registerCodeLensFeatures(context: vscode.ExtensionContext) {
     )
   );
 
-  // Register command to show full translation details
+  // Register command to show/toggle full translation details
   context.subscriptions.push(
     vscode.commands.registerCommand(
       'plainwind.showFullTranslation',
@@ -99,12 +99,31 @@ function registerCodeLensFeatures(context: vscode.ExtensionContext) {
         range: vscode.Range,
         documentUri: vscode.Uri
       ) => {
-        panelManager?.showPanel(
-          classString,
-          fullTranslation,
-          range,
-          documentUri
+        // Find the editor for this document
+        const editor = vscode.window.visibleTextEditors.find(
+          (e) => e.document.uri.toString() === documentUri.toString()
         );
+
+        if (editor && panelManager) {
+          // Check if a panel already exists for this range
+          const existingPanel = panelManager.findPanelAtPosition(
+            editor,
+            range.start
+          );
+
+          if (existingPanel) {
+            // Panel exists - close it
+            existingPanel.panel.dispose();
+          } else {
+            // No panel - open one
+            panelManager.showPanel(
+              classString,
+              fullTranslation,
+              range,
+              documentUri
+            );
+          }
+        }
       }
     )
   );
