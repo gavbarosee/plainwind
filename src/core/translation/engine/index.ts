@@ -3,7 +3,7 @@
  */
 
 import * as vscode from 'vscode';
-import { groupTranslationsByCategory } from '../categorizer';
+import { groupTranslationsByCategory } from '@src/core/translation/categorizer';
 import {
   parseNonEmptyClasses,
   extractImportant,

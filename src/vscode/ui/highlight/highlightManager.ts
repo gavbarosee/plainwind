@@ -4,7 +4,7 @@
 
 import * as vscode from 'vscode';
 import { HighlightDecorations } from './highlightDecorations';
-import type { PanelInfo } from '../panel/panelState';
+import type { PanelInfo } from '@src/vscode/ui/panel/panelState';
 
 export class HighlightManager {
   private decorations: HighlightDecorations;

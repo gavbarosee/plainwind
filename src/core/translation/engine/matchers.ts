@@ -2,7 +2,7 @@
  * Pattern matching and translation logic
  */
 
-import { tailwindMappings } from '../rules/mappings';
+import { tailwindMappings } from '@src/core/translation/rules/mappings';
 import {
   matchSpacingPattern,
   matchColorPattern,
@@ -108,7 +108,7 @@ import {
   matchTypographyPattern,
   matchGridPattern,
   matchPositioningPattern,
-} from '../rules/patterns';
+} from '@src/core/translation/rules/patterns';
 import type { PatternMatcher } from './types';
 
 /**

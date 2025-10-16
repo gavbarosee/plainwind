@@ -7,7 +7,7 @@ import {
   extractAllClassNames,
   combineClassStrings,
   findExtractionAtPosition,
-} from '../../src/core/parsing';
+} from '@src/core/parsing';
 
 describe('extractAllClassNames', () => {
   describe('simple string literals', () => {

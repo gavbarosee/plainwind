@@ -3,7 +3,7 @@
  */
 
 import * as vscode from 'vscode';
-import { updateStatusBar } from '../ui/statusBar';
+import { updateStatusBar } from '@src/vscode/ui/statusBar';
 import { disableFile, enableFile, isFileDisabled } from './fileState';
 
 /**
