@@ -1,8 +1,15 @@
 import * as vscode from 'vscode';
-import { translateClasses } from '../translation/translator';
+import {
+  translateClasses,
+  translateConditionalClasses,
+} from '../translation/translator';
 import { isFileEnabled } from '../extension';
+import {
+  extractAllClassNames,
+  combineClassStrings,
+  type ClassExtraction,
+} from './classExtractor';
 
-const CLASS_NAME_PATTERN = /(class(?:Name)?=["'])([^"']+)(["'])/g;
 const MAX_CODELENS_LENGTH = 150; // Maximum characters before truncation
 
 /**
@@ -24,20 +31,28 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
 
     const codeLenses: vscode.CodeLens[] = [];
     const text = document.getText();
-    const regex = new RegExp(CLASS_NAME_PATTERN);
-    let match;
 
-    while ((match = regex.exec(text)) !== null) {
-      const classString = match[2];
+    // Extract all className occurrences using the enhanced extractor
+    const extractions = extractAllClassNames(text);
+
+    for (const extraction of extractions) {
+      // Combine multiple class strings if needed (e.g., from template literals)
+      const classString = combineClassStrings(extraction.classStrings);
 
       // Skip empty class strings
       if (!classString || !classString.trim()) {
         continue;
       }
 
-      const translation = translateClasses(classString);
-      const startPos = document.positionAt(match.index);
-      const endPos = document.positionAt(match.index + match[0].length);
+      // Use conditional translation if available, otherwise fall back to simple translation
+      const translation =
+        extraction.conditionalClasses &&
+        extraction.conditionalClasses.length > 0
+          ? translateConditionalClasses(extraction.conditionalClasses)
+          : translateClasses(classString);
+
+      const startPos = document.positionAt(extraction.range.start);
+      const endPos = document.positionAt(extraction.range.end);
       const range = new vscode.Range(startPos, endPos);
 
       // Truncate if too long
@@ -50,8 +65,12 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
         isTruncated = true;
       }
 
+      // Add indicator for dynamic/complex patterns
+      const typeIndicator =
+        extraction.type !== 'simple' ? ` [${extraction.type}]` : '';
+
       const codeLens = new vscode.CodeLens(range, {
-        title: `💨 ${displayText}${isTruncated ? ' (click for details)' : ''}`,
+        title: `💨 ${displayText}${typeIndicator}${isTruncated ? ' (click for details)' : ''}`,
         command: 'plainwind.showFullTranslation',
         arguments: [translation, classString, range, document.uri],
       });

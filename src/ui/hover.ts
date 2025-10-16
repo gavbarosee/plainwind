@@ -1,8 +1,14 @@
 import * as vscode from 'vscode';
-import { translateClasses } from '../translation/translator';
+import {
+  translateClasses,
+  translateConditionalClasses,
+} from '../translation/translator';
 import { isFileEnabled } from '../extension';
-
-const CLASS_NAME_PATTERN = /(class(?:Name)?=["'])([^"']+)(["'])/g;
+import {
+  extractAllClassNames,
+  combineClassStrings,
+  findExtractionAtPosition,
+} from './classExtractor';
 
 /**
  * Hover provider for Tailwind class translations
@@ -17,63 +23,69 @@ export class TailwindHoverProvider implements vscode.HoverProvider {
       return undefined;
     }
 
-    const line = document.lineAt(position.line);
-    const lineText = line.text;
-    const regex = new RegExp(CLASS_NAME_PATTERN);
-    let match;
+    const text = document.getText();
+    const offset = document.offsetAt(position);
 
-    while ((match = regex.exec(lineText)) !== null) {
-      const classString = match[2];
+    // Extract all className occurrences using the enhanced extractor
+    const extractions = extractAllClassNames(text);
 
-      // Skip empty class strings
-      if (!classString || !classString.trim()) {
-        continue;
-      }
+    // Find extraction at current position
+    const extraction = findExtractionAtPosition(extractions, offset);
 
-      // Calculate the range of the className attribute
-      const startIndex = match.index;
-      const endIndex = match.index + match[0].length;
-      const startPos = new vscode.Position(position.line, startIndex);
-      const endPos = new vscode.Position(position.line, endIndex);
-      const matchRange = new vscode.Range(startPos, endPos);
-
-      // Check if the hover position is within this className attribute
-      if (matchRange.contains(position)) {
-        const translation = translateClasses(classString);
-
-        // Create markdown content with the translation
-        const markdown = new vscode.MarkdownString();
-        markdown.appendMarkdown(`**💨 Tailwind Translation**\n\n`);
-        markdown.appendMarkdown(translation);
-        markdown.isTrusted = true;
-        markdown.supportHtml = true;
-
-        // Add a clickable command to toggle details panel
-        // Serialize range data properly for the command
-        const rangeData = {
-          startLine: startPos.line,
-          startChar: startPos.character,
-          endLine: endPos.line,
-          endChar: endPos.character,
-        };
-        const commandUri = vscode.Uri.parse(
-          `command:plainwind.showFullTranslationFromHover?${encodeURIComponent(
-            JSON.stringify([
-              translation,
-              classString,
-              rangeData,
-              document.uri.toString(),
-            ])
-          )}`
-        );
-        // Use "Toggle Details" since hover content is cached by VS Code
-        // and won't update dynamically when panel state changes
-        markdown.appendMarkdown(`\n\n[Toggle Details](${commandUri})`);
-
-        return new vscode.Hover(markdown, matchRange);
-      }
+    if (!extraction) {
+      return undefined;
     }
 
-    return undefined;
+    // Combine multiple class strings if needed
+    const classString = combineClassStrings(extraction.classStrings);
+
+    // Skip empty class strings
+    if (!classString || !classString.trim()) {
+      return undefined;
+    }
+
+    // Use conditional translation if available, otherwise fall back to simple translation
+    const translation =
+      extraction.conditionalClasses && extraction.conditionalClasses.length > 0
+        ? translateConditionalClasses(extraction.conditionalClasses)
+        : translateClasses(classString);
+
+    // Calculate the range
+    const startPos = document.positionAt(extraction.range.start);
+    const endPos = document.positionAt(extraction.range.end);
+    const matchRange = new vscode.Range(startPos, endPos);
+
+    // Create markdown content with the translation
+    const markdown = new vscode.MarkdownString();
+    const typeLabel =
+      extraction.type !== 'simple' ? ` (${extraction.type})` : '';
+    markdown.appendMarkdown(`**💨 Tailwind Translation${typeLabel}**\n\n`);
+    markdown.appendMarkdown(translation);
+    markdown.isTrusted = true;
+    markdown.supportHtml = true;
+
+    // Add a clickable command to toggle details panel
+    // Serialize range data properly for the command
+    const rangeData = {
+      startLine: startPos.line,
+      startChar: startPos.character,
+      endLine: endPos.line,
+      endChar: endPos.character,
+    };
+    const commandUri = vscode.Uri.parse(
+      `command:plainwind.showFullTranslationFromHover?${encodeURIComponent(
+        JSON.stringify([
+          translation,
+          classString,
+          rangeData,
+          document.uri.toString(),
+        ])
+      )}`
+    );
+    // Use "Toggle Details" since hover content is cached by VS Code
+    // and won't update dynamically when panel state changes
+    markdown.appendMarkdown(`\n\n[Toggle Details](${commandUri})`);
+
+    return new vscode.Hover(markdown, matchRange);
   }
 }

@@ -18,25 +18,42 @@ Plainwind helps you understand Tailwind classes without leaving your code. Inste
 
 ## Features
 
-### Display Modes
+### Conditional Detection
 
-Choose how translations appear:
+Plainwind understands when classes apply. See the conditions alongside your translations:
+
+```tsx
+<button className={clsx(
+  'px-4 py-2 rounded-md',
+  isActive && 'bg-blue-500 text-white',
+  isDisabled && 'opacity-50'
+)}>
+```
+
+Shows: `padding, rounded corners | blue background, white text (if isActive) | 50% opacity (if isDisabled)`
+
+Works with all patterns developers actually use:
+- Ternaries (`x ? 'a' : 'b'`), including nested
+- Logical operators (`&&`, `||`, `??`)
+- Object syntax (`{ 'class': condition }`)
+- Array syntax (`['class1', 'class2']`)
+- Template literals (`` `flex ${dynamic}` ``)
+
+Supports `clsx`, `classnames`, `cn`, `twMerge`, `cva`, and `tw`.
+
+### Display Modes
 
 - **CodeLens** — Translations appear above your className attributes
 - **Hover** — Translations show only when you hover
 - **Off** — Disable when you don't need it
 
-### Detail Panels
-
-Click any translation to open a detailed view. Multiple panels can be open simultaneously, each highlighting its corresponding line in your code.
-
 ### Category Grouping
 
-Optionally organize translations by category (Layout, Spacing, Colors, Typography, etc.) for better readability with complex class strings.
+Organize translations by category (Layout, Spacing, Colors, Typography) for complex class strings.
 
 ### File-Level Control
 
-Disable Plainwind for specific files. Useful for generated code or large files where you don't need assistance.
+Disable for specific files via status bar menu.
 
 ## Getting Started
 
@@ -48,117 +65,38 @@ No configuration required.
 
 ## Usage
 
-### Viewing Translations
-
-**CodeLens mode:**
-Click the translation text above your className to open a detail panel.
-
-**Hover mode:**
-Hover over any className attribute and click "Toggle Details" in the tooltip.
-
-### Quick Settings
-
-Click **Plainwind** in the status bar (bottom right) to access:
-- Enable/disable extension
-- Change display mode
-- Toggle category grouping
-- Per-file controls
-- Clear all panels
-
-### Command Palette
-
-All commands are available via `⌘⇧P` (macOS) or `Ctrl+Shift+P` (Windows/Linux):
-
-```
-Plainwind: Show Options Menu
-Plainwind: Choose Display Mode
-Plainwind: Toggle Group By Category
-Plainwind: Toggle for This File
-Plainwind: Clear All Detail Panels
-```
+**CodeLens** — Click translation text above className to open detail panel  
+**Hover** — Hover and click "Toggle Details" in tooltip  
+**Status bar** — Click **Plainwind** (bottom right) for quick settings  
+**Command palette** — Search "Plainwind" in `⌘⇧P`/`Ctrl+Shift+P`
 
 ## Configuration
 
-### Settings
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `plainwind.enabled` | `true` | Enable/disable globally |
+| `plainwind.displayMode` | `codelens` | `codelens`, `hover`, or `off` |
+| `plainwind.groupByCategory` | `true` | Group by Layout, Spacing, Colors, etc. |
+| `plainwind.showCategoryEmojis` | `false` | Show emojis in category labels |
 
-Configure via VS Code Settings or the status bar menu.
-
-**`plainwind.enabled`**  
-Type: `boolean` · Default: `true`  
-Enable or disable the extension globally.
-
-**`plainwind.displayMode`**  
-Type: `"codelens" | "hover" | "off"` · Default: `"codelens"`  
-How translations are displayed.
-
-**`plainwind.groupByCategory`**  
-Type: `boolean` · Default: `true`  
-Group translations by category (Layout, Spacing, Colors, etc.).
-
-**`plainwind.showCategoryEmojis`**  
-Type: `boolean` · Default: `false`  
-Show emojis next to category names. Only works when grouping is enabled.
-
-### Keyboard Shortcuts
-
-Assign custom shortcuts to frequently used commands:
-
-1. Open `Preferences → Keyboard Shortcuts`
-2. Search for "Plainwind"
-3. Set your preferred bindings
+Assign keyboard shortcuts: `Preferences → Keyboard Shortcuts → Search "Plainwind"`
 
 ## Supported File Types
 
-- JavaScript React (`.jsx`)
-- TypeScript React (`.tsx`)
-- JavaScript (`.js`)
-- TypeScript (`.ts`)
-- HTML (`.html`)
-- Vue (`.vue`)
-- Svelte (`.svelte`)
+JavaScript/TypeScript (`.js`, `.ts`, `.jsx`, `.tsx`), HTML, Vue, Svelte
 
 ## Advanced
 
-### Variants
-
-Plainwind understands all Tailwind variants:
-
-```
-hover:bg-blue-500     → "on hover: background blue 500"
-md:flex               → "on medium screens and up: display as flex"
-dark:bg-slate-900     → "in dark mode: background darkest slate"
-focus:ring-2          → "on focus: ring width 2px"
-group-hover:opacity-100
-first:mt-0
-peer-focus:border-blue-500
-```
-
-### Arbitrary Values
-
-Works with arbitrary values:
-
-```
-w-[500px]             → "width 500px"
-bg-[#1a1a1a]          → "background #1a1a1a"
-p-[2.5rem]            → "padding 2.5rem"
-```
-
-### Modifiers
-
-Handles important and opacity modifiers:
-
-```
-!bg-red-500           → "background red 500 !important"
-bg-blue-500/50        → "background blue 500 with 50% opacity"
-```
+Handles all Tailwind features:
+- **Variants** — `hover:`, `md:`, `dark:`, `group-hover:`, etc.
+- **Arbitrary values** — `w-[500px]`, `bg-[#1a1a1a]`
+- **Modifiers** — `!important`, opacity (`/50`)
 
 ## Tips
 
-**Performance:** Disable Plainwind for large auto-generated files using the per-file toggle.
-
-**Multiple Panels:** Open several detail panels to compare different className blocks side by side.
-
-**Context Switching:** Use hover mode when you want minimal visual clutter but occasional assistance.
+- Disable for auto-generated files via status bar
+- Open multiple detail panels to compare class strings
+- Use hover mode for minimal clutter
 
 ## Contributing
 

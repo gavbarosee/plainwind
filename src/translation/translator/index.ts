@@ -76,3 +76,54 @@ export function translateClasses(classString: string): string {
 
   return translations.join(', ');
 }
+
+/**
+ * Translate classes with conditional information
+ * @param conditionalClasses - Array of classes with optional conditions
+ * @returns Plain English with conditions annotated
+ */
+export function translateConditionalClasses(
+  conditionalClasses: Array<{ classes: string; condition?: string }>
+): string {
+  const config = vscode.workspace.getConfiguration('plainwind');
+  const groupByCategory = config.get<boolean>('groupByCategory', true);
+  const showEmojis = config.get<boolean>('showCategoryEmojis', false);
+
+  // Group by condition, keeping track of classes and translations
+  const groups = new Map<
+    string | undefined,
+    { classNames: string[]; translations: string[] }
+  >();
+
+  for (const { classes, condition } of conditionalClasses) {
+    const classList = parseNonEmptyClasses(classes);
+    const translations = classList.map((cls) => translateSingleClass(cls));
+
+    if (!groups.has(condition)) {
+      groups.set(condition, { classNames: [], translations: [] });
+    }
+    const group = groups.get(condition)!;
+    group.classNames.push(...classList);
+    group.translations.push(...translations);
+  }
+
+  // Build output, applying category grouping if enabled
+  const parts: string[] = [];
+
+  for (const [condition, { classNames, translations }] of groups) {
+    if (translations.length === 0) continue;
+
+    // Apply category grouping if enabled
+    const formatted = groupByCategory
+      ? groupTranslationsByCategory(classNames, translations, showEmojis)
+      : translations.join(', ');
+
+    if (condition) {
+      parts.push(`${formatted} (if ${condition})`);
+    } else {
+      parts.push(formatted);
+    }
+  }
+
+  return parts.join(' | ');
+}
