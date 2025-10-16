@@ -7,8 +7,7 @@ import { isFileEnabled } from '../extension';
 import {
   extractAllClassNames,
   combineClassStrings,
-  type ClassExtraction,
-} from './classExtractor';
+} from './classNameParser';
 
 const MAX_CODELENS_LENGTH = 150; // Maximum characters before truncation
 

@@ -1,5 +1,5 @@
 /**
- * Tests for advanced class extraction patterns
+ * Tests for className parsing and extraction
  */
 
 import { describe, it, expect } from 'vitest';

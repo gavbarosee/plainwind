@@ -4,7 +4,7 @@
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { translateConditionalClasses } from '../../../../src/translation/translator';
-import type { ConditionalClass } from '../../../../src/ui/classExtractor';
+import type { ConditionalClass } from '../../../../src/ui/classNameParser';
 import * as vscode from 'vscode';
 
 // Mock vscode

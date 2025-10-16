@@ -8,7 +8,7 @@ import {
   extractAllClassNames,
   combineClassStrings,
   findExtractionAtPosition,
-} from './classExtractor';
+} from './classNameParser';
 
 /**
  * Hover provider for Tailwind class translations
