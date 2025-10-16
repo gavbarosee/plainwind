@@ -2,12 +2,9 @@ import * as vscode from 'vscode';
 import {
   translateClasses,
   translateConditionalClasses,
-} from '../translation/translator';
-import { isFileEnabled } from '../extension';
-import {
-  extractAllClassNames,
-  combineClassStrings,
-} from './classNameParser';
+} from '../../core/translation/engine';
+import { isFileEnabled } from '../../extension';
+import { extractAllClassNames, combineClassStrings } from '../../core/parsing';
 
 const MAX_CODELENS_LENGTH = 150; // Maximum characters before truncation
 

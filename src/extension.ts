@@ -4,13 +4,13 @@
  */
 
 import * as vscode from 'vscode';
-import { TailwindCodeLensProvider } from './ui/codelens';
-import { TailwindHoverProvider } from './ui/hover';
-import { PanelManager } from './ui/panel/panelManager';
-import { HighlightManager } from './ui/highlight/highlightManager';
-import { createStatusBar, updateStatusBar } from './ui/statusBar';
-import { initializeFileState } from './commands/fileState';
-import { registerToggleCommands } from './commands/toggleCommands';
+import { TailwindCodeLensProvider } from './vscode/ui/codelens';
+import { TailwindHoverProvider } from './vscode/ui/hover';
+import { PanelManager } from './vscode/ui/panel/panelManager';
+import { HighlightManager } from './vscode/ui/highlight/highlightManager';
+import { createStatusBar, updateStatusBar } from './vscode/ui/statusBar';
+import { initializeFileState } from './vscode/commands/fileState';
+import { registerToggleCommands } from './vscode/commands/toggleCommands';
 
 // Module instances
 let panelManager: PanelManager | undefined;
@@ -226,4 +226,4 @@ function registerConfigurationListener(context: vscode.ExtensionContext): void {
 }
 
 // Re-export isFileEnabled for use by providers
-export { isFileEnabled } from './commands/fileState';
+export { isFileEnabled } from './vscode/commands/fileState';

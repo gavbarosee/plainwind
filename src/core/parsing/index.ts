@@ -65,4 +65,3 @@ export function combineClassStrings(classStrings: string[]): string {
 
   return Array.from(allClasses).join(' ');
 }
-

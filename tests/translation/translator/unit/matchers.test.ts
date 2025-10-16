@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { translateBaseClass, applyOpacity, isCustomCSSVariable, isArbitraryProperty, describeArbitraryProperty } from '@src/translation/translator/matchers';
+import { translateBaseClass, applyOpacity, isCustomCSSVariable, isArbitraryProperty, describeArbitraryProperty } from '@src/core/translation/engine/matchers';
 import { 
   TRANSLATE_STATIC_CASES,
   IS_CSS_VARIABLE_CASES,

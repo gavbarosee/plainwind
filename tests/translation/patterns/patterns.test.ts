@@ -51,7 +51,7 @@ import {
   matchShadowPattern,
   matchBackgroundColorPattern,
   matchTextColorPattern,
-} from '@src/translation/patterns';
+} from '@src/core/translation/rules/patterns';
 
 describe('Pattern Matching Tests', () => {
   describe('matchSpacingPattern', () => {

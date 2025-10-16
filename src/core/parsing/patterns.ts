@@ -3,7 +3,10 @@
  */
 
 import type { ClassExtraction, ConditionalClass } from './types';
-import { extractContentBetweenDelimiters, splitArgumentsByComma } from './utilities';
+import {
+  extractContentBetweenDelimiters,
+  splitArgumentsByComma,
+} from './utilities';
 import { parseExpression } from './expressions';
 
 /**
@@ -211,4 +214,3 @@ function parseArgList(content: string): ConditionalClass[] {
 
   return result;
 }
-

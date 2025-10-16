@@ -1,4 +1,4 @@
-import { VARIANT_DESCRIPTIONS } from '@src/translation/translator/variants';
+import { VARIANT_DESCRIPTIONS } from '@src/core/translation/engine/variants';
 
 export const VARIANT_CASES: Array<[string, string[]]> = [
   ['hover:bg-blue-500', [VARIANT_DESCRIPTIONS.hover]],

@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { expectIncludesAll, expectIncludesInOrder, expectTranslation } from '@tests/_support/testUtils';
 import { setPlainwindConfig } from '@tests/_support/setup';
 import { VARIANT_CASES, CATEGORY_ORDER, FULL_MODIFIER_CHAIN_CASES, GRACEFUL_DEGRADATION_CASES, REAL_WORLD_COMPLEX_CASES, PERFORMANCE_CASES, MALFORMED_MODIFIER_CASES } from '@tests/_support/cases';
-import { translateClasses } from '@src/translation/translator';
+import { translateClasses } from '@src/core/translation/engine';
 import { ClassBuilder } from '@tests/_support/classBuilder';
 
 describe('translateClasses - Full Integration', () => {

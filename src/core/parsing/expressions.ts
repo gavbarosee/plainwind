@@ -65,7 +65,12 @@ export function parseLogicalOrExpression(
   const fallback = unwrapStringLiteral(op.after);
 
   return fallback
-    ? [{ classes: fallback, condition: `!${removeOuterParentheses(condition)}` }]
+    ? [
+        {
+          classes: fallback,
+          condition: `!${removeOuterParentheses(condition)}`,
+        },
+      ]
     : null;
 }
 
@@ -151,7 +156,7 @@ export function parseTernaryExpression(
  */
 export function parseTemplateString(expr: string): ConditionalClass[] | null {
   if (!expr.startsWith('`') || !expr.endsWith('`')) return null;
-  
+
   const template = expr.slice(1, -1);
   const result: ConditionalClass[] = [];
   let staticText = '';
@@ -236,4 +241,3 @@ export function parseObjectLiteral(expr: string): ConditionalClass[] | null {
 
   return result.length > 0 ? result : null;
 }
-

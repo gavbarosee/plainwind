@@ -2,13 +2,13 @@ import * as vscode from 'vscode';
 import {
   translateClasses,
   translateConditionalClasses,
-} from '../translation/translator';
-import { isFileEnabled } from '../extension';
+} from '../../core/translation/engine';
+import { isFileEnabled } from '../../extension';
 import {
   extractAllClassNames,
   combineClassStrings,
   findExtractionAtPosition,
-} from './classNameParser';
+} from '../../core/parsing';
 
 /**
  * Hover provider for Tailwind class translations

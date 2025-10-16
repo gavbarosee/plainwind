@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { applyVariants, describeArbitraryVariant, VARIANT_DESCRIPTIONS } from '@src/translation/translator/variants';
+import { applyVariants, describeArbitraryVariant, VARIANT_DESCRIPTIONS } from '@src/core/translation/engine/variants';
 import { 
   VARIANT_INTERACTION_CASES, 
   VARIANT_RESPONSIVE_CASES, 

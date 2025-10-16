@@ -13,4 +13,3 @@ export interface ClassExtraction {
   range: { start: number; end: number };
   type: 'simple' | 'template' | 'helper' | 'mixed';
 }
-

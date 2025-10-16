@@ -131,4 +131,3 @@ export function unwrapStringLiteral(expr: string): string | null {
 export function removeOuterParentheses(condition: string): string {
   return condition.replace(/^\(+|\)+$/g, '').trim();
 }
-

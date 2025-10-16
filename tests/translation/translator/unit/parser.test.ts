@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseNonEmptyClasses, extractVariants, extractOpacity, extractImportant, extractPrefix } from '@src/translation/translator/parser';
+import { parseNonEmptyClasses, extractVariants, extractOpacity, extractImportant, extractPrefix } from '@src/core/translation/engine/parser';
 import { 
   PARSE_SPLIT_CASES, 
   EXTRACT_VARIANTS_CASES, 

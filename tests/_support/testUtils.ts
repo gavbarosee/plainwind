@@ -1,5 +1,5 @@
 import { expect } from 'vitest';
-import { translateClasses } from '@src/translation/translator';
+import { translateClasses } from '@src/core/translation/engine';
 import { setPlainwindConfig } from '@tests/_support/setup';
 
 export function expectIncludesAll(text: string, parts: string[]): void {
