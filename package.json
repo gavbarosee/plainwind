@@ -3,11 +3,33 @@
   "displayName": "Plainwind",
   "description": "Tailwind to Plain English Translator",
   "version": "0.0.1",
+  "publisher": "gavbarosee",
+  "author": "Gav Barosee",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gavbarosee/plainwind"
+  },
+  "homepage": "https://github.com/gavbarosee/plainwind#readme",
+  "bugs": {
+    "url": "https://github.com/gavbarosee/plainwind/issues"
+  },
+  "keywords": [
+    "tailwind",
+    "tailwindcss",
+    "css",
+    "translator",
+    "utility",
+    "classes",
+    "codelens",
+    "hover",
+    "vscode"
+  ],
   "engines": {
     "vscode": "^1.80.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages"
   ],
   "activationEvents": [
     "onLanguage:javascript",
@@ -126,8 +148,5 @@
   },
   "dependencies": {
     "undici-types": "^5.26.5"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }
