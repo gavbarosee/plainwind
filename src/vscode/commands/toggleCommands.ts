@@ -116,7 +116,9 @@ async function showQuickMenu(): Promise<void> {
     },
     {
       label: '$(paintcan) Toggle Visual Enhancements',
-      description: enhanceVisuals ? '✓ Enabled (colors, weights, shadows, etc.)' : '○ Disabled',
+      description: enhanceVisuals
+        ? '✓ Enabled (colors, weights, shadows, etc.)'
+        : '○ Disabled',
       action: toggleEnhanceVisuals,
     },
     {

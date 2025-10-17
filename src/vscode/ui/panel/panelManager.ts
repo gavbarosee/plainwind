@@ -85,7 +85,7 @@ export class PanelManager {
     const currentCount = this.state.getPanelCount();
     const config = vscode.workspace.getConfiguration('plainwind');
     const enhanceVisuals = config.get<boolean>('enhanceVisuals', false);
-    
+
     panel.webview.html = generatePanelHTML(
       classString,
       translation,

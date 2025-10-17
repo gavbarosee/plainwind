@@ -75,22 +75,22 @@ export function generatePanelHTML(
       if (colonIndex !== -1) {
         const category = escapedLine.substring(0, colonIndex);
         let rest = escapedLine.substring(colonIndex + 1).trim();
-        
+
         // Apply visual enhancements if enabled
         if (enhanceVisuals) {
           rest = enhanceTranslation(rest);
         }
-        
+
         return `<div class="category-line"><strong>${category}:</strong><span>${rest}</span></div>`;
       }
-      
+
       let content = escapedLine;
-      
+
       // Apply visual enhancements if enabled
       if (enhanceVisuals) {
         content = enhanceTranslation(content);
       }
-      
+
       return `<div class="category-line"><span>${content}</span></div>`;
     })
     .join('');
