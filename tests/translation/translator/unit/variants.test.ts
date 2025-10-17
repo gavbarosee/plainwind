@@ -1,3 +1,13 @@
+/**
+ * Tests for variant description and application
+ * 
+ * Tests the translation of Tailwind variants (pseudo-classes, responsive breakpoints,
+ * dark mode, group/peer states, etc.) to human-readable descriptions and their
+ * application to base translations.
+ * 
+ * @see src/core/translation/engine/variants.ts
+ */
+
 import { describe, it, expect } from 'vitest';
 import { applyVariants, describeArbitraryVariant, VARIANT_DESCRIPTIONS } from '@src/core/translation/engine/variants';
 import { 

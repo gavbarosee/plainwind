@@ -1,5 +1,13 @@
 /**
  * Tests for extractAllClassNames - React/JSX patterns
+ * 
+ * Tests extraction of className attributes from React/JSX code including:
+ * - Simple string literals (className="...")
+ * - Template literals (className={`...`})
+ * - Helper functions (clsx, classnames, cn, twMerge, cva)
+ * - Mixed quote styles and edge cases
+ * 
+ * @see src/core/parsing/index.ts
  */
 
 import { describe, it, expect } from 'vitest';

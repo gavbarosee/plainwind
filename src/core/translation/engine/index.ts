@@ -16,7 +16,7 @@ import { applyVariants } from './variants';
 
 /**
  * Translate a single Tailwind class to plain English
- * 
+ *
  * Processing pipeline (order matters!):
  * 1. Extract prefix (tw\:) - must come first as it uses escaped colon
  * 2. Extract variants (hover:, md:) - uses regular colons
@@ -27,16 +27,16 @@ import { applyVariants } from './variants';
  * 7. Apply variants to translation
  * 8. Add important flag if present
  * 9. Add prefix note if present
- * 
+ *
  * @param cls - Single Tailwind class to translate
  * @returns Plain English translation
- * 
+ *
  * @example
  * ```ts
  * translateSingleClass("hover:bg-blue-500/50!")
  * // Process: hover: (variant) + bg-blue-500 (base) + /50 (opacity) + ! (important)
  * // Returns: "medium blue background with 50% opacity on hover !important"
- * 
+ *
  * translateSingleClass("tw\\:md:flex")
  * // Process: tw\ (prefix) + md: (variant) + flex (base)
  * // Returns: "[tw] flexbox on medium screens (≥768px)"
@@ -100,20 +100,20 @@ export function translateClasses(classString: string): string {
 
 /**
  * Translate classes with conditional information
- * 
+ *
  * Handles conditional classes from template literals, helper functions,
  * and framework directives (clsx, Vue :class, etc.)
- * 
+ *
  * Grouping algorithm:
  * 1. Group classes by their condition (undefined = always applied)
  * 2. Translate each class individually
  * 3. Apply category grouping if enabled
  * 4. Annotate with conditions
  * 5. Join groups with pipes
- * 
+ *
  * @param conditionalClasses - Array of classes with optional conditions
  * @returns Plain English with conditions annotated
- * 
+ *
  * @example
  * ```ts
  * translateConditionalClasses([
@@ -121,8 +121,8 @@ export function translateClasses(classString: string): string {
  *   { classes: 'bg-blue-500', condition: 'isActive' },
  *   { classes: 'bg-gray-200', condition: '!isActive' }
  * ])
- * // Returns: "Layout: flexbox | Spacing: gap 1rem | 
- * //           Colors: medium blue background (if isActive) | 
+ * // Returns: "Layout: flexbox | Spacing: gap 1rem |
+ * //           Colors: medium blue background (if isActive) |
  * //           Colors: light gray background (if !isActive)"
  * ```
  */
@@ -135,10 +135,10 @@ export function translateConditionalClasses(
 
   /**
    * Group by condition, keeping track of classes and translations
-   * 
+   *
    * This allows us to show all unconditional classes together,
    * followed by conditional groups.
-   * 
+   *
    * Map key: condition string (or undefined for unconditional)
    * Map value: { classNames[], translations[] }
    */

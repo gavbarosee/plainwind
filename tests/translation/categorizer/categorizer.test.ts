@@ -1,6 +1,52 @@
+/**
+ * Tests for class categorization functions
+ * 
+ * Validates that Tailwind classes are correctly categorized into semantic groups
+ * (Layout, Flexbox & Grid, Spacing, Colors, etc.) and that category-based grouping
+ * of translations works correctly with proper ordering and emoji support.
+ * 
+ * @see src/core/translation/categorizer/
+ */
+
 import { describe, it, expect } from 'vitest';
 import { categorizeClass, getCategoryOrder, groupTranslationsByCategory } from '@src/core/translation/categorizer';
-import { CATEGORIZE_LAYOUT_CASES, CATEGORIZE_FLEX_CASES, CATEGORIZE_GRID_CASES, CATEGORIZE_COLORS_TEXT_CASES, CATEGORIZE_COLORS_BORDER_CASES, CATEGORIZE_COLORS_RING_CASES, CATEGORIZE_BACKGROUNDS_COLOR_CASES, CATEGORIZE_BACKGROUNDS_GRADIENT_CASES, CATEGORIZE_BORDERS_WIDTH_CASES, CATEGORIZE_BORDERS_RADIUS_CASES, CATEGORIZE_BORDERS_STYLE_CASES, CATEGORIZE_TYPOGRAPHY_SIZE_CASES, CATEGORIZE_TYPOGRAPHY_WEIGHT_CASES, CATEGORIZE_TYPOGRAPHY_ALIGN_CASES, CATEGORIZE_TYPOGRAPHY_LINE_CASES, CATEGORIZE_TRANSFORMS_CASES, CATEGORIZE_TRANSITIONS_CASES, CATEGORIZE_ANIMATION_CASES, CATEGORIZE_EFFECTS_SHADOW_CASES, CATEGORIZE_EFFECTS_OPACITY_CASES, CATEGORIZE_SPACING_PADDING_CASES, CATEGORIZE_SPACING_MARGIN_CASES, CATEGORIZE_SPACING_SPACE_BETWEEN_CASES, CATEGORIZE_SIZING_WIDTH_CASES, CATEGORIZE_SIZING_HEIGHT_CASES, CATEGORIZE_SIZING_SIZE_CASES, CATEGORIZE_VARIANTS_STRIP_CASES, CATEGORIZE_VARIANTS_MULTIPLE_CASES, CATEGORIZE_UNKNOWN_CASES, CATEGORY_NAMES, GROUP_BY_CATEGORY_BASIC_CASE, GROUP_SAME_CATEGORY_CASE, GROUP_WITH_VARIANTS_CASE, GROUP_EMOJI_CASE, GROUP_NO_EMOJI_CASE, GROUP_CATEGORY_ORDER_CASE } from '@tests/_support/cases';
+import { testCategorization } from '@tests/_support/testUtils';
+import {
+  CATEGORIZE_LAYOUT_CASES,
+  CATEGORIZE_FLEX_CASES,
+  CATEGORIZE_GRID_CASES,
+  CATEGORIZE_COLORS_TEXT_CASES,
+  CATEGORIZE_COLORS_BORDER_CASES,
+  CATEGORIZE_COLORS_RING_CASES,
+  CATEGORIZE_BACKGROUNDS_COLOR_CASES,
+  CATEGORIZE_BACKGROUNDS_GRADIENT_CASES,
+  CATEGORIZE_BORDERS_WIDTH_CASES,
+  CATEGORIZE_BORDERS_RADIUS_CASES,
+  CATEGORIZE_BORDERS_STYLE_CASES,
+  CATEGORIZE_TYPOGRAPHY_SIZE_CASES,
+  CATEGORIZE_TYPOGRAPHY_WEIGHT_CASES,
+  CATEGORIZE_TYPOGRAPHY_ALIGN_CASES,
+  CATEGORIZE_TYPOGRAPHY_LINE_CASES,
+  CATEGORIZE_TRANSFORMS_CASES,
+  CATEGORIZE_TRANSITIONS_CASES,
+  CATEGORIZE_ANIMATION_CASES,
+  CATEGORIZE_SPACING_PADDING_CASES,
+  CATEGORIZE_SPACING_MARGIN_CASES,
+  CATEGORIZE_SPACING_SPACE_BETWEEN_CASES,
+  CATEGORIZE_SIZING_WIDTH_CASES,
+  CATEGORIZE_SIZING_HEIGHT_CASES,
+  CATEGORIZE_SIZING_SIZE_CASES,
+  CATEGORIZE_VARIANTS_STRIP_CASES,
+  CATEGORIZE_VARIANTS_MULTIPLE_CASES,
+  CATEGORIZE_UNKNOWN_CASES,
+  CATEGORY_NAMES,
+  GROUP_BY_CATEGORY_BASIC_CASE,
+  GROUP_SAME_CATEGORY_CASE,
+  GROUP_WITH_VARIANTS_CASE,
+  GROUP_EMOJI_CASE,
+  GROUP_NO_EMOJI_CASE,
+  GROUP_CATEGORY_ORDER_CASE,
+} from '@tests/_support/cases';
 
 describe('categorizeClass', () => {
   describe('Layout', () => {
@@ -20,57 +66,57 @@ describe('categorizeClass', () => {
   });
 
   describe('Spacing', () => {
-    it.each(CATEGORIZE_SPACING_PADDING_CASES)('padding: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_SPACING_MARGIN_CASES)('margin: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_SPACING_SPACE_BETWEEN_CASES)('space-between: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
+    it.each(CATEGORIZE_SPACING_PADDING_CASES)('padding: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_SPACING_PADDING_CASES));
+    it.each(CATEGORIZE_SPACING_MARGIN_CASES)('margin: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_SPACING_MARGIN_CASES));
+    it.each(CATEGORIZE_SPACING_SPACE_BETWEEN_CASES)('space-between: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_SPACING_SPACE_BETWEEN_CASES));
   });
 
   describe('Sizing', () => {
-    it.each(CATEGORIZE_SIZING_WIDTH_CASES)('width: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_SIZING_HEIGHT_CASES)('height: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_SIZING_SIZE_CASES)('size: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
+    it.each(CATEGORIZE_SIZING_WIDTH_CASES)('width: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_SIZING_WIDTH_CASES));
+    it.each(CATEGORIZE_SIZING_HEIGHT_CASES)('height: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_SIZING_HEIGHT_CASES));
+    it.each(CATEGORIZE_SIZING_SIZE_CASES)('size: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_SIZING_SIZE_CASES));
   });
 
   describe('Colors', () => {
-    it.each(CATEGORIZE_COLORS_TEXT_CASES)('text: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_COLORS_BORDER_CASES)('border: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_COLORS_RING_CASES)('ring: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
+    it.each(CATEGORIZE_COLORS_TEXT_CASES)('text: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_COLORS_TEXT_CASES));
+    it.each(CATEGORIZE_COLORS_BORDER_CASES)('border: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_COLORS_BORDER_CASES));
+    it.each(CATEGORIZE_COLORS_RING_CASES)('ring: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_COLORS_RING_CASES));
   });
 
   describe('Backgrounds', () => {
-    it.each(CATEGORIZE_BACKGROUNDS_COLOR_CASES)('color: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_BACKGROUNDS_GRADIENT_CASES)('gradient: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
+    it.each(CATEGORIZE_BACKGROUNDS_COLOR_CASES)('color: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_BACKGROUNDS_COLOR_CASES));
+    it.each(CATEGORIZE_BACKGROUNDS_GRADIENT_CASES)('gradient: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_BACKGROUNDS_GRADIENT_CASES));
   });
 
   describe('Borders', () => {
-    it.each(CATEGORIZE_BORDERS_WIDTH_CASES)('width: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_BORDERS_RADIUS_CASES)('radius: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_BORDERS_STYLE_CASES)('style: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
+    it.each(CATEGORIZE_BORDERS_WIDTH_CASES)('width: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_BORDERS_WIDTH_CASES));
+    it.each(CATEGORIZE_BORDERS_RADIUS_CASES)('radius: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_BORDERS_RADIUS_CASES));
+    it.each(CATEGORIZE_BORDERS_STYLE_CASES)('style: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_BORDERS_STYLE_CASES));
   });
 
   describe('Typography', () => {
-    it.each(CATEGORIZE_TYPOGRAPHY_SIZE_CASES)('size: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_TYPOGRAPHY_WEIGHT_CASES)('weight: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_TYPOGRAPHY_ALIGN_CASES)('align: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_TYPOGRAPHY_LINE_CASES)('line: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
+    it.each(CATEGORIZE_TYPOGRAPHY_SIZE_CASES)('size: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_TYPOGRAPHY_SIZE_CASES));
+    it.each(CATEGORIZE_TYPOGRAPHY_WEIGHT_CASES)('weight: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_TYPOGRAPHY_WEIGHT_CASES));
+    it.each(CATEGORIZE_TYPOGRAPHY_ALIGN_CASES)('align: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_TYPOGRAPHY_ALIGN_CASES));
+    it.each(CATEGORIZE_TYPOGRAPHY_LINE_CASES)('line: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_TYPOGRAPHY_LINE_CASES));
   });
 
   describe('Transforms', () => {
-    it.each(CATEGORIZE_TRANSFORMS_CASES)('%s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
+    it.each(CATEGORIZE_TRANSFORMS_CASES)('%s -> %s', testCategorization(categorizeClass, CATEGORIZE_TRANSFORMS_CASES));
   });
 
   describe('Transitions & Animation', () => {
-    it.each(CATEGORIZE_TRANSITIONS_CASES)('transition: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_ANIMATION_CASES)('animation: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
+    it.each(CATEGORIZE_TRANSITIONS_CASES)('transition: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_TRANSITIONS_CASES));
+    it.each(CATEGORIZE_ANIMATION_CASES)('animation: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_ANIMATION_CASES));
   });
 
   describe('Variants', () => {
-    it.each(CATEGORIZE_VARIANTS_STRIP_CASES)('strip: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
-    it.each(CATEGORIZE_VARIANTS_MULTIPLE_CASES)('multiple: %s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
+    it.each(CATEGORIZE_VARIANTS_STRIP_CASES)('strip: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_VARIANTS_STRIP_CASES));
+    it.each(CATEGORIZE_VARIANTS_MULTIPLE_CASES)('multiple: %s -> %s', testCategorization(categorizeClass, CATEGORIZE_VARIANTS_MULTIPLE_CASES));
   });
 
   describe('Unknown classes', () => {
-    it.each(CATEGORIZE_UNKNOWN_CASES)('%s -> %s', (cls, expected) => { expect(categorizeClass(cls)).toBe(expected); });
+    it.each(CATEGORIZE_UNKNOWN_CASES)('%s -> %s', testCategorization(categorizeClass, CATEGORIZE_UNKNOWN_CASES));
   });
 });
 

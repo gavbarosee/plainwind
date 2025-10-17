@@ -1,12 +1,12 @@
 /**
  * CodeLens provider for inline Tailwind class translations
- * 
+ *
  * Displays translations above className/class attributes in the editor.
  * Each CodeLens shows:
  * - Plain English translation
  * - Type indicator for complex patterns ([template], [helper])
  * - Click-to-expand for truncated translations
- * 
+ *
  * The provider implements VS Code's CodeLensProvider interface and is
  * registered during extension activation.
  */
@@ -21,7 +21,7 @@ import { extractAllClassNames, combineClassStrings } from '@src/core/parsing';
 
 /**
  * Maximum characters before truncation
- * 
+ *
  * Longer translations are truncated to avoid cluttering the editor.
  * Users can click to see the full translation in a detail panel.
  */
@@ -29,7 +29,7 @@ const MAX_CODELENS_LENGTH = 150;
 
 /**
  * CodeLens provider for Tailwind class translations
- * 
+ *
  * VS Code calls `provideCodeLenses` whenever the document changes or
  * when CodeLens needs to be refreshed.
  */
@@ -41,7 +41,7 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
 
   /**
    * Provide CodeLenses for a document
-   * 
+   *
    * Process:
    * 1. Check if extension is enabled for this file
    * 2. Extract all className occurrences
@@ -49,7 +49,7 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
    * 4. Truncate long translations
    * 5. Add type indicators for complex patterns
    * 6. Create CodeLens with click command
-   * 
+   *
    * @param document - Text document to provide CodeLenses for
    * @returns Array of CodeLens objects to display
    */

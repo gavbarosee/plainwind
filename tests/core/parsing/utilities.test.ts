@@ -1,5 +1,11 @@
 /**
  * Tests for parsing utility functions
+ * 
+ * Tests helper functions for combining class strings, finding extractions
+ * at specific positions, and other parsing utilities used throughout
+ * the extraction pipeline.
+ * 
+ * @see src/core/parsing/index.ts
  */
 
 import { describe, it, expect } from 'vitest';

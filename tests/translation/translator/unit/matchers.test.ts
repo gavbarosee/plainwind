@@ -1,6 +1,17 @@
+/**
+ * Tests for translation matcher functions
+ * 
+ * Tests the core translation functions that convert Tailwind classes
+ * to plain English, including static mappings, pattern-based translations,
+ * arbitrary values, CSS variables, and opacity modifiers.
+ * 
+ * @see src/core/translation/engine/matchers.ts
+ */
+
 import { describe, it, expect } from 'vitest';
 import { translateBaseClass, applyOpacity, isCustomCSSVariable, isArbitraryProperty, describeArbitraryProperty } from '@src/core/translation/engine/matchers';
-import { 
+import { testFlexibleMatch } from '@tests/_support/testUtils';
+import {
   TRANSLATE_STATIC_CASES,
   IS_CSS_VARIABLE_CASES,
   TRANSLATE_CSS_VARIABLE_CASES,
@@ -24,7 +35,7 @@ import {
   MATCHER_VIEWPORT_UNITS_CASES,
   MATCHER_UNKNOWN_CASES,
   APPLY_OPACITY_CASES,
-  APPLY_OPACITY_COMPLEX_CASES
+  APPLY_OPACITY_COMPLEX_CASES,
 } from '@tests/_support/cases';
 
 describe('translateBaseClass', () => {
@@ -75,13 +86,7 @@ describe('translateBaseClass', () => {
       expect(translateBaseClass(cls)).toContain(expected);
     });
 
-    it.each(MATCHER_BORDER_CASES)('border: %s -> %s (%s)', (cls, expected, type) => {
-      if (type === 'exact') {
-        expect(translateBaseClass(cls)).toBe(expected);
-      } else {
-        expect(translateBaseClass(cls)).toContain(expected);
-      }
-    });
+    it.each(MATCHER_BORDER_CASES)('border: %s -> %s (%s)', testFlexibleMatch(translateBaseClass));
 
     it('should match font-bold exactly', () => {
       expect(translateBaseClass('font-bold')).toBe('bold weight');
@@ -91,25 +96,13 @@ describe('translateBaseClass', () => {
       expect(translateBaseClass(cls)).toContain(expected);
     });
 
-    it.each(MATCHER_GRID_CASES)('grid: %s -> %s (%s)', (cls, expected, type) => {
-      if (type === 'exact') {
-        expect(translateBaseClass(cls)).toBe(expected);
-      } else {
-        expect(translateBaseClass(cls)).toContain(expected);
-      }
-    });
+    it.each(MATCHER_GRID_CASES)('grid: %s -> %s (%s)', testFlexibleMatch(translateBaseClass));
 
     it.each(MATCHER_TRANSFORM_CASES)('transform: %s contains %s', (cls, expected) => {
       expect(translateBaseClass(cls)).toContain(expected);
     });
 
-    it.each(MATCHER_OPACITY_CASES)('opacity: %s -> %s (%s)', (cls, expected, type) => {
-      if (type === 'exact') {
-        expect(translateBaseClass(cls)).toBe(expected);
-      } else {
-        expect(translateBaseClass(cls)).toContain(expected);
-      }
-    });
+    it.each(MATCHER_OPACITY_CASES)('opacity: %s -> %s (%s)', testFlexibleMatch(translateBaseClass));
 
     it.each(MATCHER_SHADOW_CASES)('shadow: %s contains %s', (cls, expected) => {
       expect(translateBaseClass(cls)).toContain(expected);
@@ -117,49 +110,16 @@ describe('translateBaseClass', () => {
   });
 
   describe('arbitrary values', () => {
-    it.each(MATCHER_ARBITRARY_WIDTH_CASES)('width: %s -> %s (%s)', (cls, expected, type) => {
-      if (type === 'exact') {
-        expect(translateBaseClass(cls)).toBe(expected);
-      } else {
-        expect(translateBaseClass(cls)).toContain(expected);
-      }
-    });
+    it.each(MATCHER_ARBITRARY_WIDTH_CASES)('width: %s -> %s (%s)', testFlexibleMatch(translateBaseClass));
 
     it.each(MATCHER_ARBITRARY_SPACING_CASES)('spacing: %s contains %s', (cls, expected) => {
       expect(translateBaseClass(cls)).toContain(expected);
     });
 
-    it.each(MATCHER_ARBITRARY_COLOR_CASES)('color: %s -> %s (%s)', (cls, expected, type) => {
-      if (type === 'exact') {
-        expect(translateBaseClass(cls)).toBe(expected);
-      } else {
-        expect(translateBaseClass(cls)).toContain(expected);
-      }
-    });
-
-    it.each(MATCHER_CSS_VAR_CASES)('CSS var: %s -> %s (%s)', (cls, expected, type) => {
-      if (type === 'exact') {
-        expect(translateBaseClass(cls)).toBe(expected);
-      } else {
-        expect(translateBaseClass(cls)).toContain(expected);
-      }
-    });
-
-    it.each(MATCHER_CQ_UNITS_CASES)('container query: %s -> %s (%s)', (cls, expected, type) => {
-      if (type === 'exact') {
-        expect(translateBaseClass(cls)).toBe(expected);
-      } else {
-        expect(translateBaseClass(cls)).toContain(expected);
-      }
-    });
-
-    it.each(MATCHER_VIEWPORT_UNITS_CASES)('viewport: %s -> %s (%s)', (cls, expected, type) => {
-      if (type === 'exact') {
-        expect(translateBaseClass(cls)).toBe(expected);
-      } else {
-        expect(translateBaseClass(cls)).toContain(expected);
-      }
-    });
+    it.each(MATCHER_ARBITRARY_COLOR_CASES)('color: %s -> %s (%s)', testFlexibleMatch(translateBaseClass));
+    it.each(MATCHER_CSS_VAR_CASES)('CSS var: %s -> %s (%s)', testFlexibleMatch(translateBaseClass));
+    it.each(MATCHER_CQ_UNITS_CASES)('container query: %s -> %s (%s)', testFlexibleMatch(translateBaseClass));
+    it.each(MATCHER_VIEWPORT_UNITS_CASES)('viewport: %s -> %s (%s)', testFlexibleMatch(translateBaseClass));
   });
 
   describe('unknown classes', () => {

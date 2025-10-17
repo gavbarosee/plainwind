@@ -1,3 +1,13 @@
+/**
+ * Full integration tests for translateClasses
+ * 
+ * End-to-end tests validating the complete translation pipeline from Tailwind
+ * classes to plain English, including all modifiers, variants, arbitrary values,
+ * category grouping, edge cases, and performance requirements.
+ * 
+ * @see src/core/translation/engine/index.ts
+ */
+
 import { describe, it, expect, beforeEach } from 'vitest';
 import { expectIncludesAll, expectIncludesInOrder, expectTranslation } from '@tests/_support/testUtils';
 import { setPlainwindConfig } from '@tests/_support/setup';

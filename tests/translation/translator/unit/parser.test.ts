@@ -1,3 +1,13 @@
+/**
+ * Tests for translation parser functions
+ * 
+ * Tests the parsing of Tailwind class modifiers including variants (hover:, md:),
+ * opacity (/50), important (!), and prefix (tw\:) extraction. Validates proper
+ * handling of complex bracket nesting and edge cases.
+ * 
+ * @see src/core/translation/engine/parser.ts
+ */
+
 import { describe, it, expect } from 'vitest';
 import { parseNonEmptyClasses, extractVariants, extractOpacity, extractImportant, extractPrefix } from '@src/core/translation/engine/parser';
 import { 
