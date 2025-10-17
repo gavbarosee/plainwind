@@ -105,11 +105,13 @@ export function translateClasses(classString: string): string {
  * and framework directives (clsx, Vue :class, etc.)
  *
  * Grouping algorithm:
- * 1. Group classes by their condition (undefined = always applied)
- * 2. Translate each class individually
- * 3. Apply category grouping if enabled
- * 4. Annotate with conditions
- * 5. Join groups with pipes
+ * 1. Translate each class individually
+ * 2. Apply condition annotation to each translation
+ * 3. Collect all class names and annotated translations
+ * 4. Apply category grouping once at the end (if enabled)
+ *
+ * This ensures categories are not duplicated - all translations in the same
+ * category are grouped together regardless of their conditions.
  *
  * @param conditionalClasses - Array of classes with optional conditions
  * @returns Plain English with conditions annotated
@@ -121,9 +123,8 @@ export function translateClasses(classString: string): string {
  *   { classes: 'bg-blue-500', condition: 'isActive' },
  *   { classes: 'bg-gray-200', condition: '!isActive' }
  * ])
- * // Returns: "Layout: flexbox | Spacing: gap 1rem |
- * //           Colors: medium blue background (if isActive) |
- * //           Colors: light gray background (if !isActive)"
+ * // Returns: "Flexbox & Grid: flexbox | Spacing: gap 1rem |
+ * //           Colors: medium blue background (if isActive), light gray background (if !isActive)"
  * ```
  */
 export function translateConditionalClasses(
@@ -133,50 +134,35 @@ export function translateConditionalClasses(
   const groupByCategory = config.get<boolean>('groupByCategory', true);
   const showEmojis = config.get<boolean>('showCategoryEmojis', false);
 
-  /**
-   * Group by condition, keeping track of classes and translations
-   *
-   * This allows us to show all unconditional classes together,
-   * followed by conditional groups.
-   *
-   * Map key: condition string (or undefined for unconditional)
-   * Map value: { classNames[], translations[] }
-   */
-  const groups = new Map<
-    string | undefined,
-    { classNames: string[]; translations: string[] }
-  >();
+  // Collect all class names and their translations with condition annotations
+  const allClassNames: string[] = [];
+  const allTranslations: string[] = [];
 
   for (const { classes, condition } of conditionalClasses) {
     const classList = parseNonEmptyClasses(classes);
-    const translations = classList.map((cls) => translateSingleClass(cls));
 
-    if (!groups.has(condition)) {
-      groups.set(condition, { classNames: [], translations: [] });
-    }
-    const group = groups.get(condition)!;
-    group.classNames.push(...classList);
-    group.translations.push(...translations);
-  }
+    for (const cls of classList) {
+      const translation = translateSingleClass(cls);
 
-  // Build output, applying category grouping if enabled
-  const parts: string[] = [];
+      // Apply condition annotation to individual translation if present
+      const annotatedTranslation = condition
+        ? `${translation} (if ${condition})`
+        : translation;
 
-  for (const [condition, { classNames, translations }] of groups) {
-    if (translations.length === 0) continue;
-
-    // Apply category grouping if enabled
-    const formatted = groupByCategory
-      ? groupTranslationsByCategory(classNames, translations, showEmojis)
-      : translations.join(', ');
-
-    // Append condition annotation if present
-    if (condition) {
-      parts.push(`${formatted} (if ${condition})`);
-    } else {
-      parts.push(formatted);
+      allClassNames.push(cls);
+      allTranslations.push(annotatedTranslation);
     }
   }
 
-  return parts.join(' | ');
+  // Apply category grouping once at the end (if enabled)
+  // This ensures categories are not duplicated
+  if (groupByCategory) {
+    return groupTranslationsByCategory(
+      allClassNames,
+      allTranslations,
+      showEmojis
+    );
+  }
+
+  return allTranslations.join(', ');
 }
