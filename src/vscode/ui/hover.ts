@@ -1,3 +1,18 @@
+/**
+ * Hover provider for on-demand Tailwind class translations
+ * 
+ * Displays translations when hovering over className/class attributes.
+ * Unlike CodeLens, hover doesn't show translations inline - they only
+ * appear on mouse hover, keeping the editor cleaner.
+ * 
+ * The hover shows:
+ * - Plain English translation
+ * - Type indicator for complex patterns
+ * - "Toggle Details" link to open/close detail panel
+ * 
+ * Implements VS Code's HoverProvider interface.
+ */
+
 import * as vscode from 'vscode';
 import {
   translateClasses,
@@ -12,8 +27,24 @@ import {
 
 /**
  * Hover provider for Tailwind class translations
+ * 
+ * VS Code calls `provideHover` when the user hovers over text.
+ * We check if the hover position is within a className attribute.
  */
 export class TailwindHoverProvider implements vscode.HoverProvider {
+  /**
+   * Provide hover information at a specific position
+   * 
+   * Process:
+   * 1. Check if extension is enabled for this file
+   * 2. Find className extraction at hover position
+   * 3. Translate the classes
+   * 4. Create Markdown hover with translation and toggle link
+   * 
+   * @param document - Document being hovered
+   * @param position - Cursor position
+   * @returns Hover object with translation, or undefined if not in className
+   */
   public provideHover(
     document: vscode.TextDocument,
     position: vscode.Position
@@ -64,8 +95,15 @@ export class TailwindHoverProvider implements vscode.HoverProvider {
     markdown.isTrusted = true;
     markdown.supportHtml = true;
 
-    // Add a clickable command to toggle details panel
-    // Serialize range data properly for the command
+    /**
+     * Add a clickable command to toggle details panel
+     * 
+     * Note: Hover content is cached by VS Code and doesn't update dynamically.
+     * We use "Toggle Details" instead of "Show/Hide" because we can't reflect
+     * the actual panel state in the cached hover text.
+     * 
+     * Range data must be serialized because command URIs only accept strings.
+     */
     const rangeData = {
       startLine: startPos.line,
       startChar: startPos.character,
@@ -82,8 +120,6 @@ export class TailwindHoverProvider implements vscode.HoverProvider {
         ])
       )}`
     );
-    // Use "Toggle Details" since hover content is cached by VS Code
-    // and won't update dynamically when panel state changes
     markdown.appendMarkdown(`\n\n[Toggle Details](${commandUri})`);
 
     return new vscode.Hover(markdown, matchRange);

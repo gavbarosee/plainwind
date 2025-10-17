@@ -1,3 +1,16 @@
+/**
+ * CodeLens provider for inline Tailwind class translations
+ * 
+ * Displays translations above className/class attributes in the editor.
+ * Each CodeLens shows:
+ * - Plain English translation
+ * - Type indicator for complex patterns ([template], [helper])
+ * - Click-to-expand for truncated translations
+ * 
+ * The provider implements VS Code's CodeLensProvider interface and is
+ * registered during extension activation.
+ */
+
 import * as vscode from 'vscode';
 import {
   translateClasses,
@@ -6,10 +19,19 @@ import {
 import { isFileEnabled } from '@src/extension';
 import { extractAllClassNames, combineClassStrings } from '@src/core/parsing';
 
-const MAX_CODELENS_LENGTH = 150; // Maximum characters before truncation
+/**
+ * Maximum characters before truncation
+ * 
+ * Longer translations are truncated to avoid cluttering the editor.
+ * Users can click to see the full translation in a detail panel.
+ */
+const MAX_CODELENS_LENGTH = 150;
 
 /**
  * CodeLens provider for Tailwind class translations
+ * 
+ * VS Code calls `provideCodeLenses` whenever the document changes or
+ * when CodeLens needs to be refreshed.
  */
 export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
   private _onDidChangeCodeLenses: vscode.EventEmitter<void> =
@@ -17,6 +39,20 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
   public readonly onDidChangeCodeLenses: vscode.Event<void> =
     this._onDidChangeCodeLenses.event;
 
+  /**
+   * Provide CodeLenses for a document
+   * 
+   * Process:
+   * 1. Check if extension is enabled for this file
+   * 2. Extract all className occurrences
+   * 3. Translate each occurrence
+   * 4. Truncate long translations
+   * 5. Add type indicators for complex patterns
+   * 6. Create CodeLens with click command
+   * 
+   * @param document - Text document to provide CodeLenses for
+   * @returns Array of CodeLens objects to display
+   */
   public provideCodeLenses(
     document: vscode.TextDocument
   ): vscode.CodeLens[] | Thenable<vscode.CodeLens[]> {
@@ -51,7 +87,10 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
       const endPos = document.positionAt(extraction.range.end);
       const range = new vscode.Range(startPos, endPos);
 
-      // Truncate if too long
+      /**
+       * Truncate long translations to avoid cluttering the editor
+       * Full translation is available by clicking the CodeLens
+       */
       let displayText = translation;
       let isTruncated = false;
 
@@ -61,7 +100,11 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
         isTruncated = true;
       }
 
-      // Add indicator for dynamic/complex patterns
+      /**
+       * Add type indicator for non-simple patterns
+       * - [template]: Template literals with ${...}
+       * - [helper]: Helper functions like clsx() or framework directives
+       */
       const typeIndicator =
         extraction.type !== 'simple' ? ` [${extraction.type}]` : '';
 

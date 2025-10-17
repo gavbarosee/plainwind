@@ -1,9 +1,23 @@
 /**
  * HTML/CSS template for the Tailwind class detail panel
+ * 
+ * Generates a styled webview panel showing:
+ * - Original Tailwind classes in a code block
+ * - Translated plain English, formatted by category
+ * - Button to close all panels
+ * 
+ * Design philosophy:
+ * - Uses VS Code theme variables for consistent appearance
+ * - Responsive layout with proper spacing
+ * - Category-based formatting for readability
+ * - Inter-process messaging for panel interactions
  */
 
 /**
- * Escape HTML special characters
+ * Escape HTML special characters to prevent XSS
+ * 
+ * @param text - Raw text that may contain HTML characters
+ * @returns HTML-safe string
  */
 function escapeHtml(text: string): string {
   return text
@@ -16,13 +30,35 @@ function escapeHtml(text: string): string {
 
 /**
  * Generate webview HTML content for displaying full translation
+ * 
+ * Translation formatting:
+ * - Splits by pipe separator (categories are joined with " | ")
+ * - Each category gets its own line
+ * - Category names are bolded
+ * - Uses flexbox for proper alignment
+ * 
+ * Webview messaging:
+ * - Sends 'clearAll' message when button clicked
+ * - Listens for 'updateCount' to update button text
+ * - Sends 'ready' message when loaded
+ * 
+ * @param classString - Original Tailwind classes
+ * @param translation - Translated plain English (may contain pipes)
+ * @param panelCount - Number of open panels (for button text)
+ * @returns Complete HTML string for webview
  */
 export function generatePanelHTML(
   classString: string,
   translation: string,
   panelCount: number
 ): string {
-  // Split translation by pipe separator and format each category on its own line
+  /**
+   * Format translation by splitting on pipe separator
+   * 
+   * Translations are formatted as "Category: items | Category: items"
+   * We split by pipe and format each category on its own line with
+   * the category name bolded.
+   */
   const formattedTranslation = translation
     .split(' | ')
     .map((line) => {

@@ -16,28 +16,49 @@ import { applyVariants } from './variants';
 
 /**
  * Translate a single Tailwind class to plain English
- * Handles:
- * - Variants (e.g., "hover:", "md:")
- * - Opacity modifiers (e.g., "/50")
- * - Important modifier (e.g., "!")
- * - Prefixes (e.g., "tw:")
- * - Base classes
+ * 
+ * Processing pipeline (order matters!):
+ * 1. Extract prefix (tw\:) - must come first as it uses escaped colon
+ * 2. Extract variants (hover:, md:) - uses regular colons
+ * 3. Extract important (!) - comes at the end of class
+ * 4. Extract opacity (/50) - comes before base class
+ * 5. Translate base class - the core utility
+ * 6. Apply opacity modifier to translation
+ * 7. Apply variants to translation
+ * 8. Add important flag if present
+ * 9. Add prefix note if present
+ * 
+ * @param cls - Single Tailwind class to translate
+ * @returns Plain English translation
+ * 
+ * @example
+ * ```ts
+ * translateSingleClass("hover:bg-blue-500/50!")
+ * // Process: hover: (variant) + bg-blue-500 (base) + /50 (opacity) + ! (important)
+ * // Returns: "medium blue background with 50% opacity on hover !important"
+ * 
+ * translateSingleClass("tw\\:md:flex")
+ * // Process: tw\ (prefix) + md: (variant) + flex (base)
+ * // Returns: "[tw] flexbox on medium screens (≥768px)"
+ * ```
  */
 function translateSingleClass(cls: string): string {
   // Extract prefix first (e.g., tw\:bg-white)
+  // Must be first because it uses escaped colon (\:) to distinguish from variant colon (:)
   const { className: withoutPrefix, prefix } = extractPrefix(cls);
 
   // Extract variants (e.g., hover:, md:)
   const { variants, baseClass } = extractVariants(withoutPrefix);
 
   // Extract important modifier (e.g., bg-white!)
+  // Comes at the end of the class name
   const { className: withoutImportant, isImportant } =
     extractImportant(baseClass);
 
   // Extract opacity (e.g., bg-white/50)
   const { className, opacity } = extractOpacity(withoutImportant);
 
-  // Translate the base class
+  // Translate the base class (the core utility like "bg-white", "flex", "p-4")
   let translation = translateBaseClass(className);
 
   // Apply modifiers in order
@@ -79,8 +100,31 @@ export function translateClasses(classString: string): string {
 
 /**
  * Translate classes with conditional information
+ * 
+ * Handles conditional classes from template literals, helper functions,
+ * and framework directives (clsx, Vue :class, etc.)
+ * 
+ * Grouping algorithm:
+ * 1. Group classes by their condition (undefined = always applied)
+ * 2. Translate each class individually
+ * 3. Apply category grouping if enabled
+ * 4. Annotate with conditions
+ * 5. Join groups with pipes
+ * 
  * @param conditionalClasses - Array of classes with optional conditions
  * @returns Plain English with conditions annotated
+ * 
+ * @example
+ * ```ts
+ * translateConditionalClasses([
+ *   { classes: 'flex gap-4' },                    // Always applied
+ *   { classes: 'bg-blue-500', condition: 'isActive' },
+ *   { classes: 'bg-gray-200', condition: '!isActive' }
+ * ])
+ * // Returns: "Layout: flexbox | Spacing: gap 1rem | 
+ * //           Colors: medium blue background (if isActive) | 
+ * //           Colors: light gray background (if !isActive)"
+ * ```
  */
 export function translateConditionalClasses(
   conditionalClasses: Array<{ classes: string; condition?: string }>
@@ -89,7 +133,15 @@ export function translateConditionalClasses(
   const groupByCategory = config.get<boolean>('groupByCategory', true);
   const showEmojis = config.get<boolean>('showCategoryEmojis', false);
 
-  // Group by condition, keeping track of classes and translations
+  /**
+   * Group by condition, keeping track of classes and translations
+   * 
+   * This allows us to show all unconditional classes together,
+   * followed by conditional groups.
+   * 
+   * Map key: condition string (or undefined for unconditional)
+   * Map value: { classNames[], translations[] }
+   */
   const groups = new Map<
     string | undefined,
     { classNames: string[]; translations: string[] }
@@ -118,6 +170,7 @@ export function translateConditionalClasses(
       ? groupTranslationsByCategory(classNames, translations, showEmojis)
       : translations.join(', ');
 
+    // Append condition annotation if present
     if (condition) {
       parts.push(`${formatted} (if ${condition})`);
     } else {

@@ -103,6 +103,22 @@ function initializeManagers(context: vscode.ExtensionContext): void {
 
 /**
  * Register CodeLens or Hover providers based on display mode
+ * 
+ * Registers either a CodeLens or Hover provider for Tailwind translations
+ * based on the user's `plainwind.displayMode` setting.
+ * 
+ * **Supported Languages:**
+ * - React/JSX: javascriptreact, typescriptreact
+ * - JavaScript/TypeScript: javascript, typescript
+ * - Framework templates: html, vue, svelte
+ * 
+ * **Display Modes:**
+ * - `codelens`: Shows translations inline above className attributes
+ * - `hover`: Shows translations only on hover
+ * - `off`: Extension disabled (handled before this function)
+ * 
+ * @param context - Extension context for subscriptions
+ * @param displayMode - User's display mode preference
  */
 function registerProviders(
   context: vscode.ExtensionContext,
@@ -136,6 +152,26 @@ function registerProviders(
 
 /**
  * Register shared commands used by both CodeLens and Hover modes
+ * 
+ * Registers commands that work regardless of display mode:
+ * 
+ * **plainwind.showFullTranslation:**
+ * - Triggered by clicking a CodeLens
+ * - Receives VS Code Range object directly
+ * - Toggles detail panel at the clicked location
+ * 
+ * **plainwind.showFullTranslationFromHover:**
+ * - Triggered by clicking a link in hover
+ * - Receives serialized range data (command URIs can't pass objects)
+ * - Reconstructs Range and URI from serialized data
+ * - Toggles detail panel at the hovered location
+ * 
+ * **plainwind.clearAllPanels:**
+ * - Closes all open detail panels
+ * - Triggered from panel webview "Close All" button
+ * - Also available as a command palette command
+ * 
+ * @param context - Extension context for subscriptions
  */
 function registerSharedCommands(context: vscode.ExtensionContext): void {
   // Command: Show/toggle translation details from CodeLens
@@ -224,6 +260,22 @@ function handleShowTranslation(
 
 /**
  * Listen for configuration changes
+ * 
+ * Monitors changes to `plainwind.displayMode` and `plainwind.enabled` settings.
+ * 
+ * **Why Reload is Required:**
+ * When display mode or enabled status changes, providers (CodeLens/Hover) need
+ * to be registered or unregistered. VS Code doesn't support dynamic provider
+ * registration without reloading, so we prompt the user to reload.
+ * 
+ * **Settings that trigger reload:**
+ * - `plainwind.enabled`: Enable/disable extension
+ * - `plainwind.displayMode`: Switch between codelens/hover/off
+ * 
+ * **Settings that don't trigger reload:**
+ * - Category grouping, emoji display, etc. - these take effect immediately
+ * 
+ * @param context - Extension context for subscriptions
  */
 function registerConfigurationListener(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
