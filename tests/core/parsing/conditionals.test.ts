@@ -1,5 +1,18 @@
 /**
  * Tests for conditional class extraction patterns
+ * 
+ * Validates extraction of conditional class patterns from JSX/TSX code,
+ * including template literals, ternary operators, logical operators,
+ * object syntax (clsx/classnames), and array syntax.
+ * 
+ * Tests cover all common patterns:
+ * - Template literals with conditionals: `flex ${isActive && "active"}`
+ * - Ternary operators: `condition ? "yes" : "no"`
+ * - Logical operators: `&&`, `||`, `??`
+ * - Object syntax: `{ "class": condition }`
+ * - Array syntax: `["class1", condition && "class2"]`
+ * 
+ * @see src/core/parsing/
  */
 
 import { describe, it, expect } from 'vitest';

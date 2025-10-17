@@ -107,9 +107,128 @@ Handles all Tailwind features:
 - Open multiple detail panels to compare class strings
 - Use hover mode for minimal clutter
 
+## Development
+
+### Prerequisites
+
+- Node.js 18+
+- npm or compatible package manager
+- VS Code (for extension development)
+
+### Setup
+
+```bash
+# Clone the repository
+git clone <repository-url>
+cd plainwind
+
+# Install dependencies
+npm install
+
+# Build the extension
+npm run compile
+
+# Watch for changes
+npm run watch
+```
+
+### Testing
+
+Plainwind has a comprehensive test suite with 512+ tests covering all functionality.
+
+```bash
+# Run all tests
+npm test
+
+# Run with coverage report
+npm run test:coverage
+
+# Run performance benchmarks
+npx vitest bench
+
+# Interactive test UI
+npx vitest --ui
+```
+
+**Test Suite Highlights:**
+- ✅ **512 tests** across 14 test files
+- ✅ **70%+ coverage** on core functionality
+- ✅ **Performance benchmarks** for critical paths
+- ✅ **Framework-specific tests** (React, Vue, Svelte, Angular, Solid)
+- ✅ **Integration & unit tests** for all features
+
+See [tests/README.md](tests/README.md) for detailed testing documentation.
+
+### Project Structure
+
+```
+plainwind/
+├── src/                      # Extension source code
+│   ├── core/                # Core functionality
+│   │   ├── parsing/         # Class extraction from files
+│   │   └── translation/     # Translation engine
+│   │       ├── categorizer/ # Category grouping
+│   │       ├── engine/      # Main translation logic
+│   │       └── rules/       # Translation rules & patterns
+│   ├── vscode/              # VS Code integration
+│   │   ├── commands/        # Extension commands
+│   │   └── ui/              # UI components (codelens, hover, panel)
+│   └── extension.ts         # Extension entry point
+│
+├── tests/                   # Test suite
+│   ├── _support/            # Test utilities & fixtures
+│   ├── core/                # Core functionality tests
+│   ├── translation/         # Translation engine tests
+│   └── performance/         # Performance benchmarks
+│
+├── out/                     # Compiled JavaScript (gitignored)
+└── package.json             # Extension manifest & dependencies
+```
+
+### Code Quality
+
+```bash
+# Lint
+npm run lint
+
+# Fix lint issues
+npm run lint:fix
+
+# Format code
+npm run format
+
+# Check formatting
+npm run format:check
+```
+
+### Git Workflow
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/) and [Husky](https://typicode.github.io/husky/) for commit linting:
+
+```bash
+# Commit format
+feat: add support for Solid.js
+fix: correct hover positioning
+docs: update README
+test: add categorization tests
+```
+
+Commits are automatically linted on commit. Invalid formats will be rejected.
+
 ## Contributing
 
-Issues and pull requests are welcome.
+We welcome contributions! To get started:
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feat/my-feature`
+3. Write tests for your changes
+4. Implement your feature
+5. Run tests: `npm test`
+6. Run linter: `npm run lint`
+7. Commit using conventional format
+8. Submit a pull request
+
+Please see [tests/README.md](tests/README.md) for testing guidelines.
 
 ## License
 

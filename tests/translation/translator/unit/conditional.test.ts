@@ -1,5 +1,16 @@
 /**
  * Tests for conditional class translation with category grouping
+ * 
+ * Validates translation of conditional classes with different configuration
+ * options, including category grouping and emoji display.
+ * 
+ * Tests cover:
+ * - Grouping by category (enabled/disabled)
+ * - Multiple conditions with category grouping
+ * - Emoji display in category labels
+ * - Unconditional and conditional class separation
+ * 
+ * @see src/core/translation/engine/index.ts - translateConditionalClasses()
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
