@@ -16,7 +16,7 @@ import { disableFile, enableFile, isFileDisabled } from './fileState';
 /**
  * Register all toggle commands
  *
- * Registers 8 commands:
+ * Registers 9 commands:
  * - plainwind.showMenu: Shows quick menu with all options
  * - plainwind.toggleEnabled: Toggle extension globally
  * - plainwind.disableForFile: Disable for current file
@@ -25,6 +25,7 @@ import { disableFile, enableFile, isFileDisabled } from './fileState';
  * - plainwind.chooseDisplayMode: Change display mode picker
  * - plainwind.toggleGroupByCategory: Toggle category grouping
  * - plainwind.toggleCategoryEmojis: Toggle emojis in categories
+ * - plainwind.toggleEnhanceVisuals: Toggle visual enhancements
  *
  * @param context - Extension context for registering disposables
  */
@@ -58,6 +59,10 @@ export function registerToggleCommands(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand(
       'plainwind.toggleCategoryEmojis',
       toggleCategoryEmojis
+    ),
+    vscode.commands.registerCommand(
+      'plainwind.toggleEnhanceVisuals',
+      toggleEnhanceVisuals
     )
   );
 }
@@ -80,6 +85,7 @@ async function showQuickMenu(): Promise<void> {
   const displayMode = config.get<string>('displayMode', 'codelens');
   const grouping = config.get<boolean>('groupByCategory', true);
   const emojis = config.get<boolean>('showCategoryEmojis', false);
+  const enhanceVisuals = config.get<boolean>('enhanceVisuals', false);
 
   interface QuickPickItemWithAction extends vscode.QuickPickItem {
     action: () => Promise<void> | void;
@@ -107,6 +113,11 @@ async function showQuickMenu(): Promise<void> {
       label: '$(smiley) Toggle Category Emojis',
       description: emojis ? '✓ Enabled' : '○ Disabled',
       action: toggleCategoryEmojis,
+    },
+    {
+      label: '$(paintcan) Toggle Visual Enhancements',
+      description: enhanceVisuals ? '✓ Enabled (colors, weights, shadows, etc.)' : '○ Disabled',
+      action: toggleEnhanceVisuals,
     },
     {
       label: '',
@@ -325,6 +336,23 @@ async function toggleCategoryEmojis(): Promise<void> {
 
   vscode.window.showInformationMessage(
     `Category emojis ${!current ? 'enabled' : 'disabled'}`
+  );
+}
+
+/**
+ * Toggle visual enhancements setting
+ */
+async function toggleEnhanceVisuals(): Promise<void> {
+  const config = vscode.workspace.getConfiguration('plainwind');
+  const current = config.get<boolean>('enhanceVisuals', false);
+  await config.update(
+    'enhanceVisuals',
+    !current,
+    vscode.ConfigurationTarget.Global
+  );
+
+  vscode.window.showInformationMessage(
+    `Visual enhancements ${!current ? 'enabled' : 'disabled'} (colors, font weights, shadows, spacing values, etc.)`
   );
 }
 

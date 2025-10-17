@@ -4,14 +4,18 @@
  * Generates a styled webview panel showing:
  * - Original Tailwind classes in a code block
  * - Translated plain English, formatted by category
+ * - Color names highlighted with their actual colors
  * - Button to close all panels
  *
  * Design philosophy:
  * - Uses VS Code theme variables for consistent appearance
  * - Responsive layout with proper spacing
  * - Category-based formatting for readability
+ * - Visual color indicators for better UX
  * - Inter-process messaging for panel interactions
  */
+
+import { enhanceTranslation } from './enhancements';
 
 /**
  * Escape HTML special characters to prevent XSS
@@ -36,6 +40,7 @@ function escapeHtml(text: string): string {
  * - Each category gets its own line
  * - Category names are bolded
  * - Uses flexbox for proper alignment
+ * - Optionally applies visual enhancements (colors, fonts, spacing)
  *
  * Webview messaging:
  * - Sends 'clearAll' message when button clicked
@@ -45,19 +50,21 @@ function escapeHtml(text: string): string {
  * @param classString - Original Tailwind classes
  * @param translation - Translated plain English (may contain pipes)
  * @param panelCount - Number of open panels (for button text)
+ * @param enhanceVisuals - Whether to apply visual enhancements (default: false)
  * @returns Complete HTML string for webview
  */
 export function generatePanelHTML(
   classString: string,
   translation: string,
-  panelCount: number
+  panelCount: number,
+  enhanceVisuals: boolean = false
 ): string {
   /**
    * Format translation by splitting on pipe separator
    *
    * Translations are formatted as "Category: items | Category: items"
    * We split by pipe and format each category on its own line with
-   * the category name bolded.
+   * the category name bolded and color names highlighted.
    */
   const formattedTranslation = translation
     .split(' | ')
@@ -67,10 +74,24 @@ export function generatePanelHTML(
       const colonIndex = escapedLine.indexOf(':');
       if (colonIndex !== -1) {
         const category = escapedLine.substring(0, colonIndex);
-        const rest = escapedLine.substring(colonIndex + 1).trim();
+        let rest = escapedLine.substring(colonIndex + 1).trim();
+        
+        // Apply visual enhancements if enabled
+        if (enhanceVisuals) {
+          rest = enhanceTranslation(rest);
+        }
+        
         return `<div class="category-line"><strong>${category}:</strong><span>${rest}</span></div>`;
       }
-      return `<div class="category-line"><span>${escapedLine}</span></div>`;
+      
+      let content = escapedLine;
+      
+      // Apply visual enhancements if enabled
+      if (enhanceVisuals) {
+        content = enhanceTranslation(content);
+      }
+      
+      return `<div class="category-line"><span>${content}</span></div>`;
     })
     .join('');
 
@@ -86,8 +107,9 @@ export function generatePanelHTML(
         }
         body {
             padding: 32px;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-            color: var(--vscode-foreground);
+            font-family: var(--vscode-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-size: var(--vscode-font-size, 13px);
+            color: var(--vscode-editor-foreground);
             background-color: var(--vscode-editor-background);
             line-height: 1.6;
             margin: 0;
@@ -104,7 +126,7 @@ export function generatePanelHTML(
         h2 {
             font-size: 18px;
             font-weight: 600;
-            color: var(--vscode-foreground);
+            color: var(--vscode-editor-foreground);
             margin: 0;
             letter-spacing: -0.015em;
         }
@@ -142,15 +164,15 @@ export function generatePanelHTML(
             padding: 18px;
             border-radius: 8px;
             margin: 0 0 32px 0;
-            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-            font-size: 13px;
+            font-family: var(--vscode-editor-font-family), 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: var(--vscode-editor-font-size, 13px);
             line-height: 1.7;
             word-wrap: break-word;
             overflow-wrap: break-word;
-            color: var(--vscode-foreground);
+            color: var(--vscode-editor-foreground);
         }
         .translation {
-            background-color: var(--vscode-editor-inactiveSelectionBackground);
+            background-color: var(--vscode-input-background);
             border: 1px solid var(--vscode-panel-border);
             padding: 20px;
             border-radius: 8px;
@@ -172,7 +194,7 @@ export function generatePanelHTML(
             padding-top: 0;
         }
         .category-line strong {
-            color: var(--vscode-foreground);
+            color: var(--vscode-editor-foreground);
             font-weight: 600;
             flex-shrink: 0;
             min-width: 130px;
@@ -181,7 +203,107 @@ export function generatePanelHTML(
             flex: 1;
             word-wrap: break-word;
             overflow-wrap: break-word;
-            color: var(--vscode-foreground);
+            color: var(--vscode-editor-foreground);
+        }
+        .color-text {
+            font-weight: 600;
+        }
+        .color-text.color-transparent {
+            color: var(--vscode-editor-foreground);
+            opacity: 0.6;
+        }
+        .font-weight-demo {
+            /* Font weight is applied inline via style attribute */
+        }
+        .spacing-value {
+            color: var(--vscode-descriptionForeground);
+            font-size: 0.9em;
+            font-style: italic;
+            opacity: 0.8;
+        }
+        .opacity-demo {
+            /* Opacity is applied inline via style attribute */
+        }
+        .size-demo {
+            /* Font size classes defined below */
+        }
+        .size-demo.size-xs {
+            font-size: 0.75em;
+        }
+        .size-demo.size-sm {
+            font-size: 0.875em;
+        }
+        .size-demo.size-lg {
+            font-size: 1.125em;
+        }
+        .size-demo.size-xl {
+            font-size: 1.25em;
+        }
+        .size-demo.size-2xl {
+            font-size: 1.5em;
+        }
+        .size-demo.size-3xl {
+            font-size: 1.75em;
+        }
+        .size-demo.size-4xl {
+            font-size: 2em;
+        }
+        .size-demo.size-5xl {
+            font-size: 2.5em;
+        }
+        .size-demo.size-6xl {
+            font-size: 3em;
+        }
+        .radius-demo {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-color: var(--vscode-button-background);
+            margin-left: 4px;
+            vertical-align: middle;
+            border: 1px solid var(--vscode-button-border);
+        }
+        .radius-demo.radius-sm {
+            border-radius: 2px;
+        }
+        .radius-demo.radius-base {
+            border-radius: 4px;
+        }
+        .radius-demo.radius-md {
+            border-radius: 6px;
+        }
+        .radius-demo.radius-lg {
+            border-radius: 8px;
+        }
+        .radius-demo.radius-3xl {
+            border-radius: 12px;
+        }
+        .radius-demo.radius-full {
+            border-radius: 50%;
+        }
+        .shadow-demo {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-color: var(--vscode-editor-background);
+            margin-left: 4px;
+            vertical-align: middle;
+            border: 1px solid var(--vscode-panel-border);
+        }
+        .shadow-demo.shadow-sm {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        .shadow-demo.shadow-md {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .shadow-demo.shadow-lg {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .shadow-demo.shadow-xl {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .shadow-demo.shadow-inner {
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
         }
     </style>
 </head>

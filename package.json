@@ -80,6 +80,10 @@
       {
         "command": "plainwind.clearAllPanels",
         "title": "Plainwind: Clear All Detail Panels"
+      },
+      {
+        "command": "plainwind.toggleEnhanceVisuals",
+        "title": "Plainwind: Toggle Visual Enhancements"
       }
     ],
     "configuration": {
@@ -114,6 +118,11 @@
           "type": "boolean",
           "default": false,
           "description": "Show emojis next to category names (only works when 'Group By Category' is enabled)"
+        },
+        "plainwind.enhanceVisuals": {
+          "type": "boolean",
+          "default": false,
+          "description": "Apply visual enhancements in the detail panel: color text with actual colors, show font weights and sizes visually, display spacing pixel values, apply opacity effects, preview border radius and shadows"
         }
       }
     }
