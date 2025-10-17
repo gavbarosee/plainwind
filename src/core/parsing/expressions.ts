@@ -227,11 +227,11 @@ export function parseObjectLiteral(expr: string): ConditionalClass[] | null {
     let colonIdx = -1;
     let inQuotes = false;
     let quoteChar = '';
-    
+
     for (let i = 0; i < entry.length; i++) {
       const char = entry[i];
       const prevChar = i > 0 ? entry[i - 1] : '';
-      
+
       // Track if we're inside quotes
       if ((char === '"' || char === "'" || char === '`') && prevChar !== '\\') {
         if (!inQuotes) {
@@ -241,14 +241,14 @@ export function parseObjectLiteral(expr: string): ConditionalClass[] | null {
           inQuotes = false;
         }
       }
-      
+
       // Only consider colons outside of quotes
       if (char === ':' && !inQuotes) {
         colonIdx = i;
         break;
       }
     }
-    
+
     if (colonIdx === -1) continue;
 
     const key = entry.slice(0, colonIdx).trim();
@@ -257,7 +257,7 @@ export function parseObjectLiteral(expr: string): ConditionalClass[] | null {
     // Try quoted key first (e.g., 'active' or "text-red")
     const quotedMatch = key.match(/^(['"`])(.+?)\1$/);
     let classes: string;
-    
+
     if (quotedMatch) {
       classes = quotedMatch[2];
     } else {

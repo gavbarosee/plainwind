@@ -24,9 +24,12 @@ export function extractSimpleStrings(text: string): ClassExtraction[] {
     if (charBefore === ':') {
       continue;
     }
-    
+
     // Skip if this is v-bind:class (check for 'v-bind:' before match)
-    if (match.index >= 7 && text.slice(match.index - 7, match.index) === 'v-bind:') {
+    if (
+      match.index >= 7 &&
+      text.slice(match.index - 7, match.index) === 'v-bind:'
+    ) {
       continue;
     }
 
@@ -65,10 +68,10 @@ export function extractVueClassBindings(text: string): ClassExtraction[] {
     // Find the closing quote with proper escape handling
     let endIdx = -1;
     let i = contentStart;
-    
+
     while (i < text.length) {
       const char = text[i];
-      
+
       // Check if this is our closing quote (not escaped)
       if (char === quote) {
         // Count preceding backslashes
@@ -135,14 +138,15 @@ export function extractSvelteClassDirectives(text: string): ClassExtraction[] {
   while ((match = pattern.exec(text)) !== null) {
     const className = match[1];
     const condition = match[2].trim();
-    
+
     // Skip empty conditions
     if (!className || !condition) continue;
 
     // If condition is 'true', treat as unconditional
-    const conditionalClasses = condition === 'true' 
-      ? [{ classes: className }]
-      : [{ classes: className, condition }];
+    const conditionalClasses =
+      condition === 'true'
+        ? [{ classes: className }]
+        : [{ classes: className, condition }];
 
     extractions.push({
       classStrings: [className],
@@ -171,10 +175,10 @@ export function extractAngularNgClass(text: string): ClassExtraction[] {
     // Find the closing quote with proper escape handling
     let endIdx = -1;
     let i = contentStart;
-    
+
     while (i < text.length) {
       const char = text[i];
-      
+
       // Check if this is our closing quote (not escaped)
       if (char === quote) {
         // Count preceding backslashes
@@ -233,14 +237,15 @@ export function extractAngularClassBindings(text: string): ClassExtraction[] {
   while ((match = pattern.exec(text)) !== null) {
     const className = match[1];
     const condition = match[3].trim();
-    
+
     // Skip empty conditions
     if (!className || !condition) continue;
 
     // If condition is 'true', treat as unconditional
-    const conditionalClasses = condition === 'true' 
-      ? [{ classes: className }]
-      : [{ classes: className, condition }];
+    const conditionalClasses =
+      condition === 'true'
+        ? [{ classes: className }]
+        : [{ classes: className, condition }];
 
     extractions.push({
       classStrings: [className],
@@ -269,7 +274,7 @@ export function extractSolidClassList(text: string): ClassExtraction[] {
     let endIdx = -1;
     let depth = 1; // We're looking for the closing brace of the inner object
     let i = contentStart;
-    
+
     while (i < text.length) {
       const char = text[i];
       if (char === '{') {

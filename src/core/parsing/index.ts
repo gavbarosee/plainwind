@@ -1,6 +1,6 @@
 /**
  * Parse className attributes from JSX/TSX and extract Tailwind classes
- * Supports: 
+ * Supports:
  * - React/JSX: className with string literals, template literals, helper functions
  * - Vue: :class and v-bind:class with strings, objects, and arrays
  * - Svelte: class: directives
