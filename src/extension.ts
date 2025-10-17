@@ -17,7 +17,17 @@ let panelManager: PanelManager | undefined;
 let highlightManager: HighlightManager | undefined;
 
 /**
- * Extension activation
+ * Extension activation - called when extension is first loaded
+ * 
+ * Initialization flow:
+ * 1. Initialize file-level state management
+ * 2. Create status bar item
+ * 3. Register toggle commands
+ * 4. Check if extension is enabled
+ * 5. Initialize managers (highlight, panel)
+ * 6. Register providers (CodeLens or Hover based on config)
+ * 7. Register shared commands
+ * 8. Set up configuration change listener
  */
 export function activate(context: vscode.ExtensionContext) {
   console.log('Plainwind extension is now active');
@@ -65,6 +75,13 @@ export function deactivate() {
 
 /**
  * Initialize panel and highlight managers
+ * 
+ * Creates the two managers and connects them via a callback:
+ * - HighlightManager: Handles visual decorations in editor
+ * - PanelManager: Handles detail panel lifecycle
+ * 
+ * The callback ensures highlights update whenever panels change
+ * (opened, closed, focused, etc.)
  */
 function initializeManagers(context: vscode.ExtensionContext): void {
   // Initialize highlight manager
@@ -173,6 +190,12 @@ function registerSharedCommands(context: vscode.ExtensionContext): void {
 
 /**
  * Handle showing or toggling a translation panel
+ * 
+ * Toggle behavior:
+ * - If a panel exists at this location: close it
+ * - If no panel exists: open a new one
+ * 
+ * This provides a convenient way to hide/show panels without cluttering the UI.
  */
 function handleShowTranslation(
   fullTranslation: string,

@@ -112,8 +112,16 @@ import {
 import type { PatternMatcher } from './types';
 
 /**
- * Pattern matchers in priority order (static mappings are checked first in translateBaseClass)
- * Add new pattern matchers to this array to extend translation capabilities
+ * Pattern matchers in priority order
+ * 
+ * IMPORTANT: Order matters! Matchers are tried sequentially, and the FIRST match wins.
+ * More specific patterns should come before more general ones.
+ * 
+ * Note: Static mappings in tailwindMappings are checked BEFORE these pattern matchers
+ * in translateBaseClass(). This array handles dynamic patterns with values.
+ * 
+ * To extend translation capabilities, add new pattern matchers to this array.
+ * Consider where in the order it should go based on specificity.
  */
 const TRANSLATION_PATTERN_MATCHERS: PatternMatcher[] = [
   matchSpacingPattern,
@@ -224,6 +232,15 @@ const TRANSLATION_PATTERN_MATCHERS: PatternMatcher[] = [
 
 /**
  * Check if a class is a custom CSS variable (e.g., "[--my-var:value]")
+ * 
+ * Custom CSS variables start with "--" inside brackets
+ * 
+ * @example
+ * ```ts
+ * isCustomCSSVariable("[--my-color:red]")  // true
+ * isCustomCSSVariable("[mask-type:alpha]") // false
+ * isCustomCSSVariable("bg-blue-500")       // false
+ * ```
  */
 export function isCustomCSSVariable(className: string): boolean {
   return /^\[--[\w-]+:/.test(className);
@@ -231,13 +248,32 @@ export function isCustomCSSVariable(className: string): boolean {
 
 /**
  * Check if a class is an arbitrary CSS property (e.g., "[mask-type:luminance]")
+ * 
+ * Arbitrary properties are [property:value] patterns that are NOT custom variables
+ * 
+ * @example
+ * ```ts
+ * isArbitraryProperty("[mask-type:luminance]") // true
+ * isArbitraryProperty("[clip-path:circle]")    // true
+ * isArbitraryProperty("[--my-var:value]")      // false (custom var, not arbitrary property)
+ * isArbitraryProperty("p-4")                   // false
+ * ```
  */
 export function isArbitraryProperty(className: string): boolean {
   return /^\[[\w-]+:/.test(className) && !isCustomCSSVariable(className);
 }
 
 /**
- * Describe an arbitrary CSS property
+ * Describe an arbitrary CSS property in human-readable form
+ * 
+ * @example
+ * ```ts
+ * describeArbitraryProperty("[mask-type:luminance]")
+ * // Returns: "mask-type: luminance"
+ * 
+ * describeArbitraryProperty("[clip-path:circle(50%)]")
+ * // Returns: "clip-path: circle(50%)"
+ * ```
  */
 export function describeArbitraryProperty(className: string): string {
   const match = className.match(/^\[([\w-]+):(.*)\]$/);
@@ -251,7 +287,25 @@ export function describeArbitraryProperty(className: string): string {
 
 /**
  * Translate the base class (without variants or opacity) to plain English
- * Returns the original className if no translation is found
+ * 
+ * Translation priority (in order):
+ * 1. Arbitrary CSS variables: [--var:value]
+ * 2. Arbitrary CSS properties: [property:value]
+ * 3. Static mappings: exact matches from tailwindMappings
+ * 4. Pattern matchers: dynamic patterns with values
+ * 5. Fallback: return original class name
+ * 
+ * @param className - Base Tailwind class (no variants, no opacity)
+ * @returns Plain English translation or original class name
+ * 
+ * @example
+ * ```ts
+ * translateBaseClass("flex")              // "flexbox"
+ * translateBaseClass("p-4")               // "padding 1rem"
+ * translateBaseClass("bg-blue-500")       // "medium blue background"
+ * translateBaseClass("[--my-var:10px]")   // "CSS variable --my-var: 10px"
+ * translateBaseClass("unknown-class")     // "unknown-class" (fallback)
+ * ```
  */
 export function translateBaseClass(className: string): string {
   // Check for arbitrary CSS custom properties (e.g., [--scroll-offset:56px])
@@ -269,7 +323,7 @@ export function translateBaseClass(className: string): string {
     return tailwindMappings[className];
   }
 
-  // Try pattern matchers in order
+  // Try pattern matchers in order (first match wins)
   for (const matcher of TRANSLATION_PATTERN_MATCHERS) {
     const result = matcher(className);
     if (result) {
@@ -283,6 +337,15 @@ export function translateBaseClass(className: string): string {
 
 /**
  * Apply opacity modifier to translation
+ * 
+ * @example
+ * ```ts
+ * applyOpacity("blue background", "50")
+ * // Returns: "blue background with 50% opacity"
+ * 
+ * applyOpacity("red text", null)
+ * // Returns: "red text"
+ * ```
  */
 export function applyOpacity(
   translation: string,

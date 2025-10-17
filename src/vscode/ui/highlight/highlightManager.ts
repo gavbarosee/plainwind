@@ -1,5 +1,11 @@
 /**
  * Manages line highlighting for active detail panels
+ * 
+ * Provides visual feedback showing which code has open detail panels:
+ * - Normal highlight: subtle background for panels that aren't focused
+ * - Focused highlight: more prominent background for the active panel
+ * 
+ * Coordinates with PanelManager to keep highlights in sync with panel state.
  */
 
 import * as vscode from 'vscode';
@@ -15,6 +21,17 @@ export class HighlightManager {
 
   /**
    * Update highlights for all active panels
+   * 
+   * Algorithm:
+   * 1. Group panels by editor and focused state
+   * 2. Clear all existing decorations from all editors
+   * 3. Apply normal decorations to non-focused panels
+   * 4. Apply focused decorations to the focused panel
+   * 
+   * This ensures only relevant highlights are shown and prevents stale decorations.
+   * 
+   * @param panels - All active panel information
+   * @param focusedPanel - The currently focused panel (if any)
    */
   updateHighlights(
     panels: PanelInfo[],

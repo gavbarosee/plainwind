@@ -12,6 +12,18 @@ import {
 
 /**
  * Main expression parser - tries each pattern in order
+ * 
+ * Attempts to parse the expression using multiple strategies:
+ * 1. Object literal: { class: condition }
+ * 2. String literal: 'classes' or "classes"
+ * 3. Logical AND: condition && 'classes'
+ * 4. Logical OR: condition || 'fallback'
+ * 5. Nullish coalescing: condition ?? 'fallback'
+ * 6. Ternary: condition ? 'a' : 'b'
+ * 7. Template string: `static ${dynamic}`
+ * 
+ * @param expr - JavaScript expression to parse
+ * @returns Array of conditional classes, or null if expression cannot be parsed
  */
 export function parseExpression(expr: string): ConditionalClass[] | null {
   const trimmed = expr.trim();
@@ -99,6 +111,16 @@ export function parseNullishCoalescingExpression(
 /**
  * Parse ternary: condition ? 'a' : 'b'
  * Supports nested ternaries
+ * 
+ * Handles nested ternaries in the false branch by combining conditions with AND:
+ * 
+ * @example
+ * ```ts
+ * "a ? 'x' : b ? 'y' : 'z'" becomes:
+ * - 'x' when: a
+ * - 'y' when: !a && b
+ * - 'z' when: !a && !b
+ * ```
  */
 export function parseTernaryExpression(
   expr: string
@@ -130,6 +152,7 @@ export function parseTernaryExpression(
   const falseParsed = parseTernaryExpression(falseCase);
   if (falseParsed) {
     // Nested ternary: combine conditions
+    // If outer condition is false AND inner condition is true
     for (const item of falseParsed) {
       result.push({
         classes: item.classes,
@@ -153,6 +176,21 @@ export function parseTernaryExpression(
 
 /**
  * Parse template string: `classes ${expr}`
+ * 
+ * State machine:
+ * - Outside expression: accumulate static text until we see ${
+ * - Inside expression: track brace depth to handle nested objects/functions
+ * - Exit expression: when braceDepth reaches 0, parse the accumulated expression recursively
+ * 
+ * @example
+ * ```ts
+ * parseTemplateString("`static ${obj.method()} dynamic`")
+ * // Returns: [
+ * //   { classes: "static" },
+ * //   ...parseExpression("obj.method()"),
+ * //   { classes: "dynamic" }
+ * // ]
+ * ```
  */
 export function parseTemplateString(expr: string): ConditionalClass[] | null {
   if (!expr.startsWith('`') || !expr.endsWith('`')) return null;
@@ -222,8 +260,17 @@ export function parseObjectLiteral(expr: string): ConditionalClass[] | null {
   const result: ConditionalClass[] = [];
 
   for (const entry of entries) {
-    // Find the colon that separates key from value
-    // Need to handle quoted keys that may contain colons (e.g., 'hover:bg-blue-500')
+    /**
+     * Find the colon separating key from value
+     * 
+     * Special handling: Vue/Tailwind classes may contain colons in their names
+     * (e.g., 'hover:bg-blue-500'), so we must only split on colons that are
+     * OUTSIDE of quote marks.
+     * 
+     * @example
+     * "'hover:bg-blue': isActive" → splits at the unquoted colon
+     * "hover:bg-blue: isActive" → would incorrectly split at first colon without quote tracking
+     */
     let colonIdx = -1;
     let inQuotes = false;
     let quoteChar = '';

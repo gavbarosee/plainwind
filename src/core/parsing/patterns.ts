@@ -11,7 +11,12 @@ import { parseExpression } from './expressions';
 
 /**
  * Extract simple string literals: className="..." or class="..."
- * Excludes Vue :class and Svelte class: directives
+ * 
+ * Excludes:
+ * - Vue :class and v-bind:class (handled by extractVueClassBindings)
+ * - Svelte class: directives (handled by extractSvelteClassDirectives)
+ * 
+ * This prevents double-extraction of the same class attribute by multiple patterns.
  */
 export function extractSimpleStrings(text: string): ClassExtraction[] {
   const extractions: ClassExtraction[] = [];
@@ -54,6 +59,9 @@ export function extractSimpleStrings(text: string): ClassExtraction[] {
 
 /**
  * Extract Vue :class bindings: :class="..." or v-bind:class="..."
+ * Supports object syntax: { active: isActive }
+ * Supports array syntax: ['base', isActive && 'active']
+ * Supports static strings: "flex items-center"
  */
 export function extractVueClassBindings(text: string): ClassExtraction[] {
   const extractions: ClassExtraction[] = [];
@@ -65,7 +73,16 @@ export function extractVueClassBindings(text: string): ClassExtraction[] {
     const quote = match[2];
     const contentStart = match.index + match[0].length;
 
-    // Find the closing quote with proper escape handling
+    /**
+     * Find the closing quote with proper escape handling
+     * 
+     * Count preceding backslashes to determine if quote is escaped.
+     * Even number of backslashes (including 0) means the quote is NOT escaped.
+     * 
+     * @example
+     * \\" has 2 backslashes, so the quote ends the string
+     * \" has 1 backslash, so the quote is escaped and doesn't end the string
+     */
     let endIdx = -1;
     let i = contentStart;
 
@@ -161,6 +178,8 @@ export function extractSvelteClassDirectives(text: string): ClassExtraction[] {
 
 /**
  * Extract Angular [ngClass] bindings: [ngClass]="{'class': condition}"
+ * Supports object syntax: { active: isActive }
+ * Supports array syntax: ['base', isActive && 'active']
  */
 export function extractAngularNgClass(text: string): ClassExtraction[] {
   const extractions: ClassExtraction[] = [];
@@ -172,7 +191,16 @@ export function extractAngularNgClass(text: string): ClassExtraction[] {
     const quote = match[1];
     const contentStart = match.index + match[0].length;
 
-    // Find the closing quote with proper escape handling
+    /**
+     * Find the closing quote with proper escape handling
+     * 
+     * Count preceding backslashes to determine if quote is escaped.
+     * Even number of backslashes (including 0) means the quote is NOT escaped.
+     * 
+     * @example
+     * \\" has 2 backslashes, so the quote ends the string
+     * \" has 1 backslash, so the quote is escaped and doesn't end the string
+     */
     let endIdx = -1;
     let i = contentStart;
 
@@ -260,6 +288,8 @@ export function extractAngularClassBindings(text: string): ClassExtraction[] {
 
 /**
  * Extract Solid.js classList: classList={{ active: isActive }}
+ * 
+ * Note: Double braces {{ }} - outer braces for JSX, inner braces for object literal
  */
 export function extractSolidClassList(text: string): ClassExtraction[] {
   const extractions: ClassExtraction[] = [];
@@ -270,7 +300,11 @@ export function extractSolidClassList(text: string): ClassExtraction[] {
     const startIdx = match.index;
     const contentStart = match.index + match[0].length;
 
-    // Find the closing braces }}, accounting for nested braces
+    /**
+     * Find the closing braces }}, accounting for nested braces
+     * We track depth starting at 1 (for the inner object's opening brace)
+     * and look for when it reaches 0 (the inner object's closing brace)
+     */
     let endIdx = -1;
     let depth = 1; // We're looking for the closing brace of the inner object
     let i = contentStart;
@@ -380,7 +414,25 @@ export function extractHelperFunctions(text: string): ClassExtraction[] {
 }
 
 /**
- * Remove duplicate extractions based on position
+ * Removes overlapping extractions, keeping only non-overlapping ones in document order
+ * 
+ * Algorithm: Sort by start position, then keep only extractions that start at or after
+ * the end of the previous extraction. This prevents double-extraction when patterns
+ * overlap (e.g., className="..." matching both simple and template patterns).
+ * 
+ * @example
+ * ```ts
+ * Input: [
+ *   { range: { start: 0, end: 10 } },
+ *   { range: { start: 5, end: 15 } },  // Overlaps with first
+ *   { range: { start: 20, end: 30 } }
+ * ]
+ * Output: [
+ *   { range: { start: 0, end: 10 } },
+ *   { range: { start: 20, end: 30 } }
+ * ]
+ * // Second extraction removed because it overlaps with first
+ * ```
  */
 export function removeDuplicateExtractions(
   extractions: ClassExtraction[]
@@ -402,6 +454,21 @@ export function removeDuplicateExtractions(
 
 /**
  * Parse template literal content: `static ${dynamic} more`
+ * 
+ * State machine:
+ * - Outside expression: accumulate static text until we see ${
+ * - Inside expression: track brace depth to handle nested objects/functions
+ * - Exit expression: when braceDepth reaches 0, parse the accumulated expression
+ * 
+ * @example
+ * ```ts
+ * parseTemplateLiteral("static ${obj.method()} dynamic")
+ * // Returns: [
+ * //   { classes: "static" },
+ * //   ...parseExpression("obj.method()"),
+ * //   { classes: "dynamic" }
+ * // ]
+ * ```
  */
 export function parseTemplateLiteral(template: string): ConditionalClass[] {
   const result: ConditionalClass[] = [];
@@ -456,6 +523,18 @@ export function parseTemplateLiteral(template: string): ConditionalClass[] {
 
 /**
  * Parse helper function arguments: clsx('a', condition && 'b')
+ * Handles both comma-separated arguments and array syntax
+ * 
+ * @example
+ * ```ts
+ * parseHelperArgs("'flex', isActive && 'active', ['base', 'styles']")
+ * // Returns: [
+ * //   { classes: "flex" },
+ * //   { classes: "active", condition: "isActive" },
+ * //   { classes: "base" },
+ * //   { classes: "styles" }
+ * // ]
+ * ```
  */
 export function parseHelperArgs(argsContent: string): ConditionalClass[] {
   const trimmed = argsContent.trim();
@@ -472,6 +551,7 @@ export function parseHelperArgs(argsContent: string): ConditionalClass[] {
 
 /**
  * Parse comma-separated argument list
+ * Recursively handles nested arrays and expressions
  */
 function parseArgList(content: string): ConditionalClass[] {
   const result: ConditionalClass[] = [];

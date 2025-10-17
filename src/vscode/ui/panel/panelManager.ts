@@ -6,10 +6,23 @@ import * as vscode from 'vscode';
 import { PanelState, PanelInfo } from './panelState';
 import { generatePanelHTML } from './panelTemplate';
 
+/**
+ * Manages lifecycle and coordination of Tailwind class detail panels
+ * 
+ * Responsibilities:
+ * - Creating new panels
+ * - Tracking panel state (which panels are open and where)
+ * - Coordinating with HighlightManager for visual feedback
+ * - Handling panel disposal and cleanup
+ * - Preventing duplicate panels for same location
+ */
 export class PanelManager {
   private state: PanelState;
   private onHighlightUpdate: () => void;
 
+  /**
+   * @param onHighlightUpdate - Callback to trigger highlight updates when panels change
+   */
   constructor(onHighlightUpdate: () => void) {
     this.state = new PanelState();
     this.onHighlightUpdate = onHighlightUpdate;
@@ -17,6 +30,16 @@ export class PanelManager {
 
   /**
    * Show or focus a translation detail panel
+   * 
+   * Behavior:
+   * - If a panel already exists for this exact range, just reveal it
+   * - Otherwise, create a new panel beside the editor
+   * - Automatically sets up disposal handlers and message listeners
+   * 
+   * @param classString - Original Tailwind classes
+   * @param translation - Translated plain English description
+   * @param range - Text range where classes are located
+   * @param documentUri - URI of the document containing the classes
    */
   showPanel(
     classString: string,
@@ -160,6 +183,12 @@ export class PanelManager {
 
   /**
    * Register webview serializer to prevent restoration
+   * 
+   * This prevents VS Code from trying to restore panels after window reload.
+   * We intentionally close any restored panels because:
+   * 1. Panels don't have the necessary context to restore properly
+   * 2. The code may have changed since the panel was created
+   * 3. It's cleaner to start fresh
    */
   registerSerializer(context: vscode.ExtensionContext): void {
     if (vscode.window.registerWebviewPanelSerializer) {

@@ -247,6 +247,30 @@ export const VARIANT_DESCRIPTIONS: Record<string, string> = {
 
 /**
  * Describe an arbitrary variant that's not in the predefined list
+ * 
+ * Handles many special variant patterns:
+ * - has-[...]: child selector variants
+ * - data-[...]: data attribute variants
+ * - aria-[...]: aria attribute variants
+ * - nth-[...]: nth-child variants
+ * - not-[...]: negation variants
+ * - supports-[...]: @supports queries
+ * - min/max-[...]: custom breakpoints
+ * - group/peer/*: named group/peer variants
+ * 
+ * @param variant - Arbitrary variant string
+ * @returns Human-readable description
+ * 
+ * @example
+ * ```ts
+ * describeArbitraryVariant("has-[.active]")       // "when has .active"
+ * describeArbitraryVariant("data-[open]")         // "when data-open"
+ * describeArbitraryVariant("nth-[2n]")            // "nth-child(2n)"
+ * describeArbitraryVariant("min-[768px]")         // "on screens ≥768px"
+ * describeArbitraryVariant("group/sidebar")       // "when group \"sidebar\""
+ * describeArbitraryVariant("@sm/main")            // "in small (≥384px) container \"main\""
+ * describeArbitraryVariant("unknown-variant")     // "unknown-variant"
+ * ```
  */
 export function describeArbitraryVariant(variant: string): string {
   // Handle has-[...] variants
@@ -440,7 +464,26 @@ export function describeArbitraryVariant(variant: string): string {
 }
 
 /**
- * Apply variant descriptions to translation (e.g., "hover:", "md:", "dark:")
+ * Apply variant descriptions to translation
+ * 
+ * Looks up each variant in VARIANT_DESCRIPTIONS or uses describeArbitraryVariant as fallback.
+ * Combines all variants into a comma-separated list and appends to the translation.
+ * 
+ * @param translation - Base translation without variants
+ * @param variants - Array of variant strings (e.g., ["hover", "md", "dark"])
+ * @returns Translation with variants applied
+ * 
+ * @example
+ * ```ts
+ * applyVariants("blue background", ["hover", "md"])
+ * // Returns: "blue background on hover, on medium screens (≥768px)"
+ * 
+ * applyVariants("padding 1rem", ["dark", "lg"])
+ * // Returns: "padding 1rem in dark mode, on large screens (≥1024px)"
+ * 
+ * applyVariants("flexbox", [])
+ * // Returns: "flexbox"
+ * ```
  */
 export function applyVariants(translation: string, variants: string[]): string {
   if (variants.length === 0) {

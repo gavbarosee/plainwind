@@ -1,5 +1,12 @@
 /**
  * Command handlers for toggling extension settings
+ * 
+ * Provides user-facing commands for:
+ * - Toggling extension on/off globally
+ * - Enabling/disabling for specific files
+ * - Changing display mode (CodeLens, Hover, Off)
+ * - Toggling category grouping and emojis
+ * - Quick menu for all options
  */
 
 import * as vscode from 'vscode';
@@ -8,6 +15,18 @@ import { disableFile, enableFile, isFileDisabled } from './fileState';
 
 /**
  * Register all toggle commands
+ * 
+ * Registers 8 commands:
+ * - plainwind.showMenu: Shows quick menu with all options
+ * - plainwind.toggleEnabled: Toggle extension globally
+ * - plainwind.disableForFile: Disable for current file
+ * - plainwind.enableForFile: Enable for current file  
+ * - plainwind.toggleForFile: Toggle for current file
+ * - plainwind.chooseDisplayMode: Change display mode picker
+ * - plainwind.toggleGroupByCategory: Toggle category grouping
+ * - plainwind.toggleCategoryEmojis: Toggle emojis in categories
+ * 
+ * @param context - Extension context for registering disposables
  */
 export function registerToggleCommands(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
@@ -45,6 +64,15 @@ export function registerToggleCommands(context: vscode.ExtensionContext): void {
 
 /**
  * Show quick menu with all Plainwind options
+ * 
+ * Displays a QuickPick menu with all available commands:
+ * - Enable/Disable extension
+ * - Choose display mode
+ * - Toggle grouping and emojis
+ * - File-specific toggle
+ * - Clear all panels
+ * 
+ * Menu items show current state (checkmarks, descriptions)
  */
 async function showQuickMenu(): Promise<void> {
   const config = vscode.workspace.getConfiguration('plainwind');
@@ -111,6 +139,9 @@ async function showQuickMenu(): Promise<void> {
 
 /**
  * Toggle extension globally on/off
+ * 
+ * Updates the global 'plainwind.enabled' setting and prompts for reload.
+ * Also updates the status bar to reflect the new state.
  */
 async function toggleExtensionEnabled(): Promise<void> {
   const config = vscode.workspace.getConfiguration('plainwind');
@@ -299,6 +330,12 @@ async function toggleCategoryEmojis(): Promise<void> {
 
 /**
  * Helper to prompt for window reload
+ * 
+ * Shows a message with "Reload" and "Later" buttons.
+ * Many settings require a reload to take effect because providers
+ * are registered during activation.
+ * 
+ * @param message - Message to show to user
  */
 function promptReload(message: string): void {
   vscode.window
