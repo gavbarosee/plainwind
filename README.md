@@ -83,7 +83,16 @@ Assign keyboard shortcuts: `Preferences → Keyboard Shortcuts → Search "Plain
 
 ## Supported File Types
 
-JavaScript/TypeScript (`.js`, `.ts`, `.jsx`, `.tsx`), HTML, Vue, Svelte
+JavaScript/TypeScript (`.js`, `.ts`, `.jsx`, `.tsx`), HTML, Vue, Svelte, Angular
+
+### Framework-Specific Support
+
+- **React/JSX**: `className` attribute with all helper functions
+- **Vue**: `:class` and `v-bind:class` with object and array syntax
+- **Svelte**: `class:` directives for conditional classes
+- **Angular**: `[ngClass]` and `[class.x]` bindings
+- **Solid.js**: `classList` object syntax
+- **HTML**: Standard `class` attribute
 
 ## Advanced
 

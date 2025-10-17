@@ -209,7 +209,8 @@ export function parseTemplateString(expr: string): ConditionalClass[] | null {
 }
 
 /**
- * Parse object literal: { 'class': condition }
+ * Parse object literal: { 'class': condition } or { class: condition }
+ * Supports both quoted and unquoted keys (for Vue compatibility)
  */
 export function parseObjectLiteral(expr: string): ConditionalClass[] | null {
   if (!expr.startsWith('{') || !expr.endsWith('}')) return null;
@@ -221,16 +222,49 @@ export function parseObjectLiteral(expr: string): ConditionalClass[] | null {
   const result: ConditionalClass[] = [];
 
   for (const entry of entries) {
-    const colonIdx = entry.indexOf(':');
+    // Find the colon that separates key from value
+    // Need to handle quoted keys that may contain colons (e.g., 'hover:bg-blue-500')
+    let colonIdx = -1;
+    let inQuotes = false;
+    let quoteChar = '';
+    
+    for (let i = 0; i < entry.length; i++) {
+      const char = entry[i];
+      const prevChar = i > 0 ? entry[i - 1] : '';
+      
+      // Track if we're inside quotes
+      if ((char === '"' || char === "'" || char === '`') && prevChar !== '\\') {
+        if (!inQuotes) {
+          inQuotes = true;
+          quoteChar = char;
+        } else if (char === quoteChar) {
+          inQuotes = false;
+        }
+      }
+      
+      // Only consider colons outside of quotes
+      if (char === ':' && !inQuotes) {
+        colonIdx = i;
+        break;
+      }
+    }
+    
     if (colonIdx === -1) continue;
 
     const key = entry.slice(0, colonIdx).trim();
     const value = entry.slice(colonIdx + 1).trim();
 
-    const classMatch = key.match(/^(['"`])(.+?)\1$/);
-    if (!classMatch) continue;
-
-    const classes = classMatch[2];
+    // Try quoted key first (e.g., 'active' or "text-red")
+    const quotedMatch = key.match(/^(['"`])(.+?)\1$/);
+    let classes: string;
+    
+    if (quotedMatch) {
+      classes = quotedMatch[2];
+    } else {
+      // Handle unquoted key (e.g., active or textRed)
+      // This is valid in Vue and JavaScript object literals
+      classes = key;
+    }
 
     if (value === 'true') {
       result.push({ classes });

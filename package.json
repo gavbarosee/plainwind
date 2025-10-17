@@ -16,9 +16,11 @@
     "onLanguage:typescriptreact",
     "onLanguage:html",
     "onLanguage:vue",
-    "onLanguage:svelte"
+    "onLanguage:svelte",
+    "onStartupFinished"
   ],
   "main": "./out/extension.js",
+  "extensionDependencies": [],
   "contributes": {
     "commands": [
       {
@@ -96,7 +98,7 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./",
+    "compile": "tsc -p ./ && node fix-imports.js",
     "watch": "tsc -watch -p ./",
     "prepare": "husky",
     "lint": "eslint src --ext ts",

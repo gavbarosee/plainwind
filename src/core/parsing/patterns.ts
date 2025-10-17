@@ -10,7 +10,8 @@ import {
 import { parseExpression } from './expressions';
 
 /**
- * Extract simple string literals: className="..."
+ * Extract simple string literals: className="..." or class="..."
+ * Excludes Vue :class and Svelte class: directives
  */
 export function extractSimpleStrings(text: string): ClassExtraction[] {
   const extractions: ClassExtraction[] = [];
@@ -18,6 +19,22 @@ export function extractSimpleStrings(text: string): ClassExtraction[] {
   let match;
 
   while ((match = pattern.exec(text)) !== null) {
+    // Skip if this is Vue's :class or v-bind:class (check character before match)
+    const charBefore = match.index > 0 ? text[match.index - 1] : '';
+    if (charBefore === ':') {
+      continue;
+    }
+    
+    // Skip if this is v-bind:class (check for 'v-bind:' before match)
+    if (match.index >= 7 && text.slice(match.index - 7, match.index) === 'v-bind:') {
+      continue;
+    }
+
+    // Skip if this is Svelte's class: directive (check if 'class:' in match)
+    if (match[1] === 'class:') {
+      continue;
+    }
+
     const classString = match[3].trim();
     if (classString) {
       extractions.push({
@@ -25,6 +42,266 @@ export function extractSimpleStrings(text: string): ClassExtraction[] {
         conditionalClasses: [{ classes: classString }],
         range: { start: match.index, end: match.index + match[0].length },
         type: 'simple',
+      });
+    }
+  }
+
+  return extractions;
+}
+
+/**
+ * Extract Vue :class bindings: :class="..." or v-bind:class="..."
+ */
+export function extractVueClassBindings(text: string): ClassExtraction[] {
+  const extractions: ClassExtraction[] = [];
+  const pattern = /(:class|v-bind:class)=(["'])/g;
+  let match;
+
+  while ((match = pattern.exec(text)) !== null) {
+    const startIdx = match.index;
+    const quote = match[2];
+    const contentStart = match.index + match[0].length;
+
+    // Find the closing quote with proper escape handling
+    let endIdx = -1;
+    let i = contentStart;
+    
+    while (i < text.length) {
+      const char = text[i];
+      
+      // Check if this is our closing quote (not escaped)
+      if (char === quote) {
+        // Count preceding backslashes
+        let backslashes = 0;
+        let j = i - 1;
+        while (j >= contentStart && text[j] === '\\') {
+          backslashes++;
+          j--;
+        }
+        // If even number of backslashes (including 0), quote is not escaped
+        if (backslashes % 2 === 0) {
+          endIdx = i;
+          break;
+        }
+      }
+      i++;
+    }
+
+    if (endIdx === -1) continue; // Couldn't find closing quote
+
+    const content = text.slice(contentStart, endIdx).trim();
+    if (!content) continue;
+
+    // Try to parse as dynamic expression (object or array)
+    let conditionalClasses: any[] = [];
+    let isDynamic = false;
+
+    if (content.startsWith('{')) {
+      // Parse object syntax: { 'class': condition }
+      conditionalClasses = parseExpression(content) || [];
+      isDynamic = conditionalClasses.length > 0;
+    } else if (content.startsWith('[')) {
+      // Parse array syntax: ['class1', 'class2']
+      conditionalClasses = parseHelperArgs(content);
+      isDynamic = conditionalClasses.length > 0;
+    }
+
+    // If not dynamic, treat as static string
+    if (!isDynamic && content) {
+      conditionalClasses = [{ classes: content }];
+    }
+
+    if (conditionalClasses.length > 0) {
+      extractions.push({
+        classStrings: conditionalClasses.map((cc) => cc.classes),
+        conditionalClasses,
+        range: { start: startIdx, end: endIdx + 1 },
+        type: isDynamic ? 'helper' : 'simple',
+      });
+    }
+  }
+
+  return extractions;
+}
+
+/**
+ * Extract Svelte class: directives: class:name={condition}
+ */
+export function extractSvelteClassDirectives(text: string): ClassExtraction[] {
+  const extractions: ClassExtraction[] = [];
+  const pattern = /class:([\w-]+)=\{([^}]+)\}/g;
+  let match;
+
+  while ((match = pattern.exec(text)) !== null) {
+    const className = match[1];
+    const condition = match[2].trim();
+    
+    // Skip empty conditions
+    if (!className || !condition) continue;
+
+    // If condition is 'true', treat as unconditional
+    const conditionalClasses = condition === 'true' 
+      ? [{ classes: className }]
+      : [{ classes: className, condition }];
+
+    extractions.push({
+      classStrings: [className],
+      conditionalClasses,
+      range: { start: match.index, end: match.index + match[0].length },
+      type: 'helper',
+    });
+  }
+
+  return extractions;
+}
+
+/**
+ * Extract Angular [ngClass] bindings: [ngClass]="{'class': condition}"
+ */
+export function extractAngularNgClass(text: string): ClassExtraction[] {
+  const extractions: ClassExtraction[] = [];
+  const pattern = /\[ngClass\]=(["'])/g;
+  let match;
+
+  while ((match = pattern.exec(text)) !== null) {
+    const startIdx = match.index;
+    const quote = match[1];
+    const contentStart = match.index + match[0].length;
+
+    // Find the closing quote with proper escape handling
+    let endIdx = -1;
+    let i = contentStart;
+    
+    while (i < text.length) {
+      const char = text[i];
+      
+      // Check if this is our closing quote (not escaped)
+      if (char === quote) {
+        // Count preceding backslashes
+        let backslashes = 0;
+        let j = i - 1;
+        while (j >= contentStart && text[j] === '\\') {
+          backslashes++;
+          j--;
+        }
+        // If even number of backslashes (including 0), quote is not escaped
+        if (backslashes % 2 === 0) {
+          endIdx = i;
+          break;
+        }
+      }
+      i++;
+    }
+
+    if (endIdx === -1) continue; // Couldn't find closing quote
+
+    const content = text.slice(contentStart, endIdx).trim();
+    if (!content) continue;
+
+    // Parse the object/array expression
+    let conditionalClasses: any[] = [];
+
+    if (content.startsWith('{')) {
+      // Object syntax: {'class': condition}
+      conditionalClasses = parseExpression(content) || [];
+    } else if (content.startsWith('[')) {
+      // Array syntax: ['class1', condition && 'class2']
+      conditionalClasses = parseHelperArgs(content);
+    }
+
+    if (conditionalClasses.length > 0) {
+      extractions.push({
+        classStrings: conditionalClasses.map((cc) => cc.classes),
+        conditionalClasses,
+        range: { start: startIdx, end: endIdx + 1 },
+        type: 'helper',
+      });
+    }
+  }
+
+  return extractions;
+}
+
+/**
+ * Extract Angular [class.x] bindings: [class.active]="isActive"
+ */
+export function extractAngularClassBindings(text: string): ClassExtraction[] {
+  const extractions: ClassExtraction[] = [];
+  const pattern = /\[class\.([\w-]+)\]=(["'])([^"']*)\2/g;
+  let match;
+
+  while ((match = pattern.exec(text)) !== null) {
+    const className = match[1];
+    const condition = match[3].trim();
+    
+    // Skip empty conditions
+    if (!className || !condition) continue;
+
+    // If condition is 'true', treat as unconditional
+    const conditionalClasses = condition === 'true' 
+      ? [{ classes: className }]
+      : [{ classes: className, condition }];
+
+    extractions.push({
+      classStrings: [className],
+      conditionalClasses,
+      range: { start: match.index, end: match.index + match[0].length },
+      type: 'helper',
+    });
+  }
+
+  return extractions;
+}
+
+/**
+ * Extract Solid.js classList: classList={{ active: isActive }}
+ */
+export function extractSolidClassList(text: string): ClassExtraction[] {
+  const extractions: ClassExtraction[] = [];
+  const pattern = /classList=\{\{/g;
+  let match;
+
+  while ((match = pattern.exec(text)) !== null) {
+    const startIdx = match.index;
+    const contentStart = match.index + match[0].length;
+
+    // Find the closing braces }}, accounting for nested braces
+    let endIdx = -1;
+    let depth = 1; // We're looking for the closing brace of the inner object
+    let i = contentStart;
+    
+    while (i < text.length) {
+      const char = text[i];
+      if (char === '{') {
+        depth++;
+      } else if (char === '}') {
+        depth--;
+        if (depth === 0) {
+          // Found the closing brace of the inner object
+          // Check if the next character is also a closing brace
+          if (i + 1 < text.length && text[i + 1] === '}') {
+            endIdx = i;
+            break;
+          }
+        }
+      }
+      i++;
+    }
+
+    if (endIdx === -1) continue; // Couldn't find closing braces
+
+    const content = text.slice(contentStart, endIdx).trim();
+    if (!content) continue;
+
+    // Parse the object expression
+    const conditionalClasses = parseExpression(`{${content}}`) || [];
+
+    if (conditionalClasses.length > 0) {
+      extractions.push({
+        classStrings: conditionalClasses.map((cc) => cc.classes),
+        conditionalClasses,
+        range: { start: startIdx, end: endIdx + 2 }, // +2 for the two closing braces
+        type: 'helper',
       });
     }
   }
