@@ -113,13 +113,13 @@ import type { PatternMatcher } from './types';
 
 /**
  * Pattern matchers in priority order
- * 
+ *
  * IMPORTANT: Order matters! Matchers are tried sequentially, and the FIRST match wins.
  * More specific patterns should come before more general ones.
- * 
+ *
  * Note: Static mappings in tailwindMappings are checked BEFORE these pattern matchers
  * in translateBaseClass(). This array handles dynamic patterns with values.
- * 
+ *
  * To extend translation capabilities, add new pattern matchers to this array.
  * Consider where in the order it should go based on specificity.
  */
@@ -232,9 +232,9 @@ const TRANSLATION_PATTERN_MATCHERS: PatternMatcher[] = [
 
 /**
  * Check if a class is a custom CSS variable (e.g., "[--my-var:value]")
- * 
+ *
  * Custom CSS variables start with "--" inside brackets
- * 
+ *
  * @example
  * ```ts
  * isCustomCSSVariable("[--my-color:red]")  // true
@@ -248,9 +248,9 @@ export function isCustomCSSVariable(className: string): boolean {
 
 /**
  * Check if a class is an arbitrary CSS property (e.g., "[mask-type:luminance]")
- * 
+ *
  * Arbitrary properties are [property:value] patterns that are NOT custom variables
- * 
+ *
  * @example
  * ```ts
  * isArbitraryProperty("[mask-type:luminance]") // true
@@ -265,12 +265,12 @@ export function isArbitraryProperty(className: string): boolean {
 
 /**
  * Describe an arbitrary CSS property in human-readable form
- * 
+ *
  * @example
  * ```ts
  * describeArbitraryProperty("[mask-type:luminance]")
  * // Returns: "mask-type: luminance"
- * 
+ *
  * describeArbitraryProperty("[clip-path:circle(50%)]")
  * // Returns: "clip-path: circle(50%)"
  * ```
@@ -287,17 +287,17 @@ export function describeArbitraryProperty(className: string): string {
 
 /**
  * Translate the base class (without variants or opacity) to plain English
- * 
+ *
  * Translation priority (in order):
  * 1. Arbitrary CSS variables: [--var:value]
  * 2. Arbitrary CSS properties: [property:value]
  * 3. Static mappings: exact matches from tailwindMappings
  * 4. Pattern matchers: dynamic patterns with values
  * 5. Fallback: return original class name
- * 
+ *
  * @param className - Base Tailwind class (no variants, no opacity)
  * @returns Plain English translation or original class name
- * 
+ *
  * @example
  * ```ts
  * translateBaseClass("flex")              // "flexbox"
@@ -337,12 +337,12 @@ export function translateBaseClass(className: string): string {
 
 /**
  * Apply opacity modifier to translation
- * 
+ *
  * @example
  * ```ts
  * applyOpacity("blue background", "50")
  * // Returns: "blue background with 50% opacity"
- * 
+ *
  * applyOpacity("red text", null)
  * // Returns: "red text"
  * ```

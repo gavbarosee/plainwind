@@ -247,7 +247,7 @@ export const VARIANT_DESCRIPTIONS: Record<string, string> = {
 
 /**
  * Describe an arbitrary variant that's not in the predefined list
- * 
+ *
  * Handles many special variant patterns:
  * - has-[...]: child selector variants
  * - data-[...]: data attribute variants
@@ -257,10 +257,10 @@ export const VARIANT_DESCRIPTIONS: Record<string, string> = {
  * - supports-[...]: @supports queries
  * - min/max-[...]: custom breakpoints
  * - group/peer/*: named group/peer variants
- * 
+ *
  * @param variant - Arbitrary variant string
  * @returns Human-readable description
- * 
+ *
  * @example
  * ```ts
  * describeArbitraryVariant("has-[.active]")       // "when has .active"
@@ -465,22 +465,22 @@ export function describeArbitraryVariant(variant: string): string {
 
 /**
  * Apply variant descriptions to translation
- * 
+ *
  * Looks up each variant in VARIANT_DESCRIPTIONS or uses describeArbitraryVariant as fallback.
  * Combines all variants into a comma-separated list and appends to the translation.
- * 
+ *
  * @param translation - Base translation without variants
  * @param variants - Array of variant strings (e.g., ["hover", "md", "dark"])
  * @returns Translation with variants applied
- * 
+ *
  * @example
  * ```ts
  * applyVariants("blue background", ["hover", "md"])
  * // Returns: "blue background on hover, on medium screens (≥768px)"
- * 
+ *
  * applyVariants("padding 1rem", ["dark", "lg"])
  * // Returns: "padding 1rem in dark mode, on large screens (≥1024px)"
- * 
+ *
  * applyVariants("flexbox", [])
  * // Returns: "flexbox"
  * ```

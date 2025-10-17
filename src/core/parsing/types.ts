@@ -4,16 +4,16 @@
 
 /**
  * Represents a class string with optional condition
- * 
+ *
  * @example
  * ```ts
- * { classes: 'active' } 
+ * { classes: 'active' }
  * // Unconditional class - always applied
- * 
- * { classes: 'bg-blue-500', condition: 'isActive' } 
+ *
+ * { classes: 'bg-blue-500', condition: 'isActive' }
  * // Conditional class - applied when isActive is true
- * 
- * { classes: 'error', condition: 'hasError || isInvalid' } 
+ *
+ * { classes: 'error', condition: 'hasError || isInvalid' }
  * // Complex condition - applied when hasError OR isInvalid is true
  * ```
  */
@@ -26,7 +26,7 @@ export interface ConditionalClass {
 
 /**
  * Result of extracting classes from source code
- * 
+ *
  * @example
  * ```ts
  * {
@@ -47,7 +47,7 @@ export interface ClassExtraction {
   conditionalClasses: ConditionalClass[];
   /** Character position range in source text (inclusive) */
   range: { start: number; end: number };
-  /** 
+  /**
    * Detection method used:
    * - 'simple': String literal (className="...")
    * - 'template': Template literal (className={`...`})

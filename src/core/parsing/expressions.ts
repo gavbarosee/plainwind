@@ -12,7 +12,7 @@ import {
 
 /**
  * Main expression parser - tries each pattern in order
- * 
+ *
  * Attempts to parse the expression using multiple strategies:
  * 1. Object literal: { class: condition }
  * 2. String literal: 'classes' or "classes"
@@ -21,7 +21,7 @@ import {
  * 5. Nullish coalescing: condition ?? 'fallback'
  * 6. Ternary: condition ? 'a' : 'b'
  * 7. Template string: `static ${dynamic}`
- * 
+ *
  * @param expr - JavaScript expression to parse
  * @returns Array of conditional classes, or null if expression cannot be parsed
  */
@@ -111,9 +111,9 @@ export function parseNullishCoalescingExpression(
 /**
  * Parse ternary: condition ? 'a' : 'b'
  * Supports nested ternaries
- * 
+ *
  * Handles nested ternaries in the false branch by combining conditions with AND:
- * 
+ *
  * @example
  * ```ts
  * "a ? 'x' : b ? 'y' : 'z'" becomes:
@@ -176,12 +176,12 @@ export function parseTernaryExpression(
 
 /**
  * Parse template string: `classes ${expr}`
- * 
+ *
  * State machine:
  * - Outside expression: accumulate static text until we see ${
  * - Inside expression: track brace depth to handle nested objects/functions
  * - Exit expression: when braceDepth reaches 0, parse the accumulated expression recursively
- * 
+ *
  * @example
  * ```ts
  * parseTemplateString("`static ${obj.method()} dynamic`")
@@ -262,11 +262,11 @@ export function parseObjectLiteral(expr: string): ConditionalClass[] | null {
   for (const entry of entries) {
     /**
      * Find the colon separating key from value
-     * 
+     *
      * Special handling: Vue/Tailwind classes may contain colons in their names
      * (e.g., 'hover:bg-blue-500'), so we must only split on colons that are
      * OUTSIDE of quote marks.
-     * 
+     *
      * @example
      * "'hover:bg-blue': isActive" → splits at the unquoted colon
      * "hover:bg-blue: isActive" → would incorrectly split at first colon without quote tracking

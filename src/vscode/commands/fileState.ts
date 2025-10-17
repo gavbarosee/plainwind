@@ -1,9 +1,9 @@
 /**
  * Manages per-file enabled/disabled state
- * 
+ *
  * Allows users to disable Plainwind for specific files without turning it off globally.
  * State is persisted in workspace storage so it survives VS Code restarts.
- * 
+ *
  * Use cases:
  * - Disable for large files with many Tailwind classes
  * - Disable for files where inline translations are distracting
@@ -20,10 +20,10 @@ let workspaceContext: vscode.ExtensionContext | undefined;
 
 /**
  * Initialize file state from workspace storage
- * 
+ *
  * Loads the list of disabled files from persistent storage.
  * This is called during extension activation.
- * 
+ *
  * @param context - Extension context for accessing workspace state
  */
 export function initializeFileState(context: vscode.ExtensionContext): void {
@@ -37,13 +37,13 @@ export function initializeFileState(context: vscode.ExtensionContext): void {
 
 /**
  * Check if extension should be active for a file
- * 
+ *
  * Used by providers (CodeLens, Hover) to determine if they should
  * provide translations for a given document.
- * 
+ *
  * @param documentUri - URI of the document to check
  * @returns true if extension is enabled for this file
- * 
+ *
  * @example
  * ```ts
  * if (!isFileEnabled(document.uri)) {
@@ -57,10 +57,10 @@ export function isFileEnabled(documentUri: vscode.Uri): boolean {
 
 /**
  * Disable extension for a specific file
- * 
+ *
  * Adds the file to the disabled set and persists the change.
  * Requires window reload to take effect.
- * 
+ *
  * @param fileUri - String representation of file URI
  */
 export async function disableFile(fileUri: string): Promise<void> {
@@ -70,10 +70,10 @@ export async function disableFile(fileUri: string): Promise<void> {
 
 /**
  * Enable extension for a specific file
- * 
+ *
  * Removes the file from the disabled set and persists the change.
  * Requires window reload to take effect.
- * 
+ *
  * @param fileUri - String representation of file URI
  */
 export async function enableFile(fileUri: string): Promise<void> {
@@ -83,7 +83,7 @@ export async function enableFile(fileUri: string): Promise<void> {
 
 /**
  * Check if a file is currently disabled
- * 
+ *
  * @param fileUri - String representation of file URI
  * @returns true if extension is disabled for this file
  */
@@ -93,7 +93,7 @@ export function isFileDisabled(fileUri: string): boolean {
 
 /**
  * Save disabled files list to workspace storage
- * 
+ *
  * Persists the current set of disabled files so they remain disabled
  * across VS Code restarts.
  */

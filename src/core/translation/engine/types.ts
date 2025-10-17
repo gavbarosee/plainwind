@@ -4,13 +4,13 @@
 
 /**
  * Type definition for pattern matcher functions
- * 
+ *
  * Pattern matchers attempt to translate a Tailwind class that follows
  * a dynamic pattern (e.g., p-{number}, bg-{color}-{shade}).
- * 
+ *
  * @param className - Tailwind class to match
  * @returns Translated string if matched, null otherwise
- * 
+ *
  * @example
  * ```ts
  * const matcher: PatternMatcher = (className) => {
@@ -19,7 +19,7 @@
  *   }
  *   return null;
  * };
- * 
+ *
  * matcher('p-4')  // Returns: "padding 4"
  * matcher('flex') // Returns: null
  * ```
@@ -28,7 +28,7 @@ export type PatternMatcher = (className: string) => string | null;
 
 /**
  * Result of extracting variants from a class name
- * 
+ *
  * @example
  * ```ts
  * { variants: ["md", "hover"], baseClass: "bg-blue-500" }
@@ -45,7 +45,7 @@ export interface VariantExtraction {
 
 /**
  * Result of extracting opacity from a class name
- * 
+ *
  * @example
  * ```ts
  * { className: "bg-white", opacity: "50" }  // From "bg-white/50"
@@ -61,7 +61,7 @@ export interface OpacityExtraction {
 
 /**
  * Result of extracting important flag from a class name
- * 
+ *
  * @example
  * ```ts
  * { className: "bg-white", isImportant: true }  // From "bg-white!"
@@ -77,9 +77,9 @@ export interface ImportantExtraction {
 
 /**
  * Result of extracting prefix from a class name
- * 
+ *
  * Prefixes use escaped colons to distinguish from variants
- * 
+ *
  * @example
  * ```ts
  * { className: "bg-white", prefix: "tw" }      // From "tw\:bg-white"

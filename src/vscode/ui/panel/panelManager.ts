@@ -8,7 +8,7 @@ import { generatePanelHTML } from './panelTemplate';
 
 /**
  * Manages lifecycle and coordination of Tailwind class detail panels
- * 
+ *
  * Responsibilities:
  * - Creating new panels
  * - Tracking panel state (which panels are open and where)
@@ -30,12 +30,12 @@ export class PanelManager {
 
   /**
    * Show or focus a translation detail panel
-   * 
+   *
    * Behavior:
    * - If a panel already exists for this exact range, just reveal it
    * - Otherwise, create a new panel beside the editor
    * - Automatically sets up disposal handlers and message listeners
-   * 
+   *
    * @param classString - Original Tailwind classes
    * @param translation - Translated plain English description
    * @param range - Text range where classes are located
@@ -183,7 +183,7 @@ export class PanelManager {
 
   /**
    * Register webview serializer to prevent restoration
-   * 
+   *
    * This prevents VS Code from trying to restore panels after window reload.
    * We intentionally close any restored panels because:
    * 1. Panels don't have the necessary context to restore properly

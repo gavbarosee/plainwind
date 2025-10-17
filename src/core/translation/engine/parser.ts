@@ -18,21 +18,21 @@ export function parseNonEmptyClasses(classString: string): string[] {
 
 /**
  * Extract variants and base class from a Tailwind class
- * 
+ *
  * Handles arbitrary values with brackets by tracking bracket depth to avoid
  * splitting on colons that are inside bracket expressions.
- * 
+ *
  * @param className - Full Tailwind class with possible variants
- * 
+ *
  * @example
  * ```ts
  * extractVariants("md:hover:bg-blue-500")
  * // Returns: { variants: ["md", "hover"], baseClass: "bg-blue-500" }
- * 
+ *
  * extractVariants("dark:[--var:value]")
  * // Returns: { variants: ["dark"], baseClass: "[--var:value]" }
  * // Note: Colon inside brackets is NOT treated as a separator
- * 
+ *
  * extractVariants("bg-blue-500")
  * // Returns: { variants: [], baseClass: "bg-blue-500" }
  * ```
@@ -45,10 +45,10 @@ export function extractVariants(className: string): VariantExtraction {
 
   /**
    * Split carefully, respecting brackets
-   * 
+   *
    * We track bracket depth to avoid splitting on colons inside arbitrary values.
    * Only colons at bracketDepth=0 are treated as variant separators.
-   * 
+   *
    * State machine:
    * - '[' increases depth
    * - ']' decreases depth
@@ -86,15 +86,15 @@ export function extractVariants(className: string): VariantExtraction {
 
 /**
  * Extract opacity modifier from a class
- * 
+ *
  * @example
  * ```ts
  * extractOpacity("bg-white/10")
  * // Returns: { className: "bg-white", opacity: "10" }
- * 
+ *
  * extractOpacity("text-red-500/50")
  * // Returns: { className: "text-red-500", opacity: "50" }
- * 
+ *
  * extractOpacity("p-4")
  * // Returns: { className: "p-4", opacity: null }
  * ```
@@ -114,12 +114,12 @@ export function extractOpacity(
 
 /**
  * Extract important modifier from a class
- * 
+ *
  * @example
  * ```ts
  * extractImportant("bg-white!")
  * // Returns: { className: "bg-white", isImportant: true }
- * 
+ *
  * extractImportant("p-4")
  * // Returns: { className: "p-4", isImportant: false }
  * ```
@@ -140,15 +140,15 @@ export function extractImportant(className: string): ImportantExtraction {
 /**
  * Extract prefix from a class
  * Prefixes use escaped colons (e.g., "tw\:") to distinguish from variant colons
- * 
+ *
  * @example
  * ```ts
  * extractPrefix("tw\\:bg-white")
  * // Returns: { className: "bg-white", prefix: "tw" }
- * 
+ *
  * extractPrefix("custom\\:p-4")
  * // Returns: { className: "p-4", prefix: "custom" }
- * 
+ *
  * extractPrefix("hover:bg-white")
  * // Returns: { className: "hover:bg-white", prefix: "" }
  * // Note: Regular colon is NOT a prefix

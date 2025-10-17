@@ -1,10 +1,10 @@
 /**
  * Decoration types for highlighting active CodeLens lines
- * 
+ *
  * Creates two decoration styles:
  * - Normal: Subtle blue highlight with 3px left border (non-focused panels)
  * - Focused: More intense blue highlight with 4px left border (focused panel)
- * 
+ *
  * Both decorations apply to the whole line for better visibility.
  */
 
@@ -12,7 +12,7 @@ import * as vscode from 'vscode';
 
 /**
  * Manages text editor decorations for panel highlights
- * 
+ *
  * Creates and provides access to decoration types.
  * Decorations must be disposed when no longer needed to free resources.
  */
@@ -23,7 +23,7 @@ export class HighlightDecorations {
   constructor() {
     /**
      * Normal highlight for non-focused panels
-     * 
+     *
      * Visual style:
      * - Light blue background (20% opacity)
      * - 3px solid blue left border (80% opacity)
@@ -40,12 +40,12 @@ export class HighlightDecorations {
 
     /**
      * Intense highlight for focused panel
-     * 
+     *
      * Visual style:
      * - Medium blue background (35% opacity)
      * - 4px solid blue left border (100% opacity)
      * - Whole line highlighted
-     * 
+     *
      * More prominent than normal to draw attention to the active panel.
      */
     this.focusedDecoration = vscode.window.createTextEditorDecorationType({
@@ -60,9 +60,9 @@ export class HighlightDecorations {
 
   /**
    * Get the normal (non-focused) decoration type
-   * 
+   *
    * Used for panels that are open but not currently focused.
-   * 
+   *
    * @returns Decoration type for normal highlights
    */
   getNormalDecoration(): vscode.TextEditorDecorationType {
@@ -71,9 +71,9 @@ export class HighlightDecorations {
 
   /**
    * Get the focused decoration type
-   * 
+   *
    * Used for the panel that currently has focus.
-   * 
+   *
    * @returns Decoration type for focused highlights
    */
   getFocusedDecoration(): vscode.TextEditorDecorationType {
@@ -82,7 +82,7 @@ export class HighlightDecorations {
 
   /**
    * Dispose all decorations
-   * 
+   *
    * Frees VS Code resources. Should be called when HighlightManager is disposed.
    */
   dispose(): void {
