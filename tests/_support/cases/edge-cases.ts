@@ -20,8 +20,22 @@ export const GRACEFUL_DEGRADATION_CASES: Array<[string, boolean]> = [
 // Performance test cases
 export const PERFORMANCE_CASES = {
   longClassString: Array(100).fill('p-4 m-2 bg-white text-black').join(' '),
-  deeplyNestedVariants: 'sm:md:lg:xl:2xl:hover:focus:active:disabled:group-hover:p-4',
+  deeplyNestedVariants:
+    'sm:md:lg:xl:2xl:hover:focus:active:disabled:group-hover:p-4',
   longArbitraryValue: `w-[calc(100vw-theme(spacing.64)-theme(spacing.48))]`,
-  manyClasses: Array(50).fill(['flex', 'items-center', 'justify-between', 'p-4', 'm-2', 'bg-white', 'text-black', 'rounded-lg', 'shadow-md', 'hover:shadow-lg']).flat().join(' '),
+  manyClasses: Array(50)
+    .fill([
+      'flex',
+      'items-center',
+      'justify-between',
+      'p-4',
+      'm-2',
+      'bg-white',
+      'text-black',
+      'rounded-lg',
+      'shadow-md',
+      'hover:shadow-lg',
+    ])
+    .flat()
+    .join(' '),
 };
-

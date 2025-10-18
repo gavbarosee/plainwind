@@ -3,7 +3,6 @@
  */
 export const typographyMappings: Record<string, string> = {
   'list-item': 'display as list item',
-  hidden: 'not visible',
   // Text Colors - Special
   'text-inherit': 'inherited text color',
   'text-current': 'text matches current color',

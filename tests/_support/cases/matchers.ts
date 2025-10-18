@@ -1,14 +1,14 @@
 /**
  * Test cases for matcher functions
  * These test the matching and translation of specific Tailwind patterns
- * 
+ *
  * @see src/core/translation/translator/matchers.ts
  */
 
 export const MATCHER_SPACING_CASES: Array<[string, string]> = [
   ['p-12', 'padding'],
   ['m-0', 'margin'],
-  ['pt-6', 'top padding'],
+  ['pt-6', 'padding on top side'],
   ['ml-auto', 'left margin'],
 ];
 
@@ -25,7 +25,7 @@ export const MATCHER_COLOR_SCALE_CASES: Array<[string, string]> = [
 ];
 
 export const MATCHER_BORDER_CASES: Array<[string, string, string]> = [
-  ['border', 'has border', 'exact'],
+  ['border', 'has 1px border on all sides', 'exact'],
   ['border-2', 'border', 'contains'],
   ['rounded-lg', 'corner', 'contains'],
 ];
@@ -36,20 +36,20 @@ export const MATCHER_TYPOGRAPHY_CASES: Array<[string, string]> = [
 ];
 
 export const MATCHER_GRID_CASES: Array<[string, string, string]> = [
-  ['grid-cols-3', 'three columns', 'exact'],
-  ['grid-rows-2', 'two rows', 'exact'],
+  ['grid-cols-3', 'creates 3-column grid layout', 'exact'],
+  ['grid-rows-2', 'creates 2-row grid layout', 'exact'],
   ['col-span-2', 'span', 'contains'],
 ];
 
 export const MATCHER_TRANSFORM_CASES: Array<[string, string]> = [
-  ['rotate-45', 'rotate'],
-  ['scale-150', 'scale'],
-  ['translate-x-4', 'translate'],
+  ['rotate-45', 'clockwise'],
+  ['scale-150', 'larger'],
+  ['translate-x-4', 'horizontally'],
 ];
 
 export const MATCHER_OPACITY_CASES: Array<[string, string, string]> = [
-  ['opacity-50', 'opacity', 'contains'],
-  ['opacity-0', 'invisible', 'exact'],
+  ['opacity-50', 'transparent', 'contains'],
+  ['opacity-0', 'completely transparent (invisible)', 'exact'],
 ];
 
 export const MATCHER_SHADOW_CASES: Array<[string, string]> = [
@@ -96,4 +96,3 @@ export const MATCHER_UNKNOWN_CASES: Array<[string, string]> = [
   ['custom-utility', 'custom-utility'],
   ['my-123-class', 'margin'],
 ];
-

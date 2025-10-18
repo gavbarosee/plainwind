@@ -1,15 +1,15 @@
 /**
  * Tests for conditional class translation with category grouping
- * 
+ *
  * Validates translation of conditional classes with different configuration
  * options, including category grouping and emoji display.
- * 
+ *
  * Tests cover:
  * - Grouping by category (enabled/disabled)
  * - Multiple conditions with category grouping
  * - Emoji display in category labels
  * - Unconditional and conditional class separation
- * 
+ *
  * @see src/core/translation/engine/index.ts - translateConditionalClasses()
  */
 
@@ -72,17 +72,17 @@ describe('translateConditionalClasses', () => {
 
       // Conditional part should also have categories
       expect(result).toContain('(if isActive)');
-      
+
       // Should have both Spacing and Colors in the conditional part
       // Since px-4 and bg-blue-500 are in the same condition, they should be grouped by category
       expect(result).toContain('Spacing:');
       expect(result).toContain('Colors:');
-      
+
       // The spacing should be marked as conditional
-      const hasConditionalSpacing = 
-        result.includes('Spacing:') && 
+      const hasConditionalSpacing =
+        result.includes('Spacing:') &&
         result.includes('(if isActive)') &&
-        result.includes('horizontal padding');
+        result.includes('padding on left and right sides');
       expect(hasConditionalSpacing).toBe(true);
     });
 
@@ -101,7 +101,7 @@ describe('translateConditionalClasses', () => {
 
       // Each part should have category grouping
       expect(result).toContain('Flexbox & Grid:');
-      
+
       // Check conditional parts
       expect(result).toContain('(if isActive)');
       expect(result).toContain('(if isDisabled)');
@@ -149,7 +149,7 @@ describe('translateConditionalClasses', () => {
 
       // Should still show the condition
       expect(result).toContain('(if isActive)');
-      
+
       // But no category labels
       expect(result).not.toContain(':');
     });
@@ -181,4 +181,3 @@ describe('translateConditionalClasses', () => {
     });
   });
 });
-

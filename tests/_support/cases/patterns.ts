@@ -1,7 +1,7 @@
 /**
  * Test cases for pattern matching in translations
  * These test the extraction and translation of pattern-based utilities
- * 
+ *
  * @see src/core/translation/rules/patterns/
  */
 
@@ -128,4 +128,3 @@ export const NON_COLOR_WITH_SCALE_CASES = ['bg-white', 'text-black'];
 export const NON_ARBITRARY_CASES = ['p-4', 'bg-blue-500'];
 export const NON_GAP_CASES = ['flex'];
 export const NON_OPACITY_CASES = ['flex', 'bg-white/50'];
-

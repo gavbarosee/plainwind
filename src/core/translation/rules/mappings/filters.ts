@@ -77,8 +77,7 @@ export const filtersMappings: Record<string, string> = {
   'backdrop-blur-md': 'medium blur behind element (blurred)',
   'backdrop-blur-lg': 'large blur behind element (very blurred)',
   'backdrop-blur-xl': 'extra large blur behind element (heavily blurred)',
-  'backdrop-blur-2xl':
-    '2x extra large blur behind element (extremely blurred)',
+  'backdrop-blur-2xl': '2x extra large blur behind element (extremely blurred)',
   'backdrop-blur-3xl': '3x extra large blur behind element (maximum blur)',
   'backdrop-brightness-0': 'completely black background behind element',
   'backdrop-brightness-50': 'very dark background behind element (50%)',

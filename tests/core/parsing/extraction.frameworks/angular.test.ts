@@ -8,39 +8,60 @@ import { extractAllClassNames } from '@src/core/parsing';
 describe('Angular [ngClass] bindings', () => {
   describe('object syntax', () => {
     it('should extract from [ngClass] with object', () => {
-      const text = '<div [ngClass]="{ \'active\': isActive, \'disabled\': isDisabled }">';
+      const text =
+        "<div [ngClass]=\"{ 'active': isActive, 'disabled': isDisabled }\">";
       const extractions = extractAllClassNames(text);
 
       expect(extractions).toHaveLength(1);
       const conditionals = extractions[0].conditionalClasses;
-      expect(conditionals).toContainEqual({ classes: 'active', condition: 'isActive' });
-      expect(conditionals).toContainEqual({ classes: 'disabled', condition: 'isDisabled' });
+      expect(conditionals).toContainEqual({
+        classes: 'active',
+        condition: 'isActive',
+      });
+      expect(conditionals).toContainEqual({
+        classes: 'disabled',
+        condition: 'isDisabled',
+      });
     });
 
     it('should handle unquoted keys in object', () => {
-      const text = '<div [ngClass]="{ active: isActive, disabled: isDisabled }">';
+      const text =
+        '<div [ngClass]="{ active: isActive, disabled: isDisabled }">';
       const extractions = extractAllClassNames(text);
 
       expect(extractions).toHaveLength(1);
       const conditionals = extractions[0].conditionalClasses;
-      expect(conditionals).toContainEqual({ classes: 'active', condition: 'isActive' });
-      expect(conditionals).toContainEqual({ classes: 'disabled', condition: 'isDisabled' });
+      expect(conditionals).toContainEqual({
+        classes: 'active',
+        condition: 'isActive',
+      });
+      expect(conditionals).toContainEqual({
+        classes: 'disabled',
+        condition: 'isDisabled',
+      });
     });
 
     it('should handle Tailwind classes with dashes and colons', () => {
-      const text = '<div [ngClass]="{ \'bg-blue-500\': isActive, \'hover:bg-blue-600\': isHovered }">';
+      const text =
+        "<div [ngClass]=\"{ 'bg-blue-500': isActive, 'hover:bg-blue-600': isHovered }\">";
       const extractions = extractAllClassNames(text);
 
       expect(extractions).toHaveLength(1);
       const conditionals = extractions[0].conditionalClasses;
-      expect(conditionals).toContainEqual({ classes: 'bg-blue-500', condition: 'isActive' });
-      expect(conditionals).toContainEqual({ classes: 'hover:bg-blue-600', condition: 'isHovered' });
+      expect(conditionals).toContainEqual({
+        classes: 'bg-blue-500',
+        condition: 'isActive',
+      });
+      expect(conditionals).toContainEqual({
+        classes: 'hover:bg-blue-600',
+        condition: 'isHovered',
+      });
     });
   });
 
   describe('array syntax', () => {
     it('should extract from [ngClass] with array', () => {
-      const text = '<div [ngClass]="[\'flex\', \'items-center\']">';
+      const text = "<div [ngClass]=\"['flex', 'items-center']\">";
       const extractions = extractAllClassNames(text);
 
       expect(extractions).toHaveLength(1);
@@ -49,13 +70,16 @@ describe('Angular [ngClass] bindings', () => {
     });
 
     it('should handle array with conditionals', () => {
-      const text = '<div [ngClass]="[\'base\', isActive && \'active\']">';
+      const text = "<div [ngClass]=\"['base', isActive && 'active']\">";
       const extractions = extractAllClassNames(text);
 
       expect(extractions).toHaveLength(1);
       const conditionals = extractions[0].conditionalClasses;
       expect(conditionals).toContainEqual({ classes: 'base' });
-      expect(conditionals).toContainEqual({ classes: 'active', condition: 'isActive' });
+      expect(conditionals).toContainEqual({
+        classes: 'active',
+        condition: 'isActive',
+      });
     });
   });
 });
@@ -68,25 +92,27 @@ describe('Angular [class.x] bindings', () => {
     expect(extractions).toHaveLength(1);
     expect(extractions[0].classStrings).toEqual(['active']);
     expect(extractions[0].conditionalClasses).toEqual([
-      { classes: 'active', condition: 'isActive' }
+      { classes: 'active', condition: 'isActive' },
     ]);
   });
 
   it('should extract multiple [class.x] bindings', () => {
-    const text = '<div [class.active]="isActive" [class.disabled]="isDisabled">';
+    const text =
+      '<div [class.active]="isActive" [class.disabled]="isDisabled">';
     const extractions = extractAllClassNames(text);
 
     expect(extractions).toHaveLength(2);
     expect(extractions[0].conditionalClasses).toEqual([
-      { classes: 'active', condition: 'isActive' }
+      { classes: 'active', condition: 'isActive' },
     ]);
     expect(extractions[1].conditionalClasses).toEqual([
-      { classes: 'disabled', condition: 'isDisabled' }
+      { classes: 'disabled', condition: 'isDisabled' },
     ]);
   });
 
   it('should handle Tailwind classes with dashes', () => {
-    const text = '<div [class.bg-blue-500]="isActive" [class.text-white]="isActive">';
+    const text =
+      '<div [class.bg-blue-500]="isActive" [class.text-white]="isActive">';
     const extractions = extractAllClassNames(text);
 
     expect(extractions).toHaveLength(2);
@@ -100,7 +126,7 @@ describe('Angular [class.x] bindings', () => {
 
     expect(extractions).toHaveLength(1);
     expect(extractions[0].conditionalClasses).toEqual([
-      { classes: 'always-active' }
+      { classes: 'always-active' },
     ]);
   });
 
@@ -110,8 +136,7 @@ describe('Angular [class.x] bindings', () => {
 
     expect(extractions).toHaveLength(1);
     expect(extractions[0].conditionalClasses).toEqual([
-      { classes: 'error', condition: 'hasError || isInvalid' }
+      { classes: 'error', condition: 'hasError || isInvalid' },
     ]);
   });
 });
-

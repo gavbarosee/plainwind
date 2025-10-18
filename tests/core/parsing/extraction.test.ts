@@ -1,12 +1,12 @@
 /**
  * Tests for extractAllClassNames - React/JSX patterns
- * 
+ *
  * Tests extraction of className attributes from React/JSX code including:
  * - Simple string literals (className="...")
  * - Template literals (className={`...`})
  * - Helper functions (clsx, classnames, cn, twMerge, cva)
  * - Mixed quote styles and edge cases
- * 
+ *
  * @see src/core/parsing/index.ts
  */
 
@@ -22,7 +22,7 @@ describe('extractAllClassNames - React/JSX', () => {
       expect(extractions).toHaveLength(1);
       expect(extractions[0].classStrings).toEqual(['flex items-center gap-4']);
       expect(extractions[0].conditionalClasses).toEqual([
-        { classes: 'flex items-center gap-4' }
+        { classes: 'flex items-center gap-4' },
       ]);
       expect(extractions[0].type).toBe('simple');
     });
@@ -71,7 +71,8 @@ describe('extractAllClassNames - React/JSX', () => {
 
   describe('helper functions', () => {
     it('should extract from clsx', () => {
-      const text = '<div className={clsx("flex items-center", "p-4 bg-white")}>';
+      const text =
+        '<div className={clsx("flex items-center", "p-4 bg-white")}>';
       const extractions = extractAllClassNames(text);
 
       expect(extractions).toHaveLength(1);
@@ -89,7 +90,8 @@ describe('extractAllClassNames - React/JSX', () => {
     });
 
     it('should extract from cn', () => {
-      const text = '<div className={cn("flex items-center", "hover:bg-gray-100")}>';
+      const text =
+        '<div className={cn("flex items-center", "hover:bg-gray-100")}>';
       const extractions = extractAllClassNames(text);
 
       expect(extractions).toHaveLength(1);
@@ -97,7 +99,8 @@ describe('extractAllClassNames - React/JSX', () => {
     });
 
     it('should extract from twMerge', () => {
-      const text = '<div className={twMerge("p-4 bg-blue-500", "hover:bg-blue-600")}>';
+      const text =
+        '<div className={twMerge("p-4 bg-blue-500", "hover:bg-blue-600")}>';
       const extractions = extractAllClassNames(text);
 
       expect(extractions).toHaveLength(1);
@@ -166,4 +169,3 @@ describe('extractAllClassNames - React/JSX', () => {
     });
   });
 });
-

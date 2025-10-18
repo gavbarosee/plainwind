@@ -1,9 +1,9 @@
 /**
  * Performance benchmarks for class extraction functions
- * 
+ *
  * Measures performance of class extraction from different file types and patterns.
  * Run with: `npx vitest bench`
- * 
+ *
  * @module tests/performance/extraction.bench
  */
 
@@ -46,7 +46,9 @@ describe('Extraction Performance', () => {
 
   describe('Conditional class extraction', () => {
     bench('template literal with ternary', () => {
-      extractAllClassNames('<div className={`flex ${isActive ? "active" : "inactive"}`}>');
+      extractAllClassNames(
+        '<div className={`flex ${isActive ? "active" : "inactive"}`}>'
+      );
     });
 
     bench('clsx with multiple conditions', () => {
@@ -102,30 +104,40 @@ describe('Extraction Performance', () => {
   });
 
   describe('Large file extraction (stress test)', () => {
-    const componentWith50Elements = Array(50).fill(null).map((_, i) => 
-      `<div className="flex items-center gap-4 px-4 py-2 bg-white rounded-lg">${i}</div>`
-    ).join('\n');
+    const componentWith50Elements = Array(50)
+      .fill(null)
+      .map(
+        (_, i) =>
+          `<div className="flex items-center gap-4 px-4 py-2 bg-white rounded-lg">${i}</div>`
+      )
+      .join('\n');
 
     bench('50 elements with className', () => {
       extractAllClassNames(componentWith50Elements);
     });
 
-    const componentWith100Elements = Array(100).fill(null).map((_, i) => 
-      `<div className="flex items-center gap-4">${i}</div>`
-    ).join('\n');
+    const componentWith100Elements = Array(100)
+      .fill(null)
+      .map((_, i) => `<div className="flex items-center gap-4">${i}</div>`)
+      .join('\n');
 
     bench('100 elements with className', () => {
       extractAllClassNames(componentWith100Elements);
     });
 
-    const mixedConditionalsFile = Array(20).fill(null).map((_, i) => `
+    const mixedConditionalsFile = Array(20)
+      .fill(null)
+      .map(
+        (_, i) => `
       <div className={clsx(
         'base-class-${i}',
         'another-class',
         isActive${i} && 'active',
         condition${i} ? 'yes' : 'no'
       )}>
-    `).join('\n');
+    `
+      )
+      .join('\n');
 
     bench('20 elements with conditionals', () => {
       extractAllClassNames(mixedConditionalsFile);
@@ -134,7 +146,10 @@ describe('Extraction Performance', () => {
 
   describe('Edge cases', () => {
     bench('very long className string (100 classes)', () => {
-      const longString = Array(100).fill('class').map((c, i) => `${c}-${i}`).join(' ');
+      const longString = Array(100)
+        .fill('class')
+        .map((c, i) => `${c}-${i}`)
+        .join(' ');
       extractAllClassNames(`<div className="${longString}">`);
     });
 
@@ -173,4 +188,3 @@ describe('Extraction Performance', () => {
     });
   });
 });
-

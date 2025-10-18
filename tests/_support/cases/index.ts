@@ -1,7 +1,7 @@
 /**
  * Central export point for all test cases
  * Import test cases from here to keep imports clean and organized
- * 
+ *
  * @example
  * import { CATEGORIZE_LAYOUT_CASES, MATCHER_SPACING_CASES } from '@tests/_support/cases';
  */
@@ -153,14 +153,7 @@ export {
 } from './parser';
 
 // Static mapping test cases
-export {
-  TRANSLATE_STATIC_CASES,
-  CATEGORY_ORDER,
-} from './static-mappings';
+export { TRANSLATE_STATIC_CASES, CATEGORY_ORDER } from './static-mappings';
 
 // Edge case and performance test cases
-export {
-  GRACEFUL_DEGRADATION_CASES,
-  PERFORMANCE_CASES,
-} from './edge-cases';
-
+export { GRACEFUL_DEGRADATION_CASES, PERFORMANCE_CASES } from './edge-cases';

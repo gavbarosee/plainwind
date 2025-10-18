@@ -1,10 +1,10 @@
 /**
  * Tests for parsing utility functions
- * 
+ *
  * Tests helper functions for combining class strings, finding extractions
  * at specific positions, and other parsing utilities used throughout
  * the extraction pipeline.
- * 
+ *
  * @see src/core/parsing/index.ts
  */
 
@@ -77,8 +77,11 @@ describe('findExtractionAtPosition', () => {
     const text = '<div className="flex">';
     const extractions = extractAllClassNames(text);
 
-    expect(findExtractionAtPosition(extractions, extractions[0].range.start)).toBeDefined();
-    expect(findExtractionAtPosition(extractions, extractions[0].range.end)).toBeDefined();
+    expect(
+      findExtractionAtPosition(extractions, extractions[0].range.start)
+    ).toBeDefined();
+    expect(
+      findExtractionAtPosition(extractions, extractions[0].range.end)
+    ).toBeDefined();
   });
 });
-

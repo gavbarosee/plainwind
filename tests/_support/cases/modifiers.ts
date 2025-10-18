@@ -1,7 +1,7 @@
 /**
  * Test cases for modifier chains (important, opacity, prefix)
  * These test the order-of-operations for combined modifiers
- * 
+ *
  * @see src/core/translation/translator/parser.ts
  */
 
@@ -15,7 +15,11 @@ export const APPLY_OPACITY_CASES: Array<[string, string, string]> = [
 ];
 
 export const APPLY_OPACITY_COMPLEX_CASES: Array<[string, string, string]> = [
-  ['horizontal padding 1rem on hover', '80', 'horizontal padding 1rem on hover with 80% opacity'],
+  [
+    '1rem padding on left and right sides when mouse hovers over',
+    '80',
+    '1rem padding on left and right sides when mouse hovers over with 80% opacity',
+  ],
 ];
 
 export const INVALID_OPACITY_CASES: Array<[string, string | null]> = [
@@ -30,36 +34,77 @@ export const INVALID_OPACITY_CASES: Array<[string, string | null]> = [
 // Complex modifier chain cases (order-of-operations)
 export const FULL_MODIFIER_CHAIN_CASES: Array<[string, string[]]> = [
   ['tw\\:bg-white', ['[tw]', 'white background']],
-  ['hover:bg-blue-500!', ['on hover', '!important']],
+  ['hover:bg-blue-500!', ['when mouse hovers over', '!important']],
   ['md:bg-white/50', ['on medium screens', '50% opacity']],
-  ['tw\\:md:hover:bg-blue-500', ['[tw]', 'on medium screens', 'on hover', 'blue background']],
-  ['md:hover:bg-blue-500/75', ['on medium screens', 'on hover', '75% opacity']],
-  ['hover:bg-blue-500/50!', ['on hover', '50% opacity', '!important']],
-  ['tw\\:md:hover:bg-blue-500/50!', ['[tw]', 'on medium screens', 'on hover', '50% opacity', '!important']],
-  ['dark:md:hover:focus:bg-gradient-to-r/75!', ['in dark mode', 'on medium screens', 'on hover', 'on focus', '75% opacity', '!important']],
+  [
+    'tw\\:md:hover:bg-blue-500',
+    ['[tw]', 'on medium screens', 'when mouse hovers over', 'blue background'],
+  ],
+  [
+    'md:hover:bg-blue-500/75',
+    ['on medium screens', 'when mouse hovers over', '75% opacity'],
+  ],
+  [
+    'hover:bg-blue-500/50!',
+    ['when mouse hovers over', '50% opacity', '!important'],
+  ],
+  [
+    'tw\\:md:hover:bg-blue-500/50!',
+    [
+      '[tw]',
+      'on medium screens',
+      'when mouse hovers over',
+      '50% opacity',
+      '!important',
+    ],
+  ],
+  [
+    'dark:md:hover:focus:bg-gradient-to-r/75!',
+    [
+      'in dark mode',
+      'on medium screens',
+      'when mouse hovers over',
+      'when keyboard focused',
+      '75% opacity',
+      '!important',
+    ],
+  ],
 ];
 
 // Real-world complex combinations
 export const REAL_WORLD_COMPLEX_CASES: Array<[string, string[]]> = [
   [
     'tw\\:dark:md:hover:focus-visible:bg-gradient-to-br/90!',
-    ['[tw]', 'in dark mode', 'on medium screens', 'on hover', 'when focus visible', 'gradient', '90% opacity', '!important']
+    [
+      '[tw]',
+      'in dark mode',
+      'on medium screens',
+      'when mouse hovers over',
+      'when focused via keyboard',
+      'gradient',
+      '90% opacity',
+      '!important',
+    ],
   ],
   [
     'group-hover:peer-focus:data-[state=open]:block',
-    ['when group hovered', 'when peer focused', 'when data-state=open', 'block']
+    [
+      'when parent with .group class is hovered',
+      'when sibling with .peer class is focused',
+      'when data-state=open',
+      'block',
+    ],
   ],
   [
     'before:content-["→"]:hover:opacity-50',
-    ['before pseudo-element', 'on hover', 'opacity']
+    ['pseudo-element before content', 'when mouse hovers over', 'transparent'],
   ],
 ];
 
 // Malformed modifier cases
 export const MALFORMED_MODIFIER_CASES: Array<[string, string]> = [
-  ['hover:', 'on hover'], // empty base class, parsed gracefully
+  ['hover:', 'when mouse hovers over'], // empty base class, parsed gracefully
   [':bg-white', 'white background'], // leading colon is treated as variant name
   ['md::flex', 'on medium screens'], // double colon creates empty variant
   [':::test', 'test'], // multiple colons are stripped
 ];
-

@@ -1,7 +1,7 @@
 /**
  * Test cases for arbitrary value patterns
  * These test Tailwind's arbitrary value syntax [...]
- * 
+ *
  * @see src/core/translation/rules/patterns/arbitrary.ts
  */
 
@@ -73,7 +73,11 @@ export const TRANSLATE_ARBITRARY_PROPERTY_CASES: Array<[string, string]> = [
 ];
 
 // Edge cases
-export const EMPTY_STRING_PATTERNS = ['matchSpacingPattern', 'matchSizingPattern', 'matchColorPattern'];
+export const EMPTY_STRING_PATTERNS = [
+  'matchSpacingPattern',
+  'matchSizingPattern',
+  'matchColorPattern',
+];
 export const MALFORMED_ARBITRARY_CASES = ['w-[', 'w-]', 'w-[]'];
 
 // Unicode in arbitrary values
@@ -83,4 +87,3 @@ export const UNICODE_ARBITRARY_CASES: Array<[string, string]> = [
   ['[content:"hello_world"]', 'content:"hello_world"'],
   ['[font-family:"SF_Pro"]', 'font-family:"SF_Pro"'],
 ];
-

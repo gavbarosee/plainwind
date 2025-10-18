@@ -1,213 +1,252 @@
 /**
  * Test cases for categorizeClass function
  * These test the categorization of Tailwind classes into semantic groups
- * 
+ *
+ * Imports category names from the actual CATEGORIES array to ensure tests
+ * match production behavior.
+ *
  * @see src/core/translation/categorizer
  */
 
+import { CATEGORIES } from '@src/core/translation/categorizer/categories';
+
+// Extract category names from the source of truth
+const CATEGORY_NAMES_MAP = Object.fromEntries(
+  CATEGORIES.map((cat) => [cat.name, cat.name])
+);
+
+const {
+  Layout: LAYOUT,
+  'Flexbox & Grid': FLEXBOX_GRID,
+  Spacing: SPACING,
+  Sizing: SIZING,
+  Colors: COLORS,
+  Typography: TYPOGRAPHY,
+  Borders: BORDERS,
+  'Transitions & Animation': TRANSITIONS_ANIMATION,
+  Transforms: TRANSFORMS,
+  Effects: EFFECTS,
+} = CATEGORY_NAMES_MAP;
+
+// 'Other' is a fallback category, not in CATEGORIES array
+const OTHER = 'Other' as const;
+
 export const CATEGORIZE_LAYOUT_CASES: Array<[string, string]> = [
-  ['block', 'Layout'],
-  ['inline', 'Layout'],
-  ['hidden', 'Layout'],
-  ['static', 'Layout'],
-  ['fixed', 'Layout'],
-  ['absolute', 'Layout'],
-  ['relative', 'Layout'],
-  ['overflow-hidden', 'Layout'],
-  ['overflow-auto', 'Layout'],
+  ['block', LAYOUT],
+  ['inline', LAYOUT],
+  ['hidden', LAYOUT],
+  ['static', LAYOUT],
+  ['fixed', LAYOUT],
+  ['absolute', LAYOUT],
+  ['relative', LAYOUT],
+  ['overflow-hidden', LAYOUT],
+  ['overflow-auto', LAYOUT],
 ];
 
 export const CATEGORIZE_FLEX_CASES: Array<[string, string]> = [
-  ['flex', 'Flexbox & Grid'],
-  ['flex-row', 'Flexbox & Grid'],
-  ['flex-col', 'Flexbox & Grid'],
-  ['items-center', 'Flexbox & Grid'],
-  ['justify-between', 'Flexbox & Grid'],
+  ['flex', FLEXBOX_GRID],
+  ['flex-row', FLEXBOX_GRID],
+  ['flex-col', FLEXBOX_GRID],
+  ['items-center', FLEXBOX_GRID],
+  ['justify-between', FLEXBOX_GRID],
 ];
 
 export const CATEGORIZE_GRID_CASES: Array<[string, string]> = [
-  ['grid', 'Flexbox & Grid'],
-  ['grid-cols-3', 'Flexbox & Grid'],
-  ['grid-rows-2', 'Flexbox & Grid'],
-  ['col-span-2', 'Flexbox & Grid'],
-  ['gap-4', 'Flexbox & Grid'],
+  ['grid', FLEXBOX_GRID],
+  ['grid-cols-3', FLEXBOX_GRID],
+  ['grid-rows-2', FLEXBOX_GRID],
+  ['col-span-2', FLEXBOX_GRID],
+  ['gap-4', FLEXBOX_GRID],
 ];
 
 export const CATEGORIZE_COLORS_TEXT_CASES: Array<[string, string]> = [
-  ['text-white', 'Colors'],
-  ['text-blue-500', 'Colors'],
-  ['text-red-700', 'Colors'],
+  ['text-white', COLORS],
+  ['text-blue-500', COLORS],
+  ['text-red-700', COLORS],
 ];
 
 export const CATEGORIZE_COLORS_BORDER_CASES: Array<[string, string]> = [
-  ['border-gray-300', 'Colors'],
-  ['border-transparent', 'Colors'],
+  ['border-gray-300', COLORS],
+  ['border-transparent', COLORS],
 ];
 
 export const CATEGORIZE_COLORS_RING_CASES: Array<[string, string]> = [
-  ['ring-blue-500', 'Colors'],
+  ['ring-blue-500', COLORS],
 ];
 
 export const CATEGORIZE_BACKGROUNDS_COLOR_CASES: Array<[string, string]> = [
-  ['bg-white', 'Colors'],
-  ['bg-blue-500', 'Colors'],
-  ['bg-transparent', 'Colors'],
+  ['bg-white', COLORS],
+  ['bg-blue-500', COLORS],
+  ['bg-transparent', COLORS],
 ];
 
 export const CATEGORIZE_BACKGROUNDS_GRADIENT_CASES: Array<[string, string]> = [
-  ['bg-gradient-to-r', 'Colors'],
-  ['from-blue-500', 'Colors'],
-  ['to-purple-600', 'Colors'],
+  ['bg-gradient-to-r', COLORS],
+  ['from-blue-500', COLORS],
+  ['to-purple-600', COLORS],
 ];
 
 export const CATEGORIZE_BORDERS_WIDTH_CASES: Array<[string, string]> = [
-  ['border', 'Borders'],
-  ['border-2', 'Borders'],
-  ['border-t', 'Borders'],
-  ['border-b-4', 'Borders'],
+  ['border', BORDERS],
+  ['border-2', BORDERS],
+  ['border-t', BORDERS],
+  ['border-b-4', BORDERS],
 ];
 
 export const CATEGORIZE_BORDERS_RADIUS_CASES: Array<[string, string]> = [
-  ['rounded', 'Borders'],
-  ['rounded-lg', 'Borders'],
-  ['rounded-full', 'Borders'],
-  ['rounded-t-md', 'Borders'],
+  ['rounded', BORDERS],
+  ['rounded-lg', BORDERS],
+  ['rounded-full', BORDERS],
+  ['rounded-t-md', BORDERS],
 ];
 
 export const CATEGORIZE_BORDERS_STYLE_CASES: Array<[string, string]> = [
-  ['border-solid', 'Borders'],
-  ['border-dashed', 'Borders'],
+  ['border-solid', BORDERS],
+  ['border-dashed', BORDERS],
 ];
 
 export const CATEGORIZE_TYPOGRAPHY_SIZE_CASES: Array<[string, string]> = [
-  ['text-sm', 'Typography'],
-  ['text-lg', 'Typography'],
-  ['text-xl', 'Typography'],
+  ['text-sm', TYPOGRAPHY],
+  ['text-lg', TYPOGRAPHY],
+  ['text-xl', TYPOGRAPHY],
 ];
 
 export const CATEGORIZE_TYPOGRAPHY_WEIGHT_CASES: Array<[string, string]> = [
-  ['font-bold', 'Typography'],
-  ['font-normal', 'Typography'],
-  ['font-light', 'Typography'],
+  ['font-bold', TYPOGRAPHY],
+  ['font-normal', TYPOGRAPHY],
+  ['font-light', TYPOGRAPHY],
 ];
 
 export const CATEGORIZE_TYPOGRAPHY_ALIGN_CASES: Array<[string, string]> = [
-  ['text-center', 'Typography'],
-  ['text-left', 'Typography'],
-  ['text-right', 'Typography'],
+  ['text-center', TYPOGRAPHY],
+  ['text-left', TYPOGRAPHY],
+  ['text-right', TYPOGRAPHY],
 ];
 
 export const CATEGORIZE_TYPOGRAPHY_LINE_CASES: Array<[string, string]> = [
-  ['leading-none', 'Typography'],
-  ['leading-tight', 'Typography'],
+  ['leading-none', TYPOGRAPHY],
+  ['leading-tight', TYPOGRAPHY],
 ];
 
 export const CATEGORIZE_TRANSFORMS_CASES: Array<[string, string]> = [
-  ['scale-150', 'Transforms'],
-  ['rotate-45', 'Transforms'],
-  ['translate-x-4', 'Transforms'],
-  ['skew-y-3', 'Transforms'],
+  ['scale-150', TRANSFORMS],
+  ['rotate-45', TRANSFORMS],
+  ['translate-x-4', TRANSFORMS],
+  ['skew-y-3', TRANSFORMS],
 ];
 
 export const CATEGORIZE_TRANSITIONS_CASES: Array<[string, string]> = [
-  ['transition', 'Transitions & Animation'],
-  ['transition-all', 'Transitions & Animation'],
-  ['duration-300', 'Transitions & Animation'],
+  ['transition', TRANSITIONS_ANIMATION],
+  ['transition-all', TRANSITIONS_ANIMATION],
+  ['duration-300', TRANSITIONS_ANIMATION],
 ];
 
 export const CATEGORIZE_ANIMATION_CASES: Array<[string, string]> = [
-  ['animate-spin', 'Transitions & Animation'],
-  ['animate-bounce', 'Transitions & Animation'],
+  ['animate-spin', TRANSITIONS_ANIMATION],
+  ['animate-bounce', TRANSITIONS_ANIMATION],
 ];
 
 export const CATEGORIZE_EFFECTS_SHADOW_CASES: Array<[string, string]> = [
-  ['shadow', 'Effects'],
-  ['shadow-lg', 'Effects'],
-  ['shadow-none', 'Effects'],
+  ['shadow', EFFECTS],
+  ['shadow-lg', EFFECTS],
+  ['shadow-none', EFFECTS],
 ];
 
 export const CATEGORIZE_EFFECTS_OPACITY_CASES: Array<[string, string]> = [
-  ['opacity-50', 'Effects'],
-  ['opacity-0', 'Effects'],
+  ['opacity-50', EFFECTS],
+  ['opacity-0', EFFECTS],
 ];
 
 export const CATEGORIZE_SPACING_PADDING_CASES: Array<[string, string]> = [
-  ['p-4', 'Spacing'],
-  ['px-2', 'Spacing'],
-  ['py-8', 'Spacing'],
-  ['pt-6', 'Spacing'],
-  ['pl-0', 'Spacing'],
+  ['p-4', SPACING],
+  ['px-2', SPACING],
+  ['py-8', SPACING],
+  ['pt-6', SPACING],
+  ['pl-0', SPACING],
 ];
 
 export const CATEGORIZE_SPACING_MARGIN_CASES: Array<[string, string]> = [
-  ['m-4', 'Spacing'],
-  ['mx-auto', 'Layout'],
-  ['my-2', 'Spacing'],
-  ['mt-8', 'Spacing'],
-  ['mb-0', 'Spacing'],
+  ['m-4', SPACING],
+  ['mx-auto', LAYOUT],
+  ['my-2', SPACING],
+  ['mt-8', SPACING],
+  ['mb-0', SPACING],
 ];
 
 export const CATEGORIZE_SPACING_SPACE_BETWEEN_CASES: Array<[string, string]> = [
-  ['space-x-4', 'Spacing'],
-  ['space-y-2', 'Spacing'],
+  ['space-x-4', SPACING],
+  ['space-y-2', SPACING],
 ];
 
 export const CATEGORIZE_SIZING_WIDTH_CASES: Array<[string, string]> = [
-  ['w-full', 'Sizing'],
-  ['w-screen', 'Sizing'],
-  ['w-1/2', 'Sizing'],
-  ['max-w-xl', 'Sizing'],
-  ['min-w-0', 'Sizing'],
+  ['w-full', SIZING],
+  ['w-screen', SIZING],
+  ['w-1/2', SIZING],
+  ['max-w-xl', SIZING],
+  ['min-w-0', SIZING],
 ];
 
 export const CATEGORIZE_SIZING_HEIGHT_CASES: Array<[string, string]> = [
-  ['h-full', 'Sizing'],
-  ['h-screen', 'Sizing'],
-  ['max-h-96', 'Sizing'],
-  ['min-h-0', 'Sizing'],
+  ['h-full', SIZING],
+  ['h-screen', SIZING],
+  ['max-h-96', SIZING],
+  ['min-h-0', SIZING],
 ];
 
 export const CATEGORIZE_SIZING_SIZE_CASES: Array<[string, string]> = [
-  ['size-10', 'Sizing'],
-  ['size-full', 'Sizing'],
+  ['size-10', SIZING],
+  ['size-full', SIZING],
 ];
 
 export const CATEGORIZE_VARIANTS_STRIP_CASES: Array<[string, string]> = [
-  ['hover:bg-blue-500', 'Colors'],
-  ['md:flex', 'Flexbox & Grid'],
-  ['dark:text-white', 'Colors'],
-  ['lg:hover:p-4', 'Spacing'],
+  ['hover:bg-blue-500', COLORS],
+  ['md:flex', FLEXBOX_GRID],
+  ['dark:text-white', COLORS],
+  ['lg:hover:p-4', SPACING],
 ];
 
 export const CATEGORIZE_VARIANTS_MULTIPLE_CASES: Array<[string, string]> = [
-  ['sm:md:lg:grid', 'Flexbox & Grid'],
-  ['group-hover:peer-focus:opacity-50', 'Effects'],
+  ['sm:md:lg:grid', FLEXBOX_GRID],
+  ['group-hover:peer-focus:opacity-50', EFFECTS],
 ];
 
 export const CATEGORIZE_UNKNOWN_CASES: Array<[string, string]> = [
-  ['unknown-class', 'Other'],
-  ['custom-utility', 'Other'],
+  ['unknown-class', OTHER],
+  ['custom-utility', OTHER],
 ];
 
-export const CATEGORY_NAMES = ['Layout', 'Flexbox & Grid', 'Spacing', 'Sizing', 'Colors', 'Typography', 'Other'];
+// Export array of category names for tests that need all categories
+export const CATEGORY_NAMES = [
+  LAYOUT,
+  FLEXBOX_GRID,
+  SPACING,
+  SIZING,
+  COLORS,
+  TYPOGRAPHY,
+  OTHER,
+];
 
 export const GROUP_BY_CATEGORY_BASIC_CASE = {
   classes: ['flex', 'p-4', 'text-blue-500'],
   translations: ['flexbox', 'padding 1rem', 'blue text'],
-  expected: ['Flexbox & Grid: flexbox', 'Spacing: padding 1rem', 'Colors: blue text'],
+  expected: [
+    `${FLEXBOX_GRID}: flexbox`,
+    `${SPACING}: padding 1rem`,
+    `${COLORS}: blue text`,
+  ],
 };
 
 export const GROUP_SAME_CATEGORY_CASE = {
   classes: ['p-4', 'm-2', 'gap-4'],
   translations: ['padding 1rem', 'margin 0.5rem', 'gap 1rem'],
   expected: 'padding 1rem, margin 0.5rem',
-  expectedCategory: 'Flexbox & Grid: gap 1rem',
+  expectedCategory: `${FLEXBOX_GRID}: gap 1rem`,
 };
 
 export const GROUP_WITH_VARIANTS_CASE = {
   classes: ['hover:bg-blue-500', 'md:p-4'],
   translations: ['blue background on hover', 'padding 1rem on medium screens'],
-  expectedCategories: ['Colors:', 'Spacing:'],
+  expectedCategories: [`${COLORS}:`, `${SPACING}:`],
 };
 
 export const GROUP_EMOJI_CASE = {
@@ -218,12 +257,11 @@ export const GROUP_EMOJI_CASE = {
 export const GROUP_NO_EMOJI_CASE = {
   classes: ['flex'],
   translations: ['flexbox'],
-  expected: 'Flexbox & Grid: flexbox',
+  expected: `${FLEXBOX_GRID}: flexbox`,
 };
 
 export const GROUP_CATEGORY_ORDER_CASE = {
   classes: ['shadow', 'flex', 'p-4', 'text-lg'],
   translations: ['shadow', 'flexbox', 'padding 1rem', 'large text size'],
-  categories: ['Flexbox & Grid', 'Spacing', 'Typography'],
+  categories: [FLEXBOX_GRID, SPACING, TYPOGRAPHY],
 };
-

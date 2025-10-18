@@ -1,17 +1,29 @@
 /**
  * Full integration tests for translateClasses
- * 
+ *
  * End-to-end tests validating the complete translation pipeline from Tailwind
  * classes to plain English, including all modifiers, variants, arbitrary values,
  * category grouping, edge cases, and performance requirements.
- * 
+ *
  * @see src/core/translation/engine/index.ts
  */
 
 import { describe, it, expect, beforeEach } from 'vitest';
-import { expectIncludesAll, expectIncludesInOrder, expectTranslation } from '@tests/_support/testUtils';
+import {
+  expectIncludesAll,
+  expectIncludesInOrder,
+  expectTranslation,
+} from '@tests/_support/testUtils';
 import { setPlainwindConfig } from '@tests/_support/setup';
-import { VARIANT_CASES, CATEGORY_ORDER, FULL_MODIFIER_CHAIN_CASES, GRACEFUL_DEGRADATION_CASES, REAL_WORLD_COMPLEX_CASES, PERFORMANCE_CASES, MALFORMED_MODIFIER_CASES } from '@tests/_support/cases';
+import {
+  VARIANT_CASES,
+  CATEGORY_ORDER,
+  FULL_MODIFIER_CHAIN_CASES,
+  GRACEFUL_DEGRADATION_CASES,
+  REAL_WORLD_COMPLEX_CASES,
+  PERFORMANCE_CASES,
+  MALFORMED_MODIFIER_CASES,
+} from '@tests/_support/cases';
 import { translateClasses } from '@src/core/translation/engine';
 import { ClassBuilder } from '@tests/_support/classBuilder';
 
@@ -26,7 +38,7 @@ describe('translateClasses - Full Integration', () => {
       const result = translateClasses(cls);
       expect(result).toContain('flex');
       expect(result).toContain('center');
-      expect(result).toContain('gap');
+      expect(result).toContain('space between');
     });
 
     it('should translate spacing utilities', () => {
@@ -34,7 +46,7 @@ describe('translateClasses - Full Integration', () => {
       const result = translateClasses(cls);
       expect(result).toContain('padding');
       expect(result).toContain('margin');
-      expect(result).toContain('horizontal padding');
+      expect(result).toContain('padding on left and right sides');
     });
 
     it('should translate color utilities', () => {
@@ -48,7 +60,7 @@ describe('translateClasses - Full Integration', () => {
       const cls = new ClassBuilder().block().hidden().overflowAuto().toString();
       const result = translateClasses(cls);
       expect(result).toContain('block');
-      expect(result).toContain('visible');
+      expect(result).toContain('hidden');
       expect(result).toContain('scroll');
     });
   });
@@ -75,7 +87,7 @@ describe('translateClasses - Full Integration', () => {
     it('should combine opacity with variants', () => {
       const cls = new ClassBuilder().hover('bg-blue-500/80').toString();
       const result = translateClasses(cls);
-      expect(result).toContain('on hover');
+      expect(result).toContain('when mouse hovers over');
       expect(result).toContain('80% opacity');
     });
   });
@@ -90,7 +102,7 @@ describe('translateClasses - Full Integration', () => {
     it('should combine important with variants', () => {
       const cls = new ClassBuilder().hover('bg-white!').toString();
       const result = translateClasses(cls);
-      expect(result).toContain('on hover');
+      expect(result).toContain('when mouse hovers over');
       expect(result).toContain('!important');
     });
 
@@ -110,37 +122,75 @@ describe('translateClasses - Full Integration', () => {
     });
 
     it('should combine prefix with variants', () => {
-      const cls = new ClassBuilder().prefix('tw', 'hover:bg-blue-500').toString();
+      const cls = new ClassBuilder()
+        .prefix('tw', 'hover:bg-blue-500')
+        .toString();
       const result = translateClasses(cls);
       expect(result).toContain('[tw]');
-      expect(result).toContain('on hover');
+      expect(result).toContain('when mouse hovers over');
     });
   });
 
   describe('complex combinations', () => {
     it('should handle all modifiers together', () => {
       const result = translateClasses('tw\\:md:hover:bg-blue-500/50!');
-      expectIncludesAll(result, ['[tw]', 'on medium screens', 'on hover', '50% opacity', '!important']);
+      expectIncludesAll(result, [
+        '[tw]',
+        'on medium screens',
+        'when mouse hovers over',
+        '50% opacity',
+        '!important',
+      ]);
     });
 
     it('should translate complex UI component classes', () => {
       const cls = new ClassBuilder()
-        .flex().itemsCenter().justifyBetween().p(4)
-        .bg('white').rounded('lg').shadow('md').transitionAll()
+        .flex()
+        .itemsCenter()
+        .justifyBetween()
+        .p(4)
+        .bg('white')
+        .rounded('lg')
+        .shadow('md')
+        .transitionAll()
         .hover('shadow-lg')
         .toString();
       const result = translateClasses(cls);
-      expectIncludesAll(result, ['flex', 'center', 'apart', 'padding', 'white', 'corner', 'shadow', 'hover', 'animates']);
+      expectIncludesAll(result, [
+        'flex',
+        'center',
+        'apart',
+        'padding',
+        'white',
+        'corner',
+        'shadow',
+        'hover',
+        'animates',
+      ]);
     });
 
     it('should translate button with responsive states', () => {
       const cls = new ClassBuilder()
-        .px(4).py(2).bg('blue-500').text('white').roundedPlain()
-        .hover('bg-blue-600').active('bg-blue-700')
-        .md('px-6').md('py-3')
+        .px(4)
+        .py(2)
+        .bg('blue-500')
+        .text('white')
+        .roundedPlain()
+        .hover('bg-blue-600')
+        .active('bg-blue-700')
+        .md('px-6')
+        .md('py-3')
         .toString();
       const result = translateClasses(cls);
-      expectIncludesAll(result, ['horizontal padding', 'vertical padding', 'blue background', 'white text', 'on hover', 'when active', 'on medium screens']);
+      expectIncludesAll(result, [
+        'padding on left and right sides',
+        'padding on top and bottom',
+        'blue background',
+        'white text',
+        'when mouse hovers over',
+        'when being clicked/pressed',
+        'on medium screens',
+      ]);
     });
   });
 
@@ -178,7 +228,7 @@ describe('translateClasses - Full Integration', () => {
     it('should combine arbitrary values with variants', () => {
       const cls = new ClassBuilder().hover('w-[200px]').toString();
       const result = translateClasses(cls);
-      expectIncludesAll(result, ['width', '200px', 'on hover']);
+      expectIncludesAll(result, ['width', '200px', 'when mouse hovers over']);
     });
   });
 
@@ -200,7 +250,13 @@ describe('translateClasses - Full Integration', () => {
     });
 
     it('should maintain category order', () => {
-      const cls = new ClassBuilder().shadow('lg').flex().p(4).bg('white').text('blue-500').toString();
+      const cls = new ClassBuilder()
+        .shadow('lg')
+        .flex()
+        .p(4)
+        .bg('white')
+        .text('blue-500')
+        .toString();
       const result = translateClasses(cls);
       expectIncludesInOrder(result, [...CATEGORY_ORDER]);
     });
@@ -247,7 +303,7 @@ describe('translateClasses - Full Integration', () => {
     it('should handle multiple spaces', () => {
       const cls = new ClassBuilder().flex().itemsCenter().gap(4).toString();
       const result = translateClasses(cls.replace(/ /g, '    '));
-      expectIncludesAll(result, ['flex', 'center', 'gap']);
+      expectIncludesAll(result, ['flex', 'center', 'space between']);
     });
 
     it('should handle unknown classes', () => {
@@ -256,7 +312,11 @@ describe('translateClasses - Full Integration', () => {
     });
 
     it('should handle mix of known and unknown classes', () => {
-      const cls = new ClassBuilder().flex().raw('unknown-class').p(4).toString();
+      const cls = new ClassBuilder()
+        .flex()
+        .raw('unknown-class')
+        .p(4)
+        .toString();
       const result = translateClasses(cls);
       expectIncludesAll(result, ['flexbox', 'unknown-class', 'padding']);
     });
@@ -269,35 +329,47 @@ describe('translateClasses - Full Integration', () => {
   });
 
   describe('full modifier chains (order-of-operations)', () => {
-    it.each(FULL_MODIFIER_CHAIN_CASES)('correctly processes %s', (cls, expectedParts) => {
-      const result = translateClasses(cls);
-      expectedParts.forEach(part => {
-        expect(result).toContain(part);
-      });
-    });
+    it.each(FULL_MODIFIER_CHAIN_CASES)(
+      'correctly processes %s',
+      (cls, expectedParts) => {
+        const result = translateClasses(cls);
+        expectedParts.forEach((part) => {
+          expect(result).toContain(part);
+        });
+      }
+    );
   });
 
   describe('error recovery - graceful degradation', () => {
-    it.each(GRACEFUL_DEGRADATION_CASES)('handles malformed input: %s', (input, shouldNotError) => {
-      expect(() => {
-        const result = translateClasses(input);
-        expect(typeof result).toBe('string');
-      }).not.toThrow();
-    });
+    it.each(GRACEFUL_DEGRADATION_CASES)(
+      'handles malformed input: %s',
+      (input, shouldNotError) => {
+        expect(() => {
+          const result = translateClasses(input);
+          expect(typeof result).toBe('string');
+        }).not.toThrow();
+      }
+    );
 
-    it.each(MALFORMED_MODIFIER_CASES)('processes malformed modifier %s as-is', (input, expected) => {
-      const result = translateClasses(input);
-      expect(result).toContain(expected);
-    });
+    it.each(MALFORMED_MODIFIER_CASES)(
+      'processes malformed modifier %s as-is',
+      (input, expected) => {
+        const result = translateClasses(input);
+        expect(result).toContain(expected);
+      }
+    );
   });
 
   describe('real-world complex combinations', () => {
-    it.each(REAL_WORLD_COMPLEX_CASES)('correctly translates %s', (cls, expectedParts) => {
-      const result = translateClasses(cls);
-      expectedParts.forEach(part => {
-        expect(result).toContain(part);
-      });
-    });
+    it.each(REAL_WORLD_COMPLEX_CASES)(
+      'correctly translates %s',
+      (cls, expectedParts) => {
+        const result = translateClasses(cls);
+        expectedParts.forEach((part) => {
+          expect(result).toContain(part);
+        });
+      }
+    );
   });
 
   describe('performance - scalability', () => {
@@ -305,7 +377,7 @@ describe('translateClasses - Full Integration', () => {
       const startTime = performance.now();
       const result = translateClasses(PERFORMANCE_CASES.longClassString);
       const duration = performance.now() - startTime;
-      
+
       expect(result).toContain('padding');
       expect(duration).toBeLessThan(100); // Should complete in < 100ms
     });
@@ -326,11 +398,9 @@ describe('translateClasses - Full Integration', () => {
       const startTime = performance.now();
       const result = translateClasses(PERFORMANCE_CASES.manyClasses);
       const duration = performance.now() - startTime;
-      
+
       expect(result).toContain('flex');
       expect(duration).toBeLessThan(200); // Should complete in < 200ms
     });
   });
 });
-
-

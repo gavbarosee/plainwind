@@ -17,7 +17,11 @@ export function expectIncludesInOrder(text: string, parts: string[]): void {
   });
 }
 
-export function expectTranslation(input: string, expectedParts: string[], cfg?: Partial<{ groupByCategory: boolean; showCategoryEmojis: boolean }>): void {
+export function expectTranslation(
+  input: string,
+  expectedParts: string[],
+  cfg?: Partial<{ groupByCategory: boolean; showCategoryEmojis: boolean }>
+): void {
   if (cfg) setPlainwindConfig(cfg);
   const result = translateClasses(input);
   expectIncludesAll(result, expectedParts);
@@ -30,7 +34,8 @@ export function expectTranslation(input: string, expectedParts: string[], cfg?: 
 export function testCategorization<T extends (...args: any[]) => string>(
   fn: T,
   cases: Array<[string, string]>,
-  testName: (cls: string, expected: string) => string = (cls, exp) => `categorizes ${cls} as ${exp}`
+  testName: (cls: string, expected: string) => string = (cls, exp) =>
+    `categorizes ${cls} as ${exp}`
 ) {
   return (cls: string, expected: string) => {
     expect(fn(cls)).toBe(expected);
@@ -43,7 +48,8 @@ export function testCategorization<T extends (...args: any[]) => string>(
  */
 export function testPatternMatch<T extends (...args: any[]) => string | null>(
   fn: T,
-  testName: (cls: string, expected: string) => string = (cls, exp) => `${cls} contains ${exp}`
+  testName: (cls: string, expected: string) => string = (cls, exp) =>
+    `${cls} contains ${exp}`
 ) {
   return (cls: string, expected: string) => {
     expect(fn(cls)).toContain(expected);
@@ -65,9 +71,7 @@ export function testPatternNoMatch<T extends (...args: any[]) => string | null>(
 /**
  * Helper for testing exact matches with it.each() pattern
  */
-export function testExactMatch<T extends (...args: any[]) => string>(
-  fn: T
-) {
+export function testExactMatch<T extends (...args: any[]) => string>(fn: T) {
   return (cls: string, expected: string) => {
     expect(fn(cls)).toBe(expected);
   };
@@ -77,9 +81,7 @@ export function testExactMatch<T extends (...args: any[]) => string>(
  * Helper for testing flexible matches (exact or contains) with it.each() pattern
  * Used when test data specifies match type (e.g., [[cls, expected, 'exact'], ...])
  */
-export function testFlexibleMatch<T extends (...args: any[]) => string>(
-  fn: T
-) {
+export function testFlexibleMatch<T extends (...args: any[]) => string>(fn: T) {
   return (cls: string, expected: string, matchType: string) => {
     const result = fn(cls);
     if (matchType === 'exact') {
@@ -89,5 +91,3 @@ export function testFlexibleMatch<T extends (...args: any[]) => string>(
     }
   };
 }
-
-

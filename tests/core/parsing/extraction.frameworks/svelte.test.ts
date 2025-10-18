@@ -13,7 +13,7 @@ describe('Svelte class: directives', () => {
     expect(extractions).toHaveLength(1);
     expect(extractions[0].classStrings).toEqual(['active']);
     expect(extractions[0].conditionalClasses).toEqual([
-      { classes: 'active', condition: 'isActive' }
+      { classes: 'active', condition: 'isActive' },
     ]);
   });
 
@@ -23,15 +23,16 @@ describe('Svelte class: directives', () => {
 
     expect(extractions).toHaveLength(2);
     expect(extractions[0].conditionalClasses).toEqual([
-      { classes: 'active', condition: 'isActive' }
+      { classes: 'active', condition: 'isActive' },
     ]);
     expect(extractions[1].conditionalClasses).toEqual([
-      { classes: 'disabled', condition: 'isDisabled' }
+      { classes: 'disabled', condition: 'isDisabled' },
     ]);
   });
 
   it('should handle class: with tailwind classes', () => {
-    const text = '<div class:bg-blue-500={isActive} class:text-white={isActive}>';
+    const text =
+      '<div class:bg-blue-500={isActive} class:text-white={isActive}>';
     const extractions = extractAllClassNames(text);
 
     expect(extractions).toHaveLength(2);
@@ -45,7 +46,7 @@ describe('Svelte class: directives', () => {
 
     expect(extractions).toHaveLength(1);
     expect(extractions[0].conditionalClasses).toEqual([
-      { classes: 'always-active' }
+      { classes: 'always-active' },
     ]);
   });
 
@@ -55,7 +56,7 @@ describe('Svelte class: directives', () => {
 
     expect(extractions).toHaveLength(1);
     expect(extractions[0].conditionalClasses).toEqual([
-      { classes: 'error', condition: 'hasError || isInvalid' }
+      { classes: 'error', condition: 'hasError || isInvalid' },
     ]);
   });
 
@@ -67,9 +68,8 @@ describe('Svelte class: directives', () => {
       expect(extractions).toHaveLength(2);
       expect(extractions[0].classStrings).toEqual(['base-styles']);
       expect(extractions[1].conditionalClasses).toEqual([
-        { classes: 'active', condition: 'isActive' }
+        { classes: 'active', condition: 'isActive' },
       ]);
     });
   });
 });
-

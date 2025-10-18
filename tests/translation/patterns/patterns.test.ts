@@ -1,16 +1,19 @@
 /**
  * Tests for pattern matching functions
- * 
- * Validates that Tailwind class patterns (spacing, sizing, colors, etc.) 
+ *
+ * Validates that Tailwind class patterns (spacing, sizing, colors, etc.)
  * are correctly identified and translated. Tests both positive matches
  * and negative cases (patterns that should not match).
- * 
+ *
  * @see src/core/translation/rules/patterns/
  */
 
 import { describe, it, expect } from 'vitest';
 import { COLOR_SCALES } from '@tests/_support/fixtures';
-import { testPatternMatch, testPatternNoMatch } from '@tests/_support/testUtils';
+import {
+  testPatternMatch,
+  testPatternNoMatch,
+} from '@tests/_support/testUtils';
 import {
   SPACING_DIRECTIONAL_CASES,
   MARGIN_DIRECTIONAL_CASES,
@@ -66,63 +69,126 @@ import {
 
 describe('Pattern Matching Tests', () => {
   describe('matchSpacingPattern', () => {
-    it.each(SPACING_NUMERIC_PADDING_CASES)('%s -> %s', testPatternMatch(matchSpacingPattern));
-    it.each(SPACING_NUMERIC_MARGIN_CASES)('%s -> %s', testPatternMatch(matchSpacingPattern));
-    it.each(SPACING_DIRECTIONAL_CASES)('should match %s', testPatternMatch(matchSpacingPattern));
-    it.each(MARGIN_DIRECTIONAL_CASES)('should match %s', testPatternMatch(matchSpacingPattern));
-    it.each(SPACING_AXIS_CASES)('should match %s', testPatternMatch(matchSpacingPattern));
-    it.each(SPACING_AUTO_CASES)('%s -> %s', testPatternMatch(matchSpacingPattern));
-    it.each(SPACING_NEGATIVE_CASES)('should match %s', testPatternMatch(matchSpacingPattern));
-    it.each(NON_SPACING_CASES)('should not match %s', testPatternNoMatch(matchSpacingPattern));
+    it.each(SPACING_NUMERIC_PADDING_CASES)(
+      '%s -> %s',
+      testPatternMatch(matchSpacingPattern)
+    );
+    it.each(SPACING_NUMERIC_MARGIN_CASES)(
+      '%s -> %s',
+      testPatternMatch(matchSpacingPattern)
+    );
+    it.each(SPACING_DIRECTIONAL_CASES)(
+      'should match %s',
+      testPatternMatch(matchSpacingPattern)
+    );
+    it.each(MARGIN_DIRECTIONAL_CASES)(
+      'should match %s',
+      testPatternMatch(matchSpacingPattern)
+    );
+    it.each(SPACING_AXIS_CASES)(
+      'should match %s',
+      testPatternMatch(matchSpacingPattern)
+    );
+    it.each(SPACING_AUTO_CASES)(
+      '%s -> %s',
+      testPatternMatch(matchSpacingPattern)
+    );
+    it.each(SPACING_NEGATIVE_CASES)(
+      'should match %s',
+      testPatternMatch(matchSpacingPattern)
+    );
+    it.each(NON_SPACING_CASES)(
+      'should not match %s',
+      testPatternNoMatch(matchSpacingPattern)
+    );
   });
 
   describe('matchSizingPattern', () => {
-    it.each(SIZING_SIZE_PATTERN_CASES)('%s -> %s', testPatternMatch(matchSizingPattern));
-    it.each(NON_SIZING_CASES)('should not match %s', testPatternNoMatch(matchSizingPattern));
+    it.each(SIZING_SIZE_PATTERN_CASES)(
+      '%s -> %s',
+      testPatternMatch(matchSizingPattern)
+    );
+    it.each(NON_SIZING_CASES)(
+      'should not match %s',
+      testPatternNoMatch(matchSizingPattern)
+    );
   });
 
   describe('matchColorPattern', () => {
-    it.each(COLOR_TEXT_NUMERIC_CASES)('text: %s -> %s', testPatternMatch(matchColorPattern));
-    it.each(COLOR_BG_NUMERIC_CASES)('bg: %s -> %s', testPatternMatch(matchColorPattern));
-    it.each(COLOR_BORDER_NUMERIC_CASES)('border: %s -> %s', testPatternMatch(matchColorPattern));
+    it.each(COLOR_TEXT_NUMERIC_CASES)(
+      'text: %s -> %s',
+      testPatternMatch(matchColorPattern)
+    );
+    it.each(COLOR_BG_NUMERIC_CASES)(
+      'bg: %s -> %s',
+      testPatternMatch(matchColorPattern)
+    );
+    it.each(COLOR_BORDER_NUMERIC_CASES)(
+      'border: %s -> %s',
+      testPatternMatch(matchColorPattern)
+    );
 
-    it.each(COLOR_SCALES.map((s) => [`bg-blue-${s}`]))('should handle color scale %s', (cls) => {
-      expect(matchColorPattern(cls)).toContain('blue');
-    });
+    it.each(COLOR_SCALES.map((s) => [`bg-blue-${s}`]))(
+      'should handle color scale %s',
+      (cls) => {
+        expect(matchColorPattern(cls)).toContain('blue');
+      }
+    );
 
-    it.each(NON_COLOR_WITH_SCALE_CASES)('should not match %s (no scale)', testPatternNoMatch(matchColorPattern));
+    it.each(NON_COLOR_WITH_SCALE_CASES)(
+      'should not match %s (no scale)',
+      testPatternNoMatch(matchColorPattern)
+    );
   });
 
   describe('matchArbitraryValue', () => {
-    it.each(ARBITRARY_WIDTH_CASES)('%s contains %s and %s', (cls, prop, value) => {
-      const result = matchArbitraryValue(cls);
-      expect(result).toContain(prop);
-      expect(result).toContain(value);
-    });
+    it.each(ARBITRARY_WIDTH_CASES)(
+      '%s contains %s and %s',
+      (cls, prop, value) => {
+        const result = matchArbitraryValue(cls);
+        expect(result).toContain(prop);
+        expect(result).toContain(value);
+      }
+    );
 
-    it.each(ARBITRARY_HEIGHT_CASES)('%s contains %s and %s', (cls, prop, value) => {
-      const result = matchArbitraryValue(cls);
-      expect(result).toContain(prop);
-      expect(result).toContain(value);
-    });
+    it.each(ARBITRARY_HEIGHT_CASES)(
+      '%s contains %s and %s',
+      (cls, prop, value) => {
+        const result = matchArbitraryValue(cls);
+        expect(result).toContain(prop);
+        expect(result).toContain(value);
+      }
+    );
 
-    it.each(ARBITRARY_SPACING_CASES)('%s contains %s and %s', (cls, prop, value) => {
-      const result = matchArbitraryValue(cls);
-      expect(result).toContain(prop);
-      expect(result).toContain(value);
-    });
+    it.each(ARBITRARY_SPACING_CASES)(
+      '%s contains %s and %s',
+      (cls, prop, value) => {
+        const result = matchArbitraryValue(cls);
+        expect(result).toContain(prop);
+        expect(result).toContain(value);
+      }
+    );
 
-    it.each(ARBITRARY_COLOR_CASES)('%s contains %s and %s', (cls, prop, value) => {
-      const result = matchArbitraryValue(cls);
-      expect(result).toContain(prop);
-      expect(result).toContain(value);
-    });
+    it.each(ARBITRARY_COLOR_CASES)(
+      '%s contains %s and %s',
+      (cls, prop, value) => {
+        const result = matchArbitraryValue(cls);
+        expect(result).toContain(prop);
+        expect(result).toContain(value);
+      }
+    );
 
-    it.each(NON_ARBITRARY_CASES)('should not match %s', testPatternNoMatch(matchArbitraryValue));
+    it.each(NON_ARBITRARY_CASES)(
+      'should not match %s',
+      testPatternNoMatch(matchArbitraryValue)
+    );
   });
 
   describe('matchFontSizePattern', () => {
-    it.each(FONT_SIZE_NAMED_CASES)('should not match %s (static mapping)', testPatternNoMatch(matchFontSizePattern));
+    it.each(FONT_SIZE_NAMED_CASES)(
+      'should not match %s (static mapping)',
+      testPatternNoMatch(matchFontSizePattern)
+    );
 
     it('should not match non-font-size patterns', () => {
       expect(matchFontSizePattern('text-blue-500')).toBeNull();
@@ -131,7 +197,10 @@ describe('Pattern Matching Tests', () => {
   });
 
   describe('matchBorderRadiusPattern', () => {
-    it.each(BORDER_RADIUS_NAMED_CASES)('should not match %s (static mapping)', testPatternNoMatch(matchBorderRadiusPattern));
+    it.each(BORDER_RADIUS_NAMED_CASES)(
+      'should not match %s (static mapping)',
+      testPatternNoMatch(matchBorderRadiusPattern)
+    );
   });
 
   describe('matchGridColumnsPattern', () => {
@@ -154,7 +223,10 @@ describe('Pattern Matching Tests', () => {
   describe('matchGapPattern', () => {
     it.each(GAP_NUMERIC_CASES)('%s -> %s', testPatternMatch(matchGapPattern));
     it.each(GAP_AXIS_CASES)('%s -> %s', testPatternMatch(matchGapPattern));
-    it.each(NON_GAP_CASES)('should not match %s', testPatternNoMatch(matchGapPattern));
+    it.each(NON_GAP_CASES)(
+      'should not match %s',
+      testPatternNoMatch(matchGapPattern)
+    );
   });
 
   describe('matchOpacityPattern', () => {
@@ -162,19 +234,31 @@ describe('Pattern Matching Tests', () => {
       expect(matchOpacityPattern(cls)).toContain('opacity');
     });
 
-    it.each(NON_OPACITY_CASES)('should not match %s', testPatternNoMatch(matchOpacityPattern));
+    it.each(NON_OPACITY_CASES)(
+      'should not match %s',
+      testPatternNoMatch(matchOpacityPattern)
+    );
   });
 
   describe('matchShadowPattern', () => {
-    it.each(SHADOW_NAMED_CASES)('should not match %s (static mapping)', testPatternNoMatch(matchShadowPattern));
+    it.each(SHADOW_NAMED_CASES)(
+      'should not match %s (static mapping)',
+      testPatternNoMatch(matchShadowPattern)
+    );
   });
 
   describe('matchBackgroundColorPattern', () => {
-    it.each(ARBITRARY_BG_COLOR_CASES)('%s contains %s', testPatternMatch(matchBackgroundColorPattern));
+    it.each(ARBITRARY_BG_COLOR_CASES)(
+      '%s contains %s',
+      testPatternMatch(matchBackgroundColorPattern)
+    );
   });
 
   describe('matchTextColorPattern', () => {
-    it.each(ARBITRARY_TEXT_COLOR_CASES)('%s contains %s', testPatternMatch(matchTextColorPattern));
+    it.each(ARBITRARY_TEXT_COLOR_CASES)(
+      '%s contains %s',
+      testPatternMatch(matchTextColorPattern)
+    );
   });
 
   describe('edge cases', () => {
@@ -184,8 +268,9 @@ describe('Pattern Matching Tests', () => {
       expect(matchColorPattern('')).toBeNull();
     });
 
-    it.each(MALFORMED_ARBITRARY_CASES)('should handle malformed %s', testPatternNoMatch(matchArbitraryValue));
+    it.each(MALFORMED_ARBITRARY_CASES)(
+      'should handle malformed %s',
+      testPatternNoMatch(matchArbitraryValue)
+    );
   });
 });
-
-

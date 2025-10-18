@@ -140,12 +140,9 @@ export const bordersMappings: Record<string, string> = {
   'rounded-r-md': 'medium rounded top-right & bottom-right corners',
   'rounded-r-lg': 'large rounded top-right & bottom-right corners',
   'rounded-r-xl': 'extra large rounded top-right & bottom-right corners',
-  'rounded-r-2xl':
-    '2x extra large rounded top-right & bottom-right corners',
-  'rounded-r-3xl':
-    '3x extra large rounded top-right & bottom-right corners',
-  'rounded-r-4xl':
-    '4x extra large rounded top-right & bottom-right corners',
+  'rounded-r-2xl': '2x extra large rounded top-right & bottom-right corners',
+  'rounded-r-3xl': '3x extra large rounded top-right & bottom-right corners',
+  'rounded-r-4xl': '4x extra large rounded top-right & bottom-right corners',
   'rounded-r-none': 'sharp top-right & bottom-right corners',
   'rounded-r-full': 'fully circular top-right & bottom-right corners',
   // Border Radius - Bottom
@@ -154,12 +151,9 @@ export const bordersMappings: Record<string, string> = {
   'rounded-b-md': 'medium rounded bottom-left & bottom-right corners',
   'rounded-b-lg': 'large rounded bottom-left & bottom-right corners',
   'rounded-b-xl': 'extra large rounded bottom-left & bottom-right corners',
-  'rounded-b-2xl':
-    '2x extra large rounded bottom-left & bottom-right corners',
-  'rounded-b-3xl':
-    '3x extra large rounded bottom-left & bottom-right corners',
-  'rounded-b-4xl':
-    '4x extra large rounded bottom-left & bottom-right corners',
+  'rounded-b-2xl': '2x extra large rounded bottom-left & bottom-right corners',
+  'rounded-b-3xl': '3x extra large rounded bottom-left & bottom-right corners',
+  'rounded-b-4xl': '4x extra large rounded bottom-left & bottom-right corners',
   'rounded-b-none': 'sharp bottom-left & bottom-right corners',
   'rounded-b-full': 'fully circular bottom-left & bottom-right corners',
   // Border Radius - Left
@@ -170,8 +164,7 @@ export const bordersMappings: Record<string, string> = {
   'rounded-l-xl': 'extra large rounded top-left & bottom-left corners',
   'rounded-l-2xl': '2x extra large rounded top-left & bottom-left corners',
   'rounded-l-3xl': '3x extra large rounded top-left & bottom-left corners',
-  'rounded-l-4xl':
-    '4x extra large rounded top-left & bottom-left corners',
+  'rounded-l-4xl': '4x extra large rounded top-left & bottom-left corners',
   'rounded-l-none': 'sharp top-left & bottom-left corners',
   'rounded-l-full': 'fully circular top-left & bottom-left corners',
   // Border Radius - Top-left corner
@@ -219,24 +212,40 @@ export const bordersMappings: Record<string, string> = {
   'rounded-bl-none': 'no rounded bottom-left corner',
   'rounded-bl-full': 'fully circular bottom-left corner',
   // Border Radius - Logical properties (start/end)
-  'rounded-s-xs': 'extra small rounded start corners (left in left-to-right languages)',
-  'rounded-s-sm': 'small rounded start corners (left in left-to-right languages)',
-  'rounded-s-md': 'medium rounded start corners (left in left-to-right languages)',
-  'rounded-s-lg': 'large rounded start corners (left in left-to-right languages)',
-  'rounded-s-xl': 'extra large rounded start corners (left in left-to-right languages)',
-  'rounded-s-2xl': '2x extra large rounded start corners (left in left-to-right languages)',
-  'rounded-s-3xl': '3x extra large rounded start corners (left in left-to-right languages)',
-  'rounded-s-4xl': '4x extra large rounded start corners (left in left-to-right languages)',
+  'rounded-s-xs':
+    'extra small rounded start corners (left in left-to-right languages)',
+  'rounded-s-sm':
+    'small rounded start corners (left in left-to-right languages)',
+  'rounded-s-md':
+    'medium rounded start corners (left in left-to-right languages)',
+  'rounded-s-lg':
+    'large rounded start corners (left in left-to-right languages)',
+  'rounded-s-xl':
+    'extra large rounded start corners (left in left-to-right languages)',
+  'rounded-s-2xl':
+    '2x extra large rounded start corners (left in left-to-right languages)',
+  'rounded-s-3xl':
+    '3x extra large rounded start corners (left in left-to-right languages)',
+  'rounded-s-4xl':
+    '4x extra large rounded start corners (left in left-to-right languages)',
   'rounded-s-none': 'sharp start corners',
   'rounded-s-full': 'fully circular start corners',
-  'rounded-e-xs': 'extra small rounded end corners (right in left-to-right languages)',
-  'rounded-e-sm': 'small rounded end corners (right in left-to-right languages)',
-  'rounded-e-md': 'medium rounded end corners (right in left-to-right languages)',
-  'rounded-e-lg': 'large rounded end corners (right in left-to-right languages)',
-  'rounded-e-xl': 'extra large rounded end corners (right in left-to-right languages)',
-  'rounded-e-2xl': '2x extra large rounded end corners (right in left-to-right languages)',
-  'rounded-e-3xl': '3x extra large rounded end corners (right in left-to-right languages)',
-  'rounded-e-4xl': '4x extra large rounded end corners (right in left-to-right languages)',
+  'rounded-e-xs':
+    'extra small rounded end corners (right in left-to-right languages)',
+  'rounded-e-sm':
+    'small rounded end corners (right in left-to-right languages)',
+  'rounded-e-md':
+    'medium rounded end corners (right in left-to-right languages)',
+  'rounded-e-lg':
+    'large rounded end corners (right in left-to-right languages)',
+  'rounded-e-xl':
+    'extra large rounded end corners (right in left-to-right languages)',
+  'rounded-e-2xl':
+    '2x extra large rounded end corners (right in left-to-right languages)',
+  'rounded-e-3xl':
+    '3x extra large rounded end corners (right in left-to-right languages)',
+  'rounded-e-4xl':
+    '4x extra large rounded end corners (right in left-to-right languages)',
   'rounded-e-none': 'sharp end corners',
   'rounded-e-full': 'fully circular end corners',
   // Border Radius - Logical corner properties
