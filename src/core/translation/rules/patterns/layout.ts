@@ -10,19 +10,19 @@ export function matchAspectRatioPattern(className: string): string | null {
   if (ratioMatch) {
     const width = ratioMatch[1];
     const height = ratioMatch[2];
-    return `${width}:${height} aspect ratio`;
+    return `${width}:${height} proportion`;
   }
 
   // Match aspect with custom property: aspect-(--custom-var)
   const customPropMatch = className.match(/^aspect-\((--[\w-]+)\)$/);
   if (customPropMatch) {
-    return `aspect ratio ${customPropMatch[1]}`;
+    return `proportion ${customPropMatch[1]}`;
   }
 
   // Match aspect with arbitrary value: aspect-[value]
   const arbitraryMatch = className.match(/^aspect-\[(.+?)\]$/);
   if (arbitraryMatch) {
-    return `aspect ratio ${arbitraryMatch[1]}`;
+    return `proportion ${arbitraryMatch[1]}`;
   }
 
   return null;

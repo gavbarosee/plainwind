@@ -214,7 +214,7 @@ export const typographyMappings: Record<string, string> = {
   'decoration-black': 'black decoration',
   'decoration-white': 'white decoration',
   // Text Shadow - Size (v4.1)
-  'text-shadow-2xs': '2x small text shadow',
+  'text-shadow-2xs': '2x extra small text shadow',
   'text-shadow-xs': 'extra small text shadow',
   'text-shadow-sm': 'small text shadow',
   'text-shadow': 'medium text shadow',

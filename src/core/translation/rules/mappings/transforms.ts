@@ -3,7 +3,6 @@
  */
 export const transformsMappings: Record<string, string> = {
   // Transform Scale
-  'scale-none': 'no scale',
   'scale-0': 'completely collapsed (invisible, 0% size)',
   'scale-25': 'shrunk to quarter size (25%)',
   'scale-50': 'shrunk to half size (50%)',

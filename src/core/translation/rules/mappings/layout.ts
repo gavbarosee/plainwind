@@ -20,7 +20,8 @@ export const layoutMappings: Record<string, string> = {
   'table-header-group': 'display as table header',
   'table-row-group': 'display as table body',
   'table-row': 'display as table row',
-  'flow-root': 'keeps child elements inside container (prevents content from escaping)',
+  'flow-root':
+    'keeps child elements inside container (prevents content from escaping)',
   contents: 'shows children only (removes wrapper from layout)',
   'list-item': 'display as list item (with bullet/number marker)',
   hidden: 'completely hidden (removed from layout)',
@@ -50,8 +51,10 @@ export const layoutMappings: Record<string, string> = {
   'box-content': 'width excludes border and padding (content-box)',
 
   // Box Decoration Break
-  'box-decoration-slice': 'borders and backgrounds slice at line breaks (continues across lines)',
-  'box-decoration-clone': 'borders and backgrounds repeat at each line (independent styling per line)',
+  'box-decoration-slice':
+    'borders and backgrounds slice at line breaks (continues across lines)',
+  'box-decoration-clone':
+    'borders and backgrounds repeat at each line (independent styling per line)',
 
   // Border Sizing (v4 beta)
   'border-sizing-content': 'width excludes border and padding (content-box)',
@@ -113,7 +116,8 @@ export const layoutMappings: Record<string, string> = {
   'break-inside-avoid-column': 'prevents column breaks inside element',
 
   // Object Fit
-  'object-contain': 'scales to fit inside container (maintains proportions, no cropping)',
+  'object-contain':
+    'scales to fit inside container (maintains proportions, no cropping)',
   'object-cover': 'scales to fill container (may crop edges)',
   'object-fill': 'stretches to fill container (may distort)',
   'object-none': 'keeps original size (no scaling)',

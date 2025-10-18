@@ -353,13 +353,13 @@ export function matchContentPattern(className: string): string | null {
   // content-(--custom-property) - custom CSS properties
   const customPropMatch = className.match(/^content-\((--[\w-]+)\)$/);
   if (customPropMatch) {
-    return `pseudo-element content ${customPropMatch[1]}`;
+    return `decorative content ${customPropMatch[1]}`;
   }
 
   // content-[value] - arbitrary values
   const arbitraryMatch = className.match(/^content-\[(.+?)\]$/);
   if (arbitraryMatch) {
-    return `pseudo-element content ${arbitraryMatch[1]}`;
+    return `decorative content ${arbitraryMatch[1]}`;
   }
 
   return null;

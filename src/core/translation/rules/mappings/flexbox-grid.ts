@@ -305,8 +305,10 @@ export const flexboxGridMappings: Record<string, string> = {
   'place-content-end': 'aligns content to end horizontally and vertically',
   'place-content-end-safe':
     'aligns content to end horizontally and vertically (prevents overflow data loss)',
-  'place-content-between': 'spaces content horizontally and vertically (no edge spacing)',
-  'place-content-around': 'spaces content horizontally and vertically (half-space at edges)',
+  'place-content-between':
+    'spaces content horizontally and vertically (no edge spacing)',
+  'place-content-around':
+    'spaces content horizontally and vertically (half-space at edges)',
   'place-content-evenly': 'spaces content equally horizontally and vertically',
   'place-content-baseline': 'aligns to text line horizontally and vertically',
   'place-content-stretch': 'stretches horizontally and vertically',
@@ -316,10 +318,12 @@ export const flexboxGridMappings: Record<string, string> = {
   'place-items-end': 'aligns items to bottom-right in their cells',
   'place-items-end-safe':
     'aligns items to bottom-right (ensures content stays visible)',
-  'place-items-center': 'centers items horizontally and vertically in their cells',
+  'place-items-center':
+    'centers items horizontally and vertically in their cells',
   'place-items-center-safe':
     'centers items horizontally and vertically (ensures content stays visible)',
-  'place-items-baseline': 'aligns items to text line horizontally and vertically',
+  'place-items-baseline':
+    'aligns items to text line horizontally and vertically',
   'place-items-stretch': 'stretches items to fill cell completely',
 
   // Place Self (grid)

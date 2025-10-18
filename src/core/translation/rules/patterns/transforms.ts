@@ -26,19 +26,19 @@ export function matchRotatePattern(className: string): string | null {
   // rotate-x-(<custom-property>) - custom CSS property for X-axis rotation
   const rotateXCustomPropMatch = className.match(/^rotate-x-\((--[\w-]+)\)$/);
   if (rotateXCustomPropMatch) {
-    return `rotate on X axis ${rotateXCustomPropMatch[1]}`;
+    return `rotate around horizontal axis ${rotateXCustomPropMatch[1]}`;
   }
 
   // rotate-y-(<custom-property>) - custom CSS property for Y-axis rotation
   const rotateYCustomPropMatch = className.match(/^rotate-y-\((--[\w-]+)\)$/);
   if (rotateYCustomPropMatch) {
-    return `rotate on Y axis ${rotateYCustomPropMatch[1]}`;
+    return `rotate around vertical axis ${rotateYCustomPropMatch[1]}`;
   }
 
   // rotate-z-(<custom-property>) - custom CSS property for Z-axis rotation
   const rotateZCustomPropMatch = className.match(/^rotate-z-\((--[\w-]+)\)$/);
   if (rotateZCustomPropMatch) {
-    return `rotate on Z axis ${rotateZCustomPropMatch[1]}`;
+    return `rotate in depth ${rotateZCustomPropMatch[1]}`;
   }
 
   // rotate-(<custom-property>) - custom CSS property for rotation
@@ -50,19 +50,19 @@ export function matchRotatePattern(className: string): string | null {
   // rotate-x-[value] - arbitrary X-axis rotation value
   const rotateXArbitraryMatch = className.match(/^rotate-x-\[(.+?)\]$/);
   if (rotateXArbitraryMatch) {
-    return `rotate on X axis ${rotateXArbitraryMatch[1]}`;
+    return `rotate around horizontal axis ${rotateXArbitraryMatch[1]}`;
   }
 
   // rotate-y-[value] - arbitrary Y-axis rotation value
   const rotateYArbitraryMatch = className.match(/^rotate-y-\[(.+?)\]$/);
   if (rotateYArbitraryMatch) {
-    return `rotate on Y axis ${rotateYArbitraryMatch[1]}`;
+    return `rotate around vertical axis ${rotateYArbitraryMatch[1]}`;
   }
 
   // rotate-z-[value] - arbitrary Z-axis rotation value
   const rotateZArbitraryMatch = className.match(/^rotate-z-\[(.+?)\]$/);
   if (rotateZArbitraryMatch) {
-    return `rotate on Z axis ${rotateZArbitraryMatch[1]}`;
+    return `rotate in depth ${rotateZArbitraryMatch[1]}`;
   }
 
   // rotate-[value] - arbitrary rotation value
@@ -74,19 +74,19 @@ export function matchRotatePattern(className: string): string | null {
   // -rotate-x-<number> - negative X-axis rotation in degrees
   const negativeRotateXMatch = className.match(/^-rotate-x-(\d+(?:\.\d+)?)$/);
   if (negativeRotateXMatch) {
-    return `rotate -${negativeRotateXMatch[1]}° on X axis`;
+    return `rotate -${negativeRotateXMatch[1]}° around horizontal axis`;
   }
 
   // -rotate-y-<number> - negative Y-axis rotation in degrees
   const negativeRotateYMatch = className.match(/^-rotate-y-(\d+(?:\.\d+)?)$/);
   if (negativeRotateYMatch) {
-    return `rotate -${negativeRotateYMatch[1]}° on Y axis`;
+    return `rotate -${negativeRotateYMatch[1]}° around vertical axis`;
   }
 
   // -rotate-z-<number> - negative Z-axis rotation in degrees
   const negativeRotateZMatch = className.match(/^-rotate-z-(\d+(?:\.\d+)?)$/);
   if (negativeRotateZMatch) {
-    return `rotate -${negativeRotateZMatch[1]}° on Z axis`;
+    return `rotate -${negativeRotateZMatch[1]}° in depth`;
   }
 
   // -rotate-<number> - negative rotation in degrees
@@ -98,19 +98,19 @@ export function matchRotatePattern(className: string): string | null {
   // rotate-x-<number> - X-axis rotation in degrees
   const rotateXMatch = className.match(/^rotate-x-(\d+(?:\.\d+)?)$/);
   if (rotateXMatch) {
-    return `rotate ${rotateXMatch[1]}° on X axis`;
+    return `rotate ${rotateXMatch[1]}° around horizontal axis`;
   }
 
   // rotate-y-<number> - Y-axis rotation in degrees
   const rotateYMatch = className.match(/^rotate-y-(\d+(?:\.\d+)?)$/);
   if (rotateYMatch) {
-    return `rotate ${rotateYMatch[1]}° on Y axis`;
+    return `rotate ${rotateYMatch[1]}° around vertical axis`;
   }
 
   // rotate-z-<number> - Z-axis rotation in degrees
   const rotateZMatch = className.match(/^rotate-z-(\d+(?:\.\d+)?)$/);
   if (rotateZMatch) {
-    return `rotate ${rotateZMatch[1]}° on Z axis`;
+    return `rotate ${rotateZMatch[1]}° in depth`;
   }
 
   // rotate-<number> - rotation in degrees
@@ -142,7 +142,7 @@ export function matchScalePattern(className: string): string | null {
   // scale-z-(<custom-property>) - custom CSS property for Z-axis scale
   const scaleZCustomPropMatch = className.match(/^scale-z-\((--[\w-]+)\)$/);
   if (scaleZCustomPropMatch) {
-    return `scale on Z axis ${scaleZCustomPropMatch[1]}`;
+    return `scale in depth ${scaleZCustomPropMatch[1]}`;
   }
 
   // scale-(<custom-property>) - custom CSS property for scale
@@ -166,7 +166,7 @@ export function matchScalePattern(className: string): string | null {
   // scale-z-[value] - arbitrary Z-axis scale value
   const scaleZArbitraryMatch = className.match(/^scale-z-\[(.+?)\]$/);
   if (scaleZArbitraryMatch) {
-    return `scale on Z axis ${scaleZArbitraryMatch[1]}`;
+    return `scale in depth ${scaleZArbitraryMatch[1]}`;
   }
 
   // scale-[value] - arbitrary scale value
@@ -190,7 +190,7 @@ export function matchScalePattern(className: string): string | null {
   // -scale-z-<number> - negative Z-axis scale percentage
   const negativeScaleZMatch = className.match(/^-scale-z-(\d+(?:\.\d+)?)$/);
   if (negativeScaleZMatch) {
-    return `scale on Z axis to -${negativeScaleZMatch[1]}%`;
+    return `scale in depth to -${negativeScaleZMatch[1]}%`;
   }
 
   // -scale-<number> - negative scale percentage
@@ -214,7 +214,7 @@ export function matchScalePattern(className: string): string | null {
   // scale-z-<number> - Z-axis scale percentage
   const scaleZMatch = className.match(/^scale-z-(\d+(?:\.\d+)?)$/);
   if (scaleZMatch) {
-    return `scale on Z axis to ${scaleZMatch[1]}%`;
+    return `scale in depth to ${scaleZMatch[1]}%`;
   }
 
   // scale-<number> - scale percentage
@@ -246,7 +246,7 @@ export function matchSkewPattern(className: string): string | null {
   // skew-(<custom-property>) - custom CSS property for both axes skew
   const customPropMatch = className.match(/^skew-\((--[\w-]+)\)$/);
   if (customPropMatch) {
-    return `skew on both axes ${customPropMatch[1]}`;
+    return `skew horizontally and vertically ${customPropMatch[1]}`;
   }
 
   // skew-x-[value] - arbitrary X-axis skew value
@@ -264,7 +264,7 @@ export function matchSkewPattern(className: string): string | null {
   // skew-[value] - arbitrary both axes skew value
   const arbitraryMatch = className.match(/^skew-\[(.+?)\]$/);
   if (arbitraryMatch) {
-    return `skew on both axes ${arbitraryMatch[1]}`;
+    return `skew horizontally and vertically ${arbitraryMatch[1]}`;
   }
 
   // -skew-x-<number> - negative X-axis skew in degrees
@@ -282,7 +282,7 @@ export function matchSkewPattern(className: string): string | null {
   // -skew-<number> - negative both axes skew in degrees
   const negativeMatch = className.match(/^-skew-(\d+(?:\.\d+)?)$/);
   if (negativeMatch) {
-    return `skew -${negativeMatch[1]}° on both axes`;
+    return `skew -${negativeMatch[1]}° horizontally and vertically`;
   }
 
   // skew-x-<number> - X-axis skew in degrees
@@ -300,7 +300,7 @@ export function matchSkewPattern(className: string): string | null {
   // skew-<number> - both axes skew in degrees
   const numberMatch = className.match(/^skew-(\d+(?:\.\d+)?)$/);
   if (numberMatch) {
-    return `skew ${numberMatch[1]}° on both axes`;
+    return `skew ${numberMatch[1]}° horizontally and vertically`;
   }
 
   return null;
@@ -332,13 +332,13 @@ export function matchTranslatePattern(className: string): string | null {
     /^translate-z-\((--[\w-]+)\)$/
   );
   if (translateZCustomPropMatch) {
-    return `translate on Z axis ${translateZCustomPropMatch[1]}`;
+    return `move in depth ${translateZCustomPropMatch[1]}`;
   }
 
   // translate-(<custom-property>) - custom CSS property for both axes translation
   const customPropMatch = className.match(/^translate-\((--[\w-]+)\)$/);
   if (customPropMatch) {
-    return `translate on both axes ${customPropMatch[1]}`;
+    return `move horizontally and vertically ${customPropMatch[1]}`;
   }
 
   // translate-x-[value] - arbitrary X-axis translation value
@@ -356,13 +356,13 @@ export function matchTranslatePattern(className: string): string | null {
   // translate-z-[value] - arbitrary Z-axis translation value
   const translateZArbitraryMatch = className.match(/^translate-z-\[(.+?)\]$/);
   if (translateZArbitraryMatch) {
-    return `translate on Z axis ${translateZArbitraryMatch[1]}`;
+    return `move in depth ${translateZArbitraryMatch[1]}`;
   }
 
   // translate-[value] - arbitrary both axes translation value
   const arbitraryMatch = className.match(/^translate-\[(.+?)\]$/);
   if (arbitraryMatch) {
-    return `translate on both axes ${arbitraryMatch[1]}`;
+    return `move horizontally and vertically ${arbitraryMatch[1]}`;
   }
 
   // -translate-x-<fraction> - negative X-axis translation fraction
@@ -401,7 +401,7 @@ export function matchTranslatePattern(className: string): string | null {
         parseFloat(negativeTranslateFractionMatch[2])) *
       100
     ).toFixed(3);
-    return `translate -${percentage}% on both axes`;
+    return `move -${percentage}% horizontally and vertically`;
   }
 
   // -translate-x-<number> - negative X-axis translation in spacing scale
@@ -425,7 +425,7 @@ export function matchTranslatePattern(className: string): string | null {
     /^-translate-z-(\d+(?:\.\d+)?)$/
   );
   if (negativeTranslateZMatch) {
-    return `translate on Z axis -${negativeTranslateZMatch[1]} (spacing scale)`;
+    return `move in depth -${negativeTranslateZMatch[1]} (spacing scale)`;
   }
 
   // -translate-<number> - negative both axes translation in spacing scale
@@ -433,7 +433,7 @@ export function matchTranslatePattern(className: string): string | null {
     /^-translate-(\d+(?:\.\d+)?)$/
   );
   if (negativeTranslateMatch) {
-    return `translate -${negativeTranslateMatch[1]} on both axes (spacing scale)`;
+    return `move -${negativeTranslateMatch[1]} horizontally and vertically (spacing scale)`;
   }
 
   // translate-x-<fraction> - X-axis translation fraction
@@ -466,7 +466,7 @@ export function matchTranslatePattern(className: string): string | null {
         parseFloat(translateFractionMatch[2])) *
       100
     ).toFixed(3);
-    return `translate ${percentage}% on both axes`;
+    return `move ${percentage}% horizontally and vertically`;
   }
 
   // translate-x-<number> - X-axis translation in spacing scale
@@ -484,13 +484,13 @@ export function matchTranslatePattern(className: string): string | null {
   // translate-z-<number> - Z-axis translation in spacing scale
   const translateZMatch = className.match(/^translate-z-(\d+(?:\.\d+)?)$/);
   if (translateZMatch) {
-    return `translate on Z axis ${translateZMatch[1]} (spacing scale)`;
+    return `move in depth ${translateZMatch[1]} (spacing scale)`;
   }
 
   // translate-<number> - both axes translation in spacing scale
   const translateMatch = className.match(/^translate-(\d+(?:\.\d+)?)$/);
   if (translateMatch) {
-    return `translate ${translateMatch[1]} on both axes (spacing scale)`;
+    return `move ${translateMatch[1]} horizontally and vertically (spacing scale)`;
   }
 
   return null;

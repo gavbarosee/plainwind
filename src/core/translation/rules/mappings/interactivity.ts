@@ -115,7 +115,8 @@ export const interactivityMappings: Record<string, string> = {
   'field-sizing-content': 'textarea/input grows to fit content',
   'field-sizing-fixed': 'textarea/input stays fixed size',
   // Color Scheme (v4)
-  'color-scheme-normal': 'automatically determined color scheme (light or dark)',
+  'color-scheme-normal':
+    'automatically determined color scheme (light or dark)',
   'color-scheme-light':
     'forces light color scheme (light scrollbars, form controls)',
   'color-scheme-dark':

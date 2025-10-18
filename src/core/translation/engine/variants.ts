@@ -14,7 +14,7 @@ export const VARIANT_DESCRIPTIONS: Record<string, string> = {
   enabled: 'when enabled (interactive)',
   visited: 'when link has been visited',
   'focus-within': 'when child element is focused',
-  'focus-visible': 'when focused via keyboard (visible focus ring)',
+  'focus-visible': 'when focused via keyboard (visible ring indicator)',
   target: 'when URL hash matches element ID',
 
   // Structural pseudo-classes
