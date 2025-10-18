@@ -343,7 +343,7 @@ describe('translateClasses - Full Integration', () => {
   describe('error recovery - graceful degradation', () => {
     it.each(GRACEFUL_DEGRADATION_CASES)(
       'handles malformed input: %s',
-      (input, shouldNotError) => {
+      (input, _shouldNotError) => {
         expect(() => {
           const result = translateClasses(input);
           expect(typeof result).toBe('string');

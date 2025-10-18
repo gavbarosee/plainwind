@@ -41,7 +41,6 @@ export function enhanceSpacingValues(text: string): string {
   while ((match = spacingPattern.exec(text)) !== null) {
     const start = match.index;
     const end = start + match[0].length;
-    const spacingType = match[1];
     const remValue = parseFloat(match[2]);
 
     // Calculate pixel value (1rem = 16px by default)

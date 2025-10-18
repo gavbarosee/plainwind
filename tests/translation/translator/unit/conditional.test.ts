@@ -29,12 +29,12 @@ describe('translateConditionalClasses', () => {
   beforeEach(() => {
     // Default: groupByCategory = true, showEmojis = false
     vi.mocked(vscode.workspace.getConfiguration).mockReturnValue({
-      get: vi.fn((key: string, defaultValue?: any) => {
+      get: vi.fn((key: string, defaultValue?: unknown) => {
         if (key === 'groupByCategory') return true;
         if (key === 'showCategoryEmojis') return false;
         return defaultValue;
       }),
-    } as any);
+    } as unknown as ReturnType<typeof vscode.workspace.getConfiguration>);
   });
 
   afterEach(() => {
@@ -111,12 +111,12 @@ describe('translateConditionalClasses', () => {
   describe('with category grouping disabled', () => {
     beforeEach(() => {
       vi.mocked(vscode.workspace.getConfiguration).mockReturnValue({
-        get: vi.fn((key: string, defaultValue?: any) => {
+        get: vi.fn((key: string, defaultValue?: unknown) => {
           if (key === 'groupByCategory') return false;
           if (key === 'showCategoryEmojis') return false;
           return defaultValue;
         }),
-      } as any);
+      } as unknown as ReturnType<typeof vscode.workspace.getConfiguration>);
     });
 
     it('should not group by category when disabled', () => {
@@ -158,12 +158,12 @@ describe('translateConditionalClasses', () => {
   describe('with emojis enabled', () => {
     beforeEach(() => {
       vi.mocked(vscode.workspace.getConfiguration).mockReturnValue({
-        get: vi.fn((key: string, defaultValue?: any) => {
+        get: vi.fn((key: string, defaultValue?: unknown) => {
           if (key === 'groupByCategory') return true;
           if (key === 'showCategoryEmojis') return true;
           return defaultValue;
         }),
-      } as any);
+      } as unknown as ReturnType<typeof vscode.workspace.getConfiguration>);
     });
 
     it('should include emojis when enabled', () => {

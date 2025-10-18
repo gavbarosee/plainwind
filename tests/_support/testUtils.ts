@@ -31,10 +31,10 @@ export function expectTranslation(
  * Helper for testing categorization with it.each() pattern
  * Reduces boilerplate in categorizer tests
  */
-export function testCategorization<T extends (...args: any[]) => string>(
+export function testCategorization<T extends (...args: unknown[]) => string>(
   fn: T,
   cases: Array<[string, string]>,
-  testName: (cls: string, expected: string) => string = (cls, exp) =>
+  _testName: (cls: string, expected: string) => string = (cls, exp) =>
     `categorizes ${cls} as ${exp}`
 ) {
   return (cls: string, expected: string) => {
@@ -46,9 +46,9 @@ export function testCategorization<T extends (...args: any[]) => string>(
  * Helper for testing pattern matching with it.each() pattern
  * Tests that a pattern matcher contains expected substring
  */
-export function testPatternMatch<T extends (...args: any[]) => string | null>(
+export function testPatternMatch<T extends (...args: unknown[]) => string | null>(
   fn: T,
-  testName: (cls: string, expected: string) => string = (cls, exp) =>
+  _testName: (cls: string, expected: string) => string = (cls, exp) =>
     `${cls} contains ${exp}`
 ) {
   return (cls: string, expected: string) => {
@@ -60,7 +60,7 @@ export function testPatternMatch<T extends (...args: any[]) => string | null>(
  * Helper for testing pattern non-matches with it.each() pattern
  * Tests that a pattern matcher returns null
  */
-export function testPatternNoMatch<T extends (...args: any[]) => string | null>(
+export function testPatternNoMatch<T extends (...args: unknown[]) => string | null>(
   fn: T
 ) {
   return (cls: string) => {
@@ -71,7 +71,7 @@ export function testPatternNoMatch<T extends (...args: any[]) => string | null>(
 /**
  * Helper for testing exact matches with it.each() pattern
  */
-export function testExactMatch<T extends (...args: any[]) => string>(fn: T) {
+export function testExactMatch<T extends (...args: unknown[]) => string>(fn: T) {
   return (cls: string, expected: string) => {
     expect(fn(cls)).toBe(expected);
   };
@@ -81,7 +81,7 @@ export function testExactMatch<T extends (...args: any[]) => string>(fn: T) {
  * Helper for testing flexible matches (exact or contains) with it.each() pattern
  * Used when test data specifies match type (e.g., [[cls, expected, 'exact'], ...])
  */
-export function testFlexibleMatch<T extends (...args: any[]) => string>(fn: T) {
+export function testFlexibleMatch<T extends (...args: unknown[]) => string>(fn: T) {
   return (cls: string, expected: string, matchType: string) => {
     const result = fn(cls);
     if (matchType === 'exact') {

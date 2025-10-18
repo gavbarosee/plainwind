@@ -50,7 +50,7 @@ export function setPlainwindConfig(
 vi.mock('vscode', () => ({
   workspace: {
     getConfiguration: () => ({
-      get: (key: string, defaultValue: any) => {
+      get: (key: string, defaultValue: unknown) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const cfg = globalThis.__PLAINWIND_CONFIG__ || {};

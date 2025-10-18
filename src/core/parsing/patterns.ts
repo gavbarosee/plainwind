@@ -113,7 +113,7 @@ export function extractVueClassBindings(text: string): ClassExtraction[] {
     if (!content) continue;
 
     // Try to parse as dynamic expression (object or array)
-    let conditionalClasses: any[] = [];
+    let conditionalClasses: ConditionalClass[] = [];
     let isDynamic = false;
 
     if (content.startsWith('{')) {
@@ -231,7 +231,7 @@ export function extractAngularNgClass(text: string): ClassExtraction[] {
     if (!content) continue;
 
     // Parse the object/array expression
-    let conditionalClasses: any[] = [];
+    let conditionalClasses: ConditionalClass[] = [];
 
     if (content.startsWith('{')) {
       // Object syntax: {'class': condition}
