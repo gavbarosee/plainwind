@@ -316,6 +316,12 @@ function registerConfigurationListener(context: vscode.ExtensionContext): void {
         if (codeLensProvider) {
           codeLensProvider.refresh();
         }
+
+        // Refresh open panels to reflect setting changes
+        // All of these settings affect how translations are displayed in panels
+        if (panelManager) {
+          panelManager.refreshAllPanels();
+        }
       }
     })
   );

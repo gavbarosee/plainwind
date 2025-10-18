@@ -15,6 +15,7 @@ import * as vscode from 'vscode';
  * - Find panels by location
  * - Highlight the correct lines
  * - Handle editor/panel synchronization
+ * - Regenerate panel content when settings change
  */
 export interface PanelInfo {
   /** The webview panel displaying the translation */
@@ -23,6 +24,12 @@ export interface PanelInfo {
   editor: vscode.TextEditor;
   /** The text range where the classes are located */
   range: vscode.Range;
+  /** Original Tailwind class string */
+  classString: string;
+  /** Translated plain English description */
+  translation: string;
+  /** Source location information */
+  sourceLocation?: { filePath: string; line: number };
 }
 
 /**

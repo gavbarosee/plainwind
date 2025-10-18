@@ -5,6 +5,7 @@
 import * as vscode from 'vscode';
 import { PanelState, PanelInfo } from './panelState';
 import { generatePanelHTML } from './panelTemplate';
+import { translateClasses } from '@src/core/translation/engine';
 
 /**
  * Manages lifecycle and coordination of Tailwind class detail panels
@@ -78,8 +79,20 @@ export class PanelManager {
       }
     );
 
-    // Track this panel
-    const panelInfo: PanelInfo = { panel, editor, range };
+    // Generate source location string
+    const location =
+      sourceLocation ||
+      this.generateSourceLocation(documentUri, range.start.line);
+
+    // Track this panel with all necessary data for regeneration
+    const panelInfo: PanelInfo = {
+      panel,
+      editor,
+      range,
+      classString,
+      translation,
+      sourceLocation: location,
+    };
     this.state.addPanel(panelInfo);
 
     // Set panel content
@@ -89,11 +102,6 @@ export class PanelManager {
 
     // Get panel index for position indicator
     const panelIndex = this.state.getAllPanels().length;
-
-    // Generate source location string
-    const location =
-      sourceLocation ||
-      this.generateSourceLocation(documentUri, range.start.line);
 
     panel.webview.html = generatePanelHTML(
       classString,
@@ -188,6 +196,41 @@ export class PanelManager {
         count: count,
       });
     }
+  }
+
+  /**
+   * Refresh all open panels with current settings
+   *
+   * This regenerates the HTML for all open panels to reflect
+   * changes in category grouping, emoji, and visual enhancement settings.
+   * Called when these configuration options change.
+   *
+   * The translation is regenerated from the original class string to ensure
+   * the current settings are applied (groupByCategory, showCategoryEmojis).
+   */
+  refreshAllPanels(): void {
+    const config = vscode.workspace.getConfiguration('plainwind');
+    const enhanceVisuals = config.get<boolean>('enhanceVisuals', false);
+    const allPanels = this.state.getAllPanels();
+    const totalCount = allPanels.length;
+
+    allPanels.forEach((panelInfo, index) => {
+      // Regenerate translation with current settings
+      const freshTranslation = translateClasses(panelInfo.classString);
+
+      // Update stored translation for future reference
+      panelInfo.translation = freshTranslation;
+
+      // Regenerate HTML with current settings and fresh translation
+      panelInfo.panel.webview.html = generatePanelHTML(
+        panelInfo.classString,
+        freshTranslation,
+        totalCount,
+        enhanceVisuals,
+        index + 1, // 1-based index
+        panelInfo.sourceLocation
+      );
+    });
   }
 
   /**
