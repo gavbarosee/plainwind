@@ -200,9 +200,7 @@ async function disableForCurrentFile(): Promise<void> {
   }
 
   const fileName = editor.document.fileName.split('/').pop();
-  vscode.window.showInformationMessage(
-    `Plainwind disabled for ${fileName}`
-  );
+  vscode.window.showInformationMessage(`Plainwind disabled for ${fileName}`);
 }
 
 /**
@@ -231,9 +229,7 @@ async function enableForCurrentFile(): Promise<void> {
   }
 
   const fileName = editor.document.fileName.split('/').pop();
-  vscode.window.showInformationMessage(
-    `Plainwind enabled for ${fileName}`
-  );
+  vscode.window.showInformationMessage(`Plainwind enabled for ${fileName}`);
 }
 
 /**

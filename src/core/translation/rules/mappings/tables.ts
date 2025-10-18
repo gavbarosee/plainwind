@@ -3,11 +3,11 @@
  */
 export const tablesMappings: Record<string, string> = {
   // Table Layout
-  'table-auto': 'automatic table layout',
-  'table-fixed': 'fixed table layout',
+  'table-auto': 'columns size based on content',
+  'table-fixed': 'columns use fixed widths',
   // Table Border Collapse
-  'border-collapse': 'collapsed table borders',
-  'border-separate': 'separated table borders',
+  'border-collapse': 'merged table borders (cells share borders)',
+  'border-separate': 'separate table borders (cells have own borders)',
   // Table Border Spacing
   'border-spacing-0': 'no border spacing',
   'border-spacing-px': '1px border spacing',
@@ -17,6 +17,6 @@ export const tablesMappings: Record<string, string> = {
   'border-spacing-4': '1rem border spacing',
   'border-spacing-8': '2rem border spacing',
   // Caption Side
-  'caption-top': 'caption at top',
-  'caption-bottom': 'caption at bottom',
+  'caption-top': 'table caption positioned at top',
+  'caption-bottom': 'table caption positioned at bottom',
 };
