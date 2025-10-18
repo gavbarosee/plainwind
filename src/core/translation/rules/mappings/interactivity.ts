@@ -2,8 +2,10 @@
  * Interactivity: cursor, pointer-events, resize, scroll, touch, user-select, will-change, appearance, accent, caret
  */
 export const interactivityMappings: Record<string, string> = {
+  // Group (parent marker for hover/focus states)
+  group: 'parent marker (allows child styling on parent hover/focus)',
   // Cursor
-  'cursor-auto': 'context-appropriate cursor (browser decides)',
+  'cursor-auto': 'context-appropriate cursor (automatically determined)',
   'cursor-default': 'default arrow cursor',
   'cursor-pointer': 'pointing hand cursor (clickable link)',
   'cursor-wait': 'loading/busy cursor (hourglass/spinner)',
@@ -64,9 +66,9 @@ export const interactivityMappings: Record<string, string> = {
   'snap-mandatory': 'always snaps to nearest point',
   'snap-proximity': 'snaps only when close to snap point',
   // Scroll Snap Align
-  'snap-start': 'snaps start edge to container',
-  'snap-end': 'snaps end edge to container',
-  'snap-center': 'snaps center to container',
+  'snap-start': 'snaps start edge to viewport',
+  'snap-end': 'snaps end edge to viewport',
+  'snap-center': 'snaps center to viewport',
   'snap-align-none': 'no scroll snapping',
   // Scroll Snap Stop
   'snap-normal': 'normal snap stop',
@@ -83,7 +85,7 @@ export const interactivityMappings: Record<string, string> = {
   'scroll-p-2': '0.5rem scroll padding',
   'scroll-p-4': '1rem scroll padding',
   // Touch Action
-  'touch-auto': 'allows all touch gestures (browser default)',
+  'touch-auto': 'allows all touch gestures (automatically determined)',
   'touch-none': 'disables all touch gestures (no scrolling/zooming)',
   'touch-pan-x': 'allows horizontal touch scrolling only',
   'touch-pan-left': 'allows left touch scrolling only',
@@ -113,20 +115,20 @@ export const interactivityMappings: Record<string, string> = {
   'field-sizing-content': 'textarea/input grows to fit content',
   'field-sizing-fixed': 'textarea/input stays fixed size',
   // Color Scheme (v4)
-  'color-scheme-normal': 'browser default color scheme (light or dark)',
+  'color-scheme-normal': 'automatically determined color scheme (light or dark)',
   'color-scheme-light':
     'forces light color scheme (light scrollbars, form controls)',
   'color-scheme-dark':
     'forces dark color scheme (dark scrollbars, form controls)',
   'color-scheme-light-dark': 'adapts to system preference (light/dark)',
-  'scheme-normal': 'browser default color scheme (light or dark)',
+  'scheme-normal': 'automatically determined color scheme (light or dark)',
   'scheme-light': 'forces light color scheme (light UI elements)',
   'scheme-dark': 'forces dark color scheme (dark UI elements)',
   'scheme-light-dark': 'adapts to system preference (light/dark)',
   'scheme-only-light': 'only supports light color scheme (no dark mode)',
   'scheme-only-dark': 'only supports dark color scheme (no light mode)',
   // Accent Color (checkboxes, radio buttons)
-  'accent-auto': 'browser default accent color (checkboxes/radios)',
+  'accent-auto': 'automatically determined accent color (checkboxes/radios)',
   'accent-transparent': 'transparent accent color (checkboxes/radios)',
   'accent-current': 'form control accent matches text color',
   'accent-inherit': 'inherited form control accent color',

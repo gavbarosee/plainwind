@@ -2,8 +2,8 @@
  * Accessibility utilities
  */
 export const accessibilityMappings: Record<string, string> = {
-  // Content (pseudo-elements)
-  'content-none': 'removes content from before/after pseudo-elements',
+  // Content (decorative elements)
+  'content-none': 'removes decorative content added before/after element',
   // Forced Color Adjust
   'forced-color-adjust-auto':
     'allows browser to adjust colors for high contrast mode',

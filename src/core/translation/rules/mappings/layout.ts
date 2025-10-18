@@ -10,19 +10,18 @@ export const layoutMappings: Record<string, string> = {
   inline: 'display inline (flows with text like a word)',
   'inline-flex': 'inline flex container (flexbox that flows with text)',
   'inline-grid': 'inline grid container (grid that flows with text)',
-  table: 'display as table (like <table> element)',
+  table: 'display as table',
   'inline-table': 'display as inline table (flows with text)',
-  'table-caption': 'display as table caption (like <caption> element)',
-  'table-cell': 'display as table cell (like <td> element)',
-  'table-column': 'display as table column (like <col> element)',
-  'table-column-group':
-    'display as table column group (like <colgroup> element)',
-  'table-footer-group': 'display as table footer (like <tfoot> element)',
-  'table-header-group': 'display as table header (like <thead> element)',
-  'table-row-group': 'display as table body (like <tbody> element)',
-  'table-row': 'display as table row (like <tr> element)',
-  'flow-root': 'contains floated children',
-  contents: 'renders children only (unwraps container)',
+  'table-caption': 'display as table caption',
+  'table-cell': 'display as table cell',
+  'table-column': 'display as table column',
+  'table-column-group': 'display as table column group',
+  'table-footer-group': 'display as table footer',
+  'table-header-group': 'display as table header',
+  'table-row-group': 'display as table body',
+  'table-row': 'display as table row',
+  'flow-root': 'keeps child elements inside container (prevents content from escaping)',
+  contents: 'shows children only (removes wrapper from layout)',
   'list-item': 'display as list item (with bullet/number marker)',
   hidden: 'completely hidden (removed from layout)',
 
@@ -32,8 +31,6 @@ export const layoutMappings: Record<string, string> = {
   collapse: 'collapses table rows/columns (removes from layout)',
 
   // Float
-  start: 'floats to start (left in LTR, right in RTL)',
-  end: 'floats to end (right in LTR, left in RTL)',
   'float-start': 'floats to start (left in LTR, right in RTL)',
   'float-end': 'floats to end (right in LTR, left in RTL)',
   'float-right': 'floats to right (text wraps around left)',
@@ -43,9 +40,9 @@ export const layoutMappings: Record<string, string> = {
   // Clear
   'clear-start': 'clears start side floats (left in LTR, right in RTL)',
   'clear-end': 'clears end side floats (right in LTR, left in RTL)',
-  'clear-left': 'moves below left floated elements',
-  'clear-right': 'moves below right floated elements',
-  'clear-both': 'moves below all floated elements',
+  'clear-left': 'moves below left floating items',
+  'clear-right': 'moves below right floating items',
+  'clear-both': 'moves below all floating items',
   'clear-none': 'allows floating elements beside',
 
   // Box Sizing
@@ -53,8 +50,8 @@ export const layoutMappings: Record<string, string> = {
   'box-content': 'width excludes border and padding (content-box)',
 
   // Box Decoration Break
-  'box-decoration-slice': 'borders and backgrounds slice at line breaks',
-  'box-decoration-clone': 'borders and backgrounds repeat at each line',
+  'box-decoration-slice': 'borders and backgrounds slice at line breaks (continues across lines)',
+  'box-decoration-clone': 'borders and backgrounds repeat at each line (independent styling per line)',
 
   // Border Sizing (v4 beta)
   'border-sizing-content': 'width excludes border and padding (content-box)',
@@ -116,7 +113,7 @@ export const layoutMappings: Record<string, string> = {
   'break-inside-avoid-column': 'prevents column breaks inside element',
 
   // Object Fit
-  'object-contain': 'scales to fit inside (letterboxing, no cropping)',
+  'object-contain': 'scales to fit inside container (maintains proportions, no cropping)',
   'object-cover': 'scales to fill container (may crop edges)',
   'object-fill': 'stretches to fill container (may distort)',
   'object-none': 'keeps original size (no scaling)',
@@ -138,22 +135,22 @@ export const layoutMappings: Record<string, string> = {
   'object-right-top': 'aligns image/video to right-top',
 
   // Image Rendering
-  'image-render-auto': 'browser decides image scaling quality',
+  'image-render-auto': 'automatically determined image scaling quality',
   'image-render-crisp-edges': 'preserve sharp edges (no smoothing)',
   'image-render-pixelated': 'pixelated scaling for pixel art',
 
   // Position
-  static: 'normal document flow (ignores top/left/right/bottom)',
+  static: 'normal positioning (ignores top/left/right/bottom)',
   fixed: 'fixed to viewport (stays visible when scrolling page)',
-  absolute: 'positioned relative to nearest positioned ancestor',
+  absolute: 'positioned relative to nearest positioned parent',
   relative: 'positioned relative to its normal position',
   sticky: 'toggles between relative and fixed based on scroll position',
 
   // Overflow
   'overflow-auto': 'adds scrollbars when content overflows',
-  'overflow-hidden': 'hides overflowing content (no scrollbars)',
-  'overflow-clip': 'clips overflowing content (strict cut-off)',
-  'overflow-visible': 'shows overflowing content (spills outside)',
+  'overflow-hidden': 'hides content that extends beyond (no scrollbars)',
+  'overflow-clip': 'clips content that extends beyond (strict cut-off)',
+  'overflow-visible': 'shows content that extends beyond (spills outside)',
   'overflow-scroll': 'always shows scrollbars (even if not needed)',
   'overflow-x-auto': 'scrolls horizontally when needed',
   'overflow-x-hidden': 'hides horizontal overflow',
@@ -188,11 +185,11 @@ export const layoutMappings: Record<string, string> = {
   '-z-30': 'below other elements (layer -30)',
   '-z-20': 'below other elements (layer -20)',
   '-z-10': 'below other elements (layer -10)',
-  'z-0': 'default stacking layer (layer 0)',
+  'z-0': 'default depth level (layer 0)',
   'z-10': 'above default elements (layer 10)',
   'z-20': 'above most elements (layer 20)',
   'z-30': 'well above elements (layer 30)',
   'z-40': 'far above elements (layer 40)',
   'z-50': 'at top of stack (layer 50)',
-  'z-auto': 'automatic stacking order',
+  'z-auto': 'automatic depth level',
 };
