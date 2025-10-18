@@ -103,7 +103,7 @@ export const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: 'Transitions & Animation',
+    name: 'Animation', // Transition & Animation from official Tailwind documentation but abbreviated to Animation
     emoji: '🎬',
     description: 'transition properties, timing, duration, delay, animations',
     patterns: [

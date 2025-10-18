@@ -46,18 +46,23 @@ function escapeHtml(text: string): string {
  * - Sends 'clearAll' message when button clicked
  * - Listens for 'updateCount' to update button text
  * - Sends 'ready' message when loaded
+ * - Sends navigation and copy messages
  *
  * @param classString - Original Tailwind classes
  * @param translation - Translated plain English (may contain pipes)
  * @param panelCount - Number of open panels (for button text)
  * @param enhanceVisuals - Whether to apply visual enhancements (default: false)
+ * @param panelIndex - Current panel's position (1-based)
+ * @param sourceLocation - File path and line number of the source code
  * @returns Complete HTML string for webview
  */
 export function generatePanelHTML(
   classString: string,
   translation: string,
   panelCount: number,
-  enhanceVisuals: boolean = false
+  enhanceVisuals: boolean = false,
+  panelIndex: number = 1,
+  sourceLocation?: { filePath: string; line: number }
 ): string {
   /**
    * Format translation by splitting on pipe separator
@@ -95,6 +100,14 @@ export function generatePanelHTML(
     })
     .join('');
 
+  // Generate source location display (for bottom of panel)
+  const sourceLocationHTML = sourceLocation
+    ? `<div class="source-location" title="${escapeHtml(sourceLocation.filePath)}:${sourceLocation.line}">
+
+        <span class="location-text">${escapeHtml(sourceLocation.filePath)}:${sourceLocation.line}</span>
+      </div>`
+    : '';
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,6 +128,25 @@ export function generatePanelHTML(
             margin: 0;
             -webkit-font-smoothing: antialiased;
         }
+        .source-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--vscode-descriptionForeground);
+            padding: 16px 0;
+            margin-top: 24px;
+            border-top: 1px solid var(--vscode-panel-border);
+        }
+        .location-icon {
+            opacity: 0.6;
+        }
+        .location-text {
+            font-family: var(--vscode-editor-font-family), monospace;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
         .header {
             display: flex;
             justify-content: space-between;
@@ -122,6 +154,17 @@ export function generatePanelHTML(
             padding-bottom: 24px;
             margin-bottom: 32px;
             border-bottom: 1px solid var(--vscode-panel-border);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header-left {
+            flex: 1;
+            min-width: 0;
+        }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         h2 {
             font-size: 18px;
@@ -130,11 +173,11 @@ export function generatePanelHTML(
             margin: 0;
             letter-spacing: -0.015em;
         }
-        .clear-all-btn {
+        .btn {
             background-color: var(--vscode-button-secondaryBackground);
             color: var(--vscode-button-secondaryForeground);
             border: 1px solid var(--vscode-button-border);
-            padding: 7px 16px;
+            padding: 7px 14px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 13px;
@@ -142,13 +185,24 @@ export function generatePanelHTML(
             font-family: inherit;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .clear-all-btn:hover {
+        .btn:hover {
             background-color: var(--vscode-button-secondaryHoverBackground);
             border-color: var(--vscode-button-border);
             transform: translateY(-1px);
         }
-        .clear-all-btn:active {
+        .btn:active {
             transform: translateY(0);
+        }
+        .btn.icon-btn {
+            padding: 7px 10px;
+            min-width: 32px;
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .btn:disabled:hover {
+            transform: none;
         }
         .label {
             font-size: 11px;
@@ -158,12 +212,44 @@ export function generatePanelHTML(
             letter-spacing: 0.08em;
             margin-bottom: 12px;
         }
+        .code-block {
+            position: relative;
+            margin-bottom: 32px;
+        }
+        .code-block .copy-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background-color: var(--vscode-button-secondaryBackground);
+            color: var(--vscode-button-secondaryForeground);
+            border: 1px solid var(--vscode-panel-border);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 500;
+            font-family: inherit;
+            transition: all 0.15s ease;
+            opacity: 0.7;
+        }
+        .code-block .copy-btn:hover {
+            opacity: 1;
+            background-color: var(--vscode-button-secondaryHoverBackground);
+            transform: translateY(-1px);
+        }
+        .code-block .copy-btn:active {
+            transform: translateY(0);
+        }
+        .code-block .copy-btn.copied {
+            background-color: var(--vscode-inputValidation-infoBackground);
+            border-color: var(--vscode-inputValidation-infoBorder);
+        }
         .class-string {
             background-color: var(--vscode-textCodeBlock-background);
             border: 1px solid var(--vscode-panel-border);
             padding: 18px;
+            padding-right: 80px;
             border-radius: 8px;
-            margin: 0 0 32px 0;
             font-family: var(--vscode-editor-font-family), 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
             font-size: var(--vscode-editor-font-size, 13px);
             line-height: 1.7;
@@ -175,8 +261,8 @@ export function generatePanelHTML(
             background-color: var(--vscode-input-background);
             border: 1px solid var(--vscode-panel-border);
             padding: 20px;
+            padding-right: 80px;
             border-radius: 8px;
-            margin: 0;
         }
         .category-line {
             padding: 10px 0;
@@ -309,21 +395,70 @@ export function generatePanelHTML(
 </head>
 <body>
     <div class="header">
-        <h2>💨 Tailwind Class Translation</h2>
-        <button class="clear-all-btn" id="clearBtn" onclick="clearAll()">✕ ${panelCount === 1 ? 'Close tab' : 'Close all tabs'}</button>
+        <div class="header-left">
+            <h2>💨 Tailwind Class Translation</h2>
+        </div>
+        <div class="header-right">
+            <button class="btn" id="clearBtn" onclick="clearAll()">✕ ${panelCount === 1 ? 'Close tab' : 'Close all tabs'}</button>
+        </div>
     </div>
     
     <div class="label">Original Classes:</div>
-    <div class="class-string">${escapeHtml(classString)}</div>
+    <div class="code-block">
+        <button class="copy-btn" id="copyClassesBtn" onclick="copyClasses()">Copy</button>
+        <div class="class-string">${escapeHtml(classString)}</div>
+    </div>
     
     <div class="label">Plain English:</div>
-    <div class="translation">${formattedTranslation}</div>
+    <div class="code-block">
+        <button class="copy-btn" id="copyTranslationBtn" onclick="copyTranslation()">Copy</button>
+        <div class="translation">${formattedTranslation}</div>
+    </div>
+    
+    ${sourceLocationHTML}
 
     <script>
         const vscode = acquireVsCodeApi();
         
+        const originalClasses = ${JSON.stringify(classString)};
+        const plainTranslation = ${JSON.stringify(translation)};
+        
         function clearAll() {
             vscode.postMessage({ command: 'clearAll' });
+        }
+
+        function copyClasses() {
+            const btn = document.getElementById('copyClassesBtn');
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            
+            vscode.postMessage({ 
+                command: 'copyClasses',
+                text: originalClasses
+            });
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
+        }
+
+        function copyTranslation() {
+            const btn = document.getElementById('copyTranslationBtn');
+            const originalText = btn.textContent;
+            btn.textContent = 'Copied!';
+            btn.classList.add('copied');
+            
+            vscode.postMessage({ 
+                command: 'copyTranslation',
+                text: plainTranslation
+            });
+            
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.classList.remove('copied');
+            }, 2000);
         }
 
         // Listen for count updates from the extension

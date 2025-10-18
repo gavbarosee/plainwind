@@ -23,7 +23,7 @@ const {
   Colors: COLORS,
   Typography: TYPOGRAPHY,
   Borders: BORDERS,
-  'Transitions & Animation': TRANSITIONS_ANIMATION,
+  Animation: TRANSITIONS_ANIMATION,
   Transforms: TRANSFORMS,
   Effects: EFFECTS,
 } = CATEGORY_NAMES_MAP;

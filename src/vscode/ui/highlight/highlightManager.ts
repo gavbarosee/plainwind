@@ -83,8 +83,9 @@ export class HighlightManager {
   /**
    * Navigate the editor view to a highlighted range
    *
-   * Centers the editor viewport on the highlighted code line.
+   * Positions the highlighted code at the top of the viewport.
    * This helps users quickly locate the code associated with the active panel.
+   * Respects the autoNavigateToHighlight setting - if disabled, skips navigation.
    *
    * @param editor - The editor containing the highlight
    * @param range - The range to navigate to
@@ -93,15 +94,23 @@ export class HighlightManager {
     editor: vscode.TextEditor,
     range: vscode.Range
   ): void {
-    // Reveal the editor and bring it to focus
+    // Check if auto-navigation is enabled
+    const config = vscode.workspace.getConfiguration('plainwind');
+    const autoNavigate = config.get<boolean>('autoNavigateToHighlight', true);
+
+    if (!autoNavigate) {
+      return;
+    }
+
+    // Reveal the editor but preserve focus on the panel
     vscode.window.showTextDocument(editor.document, {
       viewColumn: editor.viewColumn,
-      preserveFocus: false,
+      preserveFocus: true,
       preview: false,
     });
 
-    // Scroll to the range and center it in the viewport
-    editor.revealRange(range, vscode.TextEditorRevealType.InCenter);
+    // Scroll to show the range at the top of the viewport
+    editor.revealRange(range, vscode.TextEditorRevealType.AtTop);
   }
 
   /**

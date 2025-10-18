@@ -45,7 +45,8 @@ export class PanelManager {
     classString: string,
     translation: string,
     range: vscode.Range,
-    documentUri: vscode.Uri
+    documentUri: vscode.Uri,
+    sourceLocation?: { filePath: string; line: number }
   ): void {
     // Find the editor for this document
     const editor = vscode.window.visibleTextEditors.find(
@@ -86,11 +87,21 @@ export class PanelManager {
     const config = vscode.workspace.getConfiguration('plainwind');
     const enhanceVisuals = config.get<boolean>('enhanceVisuals', false);
 
+    // Get panel index for position indicator
+    const panelIndex = this.state.getAllPanels().length;
+
+    // Generate source location string
+    const location =
+      sourceLocation ||
+      this.generateSourceLocation(documentUri, range.start.line);
+
     panel.webview.html = generatePanelHTML(
       classString,
       translation,
       currentCount,
-      enhanceVisuals
+      enhanceVisuals,
+      panelIndex,
+      location
     );
     this.onHighlightUpdate();
 
@@ -100,6 +111,14 @@ export class PanelManager {
         this.closeAllPanels();
       } else if (message.command === 'ready') {
         this.updateAllPanelCounts();
+      } else if (message.command === 'copyClasses') {
+        vscode.env.clipboard.writeText(message.text);
+        vscode.window.showInformationMessage(
+          'Tailwind classes copied to clipboard'
+        );
+      } else if (message.command === 'copyTranslation') {
+        vscode.env.clipboard.writeText(message.text);
+        vscode.window.showInformationMessage('Translation copied to clipboard');
       }
     });
 
@@ -183,6 +202,24 @@ export class PanelManager {
    */
   getFocusedPanel(): vscode.WebviewPanel | undefined {
     return this.state.getFocusedPanel();
+  }
+
+  /**
+   * Generate source location string from document URI and line number
+   */
+  private generateSourceLocation(
+    documentUri: vscode.Uri,
+    line: number
+  ): { filePath: string; line: number } {
+    const workspaceFolder = vscode.workspace.getWorkspaceFolder(documentUri);
+    let filePath = documentUri.fsPath;
+
+    // Make path relative to workspace if possible
+    if (workspaceFolder) {
+      filePath = vscode.workspace.asRelativePath(documentUri);
+    }
+
+    return { filePath, line: line + 1 }; // +1 for 1-based line numbers
   }
 
   /**

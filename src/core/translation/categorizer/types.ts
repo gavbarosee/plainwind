@@ -26,7 +26,7 @@ export type ClassCategory =
   | 'Borders' // Border width, color, radius
   | 'Typography' // Font, text, line height, tracking
   | 'Tables' // Table layout, border spacing
-  | 'Transitions & Animation' // Transitions, animations
+  | 'Animation' // Transitions, animations
   | 'Transforms' // Translate, scale, rotate, skew
   | 'Interactivity' // Cursor, user-select, pointer-events
   | 'Effects' // Shadow, opacity, mix-blend

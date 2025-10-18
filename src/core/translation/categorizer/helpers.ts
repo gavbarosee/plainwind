@@ -165,7 +165,7 @@ export function getCategoryOrderInternal(): ClassCategory[] {
     'Borders',
     'Typography',
     'Tables',
-    'Transitions & Animation',
+    'Animation',
     'Transforms',
     'Interactivity',
     'Effects',

@@ -123,6 +123,11 @@
           "type": "boolean",
           "default": false,
           "description": "Apply visual enhancements in the detail panel: color text with actual colors, show font weights and sizes visually, display spacing pixel values, apply opacity effects, preview border radius and shadows"
+        },
+        "plainwind.autoNavigateToHighlight": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically scroll the editor to show highlighted code when a panel is opened or focused"
         }
       }
     }
