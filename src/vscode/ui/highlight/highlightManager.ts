@@ -27,6 +27,7 @@ export class HighlightManager {
    * 2. Clear all existing decorations from all editors
    * 3. Apply normal decorations to non-focused panels
    * 4. Apply focused decorations to the focused panel
+   * 5. Navigate to the focused highlight
    *
    * This ensures only relevant highlights are shown and prevents stale decorations.
    *
@@ -40,6 +41,7 @@ export class HighlightManager {
     // Separate normal and focused ranges by editor
     const normalRangesByEditor = new Map<vscode.TextEditor, vscode.Range[]>();
     const focusedRangesByEditor = new Map<vscode.TextEditor, vscode.Range[]>();
+    let focusedPanelInfo: PanelInfo | undefined;
 
     for (const panelInfo of panels) {
       const isFocused = panelInfo.panel === focusedPanel;
@@ -48,6 +50,7 @@ export class HighlightManager {
         const ranges = focusedRangesByEditor.get(panelInfo.editor) || [];
         ranges.push(panelInfo.range);
         focusedRangesByEditor.set(panelInfo.editor, ranges);
+        focusedPanelInfo = panelInfo;
       } else {
         const ranges = normalRangesByEditor.get(panelInfo.editor) || [];
         ranges.push(panelInfo.range);
@@ -70,6 +73,35 @@ export class HighlightManager {
     for (const [editor, ranges] of focusedRangesByEditor) {
       editor.setDecorations(this.decorations.getFocusedDecoration(), ranges);
     }
+
+    // Navigate to focused highlight
+    if (focusedPanelInfo) {
+      this.navigateToHighlight(focusedPanelInfo.editor, focusedPanelInfo.range);
+    }
+  }
+
+  /**
+   * Navigate the editor view to a highlighted range
+   *
+   * Centers the editor viewport on the highlighted code line.
+   * This helps users quickly locate the code associated with the active panel.
+   *
+   * @param editor - The editor containing the highlight
+   * @param range - The range to navigate to
+   */
+  private navigateToHighlight(
+    editor: vscode.TextEditor,
+    range: vscode.Range
+  ): void {
+    // Reveal the editor and bring it to focus
+    vscode.window.showTextDocument(editor.document, {
+      viewColumn: editor.viewColumn,
+      preserveFocus: false,
+      preview: false,
+    });
+
+    // Scroll to the range and center it in the viewport
+    editor.revealRange(range, vscode.TextEditorRevealType.InCenter);
   }
 
   /**
