@@ -59,7 +59,7 @@ export function isFileEnabled(documentUri: vscode.Uri): boolean {
  * Disable extension for a specific file
  *
  * Adds the file to the disabled set and persists the change.
- * Requires window reload to take effect.
+ * The calling code should refresh the CodeLens provider to apply the change immediately.
  *
  * @param fileUri - String representation of file URI
  */
@@ -72,7 +72,7 @@ export async function disableFile(fileUri: string): Promise<void> {
  * Enable extension for a specific file
  *
  * Removes the file from the disabled set and persists the change.
- * Requires window reload to take effect.
+ * The calling code should refresh the CodeLens provider to apply the change immediately.
  *
  * @param fileUri - String representation of file URI
  */

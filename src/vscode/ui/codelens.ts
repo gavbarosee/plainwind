@@ -40,6 +40,16 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
     this._onDidChangeCodeLenses.event;
 
   /**
+   * Trigger a refresh of all CodeLenses
+   * 
+   * This is called when settings change that affect how translations are displayed
+   * (e.g., groupByCategory, showCategoryEmojis, enhanceVisuals)
+   */
+  public refresh(): void {
+    this._onDidChangeCodeLenses.fire();
+  }
+
+  /**
    * Provide CodeLenses for a document
    *
    * Process:

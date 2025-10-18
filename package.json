@@ -83,7 +83,7 @@
       },
       {
         "command": "plainwind.toggleEnhanceVisuals",
-        "title": "Plainwind: Toggle Visual Enhancements"
+        "title": "Plainwind: Toggle Visual Enhancements In Detail Panel"
       }
     ],
     "configuration": {

@@ -10,11 +10,15 @@ import { PanelManager } from './vscode/ui/panel/panelManager';
 import { HighlightManager } from './vscode/ui/highlight/highlightManager';
 import { createStatusBar, updateStatusBar } from './vscode/ui/statusBar';
 import { initializeFileState } from './vscode/commands/fileState';
-import { registerToggleCommands } from './vscode/commands/toggleCommands';
+import {
+  registerToggleCommands,
+  setCodeLensProvider,
+} from './vscode/commands/toggleCommands';
 
 // Module instances
 let panelManager: PanelManager | undefined;
 let highlightManager: HighlightManager | undefined;
+let codeLensProvider: TailwindCodeLensProvider | undefined;
 
 /**
  * Extension activation - called when extension is first loaded
@@ -46,6 +50,9 @@ export function activate(context: vscode.ExtensionContext) {
   // Register toggle and settings commands
   registerToggleCommands(context);
 
+  // Listen for configuration changes (must be registered even when disabled)
+  registerConfigurationListener(context);
+
   // Exit early if disabled
   if (!enabled || displayMode === 'off') {
     console.log('Plainwind is disabled');
@@ -60,9 +67,6 @@ export function activate(context: vscode.ExtensionContext) {
 
   // Register shared commands
   registerSharedCommands(context);
-
-  // Listen for configuration changes
-  registerConfigurationListener(context);
 }
 
 /**
@@ -140,13 +144,16 @@ function registerProviders(
       vscode.languages.registerHoverProvider(supportedLanguages, hoverProvider)
     );
   } else {
-    const codeLensProvider = new TailwindCodeLensProvider();
+    // Store CodeLens provider instance so we can refresh it when settings change
+    codeLensProvider = new TailwindCodeLensProvider();
     context.subscriptions.push(
       vscode.languages.registerCodeLensProvider(
         supportedLanguages,
         codeLensProvider
       )
     );
+    // Share provider with toggle commands for file-specific enable/disable
+    setCodeLensProvider(codeLensProvider);
   }
 }
 
@@ -280,6 +287,7 @@ function handleShowTranslation(
 function registerConfigurationListener(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration((e) => {
+      // Settings that require a reload
       if (
         e.affectsConfiguration('plainwind.displayMode') ||
         e.affectsConfiguration('plainwind.enabled')
@@ -295,6 +303,19 @@ function registerConfigurationListener(context: vscode.ExtensionContext): void {
               vscode.commands.executeCommand('workbench.action.reloadWindow');
             }
           });
+      }
+
+      // Settings that only need a CodeLens refresh (no reload required)
+      if (
+        e.affectsConfiguration('plainwind.groupByCategory') ||
+        e.affectsConfiguration('plainwind.showCategoryEmojis') ||
+        e.affectsConfiguration('plainwind.enhanceVisuals')
+      ) {
+        // Refresh CodeLens to show updated translations
+        // Hover doesn't need refresh as it generates translations on-demand
+        if (codeLensProvider) {
+          codeLensProvider.refresh();
+        }
       }
     })
   );

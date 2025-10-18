@@ -13,6 +13,17 @@ import * as vscode from 'vscode';
 import { updateStatusBar } from '@src/vscode/ui/statusBar';
 import { disableFile, enableFile, isFileDisabled } from './fileState';
 
+// Store CodeLens provider reference so we can refresh it
+let codeLensProviderInstance: { refresh: () => void } | undefined;
+
+/**
+ * Set the CodeLens provider instance for refreshing
+ * Called from extension.ts during activation
+ */
+export function setCodeLensProvider(provider: { refresh: () => void }): void {
+  codeLensProviderInstance = provider;
+}
+
 /**
  * Register all toggle commands
  *
@@ -115,7 +126,7 @@ async function showQuickMenu(): Promise<void> {
       action: toggleCategoryEmojis,
     },
     {
-      label: '$(paintcan) Toggle Visual Enhancements',
+      label: '$(paintcan) Toggle Visual Enhancements In Detail Panel',
       description: enhanceVisuals
         ? '✓ Enabled (colors, weights, shadows, etc.)'
         : '○ Disabled',
@@ -153,7 +164,8 @@ async function showQuickMenu(): Promise<void> {
 /**
  * Toggle extension globally on/off
  *
- * Updates the global 'plainwind.enabled' setting and prompts for reload.
+ * Updates the global 'plainwind.enabled' setting.
+ * The configuration listener will prompt for reload.
  * Also updates the status bar to reflect the new state.
  */
 async function toggleExtensionEnabled(): Promise<void> {
@@ -167,10 +179,6 @@ async function toggleExtensionEnabled(): Promise<void> {
 
   const newState = !currentEnabled;
   updateStatusBar(newState);
-
-  promptReload(
-    `Plainwind ${newState ? 'enabled' : 'disabled'}. Reload window to apply changes?`
-  );
 }
 
 /**
@@ -186,8 +194,15 @@ async function disableForCurrentFile(): Promise<void> {
   const fileUri = editor.document.uri.toString();
   await disableFile(fileUri);
 
+  // Refresh CodeLens to immediately hide translations for this file
+  if (codeLensProviderInstance) {
+    codeLensProviderInstance.refresh();
+  }
+
   const fileName = editor.document.fileName.split('/').pop();
-  promptReload(`Plainwind disabled for ${fileName}. Reload window to apply.`);
+  vscode.window.showInformationMessage(
+    `Plainwind disabled for ${fileName}`
+  );
 }
 
 /**
@@ -210,8 +225,15 @@ async function enableForCurrentFile(): Promise<void> {
 
   await enableFile(fileUri);
 
+  // Refresh CodeLens to immediately show translations for this file
+  if (codeLensProviderInstance) {
+    codeLensProviderInstance.refresh();
+  }
+
   const fileName = editor.document.fileName.split('/').pop();
-  promptReload(`Plainwind enabled for ${fileName}. Reload window to apply.`);
+  vscode.window.showInformationMessage(
+    `Plainwind enabled for ${fileName}`
+  );
 }
 
 /**
@@ -233,9 +255,14 @@ async function toggleForCurrentFile(): Promise<void> {
     await disableFile(fileUri);
   }
 
+  // Refresh CodeLens to immediately apply the change
+  if (codeLensProviderInstance) {
+    codeLensProviderInstance.refresh();
+  }
+
   const fileName = editor.document.fileName.split('/').pop();
-  promptReload(
-    `Plainwind ${isDisabled ? 'enabled' : 'disabled'} for ${fileName}. Reload window to apply.`
+  vscode.window.showInformationMessage(
+    `Plainwind ${isDisabled ? 'enabled' : 'disabled'} for ${fileName}`
   );
 }
 
@@ -275,10 +302,7 @@ async function chooseDisplayMode(): Promise<void> {
       selected.value,
       vscode.ConfigurationTarget.Global
     );
-
-    promptReload(
-      `Display mode changed to ${selected.label}. Reload window to apply?`
-    );
+    // The configuration listener will prompt for reload
   }
 }
 
@@ -356,23 +380,4 @@ async function toggleEnhanceVisuals(): Promise<void> {
   vscode.window.showInformationMessage(
     `Visual enhancements ${!current ? 'enabled' : 'disabled'} (colors, font weights, shadows, spacing values, etc.)`
   );
-}
-
-/**
- * Helper to prompt for window reload
- *
- * Shows a message with "Reload" and "Later" buttons.
- * Many settings require a reload to take effect because providers
- * are registered during activation.
- *
- * @param message - Message to show to user
- */
-function promptReload(message: string): void {
-  vscode.window
-    .showInformationMessage(message, 'Reload', 'Later')
-    .then((selection) => {
-      if (selection === 'Reload') {
-        vscode.commands.executeCommand('workbench.action.reloadWindow');
-      }
-    });
 }
