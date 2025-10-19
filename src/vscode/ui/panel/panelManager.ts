@@ -20,13 +20,16 @@ import { translateClasses } from '@src/core/translation/engine';
 export class PanelManager {
   private state: PanelState;
   private onHighlightUpdate: () => void;
+  private context: vscode.ExtensionContext;
 
   /**
+   * @param context - Extension context for accessing resources
    * @param onHighlightUpdate - Callback to trigger highlight updates when panels change
    */
-  constructor(onHighlightUpdate: () => void) {
+  constructor(context: vscode.ExtensionContext, onHighlightUpdate: () => void) {
     this.state = new PanelState();
     this.onHighlightUpdate = onHighlightUpdate;
+    this.context = context;
   }
 
   /**
@@ -71,12 +74,22 @@ export class PanelManager {
     // Create a new panel
     const panel = vscode.window.createWebviewPanel(
       'plainwindDetails',
-      'Tailwind Class Details',
+      'Plainwind',
       vscode.ViewColumn.Beside,
       {
         enableScripts: true,
         retainContextWhenHidden: false,
+        localResourceRoots: [
+          vscode.Uri.joinPath(this.context.extensionUri, 'icons'),
+        ],
       }
+    );
+
+    // Set the panel icon
+    panel.iconPath = vscode.Uri.joinPath(
+      this.context.extensionUri,
+      'icons',
+      'icon-24.png'
     );
 
     // Generate source location string
@@ -103,13 +116,22 @@ export class PanelManager {
     // Get panel index for position indicator
     const panelIndex = this.state.getAllPanels().length;
 
+    // Create webview URI for the icon
+    const iconPath = vscode.Uri.joinPath(
+      this.context.extensionUri,
+      'icons',
+      'icon-24.png'
+    );
+    const iconUri = panel.webview.asWebviewUri(iconPath);
+
     panel.webview.html = generatePanelHTML(
       classString,
       translation,
       currentCount,
       enhanceVisuals,
       panelIndex,
-      location
+      location,
+      iconUri.toString()
     );
     this.onHighlightUpdate();
 
@@ -221,6 +243,14 @@ export class PanelManager {
       // Update stored translation for future reference
       panelInfo.translation = freshTranslation;
 
+      // Create webview URI for the icon
+      const iconPath = vscode.Uri.joinPath(
+        this.context.extensionUri,
+        'icons',
+        'icon-24.png'
+      );
+      const iconUri = panelInfo.panel.webview.asWebviewUri(iconPath);
+
       // Regenerate HTML with current settings and fresh translation
       panelInfo.panel.webview.html = generatePanelHTML(
         panelInfo.classString,
@@ -228,7 +258,8 @@ export class PanelManager {
         totalCount,
         enhanceVisuals,
         index + 1, // 1-based index
-        panelInfo.sourceLocation
+        panelInfo.sourceLocation,
+        iconUri.toString()
       );
     });
   }

@@ -92,7 +92,7 @@ function initializeManagers(context: vscode.ExtensionContext): void {
   highlightManager = new HighlightManager();
 
   // Initialize panel manager with highlight update callback
-  panelManager = new PanelManager(() => {
+  panelManager = new PanelManager(context, () => {
     if (highlightManager && panelManager) {
       highlightManager.updateHighlights(
         panelManager.getAllPanels(),

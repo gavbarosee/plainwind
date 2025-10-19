@@ -42,12 +42,12 @@ export function updateStatusBar(enabled: boolean): void {
   if (!statusBarItem) return;
 
   if (enabled) {
-    statusBarItem.text = '$(wind) Plainwind';
-    statusBarItem.tooltip = 'Plainwind is enabled (click for options)';
+    statusBarItem.text = '～ Plainwind';
+    statusBarItem.tooltip = 'Plainwind: Enabled — Show extension options';
     statusBarItem.backgroundColor = undefined;
   } else {
-    statusBarItem.text = '$(wind) Plainwind (disabled)';
-    statusBarItem.tooltip = 'Plainwind is disabled (click for options)';
+    statusBarItem.text = '～ Plainwind (disabled)';
+    statusBarItem.tooltip = 'Plainwind: Disabled — Show extension options';
     statusBarItem.backgroundColor = new vscode.ThemeColor(
       'statusBarItem.warningBackground'
     );

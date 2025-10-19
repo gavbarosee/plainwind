@@ -90,7 +90,7 @@ export class TailwindHoverProvider implements vscode.HoverProvider {
     const markdown = new vscode.MarkdownString();
     const typeLabel =
       extraction.type !== 'simple' ? ` (${extraction.type})` : '';
-    markdown.appendMarkdown(`**💨 Tailwind Translation${typeLabel}**\n\n`);
+    markdown.appendMarkdown(`**Tailwind Class Translation${typeLabel}**\n\n`);
     markdown.appendMarkdown(translation);
     markdown.isTrusted = true;
     markdown.supportHtml = true;
@@ -120,7 +120,7 @@ export class TailwindHoverProvider implements vscode.HoverProvider {
         ])
       )}`
     );
-    markdown.appendMarkdown(`\n\n[Toggle Details](${commandUri})`);
+    markdown.appendMarkdown(`\n\n[Show Full Translation](${commandUri})`);
 
     return new vscode.Hover(markdown, matchRange);
   }

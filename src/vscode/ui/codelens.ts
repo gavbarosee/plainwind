@@ -119,7 +119,7 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
         extraction.type !== 'simple' ? ` [${extraction.type}]` : '';
 
       const codeLens = new vscode.CodeLens(range, {
-        title: `💨 ${displayText}${typeIndicator}${isTruncated ? ' (click for details)' : ''}`,
+        title: `${displayText}${typeIndicator}${isTruncated ? ' — Show full translation' : ''}`,
         command: 'plainwind.showFullTranslation',
         arguments: [translation, classString, range, document.uri],
       });

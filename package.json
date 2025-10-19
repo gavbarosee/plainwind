@@ -31,6 +31,7 @@
   "categories": [
     "Programming Languages"
   ],
+  "icon": "icons/icon-128.png",
   "activationEvents": [
     "onLanguage:javascript",
     "onLanguage:javascriptreact",

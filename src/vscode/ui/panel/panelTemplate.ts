@@ -62,7 +62,8 @@ export function generatePanelHTML(
   panelCount: number,
   enhanceVisuals: boolean = false,
   panelIndex: number = 1,
-  sourceLocation?: { filePath: string; line: number }
+  sourceLocation?: { filePath: string; line: number },
+  iconUri?: string
 ): string {
   /**
    * Format translation by splitting on pipe separator
@@ -100,20 +101,28 @@ export function generatePanelHTML(
     })
     .join('');
 
-  // Generate source location display (for bottom of panel)
+  // Generate source location display (for top of panel)
   const sourceLocationHTML = sourceLocation
-    ? `<div class="source-location" title="${escapeHtml(sourceLocation.filePath)}:${sourceLocation.line}">
-
-        <span class="location-text">${escapeHtml(sourceLocation.filePath)}:${sourceLocation.line}</span>
+    ? `<div class="source-label-row">
+        <div class="location-label">Source</div>
+        <button class="btn" id="clearBtn" onclick="clearAll()">✕ ${panelCount === 1 ? 'Close tab' : 'Close all tabs'}</button>
+      </div>
+      <div class="source-section">
+        <div class="source-container" title="${escapeHtml(sourceLocation.filePath)}:${sourceLocation.line}">
+          ${escapeHtml(sourceLocation.filePath)}:${sourceLocation.line}
+        </div>
       </div>`
-    : '';
+    : `<div class="header-row">
+        <div></div>
+        <button class="btn" id="clearBtn" onclick="clearAll()">✕ ${panelCount === 1 ? 'Close tab' : 'Close all tabs'}</button>
+      </div>`;
 
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tailwind Class Details</title>
+    <title>Plainwind</title>
     <style>
         * {
             box-sizing: border-box;
@@ -128,50 +137,40 @@ export function generatePanelHTML(
             margin: 0;
             -webkit-font-smoothing: antialiased;
         }
-        .source-location {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 11px;
-            color: var(--vscode-descriptionForeground);
-            padding: 16px 0;
-            margin-top: 24px;
-            border-top: 1px solid var(--vscode-panel-border);
-        }
-        .location-icon {
-            opacity: 0.6;
-        }
-        .location-text {
-            font-family: var(--vscode-editor-font-family), monospace;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        .header {
+        .source-label-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 24px;
-            margin-bottom: 32px;
-            border-bottom: 1px solid var(--vscode-panel-border);
-            flex-wrap: wrap;
-            gap: 12px;
+            margin-bottom: 12px;
         }
-        .header-left {
-            flex: 1;
-            min-width: 0;
-        }
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        h2 {
-            font-size: 18px;
+        .source-label-row .location-label {
+            font-size: 11px;
             font-weight: 600;
-            color: var(--vscode-editor-foreground);
-            margin: 0;
-            letter-spacing: -0.015em;
+            color: var(--vscode-descriptionForeground);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 11px;
+        }
+        .source-section {
+            margin-bottom: 32px;
+        }
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .source-container {
+            background-color: var(--vscode-textCodeBlock-background);
+            border: 1px solid var(--vscode-panel-border);
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-family: var(--vscode-editor-font-family), 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--vscode-descriptionForeground);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .btn {
             background-color: var(--vscode-button-secondaryBackground);
@@ -284,6 +283,7 @@ export function generatePanelHTML(
             font-weight: 600;
             flex-shrink: 0;
             min-width: 130px;
+            letter-spacing: 0.01em;
         }
         .category-line span {
             flex: 1;
@@ -394,28 +394,19 @@ export function generatePanelHTML(
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="header-left">
-            <h2>💨 Tailwind Class Translation</h2>
-        </div>
-        <div class="header-right">
-            <button class="btn" id="clearBtn" onclick="clearAll()">✕ ${panelCount === 1 ? 'Close tab' : 'Close all tabs'}</button>
-        </div>
-    </div>
+    ${sourceLocationHTML}
     
-    <div class="label">Original Classes:</div>
+    <div class="label">Original Classes</div>
     <div class="code-block">
         <button class="copy-btn" id="copyClassesBtn" onclick="copyClasses()">Copy</button>
         <div class="class-string">${escapeHtml(classString)}</div>
     </div>
     
-    <div class="label">Plain English:</div>
+    <div class="label">Plain English Translation</div>
     <div class="code-block">
         <button class="copy-btn" id="copyTranslationBtn" onclick="copyTranslation()">Copy</button>
         <div class="translation">${formattedTranslation}</div>
     </div>
-    
-    ${sourceLocationHTML}
 
     <script>
         const vscode = acquireVsCodeApi();
