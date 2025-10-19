@@ -27,7 +27,7 @@ export function setCodeLensProvider(provider: { refresh: () => void }): void {
 /**
  * Register all toggle commands
  *
- * Registers 9 commands:
+ * Registers 10 commands:
  * - plainwind.showMenu: Shows quick menu with all options
  * - plainwind.toggleEnabled: Toggle extension globally
  * - plainwind.disableForFile: Disable for current file
@@ -37,6 +37,7 @@ export function setCodeLensProvider(provider: { refresh: () => void }): void {
  * - plainwind.toggleGroupByCategory: Toggle category grouping
  * - plainwind.toggleCategoryEmojis: Toggle emojis in categories
  * - plainwind.toggleEnhanceVisuals: Toggle visual enhancements
+ * - plainwind.setCodeLensMaxLength: Set maximum CodeLens display length
  *
  * @param context - Extension context for registering disposables
  */
@@ -74,6 +75,10 @@ export function registerToggleCommands(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand(
       'plainwind.toggleEnhanceVisuals',
       toggleEnhanceVisuals
+    ),
+    vscode.commands.registerCommand(
+      'plainwind.setCodeLensMaxLength',
+      setCodeLensMaxLength
     )
   );
 }
@@ -97,6 +102,7 @@ async function showQuickMenu(): Promise<void> {
   const grouping = config.get<boolean>('groupByCategory', true);
   const emojis = config.get<boolean>('showCategoryEmojis', false);
   const enhanceVisuals = config.get<boolean>('enhanceVisuals', false);
+  const codeLensMaxLength = config.get<number>('codeLensMaxLength', 180);
 
   interface QuickPickItemWithAction extends vscode.QuickPickItem {
     action: () => Promise<void> | void;
@@ -131,6 +137,11 @@ async function showQuickMenu(): Promise<void> {
         ? '✓ Enabled (colors, weights, shadows, etc.)'
         : '○ Disabled',
       action: toggleEnhanceVisuals,
+    },
+    {
+      label: '$(text-size) Set CodeLens Truncation Length',
+      description: `Cutoff at ${codeLensMaxLength} chars (then shows "...")`,
+      action: setCodeLensMaxLength,
     },
     {
       label: '',
@@ -376,4 +387,111 @@ async function toggleEnhanceVisuals(): Promise<void> {
   vscode.window.showInformationMessage(
     `Visual enhancements ${!current ? 'enabled' : 'disabled'} (colors, font weights, shadows, spacing values, etc.)`
   );
+}
+
+/**
+ * Set CodeLens truncation length
+ *
+ * Shows a quick-pick menu with preset options for common window sizes,
+ * plus a custom option for manual entry.
+ */
+async function setCodeLensMaxLength(): Promise<void> {
+  const config = vscode.workspace.getConfiguration('plainwind');
+  const current = config.get<number>('codeLensMaxLength', 180);
+
+  interface PresetOption extends vscode.QuickPickItem {
+    value: number | 'custom';
+  }
+
+  const presets: PresetOption[] = [
+    {
+      label: '$(arrow-small-left) Compact',
+      description: '100 chars',
+      detail: 'For small or split windows',
+      value: 100,
+    },
+    {
+      label: '$(dash) Normal',
+      description: '180 chars',
+      detail: 'Balanced for most screens (default)',
+      value: 180,
+    },
+    {
+      label: '$(arrow-small-right) Generous',
+      description: '250 chars',
+      detail: 'For wide monitors',
+      value: 250,
+    },
+    {
+      label: '$(arrow-right) Maximum',
+      description: '400 chars',
+      detail: 'For ultra-wide displays',
+      value: 400,
+    },
+    {
+      label: '$(edit) Custom...',
+      description: 'Enter your own value',
+      detail: 'Set a specific character count (50-500)',
+      value: 'custom',
+    },
+  ];
+
+  // Mark the current selection
+  const currentPreset = presets.find(p => p.value === current);
+  if (currentPreset) {
+    currentPreset.label = `$(check) ${currentPreset.label.replace('$(arrow-small-left) ', '').replace('$(dash) ', '').replace('$(arrow-small-right) ', '').replace('$(arrow-right) ', '')}`;
+  }
+
+  const selected = await vscode.window.showQuickPick(presets, {
+    placeHolder: `Current: ${current} characters`,
+    title: 'Set CodeLens Truncation Length',
+  });
+
+  if (!selected) {
+    return;
+  }
+
+  let newValue: number | undefined;
+
+  if (selected.value === 'custom') {
+    // Show input box for custom value
+    const input = await vscode.window.showInputBox({
+      prompt: 'Enter custom truncation length (50-500 characters)',
+      value: current.toString(),
+      placeHolder: '180',
+      validateInput: (value: string) => {
+        const num = parseInt(value, 10);
+        if (isNaN(num)) {
+          return 'Please enter a valid number';
+        }
+        if (num < 50 || num > 500) {
+          return 'Value must be between 50 and 500';
+        }
+        return null;
+      },
+    });
+
+    if (input !== undefined) {
+      newValue = parseInt(input, 10);
+    }
+  } else {
+    newValue = selected.value;
+  }
+
+  if (newValue !== undefined) {
+    await config.update(
+      'codeLensMaxLength',
+      newValue,
+      vscode.ConfigurationTarget.Global
+    );
+
+    // Refresh CodeLens to immediately apply the new length
+    if (codeLensProviderInstance) {
+      codeLensProviderInstance.refresh();
+    }
+
+    vscode.window.showInformationMessage(
+      `CodeLens will truncate after ${newValue} characters`
+    );
+  }
 }

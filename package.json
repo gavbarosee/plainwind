@@ -90,6 +90,10 @@
       {
         "command": "plainwind.toggleEnhanceVisuals",
         "title": "Plainwind: Toggle Visual Enhancements In Detail Panel"
+      },
+      {
+        "command": "plainwind.setCodeLensMaxLength",
+        "title": "Plainwind: Set CodeLens Truncation Length"
       }
     ],
     "configuration": {
@@ -134,6 +138,13 @@
           "type": "boolean",
           "default": true,
           "description": "Automatically scroll the editor to show highlighted code when a panel is opened or focused"
+        },
+        "plainwind.codeLensMaxLength": {
+          "type": "number",
+          "default": 180,
+          "minimum": 50,
+          "maximum": 500,
+          "description": "Maximum characters before truncation (cutoff). Translations longer than this will be truncated with '...' and show 'Show full translation' link. Adjust based on your editor width."
         }
       }
     }

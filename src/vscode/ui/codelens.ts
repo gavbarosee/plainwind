@@ -20,12 +20,17 @@ import { isFileEnabled } from '@src/extension';
 import { extractAllClassNames, combineClassStrings } from '@src/core/parsing';
 
 /**
- * Maximum characters before truncation
+ * Get the maximum CodeLens length from user settings
  *
- * Longer translations are truncated to avoid cluttering the editor.
- * Users can click to see the full translation in a detail panel.
+ * Defaults to 180 characters if not configured.
+ * Users can adjust this in settings based on their editor width.
+ *
+ * @returns Maximum character length before truncation
  */
-const MAX_CODELENS_LENGTH = 150;
+function getMaxCodeLensLength(): number {
+  const config = vscode.workspace.getConfiguration('plainwind');
+  return config.get<number>('codeLensMaxLength', 180);
+}
 
 /**
  * CodeLens provider for Tailwind class translations
@@ -100,13 +105,15 @@ export class TailwindCodeLensProvider implements vscode.CodeLensProvider {
       /**
        * Truncate long translations to avoid cluttering the editor
        * Full translation is available by clicking the CodeLens
+       * Max length is configurable via settings
        */
+      const maxLength = getMaxCodeLensLength();
       let displayText = translation;
       let isTruncated = false;
 
-      if (translation.length > MAX_CODELENS_LENGTH) {
+      if (translation.length > maxLength) {
         displayText =
-          translation.substring(0, MAX_CODELENS_LENGTH).trim() + '...';
+          translation.substring(0, maxLength).trim() + '...';
         isTruncated = true;
       }
 
