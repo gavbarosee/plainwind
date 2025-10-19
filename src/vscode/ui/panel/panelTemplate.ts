@@ -229,6 +229,9 @@ export function generatePanelHTML(
             font-weight: 500;
             font-family: inherit;
             transition: all 0.15s ease;
+            opacity: 0;
+        }
+        .code-block:hover .copy-btn {
             opacity: 0.7;
         }
         .code-block .copy-btn:hover {
@@ -262,6 +265,7 @@ export function generatePanelHTML(
             padding: 20px;
             padding-right: 80px;
             border-radius: 8px;
+            overflow-x: auto;
         }
         .category-line {
             padding: 10px 0;
@@ -421,7 +425,7 @@ export function generatePanelHTML(
         function copyClasses() {
             const btn = document.getElementById('copyClassesBtn');
             const originalText = btn.textContent;
-            btn.textContent = 'Copied!';
+            btn.textContent = 'Copied';
             btn.classList.add('copied');
             
             vscode.postMessage({ 
@@ -438,7 +442,7 @@ export function generatePanelHTML(
         function copyTranslation() {
             const btn = document.getElementById('copyTranslationBtn');
             const originalText = btn.textContent;
-            btn.textContent = 'Copied!';
+            btn.textContent = 'Copied';
             btn.classList.add('copied');
             
             vscode.postMessage({ 
