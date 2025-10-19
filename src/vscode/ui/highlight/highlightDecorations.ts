@@ -25,16 +25,17 @@ export class HighlightDecorations {
      * Normal highlight for non-focused panels
      *
      * Visual style:
-     * - Light blue background (20% opacity)
-     * - 3px solid blue left border (80% opacity)
+     * - Light turquoise background (20% opacity)
+     * - 3px solid turquoise left border (80% opacity)
      * - Whole line highlighted
+     * - Brand color: #239BC8 (darker variant)
      */
     this.normalDecoration = vscode.window.createTextEditorDecorationType({
-      backgroundColor: 'rgba(64, 160, 255, 0.2)',
-      border: '0 0 0 3px solid rgba(64, 160, 255, 0.8)',
+      backgroundColor: 'rgba(35, 155, 200, 0.2)',
+      border: '0 0 0 3px solid rgba(35, 155, 200, 0.8)',
       borderWidth: '0 0 0 3px',
       borderStyle: 'solid',
-      borderColor: 'rgba(64, 160, 255, 0.8)',
+      borderColor: 'rgba(35, 155, 200, 0.8)',
       isWholeLine: true,
     });
 
@@ -42,18 +43,19 @@ export class HighlightDecorations {
      * Intense highlight for focused panel
      *
      * Visual style:
-     * - Medium blue background (35% opacity)
-     * - 4px solid blue left border (100% opacity)
+     * - Medium turquoise background (35% opacity)
+     * - 4px solid turquoise left border (100% opacity)
      * - Whole line highlighted
+     * - Brand color: #239BC8 (darker variant)
      *
      * More prominent than normal to draw attention to the active panel.
      */
     this.focusedDecoration = vscode.window.createTextEditorDecorationType({
-      backgroundColor: 'rgba(64, 160, 255, 0.35)',
-      border: '0 0 0 4px solid rgba(64, 160, 255, 1)',
+      backgroundColor: 'rgba(35, 155, 200, 0.35)',
+      border: '0 0 0 4px solid rgba(35, 155, 200, 1)',
       borderWidth: '0 0 0 4px',
       borderStyle: 'solid',
-      borderColor: 'rgba(64, 160, 255, 1)',
+      borderColor: 'rgba(35, 155, 200, 1)',
       isWholeLine: true,
     });
   }
