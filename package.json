@@ -29,7 +29,12 @@
     "vscode": "^1.80.0"
   },
   "categories": [
-    "Programming Languages"
+    "Programming Languages",
+    "Visualization",
+    "Education",
+    "Formatters",
+    "Linters",
+    "Other"
   ],
   "icon": "icons/icon-128.png",
   "activationEvents": [

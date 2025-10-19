@@ -28,7 +28,7 @@ export class HighlightDecorations {
      * - Light turquoise background (20% opacity)
      * - 3px solid turquoise left border (80% opacity)
      * - Whole line highlighted
-     * - Brand color: #239BC8 (darker variant)
+     * - Brand color: #239BC8 
      */
     this.normalDecoration = vscode.window.createTextEditorDecorationType({
       backgroundColor: 'rgba(35, 155, 200, 0.2)',
