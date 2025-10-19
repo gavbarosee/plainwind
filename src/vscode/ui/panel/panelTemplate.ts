@@ -61,9 +61,9 @@ export function generatePanelHTML(
   translation: string,
   panelCount: number,
   enhanceVisuals: boolean = false,
-  panelIndex: number = 1,
+  _panelIndex: number = 1,
   sourceLocation?: { filePath: string; line: number },
-  iconUri?: string
+  _iconUri?: string
 ): string {
   /**
    * Format translation by splitting on pipe separator

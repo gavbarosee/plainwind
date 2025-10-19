@@ -27,7 +27,7 @@ export function setCodeLensProvider(provider: { refresh: () => void }): void {
 /**
  * Register all toggle commands
  *
- * Registers 10 commands:
+ * Registers 11 commands:
  * - plainwind.showMenu: Shows quick menu with all options
  * - plainwind.toggleEnabled: Toggle extension globally
  * - plainwind.disableForFile: Disable for current file
@@ -38,6 +38,7 @@ export function setCodeLensProvider(provider: { refresh: () => void }): void {
  * - plainwind.toggleCategoryEmojis: Toggle emojis in categories
  * - plainwind.toggleEnhanceVisuals: Toggle visual enhancements
  * - plainwind.setCodeLensMaxLength: Set maximum CodeLens display length
+ * - plainwind.showWalkthrough: Open getting started guide
  *
  * @param context - Extension context for registering disposables
  */
@@ -79,6 +80,10 @@ export function registerToggleCommands(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand(
       'plainwind.setCodeLensMaxLength',
       setCodeLensMaxLength
+    ),
+    vscode.commands.registerCommand(
+      'plainwind.showWalkthrough',
+      showWalkthrough
     )
   );
 }
@@ -152,6 +157,11 @@ async function showQuickMenu(): Promise<void> {
       label: '$(file) Toggle for Current File',
       description: 'Enable/disable for the active file',
       action: toggleForCurrentFile,
+    },
+    {
+      label: '$(question) Show Getting Started Guide',
+      description: 'Interactive walkthrough with demos',
+      action: showWalkthrough,
     },
     {
       label: '$(close-all) Clear All Detail Panels',
@@ -437,7 +447,7 @@ async function setCodeLensMaxLength(): Promise<void> {
   ];
 
   // Mark the current selection
-  const currentPreset = presets.find(p => p.value === current);
+  const currentPreset = presets.find((p) => p.value === current);
   if (currentPreset) {
     currentPreset.label = `$(check) ${currentPreset.label.replace('$(arrow-small-left) ', '').replace('$(dash) ', '').replace('$(arrow-small-right) ', '').replace('$(arrow-right) ', '')}`;
   }
@@ -494,4 +504,17 @@ async function setCodeLensMaxLength(): Promise<void> {
       `CodeLens will truncate after ${newValue} characters`
     );
   }
+}
+
+/**
+ * Open the Getting Started walkthrough
+ *
+ * Opens the interactive walkthrough with demos and guides for using Plainwind.
+ */
+async function showWalkthrough(): Promise<void> {
+  await vscode.commands.executeCommand(
+    'workbench.action.openWalkthrough',
+    'gavbarosee.plainwind#plainwind.welcome',
+    false
+  );
 }

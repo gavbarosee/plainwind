@@ -94,6 +94,59 @@
       {
         "command": "plainwind.setCodeLensMaxLength",
         "title": "Plainwind: Set CodeLens Truncation Length"
+      },
+      {
+        "command": "plainwind.showWalkthrough",
+        "title": "Plainwind: Show Getting Started Guide"
+      }
+    ],
+    "walkthroughs": [
+      {
+        "id": "plainwind.welcome",
+        "title": "Get Started with Plainwind",
+        "description": "Learn how to use Plainwind to translate Tailwind classes to plain English",
+        "steps": [
+          {
+            "id": "clickable-codelens",
+            "title": "Click any translation for details",
+            "description": "Translations appear above your Tailwind classes as **CodeLens**.\n\n**How it works:**\n- Look for the translation text above `className` attributes\n- Click any translation to open a detailed breakdown panel\n- Panel shows categories, copy buttons, and enhanced visuals\n- Multiple panels can be open for comparison\n\n[Open Settings Menu](command:plainwind.showMenu)",
+            "media": {
+              "markdown": "Look for translations above your Tailwind classes:\n\n```jsx\n// Layout: flex container, center items...\n<div className=\"flex items-center justify-between\">\n```\n\n**Click the translation to see full details!**"
+            }
+          },
+          {
+            "id": "status-bar-menu",
+            "title": "Access all settings via status bar",
+            "description": "Click the **～ Plainwind** item in the status bar (bottom-right corner) to quickly access all options.\n\n**Available options:**\n- Change display mode (CodeLens, Hover, Off)\n- Toggle category grouping and emojis\n- Adjust truncation length\n- Enable visual enhancements\n- Toggle for current file\n\n[Open Settings Menu Now](command:plainwind.showMenu)",
+            "media": {
+              "markdown": "Find the status bar item:\n\n```\nBottom right corner: ～ Plainwind\n                      ↑ Click here!\n```\n\nThis opens the quick menu with all settings."
+            }
+          },
+          {
+            "id": "multiple-panels",
+            "title": "Open multiple panels for comparison",
+            "description": "Each translation you click opens a new panel as a tab. This lets you compare different Tailwind elements side-by-side.\n\n**Features:**\n- Each panel is a separate tab\n- Switch between panels using VS Code tabs\n- Copy buttons for classes and translations\n- Close individual tabs or all at once\n- Navigate back to source code\n\n[Try it now!](command:plainwind.showMenu)",
+            "media": {
+              "markdown": "**Workflow:**\n\n1. Click first translation → Panel 1 opens\n2. Click second translation → Panel 2 opens as tab\n3. Click third translation → Panel 3 opens as tab\n4. Switch between tabs to compare\n5. Use \"Close all tabs\" button when done"
+            }
+          },
+          {
+            "id": "display-modes",
+            "title": "Choose your display mode",
+            "description": "Plainwind offers three display modes to suit your preference:\n\n**CodeLens** (default)\n- Translations always visible above code\n- Best for learning and quick reference\n\n**Hover**\n- Translations appear only on hover\n- Cleaner editor, less visual noise\n\n**Off**\n- Disable all translations\n- Keep extension installed for quick toggling\n\n[Change Display Mode](command:plainwind.chooseDisplayMode)",
+            "media": {
+              "markdown": "**CodeLens mode:**\n```jsx\n// Layout: flex container...\n<div className=\"flex\">\n```\n\n**Hover mode:**\n```jsx\n<div className=\"flex\"> ← Hover to see\n```"
+            }
+          },
+          {
+            "id": "customize-settings",
+            "title": "Customize to your preferences",
+            "description": "Plainwind is highly customizable:\n\n**Truncation Length**\n- Presets: Compact, Normal, Generous, Maximum\n- Or set custom value (50-500 chars)\n\n**Visual Options**\n- Group by category (Layout, Colors, etc.)\n- Show category emojis\n- Visual enhancements (actual colors, fonts)\n\n**File Control**\n- Disable for specific files\n- Quick toggle per file\n\n[Open All Settings](command:plainwind.showMenu)",
+            "media": {
+              "markdown": "**Quick settings:**\n- Truncation: `Compact` `Normal` `Generous` `Maximum`\n- Grouping: `✓ Enabled` or `○ Disabled`\n- Emojis: `✓ Enabled` or `○ Disabled`\n- Visuals: `✓ Enhanced` or `○ Plain text`\n\nAccess via status bar menu!"
+            }
+          }
+        ]
       }
     ],
     "configuration": {
@@ -145,6 +198,11 @@
           "minimum": 50,
           "maximum": 500,
           "description": "Maximum characters before truncation (cutoff). Translations longer than this will be truncated with '...' and show 'Show full translation' link. Adjust based on your editor width."
+        },
+        "plainwind.hasSeenClickableTip": {
+          "type": "boolean",
+          "default": false,
+          "description": "Internal: tracks whether user has seen the clickable CodeLens tip"
         }
       }
     }
