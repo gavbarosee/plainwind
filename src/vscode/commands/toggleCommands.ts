@@ -91,14 +91,21 @@ export function registerToggleCommands(context: vscode.ExtensionContext): void {
 /**
  * Show quick menu with all Plainwind options
  *
- * Displays a QuickPick menu with all available commands:
- * - Enable/Disable extension
- * - Choose display mode
- * - Toggle grouping and emojis
- * - File-specific toggle
- * - Clear all panels
+ * Displays a well-organized QuickPick menu with logical grouping:
+ * 
+ * **Display & Formatting** (most used)
+ * - Display mode, truncation, category grouping, emojis
+ * 
+ * **Visual Enhancements**
+ * - Enhanced visual rendering options
+ * 
+ * **Scope & Actions**
+ * - File-specific controls, clear panels
+ * 
+ * **Help & Settings**
+ * - Getting started guide, global enable/disable
  *
- * Menu items show current state (checkmarks, descriptions)
+ * Menu items show current state with checkmarks and detailed descriptions.
  */
 async function showQuickMenu(): Promise<void> {
   const config = vscode.workspace.getConfiguration('plainwind');
@@ -114,61 +121,92 @@ async function showQuickMenu(): Promise<void> {
   }
 
   const items: QuickPickItemWithAction[] = [
+    // ===== DISPLAY & FORMATTING (Most Used) =====
     {
-      label: `$(${enabled ? 'check' : 'circle-outline'}) ${enabled ? 'Disable' : 'Enable'} Extension`,
-      description: enabled
-        ? 'Turn off Plainwind globally'
-        : 'Turn on Plainwind globally',
-      action: toggleExtensionEnabled,
-    },
-    {
-      label: '$(settings-gear) Choose Display Mode',
-      description: `Current: ${displayMode}`,
-      action: chooseDisplayMode,
-    },
-    {
-      label: '$(symbol-namespace) Toggle Group By Category',
-      description: grouping ? '✓ Enabled' : '○ Disabled',
-      action: toggleGroupByCategory,
-    },
-    {
-      label: '$(smiley) Toggle Category Emojis',
-      description: emojis ? '✓ Enabled' : '○ Disabled',
-      action: toggleCategoryEmojis,
-    },
-    {
-      label: '$(paintcan) Toggle Visual Enhancements In Detail Panel',
-      description: enhanceVisuals
-        ? '✓ Enabled (colors, weights, shadows, etc.)'
-        : '○ Disabled',
-      action: toggleEnhanceVisuals,
-    },
-    {
-      label: '$(text-size) Set CodeLens Truncation Length',
-      description: `Cutoff at ${codeLensMaxLength} chars (then shows "...")`,
-      action: setCodeLensMaxLength,
-    },
-    {
-      label: '',
+      label: 'Display & Formatting',
       kind: vscode.QuickPickItemKind.Separator,
       action: async () => {},
     },
     {
-      label: '$(file) Toggle for Current File',
-      description: 'Enable/disable for the active file',
+      label: '$(eye) Display Mode',
+      description: `Current: ${displayMode}`,
+      detail: 'CodeLens (always visible), Hover (on hover), or Off',
+      action: chooseDisplayMode,
+    },
+    {
+      label: '$(text-size) Truncation Length',
+      description: `Cutoff at ${codeLensMaxLength} chars`,
+      detail: 'Adjust when translations get truncated with "..."',
+      action: setCodeLensMaxLength,
+    },
+    {
+      label: `$(list-tree) Group By Category`,
+      description: grouping ? '✓ Enabled' : '○ Disabled',
+      detail: 'Organize translations by Layout, Colors, Typography, etc.',
+      action: toggleGroupByCategory,
+    },
+    {
+      label: `$(smiley) Category Emojis`,
+      description: emojis ? '✓ Enabled' : '○ Disabled',
+      detail: 'Show emoji icons next to category names',
+      action: toggleCategoryEmojis,
+    },
+
+    // ===== VISUAL ENHANCEMENTS =====
+    {
+      label: 'Visual Enhancements',
+      kind: vscode.QuickPickItemKind.Separator,
+      action: async () => {},
+    },
+    {
+      label: '$(paintcan) Enhanced Visuals',
+      description: enhanceVisuals ? '✓ Enabled' : '○ Disabled',
+      detail: enhanceVisuals
+        ? 'Colors, font weights, shadows shown visually'
+        : 'Enable visual rendering of colors, fonts, shadows',
+      action: toggleEnhanceVisuals,
+    },
+
+    // ===== SCOPE & ACTIONS =====
+    {
+      label: 'Scope & Actions',
+      kind: vscode.QuickPickItemKind.Separator,
+      action: async () => {},
+    },
+    {
+      label: '$(file-code) This File',
+      description: 'Toggle extension for active file',
+      detail: 'Enable or disable Plainwind for the current file only',
       action: toggleForCurrentFile,
     },
     {
-      label: '$(question) Show Getting Started Guide',
-      description: 'Interactive walkthrough with demos',
-      action: showWalkthrough,
-    },
-    {
-      label: '$(close-all) Clear All Detail Panels',
+      label: '$(clear-all) Clear All Panels',
       description: 'Close all open translation panels',
+      detail: 'Remove all detail panel tabs at once',
       action: async () => {
         await vscode.commands.executeCommand('plainwind.clearAllPanels');
       },
+    },
+
+    // ===== HELP & SETTINGS =====
+    {
+      label: 'Help & Settings',
+      kind: vscode.QuickPickItemKind.Separator,
+      action: async () => {},
+    },
+    {
+      label: '$(question) Getting Started',
+      description: 'Interactive walkthrough with demos',
+      detail: 'Learn how to use Plainwind features',
+      action: showWalkthrough,
+    },
+    {
+      label: `$(${enabled ? 'circle-slash' : 'check'}) ${enabled ? 'Disable' : 'Enable'} Extension`,
+      description: enabled ? 'Turn off globally' : 'Turn on globally',
+      detail: enabled
+        ? 'Disable Plainwind for all files'
+        : 'Enable Plainwind for all files',
+      action: toggleExtensionEnabled,
     },
   ];
 
@@ -290,7 +328,11 @@ async function chooseDisplayMode(): Promise<void> {
   const config = vscode.workspace.getConfiguration('plainwind');
   const currentMode = config.get<string>('displayMode', 'codelens');
 
-  const options = [
+  interface DisplayModeOption extends vscode.QuickPickItem {
+    value: string | 'back';
+  }
+
+  const options: DisplayModeOption[] = [
     {
       label: 'CodeLens',
       description: 'Show translations above className lines',
@@ -306,6 +348,16 @@ async function chooseDisplayMode(): Promise<void> {
       description: 'Disable all translations',
       value: 'off',
     },
+    {
+      label: '',
+      kind: vscode.QuickPickItemKind.Separator,
+      value: 'separator',
+    },
+    {
+      label: '$(arrow-left) Back to Menu',
+      description: 'Return to main options',
+      value: 'back',
+    },
   ];
 
   const selected = await vscode.window.showQuickPick(options, {
@@ -313,13 +365,17 @@ async function chooseDisplayMode(): Promise<void> {
     title: 'Choose Display Mode',
   });
 
-  if (selected && selected.value !== currentMode) {
-    await config.update(
-      'displayMode',
-      selected.value,
-      vscode.ConfigurationTarget.Global
-    );
-    // The configuration listener will prompt for reload
+  if (selected) {
+    if (selected.value === 'back') {
+      await showQuickMenu();
+    } else if (selected.value !== currentMode && selected.value !== 'separator') {
+      await config.update(
+        'displayMode',
+        selected.value,
+        vscode.ConfigurationTarget.Global
+      );
+      // The configuration listener will prompt for reload
+    }
   }
 }
 
@@ -410,7 +466,7 @@ async function setCodeLensMaxLength(): Promise<void> {
   const current = config.get<number>('codeLensMaxLength', 180);
 
   interface PresetOption extends vscode.QuickPickItem {
-    value: number | 'custom';
+    value: number | 'custom' | 'back' | 'separator';
   }
 
   const presets: PresetOption[] = [
@@ -444,6 +500,16 @@ async function setCodeLensMaxLength(): Promise<void> {
       detail: 'Set a specific character count (50-500)',
       value: 'custom',
     },
+    {
+      label: '',
+      kind: vscode.QuickPickItemKind.Separator,
+      value: 'separator',
+    },
+    {
+      label: '$(arrow-left) Back to Menu',
+      description: 'Return to main options',
+      value: 'back',
+    },
   ];
 
   // Mark the current selection
@@ -458,6 +524,17 @@ async function setCodeLensMaxLength(): Promise<void> {
   });
 
   if (!selected) {
+    return;
+  }
+
+  // Handle back navigation
+  if (selected.value === 'back') {
+    await showQuickMenu();
+    return;
+  }
+
+  // Ignore separator
+  if (selected.value === 'separator') {
     return;
   }
 
@@ -485,7 +562,7 @@ async function setCodeLensMaxLength(): Promise<void> {
       newValue = parseInt(input, 10);
     }
   } else {
-    newValue = selected.value;
+    newValue = selected.value as number;
   }
 
   if (newValue !== undefined) {
