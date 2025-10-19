@@ -149,7 +149,7 @@ export function generatePanelHTML(
             color: var(--vscode-descriptionForeground);
             text-transform: uppercase;
             letter-spacing: 0.08em;
-            margin-top: 11px;
+            margin-top: 13px;
         }
         .source-section {
             margin-bottom: 32px;
