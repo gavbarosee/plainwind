@@ -92,16 +92,16 @@ export function registerToggleCommands(context: vscode.ExtensionContext): void {
  * Show quick menu with all Plainwind options
  *
  * Displays a well-organized QuickPick menu with logical grouping:
- * 
+ *
  * **Display & Formatting** (most used)
  * - Display mode, truncation, category grouping, emojis
- * 
+ *
  * **Visual Enhancements**
  * - Enhanced visual rendering options
- * 
+ *
  * **Scope & Actions**
  * - File-specific controls, clear panels
- * 
+ *
  * **Help & Settings**
  * - Getting started guide, global enable/disable
  *
@@ -136,34 +136,30 @@ async function showQuickMenu(): Promise<void> {
     {
       label: '$(text-size) Truncation Length',
       description: `Cutoff at ${codeLensMaxLength} chars`,
-      detail: 'Adjust when translations get truncated with "..."',
+      detail:
+        'Adjust when translations get truncated with "..." — useful for wide/narrow screens',
       action: setCodeLensMaxLength,
     },
     {
       label: `$(list-tree) Group By Category`,
       description: grouping ? '✓ Enabled' : '○ Disabled',
-      detail: 'Organize translations by Layout, Colors, Typography, etc.',
+      detail:
+        'Organize translations by Layout, Colors, Typography, etc. for better readability',
       action: toggleGroupByCategory,
     },
     {
       label: `$(smiley) Category Emojis`,
       description: emojis ? '✓ Enabled' : '○ Disabled',
-      detail: 'Show emoji icons next to category names',
+      detail: grouping
+        ? 'Show emoji icons next to category names for visual flair'
+        : 'Show emoji icons next to category names • Requires "Group By Category" to be enabled',
       action: toggleCategoryEmojis,
-    },
-
-    // ===== VISUAL ENHANCEMENTS =====
-    {
-      label: 'Visual Enhancements',
-      kind: vscode.QuickPickItemKind.Separator,
-      action: async () => {},
     },
     {
       label: '$(paintcan) Enhanced Visuals',
       description: enhanceVisuals ? '✓ Enabled' : '○ Disabled',
-      detail: enhanceVisuals
-        ? 'Colors, font weights, shadows shown visually'
-        : 'Enable visual rendering of colors, fonts, shadows',
+      detail:
+        'Enable visual rendering of colors, font weights, shadows, and spacing values',
       action: toggleEnhanceVisuals,
     },
 
@@ -176,7 +172,8 @@ async function showQuickMenu(): Promise<void> {
     {
       label: '$(file-code) This File',
       description: 'Toggle extension for active file',
-      detail: 'Enable or disable Plainwind for the current file only',
+      detail:
+        'Enable or disable Plainwind for the current file only — useful for large files',
       action: toggleForCurrentFile,
     },
     {
@@ -197,15 +194,15 @@ async function showQuickMenu(): Promise<void> {
     {
       label: '$(question) Getting Started',
       description: 'Interactive walkthrough with demos',
-      detail: 'Learn how to use Plainwind features',
+      detail: 'Learn how to use Plainwind features — recommended for new users',
       action: showWalkthrough,
     },
     {
       label: `$(${enabled ? 'circle-slash' : 'check'}) ${enabled ? 'Disable' : 'Enable'} Extension`,
       description: enabled ? 'Turn off globally' : 'Turn on globally',
       detail: enabled
-        ? 'Disable Plainwind for all files'
-        : 'Enable Plainwind for all files',
+        ? 'Disable Plainwind for all files and workspaces'
+        : 'Enable Plainwind for all files and workspaces',
       action: toggleExtensionEnabled,
     },
   ];
@@ -368,7 +365,10 @@ async function chooseDisplayMode(): Promise<void> {
   if (selected) {
     if (selected.value === 'back') {
       await showQuickMenu();
-    } else if (selected.value !== currentMode && selected.value !== 'separator') {
+    } else if (
+      selected.value !== currentMode &&
+      selected.value !== 'separator'
+    ) {
       await config.update(
         'displayMode',
         selected.value,

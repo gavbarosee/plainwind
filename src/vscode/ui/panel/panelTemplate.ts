@@ -129,7 +129,7 @@ export function generatePanelHTML(
         }
         body {
             padding: 32px;
-            font-family: var(--vscode-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+            font-family: 'Inter', var(--vscode-font-family), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
             font-size: var(--vscode-font-size, 13px);
             color: var(--vscode-editor-foreground);
             background-color: var(--vscode-editor-background);
