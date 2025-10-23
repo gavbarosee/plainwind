@@ -145,11 +145,6 @@
           "minimum": 50,
           "maximum": 500,
           "description": "Maximum characters before truncation (cutoff). Translations longer than this will be truncated with '...' and show 'Show full translation' link. Adjust based on your editor width."
-        },
-        "plainwind.hasSeenClickableTip": {
-          "type": "boolean",
-          "default": false,
-          "description": "Internal: tracks whether user has seen the clickable CodeLens tip"
         }
       }
     }

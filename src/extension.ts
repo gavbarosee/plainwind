@@ -166,30 +166,28 @@ function registerProviders(
  * Displays an informational message the first time the extension is activated
  * to help users discover that CodeLens translations are clickable.
  *
- * @param context - Extension context for accessing configuration
+ * @param context - Extension context for accessing global state
  */
 async function showClickableTipIfNeeded(
-  _context: vscode.ExtensionContext
+  context: vscode.ExtensionContext
 ): Promise<void> {
-  const config = vscode.workspace.getConfiguration('plainwind');
-  const hasSeenTip = config.get<boolean>('hasSeenClickableTip', false);
+  const hasSeenTip = context.globalState.get<boolean>(
+    'hasSeenClickableTip',
+    false
+  );
 
   if (!hasSeenTip) {
     // Small delay to let CodeLens render first
     // eslint-disable-next-line no-undef
     setTimeout(async () => {
-      const response = await vscode.window.showInformationMessage(
+      await vscode.window.showInformationMessage(
         'Plainwind: Click any translation to see detailed breakdowns. Click the status bar for settings!',
         'Got it',
         "Don't show again"
       );
 
       // Mark as seen regardless of response
-      await config.update(
-        'hasSeenClickableTip',
-        true,
-        vscode.ConfigurationTarget.Global
-      );
+      await context.globalState.update('hasSeenClickableTip', true);
     }, 2000); // 2 second delay
   }
 }
