@@ -123,38 +123,42 @@ async function showQuickMenu(): Promise<void> {
       action: async () => {},
     },
     {
-      label: '$(eye) Display Mode',
-      description: `Current: ${displayMode}`,
-      detail: 'CodeLens (always visible), Hover (on hover), or Off',
+      label: '$(eye) Display Mode…',
+      description:
+        displayMode === 'codelens'
+          ? '✓ CodeLens'
+          : displayMode === 'hover'
+            ? '✓ Hover'
+            : '✓ Off',
+      detail:
+        'Choose between CodeLens (always visible), Hover (on hover), or Off',
       action: chooseDisplayMode,
     },
     {
-      label: '$(text-size) Truncation Length',
-      description: `Cutoff at ${codeLensMaxLength} chars`,
-      detail:
-        'Adjust when translations get truncated with "..." — useful for wide/narrow screens',
+      label: '$(text-size) Truncation Length…',
+      description: `${codeLensMaxLength} chars`,
+      detail: 'Adjust truncation threshold for your screen width',
       action: setCodeLensMaxLength,
     },
     {
       label: `$(list-tree) Group By Category`,
-      description: grouping ? '✓ Enabled' : '○ Disabled',
-      detail:
-        'Organize translations by Layout, Colors, Typography, etc. for better readability',
+      description: grouping ? '✓' : '○',
+      detail: 'Organize translations by Layout, Colors, Typography, etc.',
       action: toggleGroupByCategory,
     },
     {
       label: `$(smiley) Category Emojis`,
-      description: emojis ? '✓ Enabled' : '○ Disabled',
+      description: emojis ? '✓' : grouping ? '○' : '○ (needs grouping)',
       detail: grouping
-        ? 'Show emoji icons next to category names for visual flair'
-        : 'Show emoji icons next to category names • Requires "Group By Category" to be enabled',
+        ? 'Show emoji icons next to category names'
+        : 'Show emoji icons next to category names • Enable "Group By Category" first',
       action: toggleCategoryEmojis,
     },
     {
-      label: '$(paintcan) Enhanced Visuals',
-      description: enhanceVisuals ? '✓ Enabled' : '○ Disabled',
+      label: '$(paintcan) Rich Previews',
+      description: enhanceVisuals ? '✓' : '○',
       detail:
-        'Enable visual rendering of colors, font weights, shadows, and spacing values',
+        'Visual rendering of colors, font weights, shadows, and spacing values',
       action: toggleEnhanceVisuals,
     },
 
@@ -165,16 +169,16 @@ async function showQuickMenu(): Promise<void> {
       action: async () => {},
     },
     {
-      label: '$(file-code) This File',
-      description: 'Toggle extension for active file',
+      label: '$(file-code) This File…',
+      description: 'Toggle for active file',
       detail:
-        'Enable or disable Plainwind for the current file only — useful for large files',
+        'Enable or disable Plainwind for this file only (useful for large files)',
       action: toggleForCurrentFile,
     },
     {
       label: '$(clear-all) Clear All Panels',
-      description: 'Close all open translation panels',
-      detail: 'Remove all detail panel tabs at once',
+      description: '',
+      detail: 'Close all open translation detail panels',
       action: async () => {
         await vscode.commands.executeCommand('plainwind.clearAllPanels');
       },
@@ -188,7 +192,7 @@ async function showQuickMenu(): Promise<void> {
     },
     {
       label: `$(${enabled ? 'circle-slash' : 'check'}) ${enabled ? 'Disable' : 'Enable'} Extension`,
-      description: enabled ? 'Turn off globally' : 'Turn on globally',
+      description: enabled ? '(turn off globally)' : '(turn on globally)',
       detail: enabled
         ? 'Disable Plainwind for all files and workspaces'
         : 'Enable Plainwind for all files and workspaces',
@@ -440,7 +444,7 @@ async function toggleEnhanceVisuals(): Promise<void> {
   );
 
   vscode.window.showInformationMessage(
-    `Visual enhancements ${!current ? 'enabled' : 'disabled'} (colors, font weights, shadows, spacing values, etc.)`
+    `Rich previews ${!current ? 'enabled' : 'disabled'}`
   );
 }
 
