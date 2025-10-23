@@ -140,6 +140,26 @@ Complete guides, configuration options, and framework examples:
 - **[Framework Support](https://plainwind.dev/frameworks)** for React, Vue, Svelte, Angular, and Solid examples
 - **[Contributing](https://plainwind.dev/contributing)** for development setup and guidelines
 
+## Commands
+
+Access these commands via the Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`):
+
+| Command | Description |
+|---------|-------------|
+| `Plainwind: Show Options Menu` | Quick menu with all settings and options |
+| `Plainwind: Choose Display Mode` | Switch between CodeLens, Hover, or Off |
+| `Plainwind: Toggle Extension On/Off` | Enable/disable Plainwind globally |
+| `Plainwind: Toggle for This File` | Enable/disable for current file only |
+| `Plainwind: Disable for This File` | Disable Plainwind for current file |
+| `Plainwind: Enable for This File` | Enable Plainwind for current file |
+| `Plainwind: Toggle Group By Category` | Toggle category grouping on/off |
+| `Plainwind: Toggle Category Emojis` | Show/hide emojis in category names |
+| `Plainwind: Toggle Visual Enhancements In Detail Panel` | Toggle color, font, and spacing previews |
+| `Plainwind: Set CodeLens Truncation Length` | Adjust when translations get truncated |
+| `Plainwind: Clear All Detail Panels` | Close all open translation panels |
+
+**Tip:** Use `Plainwind: Show Options Menu` for quick access to the most common settings.
+
 ## Quick Configuration
 
 | Setting | Default | Description |

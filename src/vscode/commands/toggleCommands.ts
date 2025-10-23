@@ -571,4 +571,3 @@ async function setCodeLensMaxLength(): Promise<void> {
     );
   }
 }
-
