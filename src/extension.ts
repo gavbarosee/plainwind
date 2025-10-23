@@ -181,18 +181,8 @@ async function showClickableTipIfNeeded(
       const response = await vscode.window.showInformationMessage(
         'Plainwind: Click any translation to see detailed breakdowns. Click the status bar for settings!',
         'Got it',
-        'Watch Demo',
         "Don't show again"
       );
-
-      // Open walkthrough if user clicks "Watch Demo"
-      if (response === 'Watch Demo') {
-        await vscode.commands.executeCommand(
-          'workbench.action.openWalkthrough',
-          'gavbarosee.plainwind#plainwind.welcome',
-          false
-        );
-      }
 
       // Mark as seen regardless of response
       await config.update(

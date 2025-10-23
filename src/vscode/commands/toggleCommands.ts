@@ -27,7 +27,7 @@ export function setCodeLensProvider(provider: { refresh: () => void }): void {
 /**
  * Register all toggle commands
  *
- * Registers 11 commands:
+ * Registers 10 commands:
  * - plainwind.showMenu: Shows quick menu with all options
  * - plainwind.toggleEnabled: Toggle extension globally
  * - plainwind.disableForFile: Disable for current file
@@ -38,7 +38,6 @@ export function setCodeLensProvider(provider: { refresh: () => void }): void {
  * - plainwind.toggleCategoryEmojis: Toggle emojis in categories
  * - plainwind.toggleEnhanceVisuals: Toggle visual enhancements
  * - plainwind.setCodeLensMaxLength: Set maximum CodeLens display length
- * - plainwind.showWalkthrough: Open getting started guide
  *
  * @param context - Extension context for registering disposables
  */
@@ -80,10 +79,6 @@ export function registerToggleCommands(context: vscode.ExtensionContext): void {
     vscode.commands.registerCommand(
       'plainwind.setCodeLensMaxLength',
       setCodeLensMaxLength
-    ),
-    vscode.commands.registerCommand(
-      'plainwind.showWalkthrough',
-      showWalkthrough
     )
   );
 }
@@ -185,17 +180,11 @@ async function showQuickMenu(): Promise<void> {
       },
     },
 
-    // ===== HELP & SETTINGS =====
+    // ===== SETTINGS =====
     {
-      label: 'Help & Settings',
+      label: 'Settings',
       kind: vscode.QuickPickItemKind.Separator,
       action: async () => {},
-    },
-    {
-      label: '$(question) Getting Started',
-      description: 'Interactive walkthrough with demos',
-      detail: 'Learn how to use Plainwind features — recommended for new users',
-      action: showWalkthrough,
     },
     {
       label: `$(${enabled ? 'circle-slash' : 'check'}) ${enabled ? 'Disable' : 'Enable'} Extension`,
@@ -583,15 +572,3 @@ async function setCodeLensMaxLength(): Promise<void> {
   }
 }
 
-/**
- * Open the Getting Started walkthrough
- *
- * Opens the interactive walkthrough with demos and guides for using Plainwind.
- */
-async function showWalkthrough(): Promise<void> {
-  await vscode.commands.executeCommand(
-    'workbench.action.openWalkthrough',
-    'gavbarosee.plainwind#plainwind.welcome',
-    false
-  );
-}
