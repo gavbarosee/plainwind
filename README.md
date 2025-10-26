@@ -1,29 +1,37 @@
-# Plainwind
+
+
+<div align="center">
+
+<img width="auto" height="100px" alt="Plainwind" src="https://github.com/user-attachments/assets/9cbb32dd-967c-4f87-8b38-bd1eaeada2b5" />
+
+
+
+Translate Tailwind CSS classes to plain English directly in your editor.
+
+**[Full Documentation](https://plainwind.dev)** • **[Report Issue](https://github.com/gavbarosee/plainwind/issues)** • **[Discussions](https://github.com/gavbarosee/plainwind/discussions)**
 
 [![Version](https://img.shields.io/visual-studio-marketplace/v/plainwind.plainwind?color=blue)](https://marketplace.visualstudio.com/items?itemName=plainwind.plainwind)
 [![Downloads](https://img.shields.io/visual-studio-marketplace/d/plainwind.plainwind)](https://marketplace.visualstudio.com/items?itemName=plainwind.plainwind)
 [![Rating](https://img.shields.io/visual-studio-marketplace/r/plainwind.plainwind)](https://marketplace.visualstudio.com/items?itemName=plainwind.plainwind)
-[![License](https://img.shields.io/badge/license-ISC-green)](LICENSE)
-
-Translate Tailwind CSS classes to plain English directly in your editor.
-
-<div align="center">
-  <video src="https://plainwind.dev/demos/videos/themes.mov" autoplay loop muted playsinline></video>
-  <p><em>Consistent with all VS Code themes</em></p>
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 </div>
 
-**[Full Documentation](https://plainwind.dev)** • **[Report Issue](https://github.com/gavbarosee/plainwind/issues)** • **[Discussions](https://github.com/gavbarosee/plainwind/discussions)**
+
+
+
+
+
 
 ## What It Does
 
 Plainwind translates Tailwind CSS classes to plain English directly in your editor.
 
-**You write:**
+**From complex Tailwind classes:**
 ```jsx
 <div className="fixed bottom-0 right-0 flex items-center justify-between gap-8 p-12 backdrop-blur-3xl bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-rose-500/20 border border-white/30 shadow-2xl rounded-3xl -rotate-2 hover:rotate-0 hover:scale-105 transition-all duration-700 z-50">
 ```
 
-**You see:**
+**To simplified, plain English translations:**
 ```
 Layout: 
   fixed to viewport (stays visible when scrolling page)
@@ -58,21 +66,6 @@ Animation:
   smoothly animates all property changes, very slow animation (700ms)
 ```
 
-<div align="center">
-  <video src="https://plainwind.dev/demos/videos/codelens-open2tabs-closethem.mov" autoplay loop muted playsinline></video>
-  <p><em>Click translations to open detail panels</em></p>
-</div>
-
-## Quick Start
-
-1. Install from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=plainwind.plainwind)
-2. Open any file with Tailwind classes
-3. See translations appear automatically
-
-That's it! No configuration required, but you can [customize it](https://plainwind.dev/configuration) to fit your workflow.
-
-**[View full getting started guide](https://plainwind.dev/getting-started)**
-
 ## Features
 
 ### Display Modes
@@ -83,9 +76,20 @@ Plainwind gives you three ways to view translations:
 - **Hover** shows translations only when you hover over a className. This keeps your editor clean while still giving you instant access.
 - **Off** disables translations when you don't need them. The extension stays loaded for quick re-enabling.
 
+<br />
+
 <div align="center">
-  <video src="https://plainwind.dev/demos/videos/hover-open2tab-closethem.mov" autoplay loop muted playsinline></video>
+  <video src="https://github.com/user-attachments/assets/06b09524-676d-4b7b-8b1f-463c5e195291" autoplay loop muted playsinline></video>
+  <p><em>Codelens display mode</em></p>
 </div>
+
+<br />
+
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/a1c1e842-eceb-415a-a475-b59580630df2" autoplay loop muted playsinline></video>
+  <p><em>Hover display mode</em></p>
+</div>
+
 
 **[See display modes →](https://plainwind.dev/features#display-modes)**
 
@@ -137,6 +141,16 @@ Works with React, Vue, Svelte, Angular, Solid.js, and standard HTML.
 
 **[View framework examples →](https://plainwind.dev/frameworks)**
 
+## Quick Start
+
+1. Install from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=plainwind.plainwind)
+2. Open any file with Tailwind classes
+3. See translations appear automatically
+
+That's it! No configuration required, but you can [customize it](https://plainwind.dev/configuration) to fit your workflow.
+
+**[View full getting started guide](https://plainwind.dev/getting-started)**
+
 ## Documentation
 
 Complete guides, configuration options, and framework examples:
@@ -151,9 +165,11 @@ Complete guides, configuration options, and framework examples:
 
 Access these commands via the Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`):
 
-<div align="center">
-  <video src="https://plainwind.dev/demos/videos/command-palette.mov" autoplay loop muted playsinline></video>
-</div>
+
+
+https://github.com/user-attachments/assets/2bfc41cf-4b22-43ff-b72d-579f894778b2
+
+
 
 | Command | Description |
 |---------|-------------|
@@ -204,4 +220,6 @@ Press `F5` in VS Code to launch the extension in debug mode.
 
 ## License
 
-ISC
+MIT — see the LICENSE file for details.
+
+Copyright © 2025 Gav Barosee
