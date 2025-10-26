@@ -8,8 +8,8 @@
 Translate Tailwind CSS classes to plain English directly in your editor.
 
 <div align="center">
-  <img src="path/to/demo.gif" alt="Plainwind Demo" width="800">
-  <p><em>See translations inline as you code</em></p>
+  <video src="https://plainwind.dev/demos/videos/themes.mov" autoplay loop muted playsinline></video>
+  <p><em>Consistent with all VS Code themes</em></p>
 </div>
 
 **[Full Documentation](https://plainwind.dev)** • **[Report Issue](https://github.com/gavbarosee/plainwind/issues)** • **[Discussions](https://github.com/gavbarosee/plainwind/discussions)**
@@ -58,7 +58,10 @@ Animation:
   smoothly animates all property changes, very slow animation (700ms)
 ```
 
-
+<div align="center">
+  <video src="https://plainwind.dev/demos/videos/codelens-open2tabs-closethem.mov" autoplay loop muted playsinline></video>
+  <p><em>Click translations to open detail panels</em></p>
+</div>
 
 ## Quick Start
 
@@ -79,6 +82,10 @@ Plainwind gives you three ways to view translations:
 - **CodeLens** shows translations above className attributes. They're always visible, making it easy to learn Tailwind patterns.
 - **Hover** shows translations only when you hover over a className. This keeps your editor clean while still giving you instant access.
 - **Off** disables translations when you don't need them. The extension stays loaded for quick re-enabling.
+
+<div align="center">
+  <video src="https://plainwind.dev/demos/videos/hover-open2tab-closethem.mov" autoplay loop muted playsinline></video>
+</div>
 
 **[See display modes →](https://plainwind.dev/features#display-modes)**
 
@@ -126,7 +133,7 @@ Works with `clsx`, `classnames`, `cn`, `twMerge`, `cva`, and `tw`.
 
 ### Framework Support
 
-Works seamlessly with React, Vue, Svelte, Angular, Solid.js, and standard HTML.
+Works with React, Vue, Svelte, Angular, Solid.js, and standard HTML.
 
 **[View framework examples →](https://plainwind.dev/frameworks)**
 
@@ -143,6 +150,10 @@ Complete guides, configuration options, and framework examples:
 ## Commands
 
 Access these commands via the Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`):
+
+<div align="center">
+  <video src="https://plainwind.dev/demos/videos/command-palette.mov" autoplay loop muted playsinline></video>
+</div>
 
 | Command | Description |
 |---------|-------------|
@@ -186,6 +197,10 @@ npm run compile
 Press `F5` in VS Code to launch the extension in debug mode.
 
 **[Read the full contributing guide →](https://plainwind.dev/contributing)**
+
+## Learn More
+
+**[Visit the full documentation at plainwind.dev](https://plainwind.dev)** for detailed guides, configuration options, and framework-specific examples.
 
 ## License
 

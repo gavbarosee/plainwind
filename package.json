@@ -1,7 +1,7 @@
 {
   "name": "plainwind",
   "displayName": "Plainwind",
-  "description": "Tailwind to Plain English Translator",
+  "description": "Tailwind to Plain English Translator VSCode Extension",
   "version": "0.0.1",
   "publisher": "gavbarosee",
   "author": "Gav Barosee",
