@@ -19,9 +19,6 @@ coverage/**
 # Build artifacts
 **/*.map
 
-# Documentation
-README.md
-
 # Config files
 .eslintrc*
 .prettierrc*

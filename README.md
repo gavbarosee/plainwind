@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img width="auto" height="100px" alt="Plainwind" src="https://github.com/user-attachments/assets/9cbb32dd-967c-4f87-8b38-bd1eaeada2b5" />
+<img width="auto" height="110px" alt="Plainwind" src="media/plainwind-banner.png" />
 
 
 
@@ -79,14 +79,14 @@ Plainwind gives you three ways to view translations:
 <br />
 
 <div align="center">
-  <video src="https://github.com/user-attachments/assets/06b09524-676d-4b7b-8b1f-463c5e195291" autoplay loop muted playsinline></video>
+ <img alt="Codelens display mode" src="media/codelens-open2tabs-closethem.gif" />
   <p><em>Codelens display mode</em></p>
 </div>
 
 <br />
 
 <div align="center">
-  <video src="https://github.com/user-attachments/assets/a1c1e842-eceb-415a-a475-b59580630df2" autoplay loop muted playsinline></video>
+ <img alt="Hover display mode" src="media/hover-open2tab-closethem.gif" />
   <p><em>Hover display mode</em></p>
 </div>
 
@@ -166,9 +166,10 @@ Complete guides, configuration options, and framework examples:
 Access these commands via the Command Palette (`Cmd+Shift+P` / `Ctrl+Shift+P`):
 
 
-
-https://github.com/user-attachments/assets/2bfc41cf-4b22-43ff-b72d-579f894778b2
-
+<div align="center">
+ <img alt="Command palette" src="media/command-palette.gif" />
+  <p><em>Command palette</em></p>
+</div>
 
 
 | Command | Description |
