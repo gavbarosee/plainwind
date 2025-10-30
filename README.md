@@ -10,9 +10,9 @@ Translate Tailwind CSS classes to plain English directly in your editor.
 
 **[Full Documentation](https://plainwind.dev)** • **[Report Issue](https://github.com/gavbarosee/plainwind/issues)** • **[Discussions](https://github.com/gavbarosee/plainwind/discussions)**
 
-[![Version](https://img.shields.io/visual-studio-marketplace/v/plainwind.plainwind?color=blue)](https://marketplace.visualstudio.com/items?itemName=plainwind.plainwind)
-[![Downloads](https://img.shields.io/visual-studio-marketplace/d/plainwind.plainwind)](https://marketplace.visualstudio.com/items?itemName=plainwind.plainwind)
-[![Rating](https://img.shields.io/visual-studio-marketplace/r/plainwind.plainwind)](https://marketplace.visualstudio.com/items?itemName=plainwind.plainwind)
+[![Version](https://img.shields.io/visual-studio-marketplace/v/gavbarosee.plainwind?color=blue)](https://marketplace.visualstudio.com/items?itemName=gavbarosee.plainwind)
+[![Downloads](https://img.shields.io/visual-studio-marketplace/d/gavbarosee.plainwind)](https://marketplace.visualstudio.com/items?itemName=gavbarosee.plainwind)
+[![Rating](https://img.shields.io/visual-studio-marketplace/r/gavbarosee.plainwind)](https://marketplace.visualstudio.com/items?itemName=gavbarosee.plainwind)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 </div>
 
@@ -143,7 +143,7 @@ Works with React, Vue, Svelte, Angular, Solid.js, and standard HTML.
 
 ## Quick Start
 
-1. Install from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=plainwind.plainwind)
+1. Install from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=gavbarosee.plainwind)
 2. Open any file with Tailwind classes
 3. See translations appear automatically
 
