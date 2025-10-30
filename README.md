@@ -8,7 +8,7 @@
 
 Translate Tailwind CSS classes to plain English directly in your editor.
 
-**[Full Documentation](https://plainwind.dev)** • **[Report Issue](https://github.com/gavbarosee/plainwind/issues)** • **[Discussions](https://github.com/gavbarosee/plainwind/discussions)**
+**[Install from VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=gavbarosee.plainwind)** • **[Full Documentation](https://plainwind.dev)** • **[Report Issue](https://github.com/gavbarosee/plainwind/issues)** • **[Discussions](https://github.com/gavbarosee/plainwind/discussions)**
 
 [![Version](https://img.shields.io/visual-studio-marketplace/v/gavbarosee.plainwind?color=blue)](https://marketplace.visualstudio.com/items?itemName=gavbarosee.plainwind)
 [![Downloads](https://img.shields.io/visual-studio-marketplace/d/gavbarosee.plainwind)](https://marketplace.visualstudio.com/items?itemName=gavbarosee.plainwind)
